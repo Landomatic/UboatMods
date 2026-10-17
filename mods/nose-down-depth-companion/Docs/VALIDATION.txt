@@ -1,43 +1,53 @@
-Nose Down Depth Companion 1.0.18 -- menu-control validation, 2026-10-17 UTC
+Nose Down Depth Companion 1.0.19 -- grouped Kugler menu validation, 2026-10-17 UTC
 
 CHANGE
-Exposes the existing officerPdBrake setting in the companion's menu. Adds a
-separate "Kugler diving mods" entry, hosted by this companion, for Proper
-Ballast's existing FixCasingFlooding flag. Neither physics algorithm nor its
-factory default was changed. The officer switch releases its active offset.
-The casing switch updates the live Proper Ballast config and atomically saves
-only its matching config key; source, manifest and license stay untouched.
+The companion now hosts separate Nose Down, Proper Ballast and Seakeeping
+entries with all 31 boolean config switches present in the supplied source
+versions: Nose Down 2.1.4 (6), Proper Ballast 1.1.0 (15), Seakeeping 1.2.2 (10).
+Numeric controls and retired/bookkeeping fields are excluded. Optional probe
+keys are exposed with an explanation that their upstream probe must exist.
+Upstream source/manifests/licenses are neither edited nor redistributed.
+
+APPLY BEHAVIOR
+All selections save immediately in the corresponding upstream config file.
+Only Proper Ballast's casing correction is applied live when a compatible
+runtime config is available. Other upstream rows are labelled (restart) and
+leave runtime objects alone until the next launch. This avoids pretending to
+reverse cached world/UI state. Saved checkboxes can therefore be pending.
+The companion's own officer brake remains live, with immediate offset release.
+Existing configs can be edited while a mod is disabled, without loading it.
 
 COMPILE
-The full 1.0.18 source compiles with C# 7.3 against the 184 supplied top-level
-UBOAT/Unity/Harmony assembly references. No game assemblies are redistributed.
+Full current source compiles with C# 7.3 against 184 supplied UBOAT/Unity/
+Harmony assembly references. No game assemblies are redistributed.
 
 OFFLINE CHECKS
-448 assertions pass. The suite uses current companion code including the
-actual PD brake release, supplied Proper Ballast 1.1.0 BallastConfig parser,
-and supplied Community Patch 0.38.1 row/reset code. Unity/game objects and
-Harmony callback dispatch remain fixtures in this host's .NET runtime.
- - All 12 companion rows and the separate casing row parse with distinct IDs.
- - Officer toggle changes live config, releases active/goal/offset state,
-   persists and reloads; factory reset restores its existing true default.
- - Missing Proper Ballast yields no casing row. A loaded compatible config
-   is reflected without an assembly reference or source changes.
- - Casing toggle updates live state, host storage and Proper Ballast's config;
-   the upstream parser reloads it and replaced config instances are followed.
- - Duplicate casing keys, inline comments, unrelated keys, CRLF, missing key,
-   missing file and failure rollback are checked. No temp files remain.
- - Companion reset/master and Kugler reset keep their separate ownership.
- - Existing config, depth-bias, stock-law torque and scoped wave-force checks
-   pass again with this source.
+985 assertions pass. Current companion code, the actual officer brake release,
+all three supplied upstream config parsers, and Community Patch 0.38.1 row/
+reset code are exercised. Unity/game objects and native Harmony dispatch are
+fixtures in this host's .NET runtime.
+ - All 31 real public config switch fields match the reviewed inventory;
+   Nose Down's hadRetiredKeys bookkeeping field is excluded.
+ - Every upstream row parses, saves ON and OFF, reloads through its actual
+   upstream parser, and retains unrelated/numeric settings and comments.
+ - Non-live switches do not mutate the running config. Casing retains its
+   live path, save-failure rollback, replaced-config and duplicate-key checks.
+ - Four provider names are distinct. All three per-mod host resets persist
+   factory boolean defaults, retaining numeric values and companion state.
+ - Config-only mode works for all three mods before their assemblies load;
+   all such controls are labelled restart, including casing while unloaded.
+ - Seakeeping's legacy sea-clock alias is read in source order and saved
+   consistently with its canonical key. The retired multiplier is retained
+   but not exposed as a fake switch. Comments remain parser-valid.
+ - The existing companion config, depth bias, stock-law torque and scoped
+   wave-force regression checks pass again.
 
-LIMITS AND CURRENT GAME STATUS
-1.0.18 has not run inside UBOAT; UI rendering and native patch dispatch remain
-unverified. Both flags are read at runtime by the existing control paths, so
-switch changes need no restart after the one-time mod installation restart.
-Changing the casing option does not rewind water state already produced.
-Use the same starting save for A/B comparisons.
-The observed 1.0.17 dive-entry level-off, PD overshoot and sustained depth
-oscillation remain unresolved. This update provides controls for isolation;
-it does not claim to fix or identify those gameplay causes.
-The original 1.0.17 physics changes remain experimental; recorded historical
-validation and source are retained separately in repository history.
+LIMITS AND GAME STATUS
+1.0.19 has not run inside UBOAT; UI rendering and native patch dispatch remain
+unverified. Install with a game restart. Then restart again after changing
+rows marked restart; casing/officer changes alone do not require one.
+Optional probe keys cannot install code absent from an upstream build.
+Config menus cannot activate a mod disabled in UBOAT's launcher.
+The 1.0.17 dive-entry level-off, PD overshoot and sustained oscillation remain
+unresolved. This update adds isolation controls without changing their
+physics algorithms. Compare runs from the same starting save.

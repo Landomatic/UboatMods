@@ -1,4 +1,4 @@
-Nose Down Depth Companion -- 1.0.18
+Nose Down Depth Companion -- 1.0.19
 Author: Landomatic
 Companion to Nose Down by Kugler (https://github.com/Isamylov).
 Requires STOCK Nose Down (Workshop 3729673507). Load this companion after it.
@@ -7,8 +7,8 @@ Source mod for UBOAT 2026.1. Compiled against the supplied game assemblies;
 offline behavior checks passed. This build has not run inside UBOAT.
 All three NEW physics options are experimental and OFF by default.
 
-UPGRADE FROM 1.0.17
-1. Close UBOAT. Keep 1.0.17 as a rollback copy outside the Mods folder.
+UPGRADE FROM 1.0.18
+1. Close UBOAT. Keep 1.0.18 as a rollback copy outside the Mods folder.
 2. Replace the installed NoseDownDepthCompanion folder with this folder:
    %USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\Mods\NoseDownDepthCompanion
    Manifest.json should be directly inside, without a doubled folder.
@@ -17,37 +17,52 @@ UPGRADE FROM 1.0.17
    or your other diving mods are needed for this upgrade.
 4. KEEP NoseDownCompanionConfig.txt. Existing values are loaded; new keys are
    added with comments. Do not replace it with a blank/default config.
-5. Confirm output_log.txt contains "[NoseDownCompanion] initialized [v1.0.18]"
+5. Confirm output_log.txt contains "[NoseDownCompanion] initialized [v1.0.19]"
    and "[NoseDownCompanion] Nose Down found".
    If an older build still loads, close the game, remove the cached compiled
    companion from UBOAT\Temp, and relaunch. Keep your Saves and configs.
 
-NEW IN 1.0.18: MENU CONTROLS
-Restart once to load this updated companion. After that both switches apply
-live and save immediately; changing them does not require a restart.
+NEW IN 1.0.19: ALL KUGLER CONFIG SWITCHES
+Our companion now supplies three separate entries under Other Mods:
+ - Kugler: Nose Down -- 6 boolean switches from supplied version 2.1.4.
+ - Kugler: Proper Ballast -- 15 boolean switches from supplied version 1.1.0.
+ - Kugler: Seakeeping -- 10 boolean switches from supplied version 1.2.2.
+This includes their diagnostic/optional-probe keys. Optional probe switches
+only work in upstream builds that contain those probes; no probe is added.
+See Docs/KUGLER-SWITCHES.md for the complete inventory and config keys.
+Numeric tuning values and retired options are not added as boolean controls.
 
-With Dusty's Community Patch, open Other Mods:
- - Nose Down Depth Companion > Officer PD approach brake
-   Uses officerPdBrake in NoseDownCompanionConfig.txt. Switching it off
-   releases any current approach-brake offset. Existing default remains ON.
- - Kugler diving mods > Casing flooding fix (Proper Ballast)
-   Reads and controls Kugler's existing fixCasingFlooding option. This row
-   appears only with a compatible Proper Ballast loaded. It saves only that
-   key in ProperBallastConfig.txt, retaining other values and comments.
-   Kugler's source, manifest and license are not edited or bundled.
+Restart once to install the updated companion. The officer PD approach brake
+in our own menu and Proper Ballast's casing switch apply live when that mod
+is loaded. All other upstream rows are explicitly marked (restart): they save
+now for the next launch, without pretending to undo cached runtime effects.
+The checkboxes show saved selections, including changes awaiting restart.
 
-For the current isolation test: officer brake OFF, casing fix ON, Seakeeping
-OFF and Patch Profiler OFF. Reload the same starting save for each comparison;
-already changed casing water is not undone by switching the fix off.
-The Kugler entry is supplied by this companion and currently exposes the
-requested casing control. Its reset enables the casing fix. The companion's
-master switch and reset affect only companion controls; the separate Kugler
-control does not depend on that master switch.
+The menus read and update the corresponding upstream config files, preserving
+other values and comments. Kugler's source, manifest and license files are
+not edited or bundled. Each Kugler reset restores only that mod's boolean
+switches, retaining numeric settings. Our companion master/reset stays separate.
+There is no new invented master switch for Nose Down or Proper Ballast.
+Seakeeping's own config master does not activate a mod disabled in the launcher.
+Menus can edit existing configs while a mod is disabled; those changes require
+loading that mod and restarting to take effect.
+
+UPGRADING THE 1.0.18 CASING MENU
+The former single "Kugler diving mods" entry becomes "Kugler: Proper Ballast".
+Its casing selection is retained through ProperBallastConfig.txt. Our own
+companion entry and its stored switches retain their identity.
+
+CURRENT ISOLATION TEST
+ - Nose Down Depth Companion > Officer PD approach brake: OFF.
+ - Kugler: Proper Ballast > Casing flooding fix: ON.
+ - Keep Seakeeping and Patch Profiler disabled in the mod launcher.
+Reload the same starting save for each comparison: toggling the casing fix
+cannot rewind water state already produced.
 
 OPTIONAL COMMUNITY PATCH MENU
 With Dusty's Community Patch 0.38.1:
    Other Mods > Nose Down Depth Companion
-Main menu and pause menu expose the same two entries.
+Main menu and pause menu expose the companion and all three Kugler entries.
 The first ROW, "Enable depth companion", is the master switch. A regular row
 lets its setter save to our own config immediately. Only this companion is
 controlled. Other rows expose the officer PD brake, IX pin, VII handover, PD damping, tracing
@@ -63,9 +78,10 @@ CONFIG AND SAVE PRECEDENCE
    %USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\NoseDownCompanionConfig.txt
 Without Community Patch, edit this file while the game is closed.
 Companion panel changes save immediately here and in Community Patch's settings.
-The separate Kugler entry saves its casing setting in ProperBallastConfig.txt.
-Community Patch also stores that row; after using it, change the casing option
-in the menu so an older stored menu value does not replace a manual file edit.
+Each Kugler entry saves its switches in that mod's config file.
+Community Patch also stores those rows; after using a menu, change its
+displayed settings there so an older stored menu value does not replace a
+manual file edit. Rows marked restart show saved, potentially pending values.
 Community Patch restores its saved rows when its panel first opens. After
 using the panel, edit its displayed settings there; an older panel value can
 overwrite a hand edit. Advanced hull lists stay in our config. Panel reset
