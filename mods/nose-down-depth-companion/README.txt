@@ -1,4 +1,4 @@
-Nose Down Depth Companion -- 1.0.17
+Nose Down Depth Companion -- 1.0.18
 Author: Landomatic
 Companion to Nose Down by Kugler (https://github.com/Isamylov).
 Requires STOCK Nose Down (Workshop 3729673507). Load this companion after it.
@@ -7,8 +7,8 @@ Source mod for UBOAT 2026.1. Compiled against the supplied game assemblies;
 offline behavior checks passed. This build has not run inside UBOAT.
 All three NEW physics options are experimental and OFF by default.
 
-UPGRADE FROM 1.0.16
-1. Close UBOAT. Keep 1.0.16 as a rollback copy outside the Mods folder.
+UPGRADE FROM 1.0.17
+1. Close UBOAT. Keep 1.0.17 as a rollback copy outside the Mods folder.
 2. Replace the installed NoseDownDepthCompanion folder with this folder:
    %USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\Mods\NoseDownDepthCompanion
    Manifest.json should be directly inside, without a doubled folder.
@@ -17,18 +17,40 @@ UPGRADE FROM 1.0.16
    or your other diving mods are needed for this upgrade.
 4. KEEP NoseDownCompanionConfig.txt. Existing values are loaded; new keys are
    added with comments. Do not replace it with a blank/default config.
-5. Confirm output_log.txt contains "[NoseDownCompanion] initialized [v1.0.17]"
+5. Confirm output_log.txt contains "[NoseDownCompanion] initialized [v1.0.18]"
    and "[NoseDownCompanion] Nose Down found".
    If an older build still loads, close the game, remove the cached compiled
    companion from UBOAT\Temp, and relaunch. Keep your Saves and configs.
 
+NEW IN 1.0.18: MENU CONTROLS
+Restart once to load this updated companion. After that both switches apply
+live and save immediately; changing them does not require a restart.
+
+With Dusty's Community Patch, open Other Mods:
+ - Nose Down Depth Companion > Officer PD approach brake
+   Uses officerPdBrake in NoseDownCompanionConfig.txt. Switching it off
+   releases any current approach-brake offset. Existing default remains ON.
+ - Kugler diving mods > Casing flooding fix (Proper Ballast)
+   Reads and controls Kugler's existing fixCasingFlooding option. This row
+   appears only with a compatible Proper Ballast loaded. It saves only that
+   key in ProperBallastConfig.txt, retaining other values and comments.
+   Kugler's source, manifest and license are not edited or bundled.
+
+For the current isolation test: officer brake OFF, casing fix ON, Seakeeping
+OFF and Patch Profiler OFF. Reload the same starting save for each comparison;
+already changed casing water is not undone by switching the fix off.
+The Kugler entry is supplied by this companion and currently exposes the
+requested casing control. Its reset enables the casing fix. The companion's
+master switch and reset affect only companion controls; the separate Kugler
+control does not depend on that master switch.
+
 OPTIONAL COMMUNITY PATCH MENU
 With Dusty's Community Patch 0.38.1:
    Other Mods > Nose Down Depth Companion
-Main menu and pause menu use the same provider.
+Main menu and pause menu expose the same two entries.
 The first ROW, "Enable depth companion", is the master switch. A regular row
 lets its setter save to our own config immediately. Only this companion is
-controlled. Other rows expose the IX pin, VII handover, PD damping, tracing
+controlled. Other rows expose the officer PD brake, IX pin, VII handover, PD damping, tracing
 and the three new options. Numeric controls are steppers in Dusty's panel;
 wave strength uses the same supported numeric row as torque and PD depth.
 
@@ -40,7 +62,10 @@ Explicit reset changes these to the factory VIIC41,VIIB and false.
 CONFIG AND SAVE PRECEDENCE
    %USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\NoseDownCompanionConfig.txt
 Without Community Patch, edit this file while the game is closed.
-Panel changes save immediately here and in Community Patch's settings.
+Companion panel changes save immediately here and in Community Patch's settings.
+The separate Kugler entry saves its casing setting in ProperBallastConfig.txt.
+Community Patch also stores that row; after using it, change the casing option
+in the menu so an older stored menu value does not replace a manual file edit.
 Community Patch restores its saved rows when its panel first opens. After
 using the panel, edit its displayed settings there; an older panel value can
 overwrite a hand edit. Advanced hull lists stay in our config. Panel reset
@@ -125,6 +150,11 @@ See Docs/VALIDATION.txt for checks and limits.
 
 CREDITS AND LICENSE
 Nose Down Depth Companion by Landomatic
+Source and history:
+https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
+Project license:
+https://github.com/Landomatic/UboatMods/blob/main/mods/nose-down-depth-companion/LICENSE
+Workshop profile:
 https://steamcommunity.com/id/landomatic/myworkshopfiles/
 Depth fixes and integration: Landomatic.
 CC BY-NC 4.0: https://creativecommons.org/licenses/by-nc/4.0/ -- see LICENSE.

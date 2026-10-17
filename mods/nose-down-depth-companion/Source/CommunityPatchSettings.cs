@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC-BY-NC-4.0
 // Copyright (c) 2026 Landomatic. See LICENSE and README.txt.
+// Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
 // Companion to Nose Down by Kugler (https://github.com/Isamylov); contains none of its source.
 using System;
 using System.Globalization;
@@ -38,6 +39,16 @@ namespace NoseDownCompanion
                 Bool("viiDeckHandover", "VII dive handover",
                     "Keeps the existing trim-to-planes handover on VIIB, VIIC and VIIC/41.",
                     () => CompanionConfig.ViiDeckHandover, v => CompanionConfig.ViiDeckHandover = v),
+                Bool("officerPdBrake", "Officer PD approach brake",
+                    "Brakes a sinking approach to ordinary shallow-depth orders with an officer at the planes on II/VII boats. Turn off for the PD oscillation comparison. Turning it off releases its current brake offset.",
+                    () => CompanionConfig.OfficerPdBrake, v =>
+                    {
+                        if (CompanionConfig.OfficerPdBrake != v)
+                        {
+                            CompanionConfig.OfficerPdBrake = v;
+                            PdApproachBrake.Release("menuSwitch");
+                        }
+                    }),
                 Bool("pdHoldDamp", "PD hold damping",
                     "Existing hold damping. Hulls and the officer requirement remain as specified in your companion config.",
                     () => CompanionConfig.PdHoldDamp, v => CompanionConfig.PdHoldDamp = v),

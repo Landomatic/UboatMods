@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC-BY-NC-4.0
 // Copyright (c) 2026 Landomatic. See LICENSE and README.txt.
+// Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
 // Companion to Nose Down by Kugler (https://github.com/Isamylov); contains none of its source.
 using System;
 using HarmonyLib;
@@ -14,7 +15,7 @@ namespace NoseDownCompanion
     public class CompanionLoader : IUserMod
     {
         internal const string Tag = "[NoseDownCompanion]";
-        internal const string BuildId = "v1.0.17";
+        internal const string BuildId = "v1.0.18";
         internal const string HarmonyId = "com.landomatic.nosedown.companion";
         internal static Harmony Instance;
 
