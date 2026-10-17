@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC-BY-NC-4.0
 // Copyright (c) 2026 Landomatic. See LICENSE and README.txt.
+// Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
 // Companion to Nose Down by Kugler (https://github.com/Isamylov); contains none of its source.
 using System;
 using System.Globalization;
@@ -41,6 +42,18 @@ namespace NoseDownCompanion
             catch { Ready = false; }
             if (!Ready)
                 Debug.LogWarning(CompanionLoader.Tag + " VII torque assist unavailable; stock torque retained.");
+        }
+
+        internal static bool TryLimit(object instance, out double limit)
+        {
+            limit = 0;
+            try
+            {
+                if (!Ready || !ReferenceEquals(instance, _law)) return false;
+                limit = (double)_limit.GetValue(instance);
+                return Finite(limit) && limit > 0;
+            }
+            catch { return false; }
         }
 
         internal static void BeginFrame(PlayerShip ship)

@@ -1,23 +1,27 @@
 # Nose Down Depth Companion — archive snapshot
 
-Snapshot identifier: `1.0.19`.
-Role: Landomatic mod and optional menu host for Kugler's separate diving mods.
+Snapshot identifier: `1.0.20`.
+Role: Landomatic's companion to stock Nose Down by Kugler, with optional settings menus for three separate Kugler mods.
 
-## Status and provenance
+## Change and validation
 
-- Adds three grouped menus exposing all 31 boolean switches in supplied Nose Down 2.1.4, Proper Ballast 1.1.0 and Seakeeping 1.2.2. Numeric settings and upstream source remain separate.
-- Full game-reference compilation passed; 985 offline assertions passed, including actual upstream parser round-trips for every switch, host parsing/reset, config-only mode and save-failure rollback.
-- This build has not run inside UBOAT. In-game menu display and native patch dispatch remain unverified.
-- Requires stock Nose Down by Kugler, Workshop 3729673507; optional menus do not install or activate absent mods.
+- Adds three default-OFF experimental controls: VII entry-pitch assistance, nonhistorical II/VII precise PD arrival (2–10 m), and surfaced planes-station availability for pre-dive assignment.
+- All three hosted Kugler menus distinguish detected session patches from saved config; Seakeeping's runtime master is shown independently. Existing provider names and feature keys remain stable.
+- Includes the requested GitHub source/history references inside LICENSE, preserving the prior license text and credits.
+- Full compilation against 184 supplied game references passed; 1125 offline assertions passed. Fixtures exercise control bounds/gates and the real supplied upstream config parsers and Community Patch 0.38.1 row/reset contract.
+- Gameplay status: **not run**. Native patch ordering, UI/pathfinding and actual improvement remain unverified. No CI results are claimed.
 
-## Known limitations
+## Limits
 
-- Most upstream switch changes save for restart, as labelled; existing cached effects are not claimed to be undone live. Officer brake and loaded Proper Ballast casing switches remain live.
-- Earlier small dive-entry level-off, PD overshoot, prolonged oscillation and surfacing engine-power interruption remain unresolved; no cause is confirmed.
-- Optional diagnostic probes require an upstream build that includes them.
+- Entry assistance covers ordinary VIIB/VIIC/VIIC41 entry and excludes alarm/crash dives and blows. It is an attempt to remedy leveling, not a demonstrated fix.
+- Precise arrival needs the existing II/VII shallow plane/trim handover; Type II requires a seated officer. It replaces other arrival/hold offsets and deeper-PD bias on those hulls. Deeper orders and Type IX retain existing behavior.
+- Pre-dive station availability is shared with crew slots and assigns nobody automatically; other station restrictions remain. Turning it OFF restores the normal surface restriction.
+- Most upstream switch changes still require a restart. Status is based on patch registration and readable current config, not certification of every mod feature. Status-only rows ignore writes because the host has no read-only row kind.
+- Entry leveling, prolonged PD oscillation and surfacing propulsion interruption remain open. Section 106's intentional test-dive overshoot changes how initial overshoot is interpreted; this build does not recreate that procedure.
 
-## Integrity record
+## Integrity
 
-`history/nose-down-depth-companion/1.0.19/update.json` records file hashes and the delivered package fingerprint. Earlier versions and their validation remain in Git history.
-The existing CC BY-NC 4.0 project license and upstream credits are preserved.
+`history/nose-down-depth-companion/1.0.20/update.json` records project file hashes and the delivered ZIP fingerprint. Earlier records remain unchanged. Private telemetry, saves, game assemblies, user configs and downloaded reference bundles are excluded.
+
 Source and project license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
+Companion by Landomatic; upstream Nose Down by Kugler (https://github.com/Isamylov), Workshop 3729673507. Upstream files remain separate.
