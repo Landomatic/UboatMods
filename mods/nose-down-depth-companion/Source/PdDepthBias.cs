@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC-BY-NC-4.0
 // Copyright (c) 2026 Landomatic. See LICENSE and README.txt.
+// Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
 // Companion to Nose Down by Kugler (https://github.com/Isamylov); contains none of its source.
 using System;
 using System.Globalization;
@@ -53,6 +54,14 @@ namespace NoseDownCompanion
         {
             try
             {
+                if (PreciseDepthArrival.Selected(ship))
+                {
+                    // The arrival clamp owns this target; do not restore a previous bias
+                    // over its new write, or stack a different settled-depth objective.
+                    _wrote = false;
+                    Clear("preciseArrival");
+                    return;
+                }
                 if (!ReferenceEquals(ship, _ship))
                 {
                     Reset("shipChange");

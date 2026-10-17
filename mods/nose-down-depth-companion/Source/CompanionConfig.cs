@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC-BY-NC-4.0
 // Copyright (c) 2026 Landomatic. See LICENSE and README.txt.
+// Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
 // Companion to Nose Down by Kugler (https://github.com/Isamylov); contains none of its source.
 using System;
 using System.Globalization;
@@ -13,6 +14,9 @@ namespace NoseDownCompanion
     internal static class CompanionConfig
     {
         internal static bool Enabled = true;
+        internal static bool DiveEntryAssist = false;
+        internal static bool PreciseDepthArrival = false;
+        internal static bool PreDivePlanes = false;
         internal static bool ViiTorqueBoost = false;
         internal static float ViiTorqueFactor = 1.35f;
         internal static bool PdDepthBias = false;
@@ -147,6 +151,9 @@ namespace NoseDownCompanion
                         switch (k)
                         {
                             case "enabled": Enabled = Bool(v, Enabled); break;
+                            case "diveentryassist": DiveEntryAssist = Bool(v, DiveEntryAssist); break;
+                            case "precisedeptharrival": PreciseDepthArrival = Bool(v, PreciseDepthArrival); break;
+                            case "prediveplanes": PreDivePlanes = Bool(v, PreDivePlanes); break;
                             case "viitorqueboost": ViiTorqueBoost = Bool(v, ViiTorqueBoost); break;
                             case "viitorquefactor": ViiTorqueFactor = Num(v, ViiTorqueFactor, 1f, 1.5f); break;
                             case "pddepthbias": PdDepthBias = Bool(v, PdDepthBias); break;
@@ -253,6 +260,13 @@ namespace NoseDownCompanion
                 "# Nose Down Depth Companion (Landomatic). Requires Nose Down by Kugler." + nl
                 + "# Master switch. All companion corrections stand aside when false." + nl
                 + "enabled=" + (Enabled ? "true" : "false") + nl + nl
+                + "# Experimental VII ordinary-dive entry torque supplement; default OFF. Combined torque cap 1.5 x stock." + nl
+                + "diveEntryAssist=" + (DiveEntryAssist ? "true" : "false") + nl
+                + "# Nonhistorical gameplay aid: try to reduce II/VII 2-10 m arrival overshoot. Not the test-dive procedure in section 106." + nl
+                + "# Uses a bounded velocity-preview depth target, replaces other II/VII arrival/hold offsets while enabled. Default OFF." + nl
+                + "preciseDepthArrival=" + (PreciseDepthArrival ? "true" : "false") + nl
+                + "# Allow the player's planes station before a dive order (officers and crew); no automatic assignment. Default OFF." + nl
+                + "preDivePlanes=" + (PreDivePlanes ? "true" : "false") + nl + nl
                 + "# Optional settings panel: Community Patch > Other Mods > Nose Down Depth Companion." + nl
                 + "# Panel setters also save this file. Community Patch restores its saved panel rows on first opening." + nl
                 + "# After using the panel, change its displayed settings there; hull lists and advanced keys stay here." + nl

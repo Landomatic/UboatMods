@@ -1,7 +1,7 @@
 {
   "name": "[2026.1] Nose Down Depth Companion",
-  "version": "1.0.19",
-  "description": "Requires Nose Down by Kugler (Workshop 3729673507); load after it. Landomatic depth companion with optional physics controls and Community Patch menus. Adds separate Kugler menus exposing all 31 boolean config switches in the supplied Nose Down 2.1.4, Proper Ballast 1.1.0 and Seakeeping 1.2.2. Upstream source stays separate. Most upstream switches save for restart; casing and companion officer-brake switches apply live. Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion",
+  "version": "1.0.20",
+  "description": "Requires stock Nose Down by Kugler (3729673507); load after it. Landomatic companion with experimental opt-in VII entry-pitch assistance, nonhistorical II/VII precise PD arrival and pre-dive planes availability. All three Kugler menus distinguish session patch state from saved settings. Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion",
   "author": "Landomatic",
   "supportedGameVersions": [
     "2026.1"

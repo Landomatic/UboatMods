@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC-BY-NC-4.0
 // Copyright (c) 2026 Landomatic. See LICENSE and README.txt.
+// Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
 // Companion to Nose Down by Kugler (https://github.com/Isamylov); contains none of its source.
 using System;
 using System.Globalization;
@@ -40,6 +41,7 @@ namespace NoseDownCompanion
         private static string Gate(PlayerShip ship, out float gap, out float vy)
         {
             gap = 0f; vy = 0f;
+            if (PreciseDepthArrival.Selected(ship)) return "preciseArrival";
             if (!CompanionConfig.PdHoldDamp) return "disabled";
             if (ship == null || !HullListed) return "hull";
             if (CompanionConfig.PdDampOfficerOnly && !PlanesManning.OfficerSeated) return "noOfficer";

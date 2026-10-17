@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC-BY-NC-4.0
 // Copyright (c) 2026 Landomatic. See LICENSE and README.txt.
+// Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
 // Companion to Nose Down by Kugler (https://github.com/Isamylov); contains none of its source.
 using System;
 using System.Globalization;
@@ -24,6 +25,7 @@ namespace NoseDownCompanion
         {
             var ship = __instance as PlayerShip;
             ViiTorqueAssist.BeginFrame(ship);
+            DiveEntryAssist.BeginFrame(ship);
             try
             {
                 if (!CompanionConfig.Enabled || !NoseDownBridge.Present)
@@ -294,6 +296,7 @@ namespace NoseDownCompanion
             }
             TrimScale = 1f;
             ViiTorqueAssist.EndFrame();
+            DiveEntryAssist.EndFrame();
         }
 
         // Prefix on DivePitch.PitchControlLaw.Compute (patched at runtime by NoseDownBridge).
@@ -312,9 +315,13 @@ namespace NoseDownCompanion
             return false;
         }
 
-        private static void LawComputePostfix(object __instance, ref double __result)
+        private static void LawComputePostfix(object __instance, double targetRad, double pitchRad,
+            double pitchRateRad, double inertia, ref double __result)
         {
             ViiTorqueAssist.AfterCompute(__instance, ref __result);
+            double limit;
+            if (ViiTorqueAssist.TryLimit(__instance, out limit))
+                DiveEntryAssist.Apply(targetRad, pitchRad, pitchRateRad, inertia, limit, ref __result);
             if (TrimScale > 0.001f && TrimScale < 0.999f)
                 __result *= TrimScale;
         }

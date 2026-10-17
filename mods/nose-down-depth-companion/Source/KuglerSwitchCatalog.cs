@@ -19,19 +19,19 @@ namespace NoseDownCompanion
 
     internal sealed class KuglerMod
     {
-        internal readonly string Name, Version, OwnerType, FileName;
+        internal readonly string Name, Version, OwnerType, FileName, HarmonyId;
         internal readonly bool InlineComments;
         internal readonly KuglerSwitch[] Switches;
-        internal KuglerMod(string name, string version, string owner, string fileName, bool inlineComments, params KuglerSwitch[] switches)
+        internal KuglerMod(string name, string version, string owner, string fileName, string harmonyId, bool inlineComments, params KuglerSwitch[] switches)
         {
             Name = name; Version = version; OwnerType = owner; FileName = fileName;
-            InlineComments = inlineComments; Switches = switches;
+            HarmonyId = harmonyId; InlineComments = inlineComments; Switches = switches;
         }
     }
 
     internal static class KuglerSwitchCatalog
     {
-        internal static readonly KuglerMod NoseDown = new KuglerMod("Nose Down", "2.1.4", "DivePitch.ModLoader", "NoseDownConfig.txt", true,
+        internal static readonly KuglerMod NoseDown = new KuglerMod("Nose Down", "2.1.4", "DivePitch.ModLoader", "NoseDownConfig.txt", "com.kugler.divepitch", true,
             new KuglerSwitch("enableFPPTilt", "enableFPPTilt", "First-person camera tilt", "Let the first-person view follow the boat's pitch and roll."),
             new KuglerSwitch("enablePeriscopeTrim", "enablePeriscopeTrim", "Periscope trim", "Show the boat's trim in the periscope view."),
             new KuglerSwitch("enableSectionViewTrim", "enableSectionViewTrim", "Section-view trim", "Show the boat's trim in the cutaway view."),
@@ -39,7 +39,7 @@ namespace NoseDownCompanion
             new KuglerSwitch("enableTelemetry", "enableTelemetry", "Diagnostic telemetry", "Enable Nose Down's troubleshooting log output.", false),
             new KuglerSwitch("enableExperiments", "enableExperiments", "Command-file experiments", "Allow Nose Down's existing command-file experiment runner. Leave off for normal play.", false));
 
-        internal static readonly KuglerMod ProperBallast = new KuglerMod("Proper Ballast", "1.1.0", "BallastReworked.ModLoader", "ProperBallastConfig.txt", true,
+        internal static readonly KuglerMod ProperBallast = new KuglerMod("Proper Ballast", "1.1.0", "BallastReworked.ModLoader", "ProperBallastConfig.txt", "com.kugler.ballastreworked", true,
             new KuglerSwitch("fixDeckAwashIX", "FixDeckAwashIX", "Type IX deck-awash fix", "Correct Type IX ballast selection for deck awash."),
             new KuglerSwitch("fixHoleHeight", "FixHoleHeight", "Flood-opening height fix", "Judge flood openings using the hull's trim."),
             new KuglerSwitch("fixCasingFlooding", "FixCasingFlooding", "Casing flooding fix", "Kugler's casing-water correction. Reload the same starting save for clean comparisons.", true, true),
@@ -56,8 +56,8 @@ namespace NoseDownCompanion
             new KuglerSwitch("lowAirRibbonAtNeed", "LowAirRibbonAtNeed", "Low-air ribbon when needed", "Show the low-air ribbon when the boat needs it."),
             new KuglerSwitch("diagnostic", "Diagnostic", "Diagnostic recording", "Enable Proper Ballast's diagnostic recording.", false));
 
-        internal static readonly KuglerMod Seakeeping = new KuglerMod("Seakeeping", "1.2.2", "Seakeeping.ConfigProvider", "SeakeepingConfig.txt", false,
-            new KuglerSwitch("enabled", "Enabled", "Enable Seakeeping corrections", "Controls Seakeeping's config master switch; it does not load a mod disabled in the launcher."),
+        internal static readonly KuglerMod Seakeeping = new KuglerMod("Seakeeping", "1.2.2", "Seakeeping.ConfigProvider", "SeakeepingConfig.txt", "com.kugler.seakeeping", false,
+            new KuglerSwitch("enabled", "Enabled", "Seakeeping corrections", "Controls Seakeeping's config master switch; it does not load a mod disabled in the launcher."),
             new KuglerSwitch("windSpeedUnitFixEnabled", "WindSpeedUnitFixEnabled", "Wind-speed unit correction", "Use Seakeeping's wind-speed unit correction."),
             new KuglerSwitch("depthGatedSeaStateEnabled", "DepthGatedSeaStateEnabled", "Depth-gated sea-state reading", "Adjust the sea-state reading by depth."),
             new KuglerSwitch("telemetry", "Telemetry", "Diagnostic telemetry", "Enable Seakeeping's troubleshooting log output.", false),

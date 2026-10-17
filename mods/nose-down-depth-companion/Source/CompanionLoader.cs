@@ -15,7 +15,7 @@ namespace NoseDownCompanion
     public class CompanionLoader : IUserMod
     {
         internal const string Tag = "[NoseDownCompanion]";
-        internal const string BuildId = "v1.0.19";
+        internal const string BuildId = "v1.0.20";
         internal const string HarmonyId = "com.landomatic.nosedown.companion";
         internal static Harmony Instance;
 
@@ -29,8 +29,12 @@ namespace NoseDownCompanion
                 harmony.CreateClassProcessor(typeof(DepthTargetClamp)).Patch();
                 harmony.CreateClassProcessor(typeof(ShallowStandDown)).Patch();
                 PdWaveForce.Install(harmony);
+                harmony.CreateClassProcessor(typeof(PreDivePlanes)).Patch();
                 Debug.Log(Tag + " initialized [" + BuildId + "] by Landomatic, companion to Nose Down by Kugler. "
-                    + "enabled=" + CompanionConfig.Enabled + " clampMaxDepth=" + CompanionConfig.ClampMaxDepth
+                    + "enabled=" + CompanionConfig.Enabled
+                    + " diveEntryAssist=" + CompanionConfig.DiveEntryAssist
+                    + " preciseDepthArrival=" + CompanionConfig.PreciseDepthArrival
+                    + " preDivePlanes=" + CompanionConfig.PreDivePlanes + " clampMaxDepth=" + CompanionConfig.ClampMaxDepth
                     + " iidOfficerClamp=" + CompanionConfig.IidOfficerClamp
                     + " mannedAscentBrake=" + CompanionConfig.MannedAscentBrake
                     + " shallowStandDown=" + CompanionConfig.ShallowStandDown

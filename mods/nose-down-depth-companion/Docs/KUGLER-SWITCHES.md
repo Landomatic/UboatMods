@@ -1,8 +1,18 @@
-# Kugler switch menus — companion 1.0.19
+# Kugler switch menus — companion 1.0.20
 
 These controls are supplied by Landomatic's companion for Kugler's separate mods. Only their config files are updated. Source and existing licenses remain separate.
 
 All switches save immediately. `(restart)` rows apply at the next game launch; only the casing fix is applied live when compatible Proper Ballast is loaded. Numeric values are retained.
+
+## Session state versus saved configuration
+
+All three menus begin with informational **Mod loaded this session** and **Saved settings differ from this session** rows. Seakeeping additionally reports **Seakeeping corrections enabled this session**, using its current runtime master rather than its saved config master.
+
+Loaded status requires the mod's own Harmony patches to be registered. An assembly or config file alone does not count. No patches means disabled, absent or unsuccessful initialization; patch detection does not certify every feature works. The settings host cannot change the launcher mod list.
+
+Every feature row is prefixed **Saved:**. An ON selection while a mod is not loaded is a saved preference, not an active effect. Restart-labelled rows remain pending until the next launch. A status row ignores setters and the host's persisted/replayed status values. Dusty's supported contract has no read-only row kind: these informational rows look like checkboxes, but clicks cannot change the underlying state.
+
+Opening a menu does not itself rewrite config files. Dusty may replay previously stored feature selections at provider discovery; that pre-existing precedence is unchanged. Status rows never save a value into an upstream config. Provider names and feature keys remain stable across the upgrade.
 
 ## Nose Down 2.1.4
 

@@ -1,53 +1,65 @@
-Nose Down Depth Companion 1.0.19 -- grouped Kugler menu validation, 2026-10-17 UTC
+Nose Down Depth Companion 1.0.20 -- experimental controls and session status
+Prepared 2026-10-17 UTC
 
 CHANGE
-The companion now hosts separate Nose Down, Proper Ballast and Seakeeping
-entries with all 31 boolean config switches present in the supplied source
-versions: Nose Down 2.1.4 (6), Proper Ballast 1.1.0 (15), Seakeeping 1.2.2 (10).
-Numeric controls and retired/bookkeeping fields are excluded. Optional probe
-keys are exposed with an explanation that their upstream probe must exist.
-Upstream source/manifests/licenses are neither edited nor redistributed.
-
-APPLY BEHAVIOR
-All selections save immediately in the corresponding upstream config file.
-Only Proper Ballast's casing correction is applied live when a compatible
-runtime config is available. Other upstream rows are labelled (restart) and
-leave runtime objects alone until the next launch. This avoids pretending to
-reverse cached world/UI state. Saved checkboxes can therefore be pending.
-The companion's own officer brake remains live, with immediate offset release.
-Existing configs can be edited while a mod is disabled, without loading it.
+Three new opt-in controls: bounded VII entry-pitch torque assistance, a
+nonhistorical II/VII precise PD-arrival attempt (ordinary 2-10 m orders),
+and pre-dive planes-station availability. All default OFF; existing saved
+settings remain. Every hosted Kugler menu now separates session patch
+registration from saved selections, with restart-pending indication.
+Seakeeping also reports its runtime master separately from the saved master.
+The requested GitHub repository and project references are inside LICENSE;
+existing terms, copyright and credits are unchanged.
 
 COMPILE
-Full current source compiles with C# 7.3 against 184 supplied UBOAT/Unity/
-Harmony assembly references. No game assemblies are redistributed.
+Full source compiles with C# 7.3 against 184 supplied game/Unity/Harmony
+assembly references. Compilation does not exercise Unity native behavior.
+No game assemblies, upstream sources, personal configs or raw logs ship.
 
-OFFLINE CHECKS
-985 assertions pass. Current companion code, the actual officer brake release,
-all three supplied upstream config parsers, and Community Patch 0.38.1 row/
-reset code are exercised. Unity/game objects and native Harmony dispatch are
-fixtures in this host's .NET runtime.
- - All 31 real public config switch fields match the reviewed inventory;
-   Nose Down's hadRetiredKeys bookkeeping field is excluded.
- - Every upstream row parses, saves ON and OFF, reloads through its actual
-   upstream parser, and retains unrelated/numeric settings and comments.
- - Non-live switches do not mutate the running config. Casing retains its
-   live path, save-failure rollback, replaced-config and duplicate-key checks.
- - Four provider names are distinct. All three per-mod host resets persist
-   factory boolean defaults, retaining numeric values and companion state.
- - Config-only mode works for all three mods before their assemblies load;
-   all such controls are labelled restart, including casing while unloaded.
- - Seakeeping's legacy sea-clock alias is read in source order and saved
-   consistently with its canonical key. The retired multiplier is retained
-   but not exposed as a fake switch. Comments remain parser-valid.
- - The existing companion config, depth bias, stock-law torque and scoped
-   wave-force regression checks pass again.
+OFFLINE
+1125 assertions pass, using actual current selected companion classes,
+all three supplied upstream config parsers, the supplied stock torque law,
+and Community Patch 0.38.1 row/reset contract code. Game/Unity objects and
+Harmony dispatch are fixtures in the host's .NET runtime.
+ - All 31 upstream feature switches round-trip ON/OFF through the supplied
+   parsers, preserving numeric values, comments, aliases and unrelated files.
+ - All three menus report no session patches despite saved config/loaded
+   fixture assemblies; informational row setters cannot activate mods.
+ - Status getters ignore persisted host values. Seakeeping's saved OFF and
+   runtime ON remain distinct; restart-pending and unloaded state are checked.
+ - Prior casing live update, config-instance replacement, save-failure
+   rollback, host reset, officer brake release and physics-option checks pass.
+ - Entry assist is OFF by default, anticipates upward pitch rate, fades by
+   1 m deck immersion, and shares a 1.5 x stock total torque ceiling with the
+   older torque option. Protected modes, unsupported hulls, Hold, kinematic
+   physics, high time compression and invalid values are excluded.
+ - Precise PD preview signs, bounds, rate limit, same-frame idempotence,
+   convergence without accumulation, new orders, option OFF and hard gates
+   are checked. Deeper-PD bias stands down when the new II/VII option owns
+   the target; unsupported/deep/disabled handover cases remain inactive.
+ - Pre-dive availability clears only the player planes station's Depth flag;
+   damage/docking flags and NPC stations remain unchanged. Option/master OFF
+   restores the surfaced restriction in the game-object fixture.
+ - The three new settings save, reload and reset with defaults OFF.
 
-LIMITS AND GAME STATUS
-1.0.19 has not run inside UBOAT; UI rendering and native patch dispatch remain
-unverified. Install with a game restart. Then restart again after changing
-rows marked restart; casing/officer changes alone do not require one.
-Optional probe keys cannot install code absent from an upstream build.
-Config menus cannot activate a mod disabled in UBOAT's launcher.
-The 1.0.17 dive-entry level-off, PD overshoot and sustained oscillation remain
-unresolved. This update adds isolation controls without changing their
-physics algorithms. Compare runs from the same starting save.
+GAME STATUS AND LIMITS
+Not run inside UBOAT. Native Harmony ordering/dispatch, menu rendering,
+officer UI/pathfinding/schedules and actual diving response remain unverified.
+The preceding 1.0.19 run confirmed entry pitch loss and prolonged PD cycling
+with Seakeeping absent and officer PD brake OFF. It did not validate these
+new controls. No issue is closed by offline checks.
+The arrival attempt applies only where the existing II/VII shallow plane/trim
+handover is enabled; Type II additionally requires a seated officer. Other
+hulls and depths retain existing controls. The new controller takes precedence
+over legacy II/VII arrival/hold offsets and deeper-PD bias while selected.
+The game's other depth corrections and environmental forces remain active.
+
+Historical arrival overshoot must not automatically be classified as a fault:
+section 106 describes a deliberate overshoot and two air-clearing pitch cycles
+for a test dive. This optional precise-arrival mode does not reproduce it.
+OFF retains existing behavior; it does not establish historical fidelity.
+
+TEST NEXT
+See Docs/EXPERIMENTAL-CONTROLS.md. Compare entry assist alone first from the
+same starting save. Then test pre-dive availability and precise PD arrival
+separately. Keep compilation, offline and gameplay outcomes separate.

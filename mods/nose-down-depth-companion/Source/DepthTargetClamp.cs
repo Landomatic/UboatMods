@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC-BY-NC-4.0
 // Copyright (c) 2026 Landomatic. See LICENSE and README.txt.
+// Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
 // Companion to Nose Down by Kugler (https://github.com/Isamylov); contains none of its source.
 using System;
 using System.Globalization;
@@ -48,6 +49,7 @@ namespace NoseDownCompanion
             var ship = __instance as PlayerShip;
             if (ship == null)
                 return;
+            PreDivePlanes.Observe(ship);
             try
             {
                 NoseDownBridge.EnsureResolved();
@@ -89,7 +91,7 @@ namespace NoseDownCompanion
                 _preInternal = ___internalTargetDepth;
                 _preValid = eligible;
                 if (_latched)
-                    ___internalTargetDepth = ___targetDepth - AscentBrake.Offset(ship) + PdApproachBrake.Offset(ship) + PdHoldDamper.Offset(ship);
+                    ___internalTargetDepth = ___targetDepth + ArrivalOffset(ship);
             }
             catch { }
         }
@@ -130,7 +132,7 @@ namespace NoseDownCompanion
                     }
                 }
                 if (_latched)
-                    ___internalTargetDepth = ___targetDepth - AscentBrake.Offset(ship) + PdApproachBrake.Offset(ship) + PdHoldDamper.Offset(ship);
+                    ___internalTargetDepth = ___targetDepth + ArrivalOffset(ship);
 
                 if (CompanionConfig.TraceLogging && Time.time >= _nextTrace)
                 {
@@ -147,6 +149,20 @@ namespace NoseDownCompanion
             {
                 PdDepthBias.Apply(ship, ___targetDepth, ref ___internalTargetDepth);
             }
+        }
+
+        // Select one arrival controller: do not stack the preview with legacy brakes/damping.
+        private static float ArrivalOffset(PlayerShip ship)
+        {
+            if (PreciseDepthArrival.Selected(ship))
+            {
+                AscentBrake.Release("preciseArrival");
+                PdApproachBrake.Release("preciseArrival");
+                PdHoldDamper.ResetState("preciseArrival");
+                return PreciseDepthArrival.Offset(ship);
+            }
+            PreciseDepthArrival.Reset();
+            return -AscentBrake.Offset(ship) + PdApproachBrake.Offset(ship) + PdHoldDamper.Offset(ship);
         }
 
         // Raw signed coordinates (game fields: deeper = more negative).
@@ -195,6 +211,7 @@ namespace NoseDownCompanion
             ShallowStandDown.ResetState(reason);
             PdDepthBias.Reset(reason);
             ViiTorqueAssist.Reset();
+            PreciseDepthArrival.Reset();
             PdWaveForce.Reset(reason);
         }
 
@@ -208,6 +225,7 @@ namespace NoseDownCompanion
             _preValid = false;
             _latched = false;
             _latchedTarget = float.NaN;
+            PreciseDepthArrival.Reset();
             AscentBrake.Release("reset");
             PdApproachBrake.Release("reset");
         }

@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using HarmonyLib;
 
 namespace NoseDownCompanion
 {
@@ -19,8 +20,16 @@ namespace NoseDownCompanion
         private const BindingFlags StaticMembers = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
         private const BindingFlags InstanceMembers = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
+        internal static bool Loaded(KuglerMod mod)
+        {
+            // A saved cfg or a compiled assembly alone is NOT evidence of an active mod.
+            try { return Harmony.HasAnyPatches(mod.HarmonyId); }
+            catch { return false; }
+        }
+
         private static object RuntimeConfig(KuglerMod mod)
         {
+            if (!Loaded(mod)) return null;
             object result = null;
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
@@ -54,22 +63,59 @@ namespace NoseDownCompanion
 
         internal static string Description(KuglerMod mod)
         {
-            return mod.Name + " by Kugler. Config switches hosted by Landomatic; supported source version " + mod.Version
-                + ". Values save to " + mod.FileName + ". Restart UBOAT to apply rows marked restart. "
-                + "The casing fix applies live when Proper Ballast is loaded. Reset restores only this mod's switches; numeric settings are kept. A menu cannot load a mod disabled in the launcher.";
+            string status = Loaded(mod) ? "LOADED: runtime patches detected. "
+                : "NOT LOADED / NO ACTIVE PATCHES DETECTED. Saved settings only; enable the mod in the launcher and restart to use it. ";
+            return status + mod.Name + " by Kugler. This is a settings host, not a launcher switch. "
+                + "Status rows are informational; they cannot enable a mod. Other ON/OFF rows are SAVED config values. "
+                + "Supported source version " + mod.Version + ". Values save to " + mod.FileName
+                + ". Restart UBOAT to apply rows marked restart. The casing fix applies live only when Proper Ballast is loaded. "
+                + "Reset restores only this mod's saved switches; numeric settings are kept. Patch detection does not certify every feature is working.";
+        }
+
+        private static object[] Status(string key, string label, string help, Func<bool> get)
+        {
+            // Dusty's contract has no read-only kind. Ignore host writes/replayed values;
+            // every getter reads current evidence, never the host's persisted status copy.
+            return new object[] { "bool", key, label + " (status only)", help,
+                new Func<object>(() => get()), new Action<object>(value => { }) };
+        }
+
+        internal static bool RestartPending(KuglerMod mod)
+        {
+            object config = RuntimeConfig(mod);
+            if (config == null) return false;
+            foreach (KuglerSwitch setting in mod.Switches)
+            {
+                FieldInfo field = RuntimeField(config, setting);
+                if (field != null && (bool)field.GetValue(config) != Read(mod, setting)) return true;
+            }
+            return false;
         }
 
         internal static object[] Rows(KuglerMod mod)
         {
             object config = RuntimeConfig(mod);
-            if (config == null && !File.Exists(ConfigPath(mod))) return new object[0];
             var rows = new List<object>();
+            rows.Add(Status("sessionLoaded", "Mod loaded this session",
+                "ON means this mod's runtime patches are detected. OFF means no patches detected: the mod may be disabled, absent, or failed to initialize. This is not an enable switch. Change the launcher mod list and restart UBOAT.", () => Loaded(mod)));
+            rows.Add(Status("restartPending", "Saved settings differ from this session",
+                "ON means readable current settings differ from the saved values below. Restart UBOAT to apply them. OFF does not imply the mod is loaded; check the loaded status above.", () => RestartPending(mod)));
+            if (mod == KuglerSwitchCatalog.Seakeeping)
+                rows.Add(Status("sessionCorrections", "Seakeeping corrections enabled this session",
+                    "Current runtime master setting, separate from the saved master below. OFF when Seakeeping is not loaded. Other features have their own switches; this does not certify every correction is working.", () =>
+                    {
+                        object current = RuntimeConfig(mod);
+                        FieldInfo master = RuntimeField(current, mod.Switches[0]);
+                        return master != null && (bool)master.GetValue(current);
+                    }));
+            if (config == null && !File.Exists(ConfigPath(mod))) return rows.ToArray();
             foreach (KuglerSwitch setting in mod.Switches)
             {
                 KuglerSwitch captured = setting;
                 bool live = setting.Live && RuntimeField(config, setting) != null;
-                string apply = live ? "Applies live. " : "Saved now; restart UBOAT to apply. ";
-                rows.Add(new object[] { "bool", setting.Key, setting.Label + (live ? "" : " (restart)"), apply + setting.Help,
+                string apply = live ? "Applies live when loaded. " : "Saved now; restart UBOAT to apply. ";
+                string state = Loaded(mod) ? "" : "Mod not loaded: saved settings only. ";
+                rows.Add(new object[] { "bool", setting.Key, "Saved: " + setting.Label + (live ? " (live)" : " (restart)"), state + apply + setting.Help,
                     new Func<object>(() => Read(mod, captured)),
                     new Action<object>(value => Write(mod, captured, Convert.ToBoolean(value, CultureInfo.InvariantCulture))) });
             }

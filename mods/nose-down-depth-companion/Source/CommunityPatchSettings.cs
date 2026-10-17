@@ -16,7 +16,7 @@ namespace NoseDownCompanion
         public static string Category { get { return "Submarine / Diving"; } }
         public static string Description
         {
-            get { return "Depth control by Landomatic. Requires Kugler's Nose Down. New torque, deeper-PD and PD wave-force options are experimental and start disabled. Reset restores this companion's coded settings and keeps its master switch as it is."; }
+            get { return "Depth control by Landomatic. Requires Kugler's Nose Down. Entry assist, precise PD arrival, pre-dive planes, torque, deeper-PD and PD wave-force options are experimental and start disabled. Reset restores this companion's coded settings and keeps its master switch as it is."; }
         }
 
         public static object[] GetSettings()
@@ -33,6 +33,15 @@ namespace NoseDownCompanion
                             DepthTargetClamp.ResetControlState("masterSwitch");
                         }
                     }),
+                Bool("diveEntryAssist", "Preserve VII dive-entry pitch (experimental)",
+                    "Adds bounded nose-down torque while a VII begins an ordinary dive, fading out by 1 m deck depth. Aims to reduce the early level-off; requires in-game comparison. Alarm/crash dives and blows are excluded. Default off.",
+                    () => CompanionConfig.DiveEntryAssist, v => CompanionConfig.DiveEntryAssist = v),
+                Bool("preciseDepthArrival", "Precise PD arrival (nonhistorical)",
+                    "Optional gameplay aid, default off. Tries to reduce arrival overshoot using a velocity-preview target near ordinary II/VII shallow orders (2-10 m). Type II requires a seated officer. Takes precedence over legacy arrival/hold offsets and deeper-PD bias on those hulls while on. Does not reproduce section 106's deliberate test-dive overshoot and clearing cycles; accuracy is not guaranteed.",
+                    () => CompanionConfig.PreciseDepthArrival, v => { CompanionConfig.PreciseDepthArrival = v; PreciseDepthArrival.Reset(); }),
+                Bool("preDivePlanes", "Allow planes assignment before diving",
+                    "Experimental, default off. Makes the player's planes station available on the surface so you can order an officer there before diving. This also makes its crew slots available. No one is assigned automatically; damage, docking and other restrictions remain. Turning off restores the normal surface restriction and may end the assignment.",
+                    () => CompanionConfig.PreDivePlanes, v => CompanionConfig.PreDivePlanes = v),
                 Bool("ixTargetPin", "IX depth target pin",
                     "Stops the moving target at ordinary deep-dive orders on IXA, IXC and IXC/40. PD orders and protected dive/blow modes are excluded.",
                     () => CompanionConfig.IxTargetPin, v => CompanionConfig.IxTargetPin = v),
