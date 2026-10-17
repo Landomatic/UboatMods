@@ -1,0 +1,18 @@
+{
+  "build": "1.3.2-beta-DIAG1",
+  "game_sha256": "b1dcee2c63f6d33464c33d6dcce1dcc33acaf8a4da04ef7a2cd9d2fd4890f16f",
+  "checks": [
+    "All 2 C# files parse without syntax errors.",
+    "HydrophoneController StartController/UpdateController/StopController and inherited ship getters resolve.",
+    "The ownership guard expression and listener flag assignments match the supplied source.",
+    "Original LICENSE and preview are retained byte-for-byte.",
+    "Manifest retains Workshop ID 3810668782 and declares Reflection/IO."
+  ],
+  "limitations": [
+    "No C# compiler or running UBOAT process was available; compilation and gameplay/UI confirmation remain in-game."
+  ],
+  "sources": {
+    "Source/HydrophoneSurfaceNoiseFix.cs": "30535eab8d530d428e4a0ce2aa8ea4f6359cca0fed45200a07ab1b77111a5ff6",
+    "Source/ModDiagnostics.cs": "ebf994ee41cca1e34e6eef196f7a16e5c67b74ee4f0b6410e75067ba4bec7451"
+  }
+}

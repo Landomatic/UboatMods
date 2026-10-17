@@ -1,0 +1,28 @@
+{
+  "name": "Landomatic Patch Profiler",
+  "version": "1.0.0",
+  "description": "Diagnostic only. Times every Harmony-patched method (all mods), each patch method, and mod MonoBehaviour Update callbacks; logs slow calls, frame hitches and a 10 s top-10 to output_log.txt as [PatchProf]. Remove after testing.",
+  "author": "Landomatic",
+  "supportedGameVersions": [
+    "2026.1",
+    "2026.1 patch 18",
+    "2026.1 patch 19",
+    "2026.1 patch 20",
+    "2026.1 patch 21",
+    "2026.1 patch 22",
+    "2026.1 patch 23",
+    "2026.1 patch 24",
+    "2026.1 patch 25",
+    "2026.1 patch 26",
+    "2026.1 patch 27",
+    "2026.1 patch 28",
+    "2026.1 patch 29",
+    "2026.1 patch 30",
+    "Ship Bundle 0.5.0"
+  ],
+  "assemblyName": "LandomaticPatchProfiler",
+  "permissions": [
+    "Reflection",
+    "IO"
+  ]
+}

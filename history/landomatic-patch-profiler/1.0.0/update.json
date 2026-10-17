@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "project": "Landomatic Patch Profiler",
+  "version": "1.0.0",
+  "prepared_at_utc": "2026-10-17T04:52:44+00:00",
+  "changes": [
+    "Archive the source diagnostic tool for Harmony methods, patch methods, Unity callbacks, frame hitches, and timing summaries."
+  ],
+  "validation": {
+    "compile": "not-run",
+    "offline": "not-run",
+    "in_game": "not-run",
+    "notes": [
+      "Archive integrity checks: ZIP CRC, selected file hashes, current identity fields, scope review, and existing notices. No new game run or recompilation was performed.",
+      "Diagnostic-only tool. The archive does not claim a passing compilation or game test.",
+      "Keep it separate from controlled depth-physics tests unless profiling is explicitly part of the test."
+    ]
+  },
+  "known_issues": [
+    "Instrumentation can affect timing; use the package's diagnostic instructions."
+  ],
+  "files": [
+    {
+      "path": "ARCHIVE.md",
+      "bytes": 823,
+      "sha256": "46d44019c3d4543d140e01a721420d959751c900b4b41e1fc00502bd271f994e"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 833,
+      "sha256": "ec2ecd43888c25d8cfd795584dcdd5d1531151913ace758695aaa74ef8c046c9"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 1822,
+      "sha256": "82be6227c8927466b7d349304d190caaa7ccfec49d110dc2e9f3c948e3ad0085"
+    },
+    {
+      "path": "Source/PatchProfiler.cs",
+      "bytes": 22850,
+      "sha256": "9063cc8a5448db4962a10532784068f6095b436b658b5b83b9308f9392c40b09"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "LandomaticPatchProfiler.zip",
+      "bytes": 7599,
+      "sha256": "8d103fde3321e3107be97805a773728fa9a545092192ba74adf8c11cb1ea851e"
+    }
+  ],
+  "archive": {
+    "repository": "https://github.com/Landomatic/UboatMods",
+    "project_path": "mods/landomatic-patch-profiler",
+    "snapshot_kind": "Landomatic diagnostic tool",
+    "original_package_crc_verified": true,
+    "documentation_edits": [],
+    "runtime_source_modified_for_archive": false,
+    "original_package_uploaded": false
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "project": "Engine Transition Glide",
+  "version": "0.2.0-draft",
+  "prepared_at_utc": "2026-10-17T04:52:43+00:00",
+  "changes": [
+    "Archive the supplied 0.2.0 draft for diesel/electric transition thrust carryover and optional ramp scaling."
+  ],
+  "validation": {
+    "compile": "not-run",
+    "offline": "not-run",
+    "in_game": "not-run",
+    "notes": [
+      "Archive integrity checks: ZIP CRC, selected file hashes, current identity fields, scope review, and existing notices. No new game run or recompilation was performed.",
+      "The supplied Manifest.json version remains 0.2.0. The archive identifier includes draft because the package explicitly describes itself as an untested draft.",
+      "No compilation, offline behavior suite, or in-game run is claimed by this archive."
+    ]
+  },
+  "known_issues": [
+    "Draft awaiting in-game validation; it is separate from the current dive-companion test."
+  ],
+  "files": [
+    {
+      "path": "ARCHIVE.md",
+      "bytes": 883,
+      "sha256": "d5681ce25efecaf9350bc7d01b67ebdeeed8486de3dbfab64c2d68c4a8811de0"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1852,
+      "sha256": "742697035dcf910b62bcdd1fbcd18df64cd0a8703257ef98256364b8e0293ef3"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 634,
+      "sha256": "40d95770540151d0bda7d86bea0f4142206c6e28b2856036ea8cc3c0be0ac38f"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 2540,
+      "sha256": "b0b8ade9eae84d7973f35b504129e3487a88a384cd2d6624258f143b3bb98741"
+    },
+    {
+      "path": "Source/EngineGlide.cs",
+      "bytes": 13051,
+      "sha256": "6bcac362924f8dcb4174e27ed33b0f73469f4de7a34e9f8417af6b7b35b86b6f"
+    },
+    {
+      "path": "Source/GlideLoader.cs",
+      "bytes": 6426,
+      "sha256": "929147715064cad889724e853779a4bbdfd62cc916f88fb8f76d2d41f800b1a4"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "EngineTransitionGlide_v0.2.0_draft.zip",
+      "bytes": 8527,
+      "sha256": "30dae87b2c3a1a21df636d22669c4965dcdf475d9d8ebef841836ed9e5d2c7bf"
+    }
+  ],
+  "archive": {
+    "repository": "https://github.com/Landomatic/UboatMods",
+    "project_path": "mods/engine-transition-glide",
+    "snapshot_kind": "Landomatic mod",
+    "original_package_crc_verified": true,
+    "documentation_edits": [],
+    "runtime_source_modified_for_archive": false,
+    "original_package_uploaded": false
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "project": "Nose Down Depth Companion",
+  "version": "1.0.17",
+  "prepared_at_utc": "2026-10-17T04:52:43+00:00",
+  "changes": [
+    "Archive the delivered cumulative companion with optional VII torque assistance, PD depth bias, wave-force reduction, and Community Patch settings."
+  ],
+  "validation": {
+    "compile": "passed",
+    "offline": "passed",
+    "in_game": "partial",
+    "notes": [
+      "Archive integrity checks: ZIP CRC, selected file hashes, current identity fields, scope review, and existing notices. No new game run or recompilation was performed.",
+      "Bundled Docs/VALIDATION.txt records the earlier successful C# compilation and 415 offline assertions. These checks were not rerun for archiving.",
+      "Subsequent VIIB in-game tests are partial: a small dive-entry level-off, PD overshoot, and sustained PD oscillation remain. The officer-PD-brake-off isolation test is pending.",
+      "Requires stock Nose Down by Kugler, Workshop 3729673507; its upstream files are not included."
+    ]
+  },
+  "known_issues": [
+    "Small dive-entry pitch level-off remains.",
+    "PD overshoot and prolonged depth oscillation remain unresolved.",
+    "Surfacing engine-power interruption is under investigation; no cause is confirmed."
+  ],
+  "files": [
+    {
+      "path": "ARCHIVE.md",
+      "bytes": 1158,
+      "sha256": "af61d2420d1808539aee5a026472beea3728db2d4b16a91821ca7f713e756947"
+    },
+    {
+      "path": "Docs/VALIDATION.txt",
+      "bytes": 3050,
+      "sha256": "7091afc9cdbe8008c528cb465ba9e03604e1754b3b15bc005a4b7529a314ad43"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 2513,
+      "sha256": "e68b84dedc87cdda2a725ed88c413f03c8b9eab759130d5fa938340a49d39145"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 689,
+      "sha256": "607409601d41304ba381bdcdd5351447798b4ffbf87d78643e468f4fd7f321c1"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 8461,
+      "sha256": "af3417a91143f0363537329ecd2189e7725b3d185b127a069ed4ef3f82b51696"
+    },
+    {
+      "path": "Source/CommunityPatchSettings.cs",
+      "bytes": 6419,
+      "sha256": "1f20179043bdc8c5fce5917be781113f87cbcd35cb32f383b09e9d77501d3abf"
+    },
+    {
+      "path": "Source/CompanionConfig.cs",
+      "bytes": 32598,
+      "sha256": "d6e43828da7c14abb7115c2427a98c3fce598f801d075ea481691d27cd44a946"
+    },
+    {
+      "path": "Source/CompanionLoader.cs",
+      "bytes": 4799,
+      "sha256": "f6c7bb5a18fba559fe500c0837c2b4e050405e4cd63d4acd1b7a567caad91f10"
+    },
+    {
+      "path": "Source/DepthTargetClamp.cs",
+      "bytes": 13086,
+      "sha256": "d74fd0f2c31cd069ad0f0e16e0d247a47fdf19627ca24260d4f066ddd562dc73"
+    },
+    {
+      "path": "Source/HullKey.cs",
+      "bytes": 5825,
+      "sha256": "6be9ee4f75842459ce53d1df1c1be67c98828497807de0d43ec8f05a6c43b19b"
+    },
+    {
+      "path": "Source/IxApproachBrake.cs",
+      "bytes": 6382,
+      "sha256": "db796eb38647577052018f8cc4eeb1902e30c8b26f9f5e3df695a8cb84b81b5a"
+    },
+    {
+      "path": "Source/IxTargetPin.cs",
+      "bytes": 6929,
+      "sha256": "18ccd8b18dbd3ab5f0acbcc173638446d1d70eeefed8680f6758d249fad5ec02"
+    },
+    {
+      "path": "Source/NoseDownBridge.cs",
+      "bytes": 8450,
+      "sha256": "95cd0c6e6f8462badb7c760701fda6f01161ca71a64d36910d00a65f14e0e520"
+    },
+    {
+      "path": "Source/PdApproachBrake.cs",
+      "bytes": 6858,
+      "sha256": "8179af32a4dd6aa6cbec33f01cb9bd3112e50f70ea7014819d9742987ac851f3"
+    },
+    {
+      "path": "Source/PdDepthBias.cs",
+      "bytes": 7226,
+      "sha256": "1249853f6a6f1910d929c53727c9ee3f05f5abbc2db41a3d6b178646f939d3a3"
+    },
+    {
+      "path": "Source/PdHoldDamper.cs",
+      "bytes": 7051,
+      "sha256": "76b5a9a7999616ad99d1eaf1a93ce44d3c051536487c93861294c6c6f199ae24"
+    },
+    {
+      "path": "Source/PdWaveForce.cs",
+      "bytes": 6541,
+      "sha256": "5187b598c7b81321650bcaec7201fab294cc83fd9b1304704e53611bd71675d0"
+    },
+    {
+      "path": "Source/PlanesManning.cs",
+      "bytes": 8001,
+      "sha256": "38f3114330831015222f255975eb6afb9292db3f36f21b599a1b776a3b984ba6"
+    },
+    {
+      "path": "Source/ShallowStandDown.cs",
+      "bytes": 15907,
+      "sha256": "4d48c3e14ca0959e812c5cc4e9120116e9a4c1198eb914dd01e728c1d2aaa6e8"
+    },
+    {
+      "path": "Source/SurfaceBrake.cs",
+      "bytes": 11517,
+      "sha256": "ca95c6ab689026da8cd0215cd7bf0e7af5a19cea38ab68fb40e60755dee4822d"
+    },
+    {
+      "path": "Source/ViiTorqueAssist.cs",
+      "bytes": 5412,
+      "sha256": "2190234716ed1cd837b6689d9e65f55e88991c6d5c2a4de12cfe6ef1b4e0fff2"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "NoseDownDepthCompanion_v1.0.17.zip",
+      "bytes": 52593,
+      "sha256": "5b1cb04d84b79d153182d4faf1d45f8d2a0d0157825fb49ef1d20a01cc37ce12"
+    }
+  ],
+  "archive": {
+    "repository": "https://github.com/Landomatic/UboatMods",
+    "project_path": "mods/nose-down-depth-companion",
+    "snapshot_kind": "Landomatic mod",
+    "original_package_crc_verified": true,
+    "documentation_edits": [],
+    "runtime_source_modified_for_archive": false,
+    "original_package_uploaded": false
+  }
+}

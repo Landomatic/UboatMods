@@ -1,0 +1,11 @@
+{
+  "name": "Type IXC40 280m - UBE Compatibility",
+  "version": "1.0",
+  "description": "Overrides both UBE/DLC IXC40 player entity IDs to a 280m crush depth.",
+  "author": "Compatibility test build",
+  "supportedGameVersions": [
+    "2026.1"
+  ],
+  "assemblyName": null,
+  "permissions": []
+}

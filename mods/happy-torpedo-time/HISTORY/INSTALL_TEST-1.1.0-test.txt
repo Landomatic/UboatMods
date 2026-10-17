@@ -1,0 +1,25 @@
+Installed-folder repair: Happy Torpedo Time 1.1.0-test
+
+The supplied 1.0 installation contains an empty Source directory.
+This package restores the previously prepared 1.1.0-test runtime source
+and its matching Entities.xlsx. Workshop ID and preview image are preserved.
+No cache deletion is needed to supply missing source files.
+
+1. Close UBOAT completely.
+2. Back up the installed happy-torpedo-time folder outside the active mods path.
+3. Copy this archive's happy-torpedo-time contents into the existing folder,
+   replacing Manifest.json and Data Sheets/Entities.xlsx and adding Source.
+4. Keep one enabled copy; load Happy Torpedo Time after UBE and any retained
+   UBE Torpedo Tweaks. Do not place another torpedo stat overhaul after it.
+5. Restart UBOAT and search the new output log for:
+   [HappyTorpedoTime] Loaded 1.1.0-test
+6. Before firing, hover the loaded T2 tube. The added Current range (warmed)
+   should say 7.5 km while the maintenance benefit is active.
+7. Test one warmed T2 on a clear trajectory beyond 5 km and retain the log.
+   Report the current-range tooltip and observed run distance.
+
+Expected T2 ranges: unmaintained 5 km; warmed 7.5 km; benefit 4 hours.
+Use the current-range tooltip rather than only the catalogue description.
+This restores the saved test build; game compilation and launched range still
+need confirmation in UBOAT. It is not a newly runtime-validated release.
+Workshop updates may overwrite a locally installed test build.

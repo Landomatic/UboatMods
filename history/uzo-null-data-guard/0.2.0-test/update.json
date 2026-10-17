@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "project": "UZO Null Data Guard",
+  "version": "0.2.0-test",
+  "prepared_at_utc": "2026-10-17T04:52:43+00:00",
+  "changes": [
+    "Archive the experimental guard for the camera and optics-UI equipment-name reads when Equipment.Data is absent."
+  ],
+  "validation": {
+    "compile": "not-run",
+    "offline": "not-run",
+    "in_game": "not-run",
+    "notes": [
+      "Archive integrity checks: ZIP CRC, selected file hashes, current identity fields, scope review, and existing notices. No new game run or recompilation was performed.",
+      "The earlier 0.1.0 camera guard was observed running; 0.2.0 adds the second UI-name guard and remains an experimental test.",
+      "The supplied package reports syntax/API/IL checks, with no full Unity/Harmony compilation or in-game test of 0.2.0.",
+      "Private save-investigation notes and Saved-Scope-Evidence.json are excluded. README's investigation pointer is updated to this archival note."
+    ]
+  },
+  "known_issues": [
+    "Missing equipment definitions are not repaired by this workaround.",
+    "The process crash and overall campaign health are not established as fixed."
+  ],
+  "files": [
+    {
+      "path": "ARCHIVE.md",
+      "bytes": 1072,
+      "sha256": "7805b9f6f319361c549012fd9b1bb896db89bde606ebc2ef9a8d19a1c0753c1e"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 410,
+      "sha256": "7ca22376343712255c61f526bcc3e44898d8f52573ee58a63fb87c7c9c564776"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 5010,
+      "sha256": "8c0123b356fc356bf11728329d159a7b192c34cbf5d5631e859d896787801516"
+    },
+    {
+      "path": "Source/UzoNullDataGuard.cs",
+      "bytes": 11319,
+      "sha256": "b4ebcf53d1517c92a4b7535496cadbb271b4dd76e932db5b6da2268a4c0d4d14"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "UZO-Null-Data-Guard-Test-0.2.0.zip",
+      "bytes": 10940,
+      "sha256": "00afd4f4b3f16b46cafcf86fb63c60c84b2f551083db93f06200f7684fb021af"
+    }
+  ],
+  "archive": {
+    "repository": "https://github.com/Landomatic/UboatMods",
+    "project_path": "mods/uzo-null-data-guard",
+    "snapshot_kind": "Landomatic mod",
+    "original_package_crc_verified": true,
+    "documentation_edits": [
+      {
+        "path": "README.txt",
+        "reason": "Point to archival scope instead of excluded private investigation notes.",
+        "original_sha256": "176ba1b99dbac286814bb83c50ba8790d6b6a795851d82b27fd5621e4340ee49"
+      }
+    ],
+    "runtime_source_modified_for_archive": false,
+    "original_package_uploaded": false
+  }
+}

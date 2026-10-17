@@ -1,0 +1,131 @@
+--- /mnt/data/wp_cleanwork/vanilla/3800952548/Source/PatrolHistory.cs	2026-09-17 14:23:48.000000000 +0000
++++ /mnt/data/WolfpackAtlantik_UniversalOverlayCandidate_Source/PatrolHistory.cs	2026-10-06 01:37:07.524337563 +0000
+@@ -19,9 +19,29 @@
+         private static MissionsRegister _missions;
+         private static bool _dirty = true;
+         private static bool _loadFinalizing;
++        private static bool _postLoadAssignmentBarrier;
++        private static bool _assignmentResolutionWaitLogged;
+ 
+         internal static void RequestReconciliation() { _dirty = true; }
+ 
++        // During save restoration, native assignment identity can lag behind the persisted mission
++        // register. Non-patrol assignments may also temporarily overlay the ordinary patrol without
++        // abandoning it. Only a positively resolved patrol assignment can prove patrol identity.
++        internal static bool IsNativePatrolAssignment(Mission mission)
++        {
++            return mission is PatrolAssignment || mission is GroupPatrolAssignment;
++        }
++
++        // A previously corrupted state may already be inactive before this process loads, so the
++        // normal campaign-bind barrier cannot arm. Same-mission recovery re-arms assignment
++        // resolution before persisted completion flags are trusted again.
++        internal static void RearmAssignmentBarrierForRecovery()
++        {
++            _postLoadAssignmentBarrier = true;
++            _assignmentResolutionWaitLogged = false;
++            _dirty = true;
++        }
++
+         internal static int JournalIndex(Mission mission)
+         {
+             PatrolAssignment patrol = mission as PatrolAssignment;
+@@ -49,7 +69,17 @@
+         internal static bool Tick(WolfpackCampaignState state, bool importHistory = true)
+         {
+             if (state == null) return false;
+-            if (_bound != state) { _bound = state; _dirty = true; }
++            if (_bound != state)
++            {
++                _bound = state;
++                _dirty = true;
++                PlayerPatrolServiceRecord boundPatrol = state.patrolService;
++                if (boundPatrol != null && boundPatrol.currentPatrolActive && boundPatrol.currentPatrolJournalIndex > 0)
++                {
++                    _postLoadAssignmentBarrier = true;
++                    _assignmentResolutionWaitLogged = false;
++                }
++            }
+             if (_saves == null)
+             {
+                 _saves = InjectionFramework.Instance.GetInstance<SavesManager>();
+@@ -90,15 +120,55 @@
+             var completed = new List<int>();
+             Mission activeCompleted = null;
+             PlayerPatrolServiceRecord p = state.patrolService;
++
++            // On save load, PlayerCareer.CurrentAssignment can become usable after MissionsRegister
++            // already exposes persisted completion/reward flags. Preserve the saved live journal until
++            // native assignment identity positively resolves, then compare before importing history.
++            PlayerCareer career = ScriptableObjectSingleton.LoadSingleton<PlayerCareer>();
++            Mission currentAssignment = career != null ? career.CurrentAssignment as Mission : null;
++            bool currentIsPatrol = IsNativePatrolAssignment(currentAssignment);
++            int currentJournalIndex = currentIsPatrol ? JournalIndex(currentAssignment) : 0;
++            bool currentPatrolIdentityResolved = currentIsPatrol && currentJournalIndex > 0;
++            bool postLoadBarrier = _postLoadAssignmentBarrier && p.currentPatrolActive && p.currentPatrolJournalIndex > 0;
++            bool explicitCurrentPatrolCompletion = newlyAcceptedJournalIndex > 0
++                && p.currentPatrolJournalIndex == newlyAcceptedJournalIndex;
++
++            // A live Wolfpack patrol is preserved through any unresolved or non-patrol assignment.
++            // Story, theatre and special assignments can temporarily own PlayerCareer.CurrentAssignment
++            // without semantically replacing the underlying patrol. Do not infer abandonment from the
++            // assignment's type (or from null); wait for a positively resolved PatrolAssignment or
++            // GroupPatrolAssignment and compare its stable identity instead.
++            if (p.currentPatrolActive && !currentPatrolIdentityResolved && !explicitCurrentPatrolCompletion)
++            {
++                if (currentAssignment != null && !_assignmentResolutionWaitLogged)
++                {
++                    _assignmentResolutionWaitLogged = true;
++                    WolfpackAtlantikLog.Info("Assignment " + currentAssignment.GetType().Name
++                        + " does not positively replace active patrol journal " + p.currentPatrolJournalIndex
++                        + "; patrol history import deferred until patrol identity resolves.");
++                }
++                _dirty = true;
++                return;
++            }
++
+             foreach (Mission mission in _missions)
+             {
+                 if (!IsCompletedPatrol(mission)) continue;
+-                completed.Add(JournalIndex(mission));
++                int journalIndex = JournalIndex(mission);
++                if (postLoadBarrier && newlyAcceptedJournalIndex != journalIndex && currentJournalIndex > 0
++                    && currentJournalIndex == p.currentPatrolJournalIndex
++                    && journalIndex == p.currentPatrolJournalIndex)
++                {
++                    continue;
++                }
++                completed.Add(journalIndex);
+                 if (p.currentPatrolActive && (p.currentPatrolJournalIndex > 0
+-                    ? p.currentPatrolJournalIndex == JournalIndex(mission)
++                    ? p.currentPatrolJournalIndex == journalIndex
+                     : p.currentMissionId == StablePatrolId(mission) || mission.Id > 0L && p.currentMissionId == mission.Id))
+                     activeCompleted = mission;
+             }
++            _postLoadAssignmentBarrier = false;
++            _assignmentResolutionWaitLogged = false;
+             bool changed = WolfpackPatrolHistoryPolicy.Reconcile(state, completed, newlyAcceptedJournalIndex);
+             if (activeCompleted != null)
+             {
+@@ -111,12 +181,20 @@
+             WolfpackCommanderWindow.NotifyStateChanged();
+         }
+ 
+-        private static void OnLoadingStarted() { _loadFinalizing = true; _dirty = true; }
++        private static void OnLoadingStarted()
++        {
++            _loadFinalizing = true;
++            _dirty = true;
++            _postLoadAssignmentBarrier = true;
++            _assignmentResolutionWaitLogged = false;
++        }
+         private static void OnLoaded(Queue<Action> finalizers)
+         {
+             // SavesManager lowers IsLoading BEFORE its Loaded subscribers/finalizers run.
+             // Import only after that native restoration boundary, not from a partial list.
+             _loadFinalizing = true;
++            _postLoadAssignmentBarrier = true;
++            _assignmentResolutionWaitLogged = false;
+             finalizers.Enqueue(delegate { _loadFinalizing = false; _dirty = true; });
+         }
+     }

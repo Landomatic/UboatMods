@@ -1,0 +1,48 @@
+# C# build output and local IDE state
+[Bb]in/
+[Oo]bj/
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.pdb
+
+# Generated Unity project folders
+[Ll]ibrary/
+[Tt]emp/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Local game assemblies and downloaded reference repositories
+/game_managed/
+/game-assemblies/
+/references/
+/third-party-reference-repos/
+com.uboat.game.dll
+Assembly-CSharp.dll
+UnityEngine*.dll
+
+# Private diagnostics, game state, and personal test configurations
+/diagnostics/raw/
+/logs/
+/saves/
+/current_configs/
+/local-configs/
+/user-configs/
+output_log*.txt
+Player.log
+Player-prev.log
+*.har
+*.dmp
+
+# Local credentials and OS metadata
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Mod DLLs and explicitly archived packages are intentionally allowed.

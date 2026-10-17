@@ -1,0 +1,15 @@
+{
+  "name": "Happy Torpedo Time!",
+  "version": "1.1.1-DIAG1",
+  "description": "Longer torpedo maintenance benefits, paired maintained/unmaintained ranges, wider blast damage, and unit-aware torpedo information. Includes synchronized Equipment and Types overrides for vanilla and UBE.",
+  "author": "Landomatic",
+  "supportedGameVersions": [
+    "2026.1 patch 20"
+  ],
+  "assemblyName": "HappyTorpedoTime",
+  "permissions": [
+    "Reflection",
+    "IO"
+  ],
+  "steamFileId": 3809600697
+}

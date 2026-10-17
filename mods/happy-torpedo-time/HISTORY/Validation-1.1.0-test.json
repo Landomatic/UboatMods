@@ -1,0 +1,19 @@
+{
+  "game_mvid": "96ae717b-5625-410e-a5bd-7f2dfd4fbfb5",
+  "game_sha256": "b1dcee2c63f6d33464c33d6dcce1dcc33acaf8a4da04ef7a2cd9d2fd4890f16f",
+  "checks": [
+    "All directly used native methods, constructors, and unit formatters exist and are public.",
+    "Reflected fields and manual salvo launcher array match the supplied build.",
+    "All UI/description patch targets and string return signatures match.",
+    "Both launch methods have exactly one field read for each range; replacements preserve the StoredTorpedo \u2192 Parameter stack contract.",
+    "All 26 Equipment/Types torpedoes match for range, damage, reliability, radius, cooldown, speed unit conversion, and maximum range.",
+    "468 range cases pass: cold/warmed source entries, maintained/unmaintained state, three speeds, and retained external multipliers.",
+    "Metric/hybrid ranges remain exact; nautical labels rounded to two decimals stay within 9.26 metres.",
+    "C# lexical delimiters are balanced; source adds no saved range modifiers or file writes.",
+    "Manifest retains Landomatic, and active Data Sheets contains no duplicate backup workbook."
+  ],
+  "limitations": [
+    "No C# compiler or running UBOAT process available. C# compilation and in-game UI/firing behavior have not been executed."
+  ],
+  "source_sha256": "102743f345abede13a416178b7f2e5bf46b623e773c62a0808b058e96f76d0d2"
+}
