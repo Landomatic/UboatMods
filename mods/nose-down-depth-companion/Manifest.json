@@ -1,7 +1,7 @@
 {
   "name": "[2026.1] Nose Down Depth Companion",
-  "version": "1.0.17",
-  "description": "Requires Nose Down by Kugler (Workshop 3729673507); load after it. Hull-specific ordinary-dive depth control by Landomatic, with optional Community Patch settings and reset. Adds opt-in VII torque-cap assistance, deeper PD holds on IIA/IID/IXA and local PD wave-force reduction. New physics options default off. Alarm/crash dives, emergency blows, ballast tanks and valve timing remain outside their scope.",
+  "version": "1.0.18",
+  "description": "Requires Nose Down by Kugler (Workshop 3729673507); load after it. Hull-specific ordinary-dive depth control by Landomatic, with optional Community Patch settings and reset. Adds opt-in VII torque-cap assistance, deeper PD holds on IIA/IID/IXA and local PD wave-force reduction. New physics options default off. Alarm/crash dives, emergency blows, ballast tanks and valve timing remain outside their scope. Adds an officer PD brake switch and a separate Kugler diving mods menu with a Proper Ballast casing fix switch; source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion",
   "author": "Landomatic",
   "supportedGameVersions": [
     "2026.1"

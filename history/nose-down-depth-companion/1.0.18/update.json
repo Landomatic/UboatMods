@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "project": "Nose Down Depth Companion",
+  "version": "1.0.18",
+  "prepared_at_utc": "2026-10-17T06:42:41+00:00",
+  "changes": [
+    "Expose officer PD approach brake and a separate Kugler diving mods menu for Proper Ballast casing flooding, with live changes and config persistence."
+  ],
+  "validation": {
+    "compile": "passed",
+    "offline": "passed",
+    "in_game": "not-run",
+    "notes": [
+      "Full C# 7.3 source compilation against 184 supplied game references passed. 448 offline assertions passed, including actual officer brake release, supplied Proper Ballast config parsing and Community Patch menu/reset contracts; game objects and Harmony dispatch remain fixtures."
+    ]
+  },
+  "known_issues": [
+    "This build has not run inside UBOAT; UI rendering and native patch dispatch remain unverified.",
+    "Earlier dive-entry level-off, PD overshoot and sustained oscillation remain unresolved; this is a menu-control update for isolation testing."
+  ],
+  "files": [
+    {
+      "path": "ARCHIVE.md",
+      "bytes": 1481,
+      "sha256": "87cd6489cfd95ff33683224a1235236a3b487b34266c357c2761ea7a02411e15"
+    },
+    {
+      "path": "Docs/VALIDATION.txt",
+      "bytes": 2619,
+      "sha256": "03b82bdde96952f2f6bfe368f958f3ae1076aeeeb65df9adf8c9337c3a52e24f"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 2513,
+      "sha256": "e68b84dedc87cdda2a725ed88c413f03c8b9eab759130d5fa938340a49d39145"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 902,
+      "sha256": "a55aa83b8993d4cbf07c6a500eb4edc5b66636c3abfe4dab773d6b6b3402d972"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 10265,
+      "sha256": "1f5a3a2e50643f879cf0c18a7afeecf94c702bd96068d2d9cd4a314bb6b4c2b1"
+    },
+    {
+      "path": "Source/CommunityPatchSettings.cs",
+      "bytes": 7171,
+      "sha256": "4b07ce7b48b1a7eecabd5314b3ddc9dda89aa32960ff6bf6040cd3241b7cfb8f"
+    },
+    {
+      "path": "Source/CompanionConfig.cs",
+      "bytes": 32598,
+      "sha256": "d6e43828da7c14abb7115c2427a98c3fce598f801d075ea481691d27cd44a946"
+    },
+    {
+      "path": "Source/CompanionLoader.cs",
+      "bytes": 4904,
+      "sha256": "e76d68f54edace12a759e8c9905f30c10b2d60c91ea1e927492191efe84c3cf7"
+    },
+    {
+      "path": "Source/DepthTargetClamp.cs",
+      "bytes": 13086,
+      "sha256": "d74fd0f2c31cd069ad0f0e16e0d247a47fdf19627ca24260d4f066ddd562dc73"
+    },
+    {
+      "path": "Source/HullKey.cs",
+      "bytes": 5825,
+      "sha256": "6be9ee4f75842459ce53d1df1c1be67c98828497807de0d43ec8f05a6c43b19b"
+    },
+    {
+      "path": "Source/IxApproachBrake.cs",
+      "bytes": 6382,
+      "sha256": "db796eb38647577052018f8cc4eeb1902e30c8b26f9f5e3df695a8cb84b81b5a"
+    },
+    {
+      "path": "Source/IxTargetPin.cs",
+      "bytes": 6929,
+      "sha256": "18ccd8b18dbd3ab5f0acbcc173638446d1d70eeefed8680f6758d249fad5ec02"
+    },
+    {
+      "path": "Source/KuglerModSettings.cs",
+      "bytes": 1944,
+      "sha256": "8c9c988ba5b9b59c04546cba2d000815c4ff01dbe7735c5f204c91dbd3b78141"
+    },
+    {
+      "path": "Source/NoseDownBridge.cs",
+      "bytes": 8450,
+      "sha256": "95cd0c6e6f8462badb7c760701fda6f01161ca71a64d36910d00a65f14e0e520"
+    },
+    {
+      "path": "Source/PdApproachBrake.cs",
+      "bytes": 6858,
+      "sha256": "8179af32a4dd6aa6cbec33f01cb9bd3112e50f70ea7014819d9742987ac851f3"
+    },
+    {
+      "path": "Source/PdDepthBias.cs",
+      "bytes": 7226,
+      "sha256": "1249853f6a6f1910d929c53727c9ee3f05f5abbc2db41a3d6b178646f939d3a3"
+    },
+    {
+      "path": "Source/PdHoldDamper.cs",
+      "bytes": 7051,
+      "sha256": "76b5a9a7999616ad99d1eaf1a93ce44d3c051536487c93861294c6c6f199ae24"
+    },
+    {
+      "path": "Source/PdWaveForce.cs",
+      "bytes": 6541,
+      "sha256": "5187b598c7b81321650bcaec7201fab294cc83fd9b1304704e53611bd71675d0"
+    },
+    {
+      "path": "Source/PlanesManning.cs",
+      "bytes": 8001,
+      "sha256": "38f3114330831015222f255975eb6afb9292db3f36f21b599a1b776a3b984ba6"
+    },
+    {
+      "path": "Source/ProperBallastSettings.cs",
+      "bytes": 4890,
+      "sha256": "b564278126af41a2f3892151b07941d0bbdf06ced5603a008a003cbba71b388f"
+    },
+    {
+      "path": "Source/ShallowStandDown.cs",
+      "bytes": 15907,
+      "sha256": "4d48c3e14ca0959e812c5cc4e9120116e9a4c1198eb914dd01e728c1d2aaa6e8"
+    },
+    {
+      "path": "Source/SurfaceBrake.cs",
+      "bytes": 11517,
+      "sha256": "ca95c6ab689026da8cd0215cd7bf0e7af5a19cea38ab68fb40e60755dee4822d"
+    },
+    {
+      "path": "Source/ViiTorqueAssist.cs",
+      "bytes": 5412,
+      "sha256": "2190234716ed1cd837b6689d9e65f55e88991c6d5c2a4de12cfe6ef1b4e0fff2"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "NoseDownDepthCompanion_v1.0.18.zip",
+      "bytes": 57360,
+      "sha256": "5319ad585d4cb5e46790d9b4d1cd2feb9dbc2cb450db89baf26fc4352a415ab3"
+    }
+  ]
+}
