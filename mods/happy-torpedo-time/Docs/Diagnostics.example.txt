@@ -1,0 +1,3 @@
+# Change the generated AppData config, then restart UBOAT.
+LogLevel = Info
+TraceIntervalSeconds = 2

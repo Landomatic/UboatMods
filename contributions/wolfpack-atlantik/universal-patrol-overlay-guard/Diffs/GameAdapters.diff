@@ -1,0 +1,138 @@
+--- /mnt/data/wp_cleanwork/vanilla/3800952548/Source/GameAdapters.cs	2026-09-17 14:23:48.000000000 +0000
++++ /mnt/data/WolfpackAtlantik_UniversalOverlayCandidate_Source/GameAdapters.cs	2026-10-06 01:35:37.424794045 +0000
+@@ -371,6 +371,9 @@
+         private static ISelectionManager _selectionManager;
+         private static GroupMarkersManager _markerManager;
+         private static EntityMarkersManager _entityMarkerManager;
++        // Cache the native map marker manager even while its GameObject is inactive. Marker UI
++        // mutation is still gated on activeInHierarchy so a closed map can be cached safely.
++        private static float _nextEntityMarkerManagerResolveTime;
+         private static MapCommandRelay _mapCommandRelay;
+         private static readonly MethodInfo CreateMapMarkerMethod = typeof(GroupMarkersManager).GetMethod(
+             "CreateMarker", BindingFlags.Instance | BindingFlags.NonPublic);
+@@ -434,7 +437,7 @@
+             // not be resolved. This must not be the normal path: the prefab is unbound here and
+             // can still contain its editor-time placeholder ship.
+             if (_entityMarkerManager == null || !_entityMarkerManager)
+-                _entityMarkerManager = UnityEngine.Object.FindObjectOfType<EntityMarkersManager>();
++                ResolveEntityMarkerManager(false);
+             EntityMarkerUI prefab = _entityMarkerManager != null && PlayerShipMarkerPrefabField != null
+                 ? PlayerShipMarkerPrefabField.GetValue(_entityMarkerManager) as EntityMarkerUI : null;
+             return commissioned ? WolfpackCommissionedMapMarker.TealPlayerBoatSprite(prefab)
+@@ -2209,6 +2212,75 @@
+                 && !string.Equals(display, entity.Name, StringComparison.OrdinalIgnoreCase);
+         }
+ 
++        // The native EntityMarkersManager belongs to the map UI and is normally inactive while
++        // the map is closed. FindObjectOfType<T>() ignores inactive objects, which previously
++        // caused one expensive global lookup per commissioned boat on every presentation pass.
++        // Cache the already-loaded inactive Main Scene manager once, with a one-second negative
++        // retry if it genuinely does not exist. Callers that would mutate map UI must separately
++        // require gameObject.activeInHierarchy before touching its marker dictionary or prefabs.
++        private static EntityMarkersManager ResolveEntityMarkerManager(bool force)
++        {
++            if (_entityMarkerManager != null && _entityMarkerManager) return _entityMarkerManager;
++
++            float now = Time.realtimeSinceStartup;
++            if (!force && now < _nextEntityMarkerManagerResolveTime) return null;
++            _nextEntityMarkerManagerResolveTime = now + 1f;
++
++            EntityMarkersManager resolved = null;
++            try { resolved = UnityEngine.Object.FindObjectOfType<EntityMarkersManager>(); }
++            catch { }
++
++            if (resolved == null || !resolved)
++            {
++                try
++                {
++                    EntityMarkersManager[] all = UnityEngine.Resources.FindObjectsOfTypeAll<EntityMarkersManager>();
++                    EntityMarkersManager mainSceneFallback = null;
++                    EntityMarkersManager loadedSceneFallback = null;
++                    if (all != null)
++                    {
++                        for (int i = 0; i < all.Length; i++)
++                        {
++                            EntityMarkersManager candidate = all[i];
++                            if (candidate == null || !candidate || candidate.gameObject == null) continue;
++                            GameObject go = candidate.gameObject;
++                            if (!go.scene.IsValid() || !go.scene.isLoaded) continue;
++
++                            bool mainScene = string.Equals(go.scene.name, "Main Scene", StringComparison.Ordinal);
++                            bool canonical = mainScene
++                                && string.Equals(go.name, "Entity Markers", StringComparison.Ordinal)
++                                && go.transform != null && go.transform.parent != null
++                                && string.Equals(go.transform.parent.name, "World Canvas", StringComparison.Ordinal);
++                            if (canonical)
++                            {
++                                resolved = candidate;
++                                break;
++                            }
++                            if (mainScene && (mainSceneFallback == null || !mainSceneFallback))
++                                mainSceneFallback = candidate;
++                            if (loadedSceneFallback == null || !loadedSceneFallback)
++                                loadedSceneFallback = candidate;
++                        }
++                    }
++                    if (resolved == null || !resolved)
++                        resolved = mainSceneFallback != null && mainSceneFallback ? mainSceneFallback : loadedSceneFallback;
++                }
++                catch { }
++            }
++
++            _entityMarkerManager = resolved != null && resolved ? resolved : null;
++            if (_entityMarkerManager != null && _entityMarkerManager)
++                _nextEntityMarkerManagerResolveTime = 0f;
++            return _entityMarkerManager;
++        }
++
++        private static bool EntityMarkerManagerActive()
++        {
++            return _entityMarkerManager != null && _entityMarkerManager
++                && _entityMarkerManager.gameObject != null
++                && _entityMarkerManager.gameObject.activeInHierarchy;
++        }
++
+         private static bool ResolveBindings(bool force)
+         {
+             if (!force && Time.realtimeSinceStartup < _nextResolveTime) return _lastResolveSucceeded;
+@@ -2255,7 +2327,7 @@
+                 if (_markerManager == null || !_markerManager)
+                     _markerManager = UnityEngine.Object.FindObjectOfType<GroupMarkersManager>();
+                 if (_entityMarkerManager == null || !_entityMarkerManager)
+-                    _entityMarkerManager = UnityEngine.Object.FindObjectOfType<EntityMarkersManager>();
++                    ResolveEntityMarkerManager(force);
+                 if (_playerShip.Docked && _playerShip.CurrentDock != null) _lastPlayerDock = _playerShip.CurrentDock;
+                 _lastResolveSucceeded = _entityTypes != null;
+                 return _lastResolveSucceeded;
+@@ -3144,11 +3216,14 @@
+             try
+             {
+                 if (_entityMarkerManager == null || !_entityMarkerManager)
+-                    _entityMarkerManager = UnityEngine.Object.FindObjectOfType<EntityMarkersManager>();
+-                if (_entityMarkerManager == null || !_entityMarkerManager) return;
++                    ResolveEntityMarkerManager(false);
++                // Safe split: caching an inactive manager is allowed; mutating its UI is not.
++                if (!EntityMarkerManagerActive()) return;
+                 IDictionary map = EntityMarkersMapField.GetValue(_entityMarkerManager) as IDictionary;
+                 EntityMarkerUI existing = map != null && map.Contains(entity) ? map[entity] as EntityMarkerUI : null;
+-                if (existing != null && existing && existing.GetComponent<WolfpackPlayerStyleMarkerTag>() != null)
++                WolfpackPlayerStyleMarkerTag tag = existing != null && existing
++                    ? existing.GetComponent<WolfpackPlayerStyleMarkerTag>() : null;
++                if (existing != null && existing && tag != null)
+                 {
+                     UnityEngine.Object.DestroyImmediate(existing.gameObject);
+                     RestoreNativeObservedMarker(entity);
+@@ -3181,8 +3256,11 @@
+             try
+             {
+                 if (_entityMarkerManager == null || !_entityMarkerManager)
+-                    _entityMarkerManager = UnityEngine.Object.FindObjectOfType<EntityMarkersManager>();
+-                if (_entityMarkerManager == null || !_entityMarkerManager
++                    ResolveEntityMarkerManager(false);
++                // Do not create/replace markers while the map hierarchy is inactive. Once the
++                // player opens the map, the cached native manager becomes active in place and the
++                // normal creation path runs immediately without another global search.
++                if (!EntityMarkerManagerActive()
+                     || CreatePlayerEntityMarkerMethod == null || PlayerShipMarkerPrefabField == null
+                     || EntityMarkersMapField == null) return false;
+ 

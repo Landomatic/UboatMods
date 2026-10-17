@@ -1,0 +1,20 @@
+{
+  "build": "1.1.1-DIAG1",
+  "game_sha256": "b1dcee2c63f6d33464c33d6dcce1dcc33acaf8a4da04ef7a2cd9d2fd4890f16f",
+  "checks": [
+    "All 2 C# files parse without syntax errors.",
+    "Entities.xlsx is byte-identical to the supplied 1.1.0 package.",
+    "16 range/transpiler/unit-formatting methods are unchanged from supplied source.",
+    "Native Torpedo range/velocity getters are public float getters.",
+    "FloatingTooltip contents/rectTransform/maxTooltipWidth and static LimitToScreen resolve in the supplied game assembly.",
+    "Tooltip geometry follows native measured height +33 and original max width +40 padding.",
+    "Manifest retains Workshop ID 3809600697 and declares Reflection/IO."
+  ],
+  "limitations": [
+    "No C# compiler or running UBOAT process was available; compilation and gameplay/UI confirmation remain in-game."
+  ],
+  "sources": {
+    "Source/HappyTorpedoTime.cs": "80f83123d6b3d4fecc2f7feb8f0e289d2e63091d46161b1b28cb3e0f0a76d3e6",
+    "Source/ModDiagnostics.cs": "efa70d32d3bfcfc802bbe95b8e93f6c0f8a09e66cb0f581eed4dd1472ca1b0c8"
+  }
+}

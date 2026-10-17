@@ -1,0 +1,53 @@
+Nose Down Depth Companion 1.0.17 -- validation, 2026-10-15
+
+COMPILE
+Baseline 1.0.16 and final candidate 1.0.17 compile cleanly with C# 7.3, targeting
+a library, against all 184 top-level DLL references in the supplied Managed.zip.
+These are actual UBOAT/Unity/Harmony references, not guessed signatures.
+This package contains source, manifest, license and documentation only.
+
+CONTRACTS INSPECTED
+ - Nose Down 2.1.4: planner phases, PitchControlLaw terms, final versus integral
+   cap, computation placement and reflected patch fields.
+ - Community Patch 0.38.1: actual row parser, external reset, provider naming,
+   optional master field and saved-value precedence.
+ - Seakeeping 1.2.2: config parser and physical depth-fade implementation.
+ - Game water-engine IL: NeuralNetworkPhysics.Execute reads wavesPart for the
+   explicit wave-force term and does not write it during this call. The new
+   hook restores the captured coefficient after the call and on exceptions.
+
+OFFLINE CHECKS
+415 assertions pass using actual new companion code, the supplied stock
+PitchControlLaw, Dusty's actual row/reset code and setting descriptors.
+Game/Unity objects and Harmony callback dispatch are fixtures.
+ - Supplied custom config survives upgrade; all new options upgrade as off.
+ - All 11 menu rows parse. Provider/host persistence and real external reset
+   work. Reset restores coded defaults, preserves master-off, updates stored
+   rows and clones default arrays.
+ - Numeric bounds and rejection of nonfinite values.
+ - Absolute, bounded bias with damping composition, release ownership and
+   no writes on the order-change frame through both callbacks.
+ - Bias hull/officer/arrival/phase/approach/alarm/dependency gates.
+ - Stock integral and internal cap stay unchanged through actual Compute
+   sequences; assistance is bounded and unsaturated output is unchanged.
+ - Wave ramp, PD edge fade and player-network scope; disabled, deep,
+   unknown-hull, protected and dependency gates. Exact restoration on normal
+   and exceptional exit, preserving the original exception.
+
+LIMITS
+No in-game run, UI rendering, campaign serialization, time-compression physics
+or measured diving improvement is claimed. The bundled game Harmony library
+crashed in this host's .NET 8 runtime during a separate smoke check; native
+patch dispatch/order is NOT validated here. Offline tests call callbacks with
+fixtures. UBOAT uses its own Unity runtime; this host failure establishes
+neither an in-game success nor an in-game failure.
+
+Protected-mode detection uses the existing bridge. Fixtures verify that the
+new controls respect its reported protection. Compilation/inspection confirm
+reflected members exist in the supplied versions. Future updates can change
+these contracts.
+
+Wave reduction cannot guarantee immersion: visible troughs, depth readout,
+buoyancy and existing motion are separate effects. Bias trades immersion for
+periscope exposure and adds to existing settled-depth error. Try controls
+one at a time; the README gives a short initial in-game check.

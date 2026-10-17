@@ -1,0 +1,15 @@
+{
+  "name": "[2026.1] Engine Transition Glide",
+  "version": "0.2.0",
+  "description": "Diesel/electric swaps no longer feel like a brake: the incoming engine picks up the thrust the outgoing engine was making (never more than its own setting allows) and the game's own ramp takes over within a few seconds. Damage, empty battery, no fuel, diesels submerged, stop orders, charging and alarm/crash dive stay stock. By Landomatic.",
+  "author": "Landomatic",
+  "supportedGameVersions": [
+    "2026.1"
+  ],
+  "assemblyName": "EngineTransitionGlide",
+  "permissions": [
+    "Reflection",
+    "IO"
+  ],
+  "steamFileId": 0
+}

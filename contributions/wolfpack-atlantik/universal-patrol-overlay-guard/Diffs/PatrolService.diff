@@ -1,0 +1,214 @@
+--- /mnt/data/wp_cleanwork/vanilla/3800952548/Source/PatrolService.cs	2026-09-17 14:23:46.000000000 +0000
++++ /mnt/data/WolfpackAtlantik_UniversalOverlayCandidate_Source/PatrolService.cs	2026-10-06 01:36:58.488438757 +0000
+@@ -15,6 +15,7 @@
+         private static WolfpackCampaignState _bound;
+         private static PlayerCareer _career;
+         private static float _nextAllocationCheck;
++        private static bool _sameMissionStationRecoveryPending;
+ 
+         internal static Mission CurrentNativePatrol
+         {
+@@ -29,7 +30,13 @@
+         public static void Tick(WolfpackCampaignState state)
+         {
+             if (state == null) return;
+-            if (_bound != state) { _bound = state; _career = null; _nextAllocationCheck = 0f; }
++            if (_bound != state)
++            {
++                _bound = state;
++                _career = null;
++                _nextAllocationCheck = 0f;
++                _sameMissionStationRecoveryPending = false;
++            }
+             if (_career == null) _career = ScriptableObjectSingleton.LoadSingleton<PlayerCareer>();
+             if (_career == null) return;
+             WolfpackPatrolAccess.Initialize(state, false);
+@@ -38,8 +45,9 @@
+             string home = _career.FlotillaDock != null ? _career.FlotillaDock.Name : WorldBoatAdapter.CurrentPortId;
+             if (!string.IsNullOrEmpty(home) && !string.Equals(p.homePortId, home, StringComparison.OrdinalIgnoreCase))
+             { p.homePortId = home; WolfpackSaveStore.Save(state); }
+-            Mission mission = _career.CurrentAssignment as Mission;
+-            if (!(mission is PatrolAssignment) && !(mission is GroupPatrolAssignment)) mission = null;
++            Mission rawAssignment = _career.CurrentAssignment as Mission;
++            bool nativePatrolAssignment = WolfpackPatrolHistory.IsNativePatrolAssignment(rawAssignment);
++            Mission mission = nativePatrolAssignment ? rawAssignment : null;
+             long missionId = WolfpackPatrolHistory.StablePatrolId(mission);
+             if (mission != null && p.currentPatrolActive && p.currentPatrolJournalIndex == 0
+                 && mission.Id > 0L && p.currentMissionId == mission.Id)
+@@ -49,7 +57,16 @@
+                 p.currentPatrolJournalIndex = WolfpackPatrolHistory.JournalIndex(mission);
+                 WolfpackSaveStore.Save(state);
+             }
+-            if (p.currentPatrolActive && (mission == null || missionId != p.currentMissionId))
++            // Non-patrol assignments (including story/theatre/special missions) and a temporarily
++            // null CurrentAssignment are not evidence that the underlying Wolfpack patrol ended.
++            // Preserve the participant/station manifest until vanilla positively resolves another
++            // PatrolAssignment/GroupPatrolAssignment. A different resolved patrol identity is the
++            // replacement signal handled below.
++            if (p.currentPatrolActive && !nativePatrolAssignment)
++            {
++                return;
++            }
++            if (p.currentPatrolActive && mission != null && missionId > 0L && missionId != p.currentMissionId)
+             {
+                 // The accepted-report patch marks success synchronously before this cadence.
+                 // Replacement/abandonment is deliberately not counted as a completed patrol.
+@@ -81,8 +98,26 @@
+             {
+                 if (p.currentPatrolActive && !p.currentPatrolDeparted && !WorldBoatAdapter.IsPlayerDocked)
+                 { p.currentPatrolDeparted = true; WolfpackSaveStore.Save(state); }
+-                if (!p.currentPatrolActive) return;
+-                if (p.allocationFinalized)
++                if (!p.currentPatrolActive)
++                {
++                    if (!TryRecoverSameMissionPatrol(state, mission, missionId))
++                    {
++                        return;
++                    }
++                    p = state.patrolService;
++                }
++
++                // A recovery marker survives a quit/relaunch by leaving allocationFinalized=false
++                // while retaining the participant manifest.  Normal unallocated patrols have no
++                // participants yet, so this cannot steal the ordinary allocation path.
++                if (!_sameMissionStationRecoveryPending && p.currentPatrolActive && !p.allocationFinalized
++                    && p.currentParticipantBoatIds != null && p.currentParticipantBoatIds.Count > 0
++                    && (p.stationAssignments == null || p.stationAssignments.Count == 0))
++                {
++                    _sameMissionStationRecoveryPending = true;
++                }
++
++                if (p.allocationFinalized && !_sameMissionStationRecoveryPending)
+                 {
+                     if (Time.unscaledTime >= _nextAllocationCheck)
+                     {
+@@ -93,9 +128,22 @@
+                 }
+             }
+             if (Time.unscaledTime < _nextAllocationCheck) return;
+-            _nextAllocationCheck = Time.unscaledTime + 15f;
++            _nextAllocationCheck = Time.unscaledTime + (_sameMissionStationRecoveryPending ? 1f : 15f);
+             WorldBoatAdapter.PatrolFormationPlan formation;
+             if (!WorldBoatAdapter.TryBuildPatrolFormation(out formation) || formation == null || !formation.missionAssigned) return;
++
++            if (_sameMissionStationRecoveryPending)
++            {
++                if (!CanRecoverAllPatrolStations(state, formation)) return;
++                AssignPatrolStations(state, formation);
++                p.allocationFinalized = true;
++                _sameMissionStationRecoveryPending = false;
++                p.allocationIntegrityNote = AppendIntegrityNote(p.allocationIntegrityNote,
++                    "Recovered the existing patrol manifest after a transient save-load assignment gap; companions retained and stations rebuilt.");
++                WolfpackSaveStore.Save(state);
++                WolfpackCommanderWindow.NotifyStateChanged();
++                return;
++            }
+             int quota = WolfpackEstimatedPatrolAllocation.PatrolQuota(GameTimeAdapter.CurrentCampaignDate);
+             WolfpackAtlantikRuntime runtime = WolfpackAtlantikRuntimeHost.ActiveRuntime;
+             if (runtime != null && runtime.FlotillaRoster.PreparePatrolReserve(quota))
+@@ -142,9 +190,8 @@
+             }
+         }
+ 
+-        private static void AssignPatrolStations(WolfpackCampaignState state, WorldBoatAdapter.PatrolFormationPlan formation)
++        private static List<WorldBoatAdapter.PatrolFormationCell> BuildPatrolStationCells(WorldBoatAdapter.PatrolFormationPlan formation)
+         {
+-            PlayerPatrolServiceRecord p = state.patrolService;
+             var stations = new List<WorldBoatAdapter.PatrolFormationCell>();
+             // A PATROL LINE across the convoy route, not an escort formation. Real packs strung
+             // boats out at intervals so that one of them would sight the convoy; they converged only
+@@ -173,6 +220,13 @@
+                 if (stations.Contains(cell)) continue;
+                 stations.Add(cell);
+             }
++            return stations;
++        }
++
++        private static void AssignPatrolStations(WolfpackCampaignState state, WorldBoatAdapter.PatrolFormationPlan formation)
++        {
++            PlayerPatrolServiceRecord p = state.patrolService;
++            List<WorldBoatAdapter.PatrolFormationCell> stations = BuildPatrolStationCells(formation);
+             var assigned = new List<string>();
+             foreach (RecruitedBoatRecord boat in WolfpackPatrolAccess.Participants(state))
+             {
+@@ -207,6 +261,80 @@
+                 p.allocationIntegrityNote += " Only " + assigned.Count + " valid existing boats/water stations were available; no replacements spawned.";
+         }
+ 
++        private static bool TryRecoverSameMissionPatrol(WolfpackCampaignState state, Mission mission, long missionId)
++        {
++            if (state == null || state.patrolService == null || mission == null || missionId <= 0L) return false;
++            PlayerPatrolServiceRecord p = state.patrolService;
++            if (p.currentPatrolActive || p.currentMissionId != missionId) return false;
++            if (!p.currentPatrolDeparted || !p.allocationFinalized) return false;
++            if (p.currentParticipantBoatIds == null || p.currentParticipantBoatIds.Count == 0) return false;
++            if (p.stationAssignments != null && p.stationAssignments.Count != 0) return false;
++            if (p.previousMissionId != p.currentMissionId || p.previousPatrolSuccessful) return false;
++            if (!SameParticipantSet(p.currentParticipantBoatIds, p.previousParticipantBoatIds)) return false;
++
++            // Recover only the narrow false-completion fingerprint: CompletePatrol(false) copied
++            // the live participant manifest to previousParticipantBoatIds, marked the same mission
++            // as previous, cleared its stations, and left that native assignment itself alive.
++            p.currentPatrolActive = true;
++            p.allocationFinalized = false;
++            if (p.completedPatrolJournalIndices != null && p.currentPatrolJournalIndex > 0)
++                p.completedPatrolJournalIndices.Remove(p.currentPatrolJournalIndex);
++            if (p.newlyCompletedPatrolJournalIndices != null && p.currentPatrolJournalIndex > 0)
++                p.newlyCompletedPatrolJournalIndices.Remove(p.currentPatrolJournalIndex);
++            state.playerPatrolsCompleted = WolfpackPatrolHistoryPolicy.CompletedPatrols(state);
++            p.allocationIntegrityNote = AppendIntegrityNote(p.allocationIntegrityNote,
++                "Recovered a still-running native patrol that was falsely closed during save-load assignment restoration; existing companions retained.");
++            _sameMissionStationRecoveryPending = true;
++            _nextAllocationCheck = 0f;
++            WolfpackPatrolHistory.RearmAssignmentBarrierForRecovery();
++            WolfpackSaveStore.Save(state);
++            WolfpackCommanderWindow.NotifyStateChanged();
++            WolfpackAtlantikLog.Info("Recovered active patrol " + missionId
++                + " after save-load state mismatch; existing participant manifest retained.");
++            return true;
++        }
++
++        private static bool CanRecoverAllPatrolStations(WolfpackCampaignState state, WorldBoatAdapter.PatrolFormationPlan formation)
++        {
++            if (state == null || state.patrolService == null || state.boats == null || formation == null) return false;
++            PlayerPatrolServiceRecord p = state.patrolService;
++            if (p.currentParticipantBoatIds == null || p.currentParticipantBoatIds.Count == 0) return false;
++            List<WorldBoatAdapter.PatrolFormationCell> stations = BuildPatrolStationCells(formation);
++            int neededStations = 0;
++            for (int i = 0; i < p.currentParticipantBoatIds.Count; i++)
++            {
++                string id = p.currentParticipantBoatIds[i];
++                RecruitedBoatRecord found = null;
++                for (int j = 0; j < state.boats.Count; j++)
++                {
++                    RecruitedBoatRecord boat = state.boats[j];
++                    if (boat != null && string.Equals(boat.persistentBoatId, id, StringComparison.Ordinal))
++                    { found = boat; break; }
++                }
++                if (found == null) return false;
++                string reason;
++                if (!WorldBoatAdapter.CanAssignToPlayerPatrol(found, out reason)) return false;
++                if (!WolfpackPatrolAccess.IsGrandfathered(state, found)) neededStations++;
++            }
++            return stations.Count >= neededStations;
++        }
++
++        private static bool SameParticipantSet(List<string> a, List<string> b)
++        {
++            if (a == null || b == null || a.Count == 0 || a.Count != b.Count) return false;
++            var set = new HashSet<string>(a, StringComparer.Ordinal);
++            if (set.Count != a.Count) return false;
++            for (int i = 0; i < b.Count; i++) if (!set.Contains(b[i])) return false;
++            return true;
++        }
++
++        private static string AppendIntegrityNote(string existing, string note)
++        {
++            if (string.IsNullOrEmpty(existing)) return note;
++            if (existing.IndexOf(note, StringComparison.Ordinal) >= 0) return existing;
++            return existing.TrimEnd() + " " + note;
++        }
++
+         private static void ReconcilePatrolTheatre(WolfpackCampaignState state)
+         {
+             PlayerPatrolServiceRecord p = state.patrolService;

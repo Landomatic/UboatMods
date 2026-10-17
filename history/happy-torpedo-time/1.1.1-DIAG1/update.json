@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "project": "Happy Torpedo Time!",
+  "version": "1.1.1-DIAG1",
+  "prepared_at_utc": "2026-10-17T04:52:43+00:00",
+  "changes": [
+    "Archive the diagnostic torpedo build with launch logging and tooltip sizing while preserving the supplied balance workbook and range logic."
+  ],
+  "validation": {
+    "compile": "not-run",
+    "offline": "not-run",
+    "in_game": "not-run",
+    "notes": [
+      "Archive integrity checks: ZIP CRC, selected file hashes, current identity fields, scope review, and existing notices. No new game run or recompilation was performed.",
+      "Retain Workshop ID 3809600697.",
+      "Preserve Sabre_One's Improved Torpedo Maintenance credit, Fokka's UBE Torpedo Tweaks credit, and the UBE team's earlier balance-data credit.",
+      "Bundled Validation.json documents source/API checks; compilation, live tooltip layout, and actual launch/expiry behavior are not newly verified."
+    ]
+  },
+  "known_issues": [
+    "The latest diagnostic package still needs in-game compilation, UI, launch, and maintenance-expiry confirmation."
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 92,
+      "sha256": "86b8fc66caf546487460e744d95da56ad578dc0f84c00b384277efef6bb5d46d"
+    },
+    {
+      "path": "ARCHIVE.md",
+      "bytes": 984,
+      "sha256": "516fe437d4391a0f9d7e41ec4da82866cf0b7eccf35bdf113c6ff790fbb3cba2"
+    },
+    {
+      "path": "Data Sheets/Entities.xlsx",
+      "bytes": 15715,
+      "sha256": "3519375a7ed820a36bf9186fe7786850be6256d57ccf5291c2166873f3979f5f"
+    },
+    {
+      "path": "Docs/DIAGNOSTICS.md",
+      "bytes": 1562,
+      "sha256": "7983c590578aa9b6b8b8641c7c36d3c31f453beee20302c0f93e3324f3b60138"
+    },
+    {
+      "path": "Docs/Diagnostics.example.txt",
+      "bytes": 100,
+      "sha256": "41caa5b0c3449caadd2e233d114cdb581bfab5bc192767003c9405b9d0579d03"
+    },
+    {
+      "path": "Docs/GITHUB_LAYOUT.md",
+      "bytes": 1447,
+      "sha256": "94c4b5e7780f743b00bcd49fd297aa06d7e133e4caee0ea715f3cc9bdf042368"
+    },
+    {
+      "path": "HISTORY/INSTALL_TEST-1.1.0-test.txt",
+      "bytes": 1476,
+      "sha256": "065c646be40d96fdb283404e7c831218c825a2dc949567c366503f7ad61cc462"
+    },
+    {
+      "path": "HISTORY/README-1.1.0-test.txt",
+      "bytes": 5017,
+      "sha256": "f98d57e1c8f693c2c11bd98d481f068994bc66cbec1e6b7a849031338909201e"
+    },
+    {
+      "path": "HISTORY/Validation-1.1.0-test.json",
+      "bytes": 1374,
+      "sha256": "ae822462048c8af4aeace2994c0daa121f9f4ad3bc862618b68a2a642118eab3"
+    },
+    {
+      "path": "Happy-Torpedo-Time-Steam-BBCode.txt",
+      "bytes": 5651,
+      "sha256": "f2f60396d69c3e14a827d27183d89eb0f4278af46fcd4419dbd5e7c7e9c71096"
+    },
+    {
+      "path": "Happy-Torpedo-Time-Workshop-Description.md",
+      "bytes": 5150,
+      "sha256": "526be9fb543cf605d8697ed49947036bd5463c8760e59dda0551fe20b80d4e14"
+    },
+    {
+      "path": "INSTALL_TEST.txt",
+      "bytes": 101,
+      "sha256": "5360efc35da02dfc51f9d39dd0338c00195e5ca787a5c6a48c390ba94e8a2dd8"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1814,
+      "sha256": "0a6c7ef8ab6978737713e460852d470ab9cd3ff5a746bd5309e8149ddbe55c7b"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 489,
+      "sha256": "3d48ace8bf387f4438f552f1c689a4a127769c1201e139bccb9eac0dddbca487"
+    },
+    {
+      "path": "Preview.png",
+      "bytes": 527911,
+      "sha256": "24f1d9e01c085a9f916d64d7cc2f0b1f792a62457a7fdec8f6dbff7216d44fa0"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 2811,
+      "sha256": "32fab0fa76d212a852243ea36209ad9f8673c2152edcd55ccab9b0f38d25b2ae"
+    },
+    {
+      "path": "Source/HappyTorpedoTime.cs",
+      "bytes": 30607,
+      "sha256": "80f83123d6b3d4fecc2f7feb8f0e289d2e63091d46161b1b28cb3e0f0a76d3e6"
+    },
+    {
+      "path": "Source/ModDiagnostics.cs",
+      "bytes": 6461,
+      "sha256": "efa70d32d3bfcfc802bbe95b8e93f6c0f8a09e66cb0f581eed4dd1472ca1b0c8"
+    },
+    {
+      "path": "Validation.json",
+      "bytes": 1070,
+      "sha256": "bf1a303ec9e622e26a3770d18d62dc23f4d174e84653a10b8dceab10fa6f9d22"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "happy-torpedo-time-1.1.1-DIAG1.zip",
+      "bytes": 567789,
+      "sha256": "d660af6c6344ad241f76e28fe535fb6ff6789bead3cc7a98aa0491060ddfa417"
+    }
+  ],
+  "archive": {
+    "repository": "https://github.com/Landomatic/UboatMods",
+    "project_path": "mods/happy-torpedo-time",
+    "snapshot_kind": "Landomatic integration",
+    "original_package_crc_verified": true,
+    "documentation_edits": [],
+    "runtime_source_modified_for_archive": false,
+    "original_package_uploaded": false
+  }
+}

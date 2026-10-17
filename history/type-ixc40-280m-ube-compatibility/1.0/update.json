@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "project": "Type IXC40 280m - UBE Compatibility",
+  "version": "1.0",
+  "prepared_at_utc": "2026-10-17T04:52:44+00:00",
+  "changes": [
+    "Archive the supplied UBE compatibility workbook for the two IXC40 player entity IDs and the 280 m crush-depth override."
+  ],
+  "validation": {
+    "compile": "not-run",
+    "offline": "not-run",
+    "in_game": "not-run",
+    "notes": [
+      "Archive integrity checks: ZIP CRC, selected file hashes, current identity fields, scope review, and existing notices. No new game run or recompilation was performed.",
+      "Preserve the supplied Manifest.json author field (Compatibility test build) and version 1.0.",
+      "The original Type IX Crush Depth - 280m 1.1 manifest credits IRememberJeep, Workshop 3716481526. Preserve that upstream distinction; this archive does not assign ownership of the original mod or UBE data to Landomatic.",
+      "The compatibility work was prepared with Landomatic. This data-only package has no C# compilation step. Runtime compatibility is not newly verified."
+    ]
+  },
+  "known_issues": [
+    "The compatibility test remains unqualified in this archive."
+  ],
+  "files": [
+    {
+      "path": "ARCHIVE.md",
+      "bytes": 1095,
+      "sha256": "b140ffd1cb26901e1984e512cc8fa6c1608e79a803daf7f64e428f1ff5f17913"
+    },
+    {
+      "path": "Data Sheets/Entities.xlsx",
+      "bytes": 6869,
+      "sha256": "60330a91c4247330afe990f35a5b224ed08cc41ad33ce16f925c403d1b2f2533"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 293,
+      "sha256": "989e422a906fdc5866930404d56d4a8d5413e4724871aa0e6bf4fba504e9c020"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "Type%20IXC40%20280m%20-%20UBE%20Compatibility.zip",
+      "bytes": 6241,
+      "sha256": "6673260c1680e5140baee0f9069649adaa998088fe108968cc4c34b87e4273fd"
+    }
+  ],
+  "archive": {
+    "repository": "https://github.com/Landomatic/UboatMods",
+    "project_path": "contributions/type-ixc40-280m-ube-compatibility",
+    "snapshot_kind": "Compatibility contribution",
+    "original_package_crc_verified": true,
+    "documentation_edits": [],
+    "runtime_source_modified_for_archive": false,
+    "original_package_uploaded": false
+  }
+}

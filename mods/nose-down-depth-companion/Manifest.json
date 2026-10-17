@@ -1,0 +1,15 @@
+{
+  "name": "[2026.1] Nose Down Depth Companion",
+  "version": "1.0.17",
+  "description": "Requires Nose Down by Kugler (Workshop 3729673507); load after it. Hull-specific ordinary-dive depth control by Landomatic, with optional Community Patch settings and reset. Adds opt-in VII torque-cap assistance, deeper PD holds on IIA/IID/IXA and local PD wave-force reduction. New physics options default off. Alarm/crash dives, emergency blows, ballast tanks and valve timing remain outside their scope.",
+  "author": "Landomatic",
+  "supportedGameVersions": [
+    "2026.1"
+  ],
+  "assemblyName": "NoseDownDepthCompanion",
+  "permissions": [
+    "Reflection",
+    "IO"
+  ],
+  "steamFileId": 0
+}

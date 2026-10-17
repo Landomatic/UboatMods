@@ -1,0 +1,14 @@
+{
+  "name": "UZO Null Data Guard - Test",
+  "version": "0.2.0-test",
+  "description": "Experimental workaround for missing equipment-data name reads in optics camera entry and UI initialization; includes limited diagnostics.",
+  "author": "Landomatic",
+  "supportedGameVersions": [
+    "2026.1"
+  ],
+  "assemblyName": "LandomaticUzoNullDataGuard",
+  "permissions": [
+    "Reflection"
+  ],
+  "steamFileId": 0
+}

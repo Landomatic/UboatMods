@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "project": "Wolfpack Atlantik patrol-overlay contribution",
+  "version": "universal-patrol-overlay-guard-candidate",
+  "prepared_at_utc": "2026-10-17T04:52:44+00:00",
+  "changes": [
+    "Archive the candidate submission's three corrected files, diffs, and qualification summary for preserving active patrols through non-patrol mission overlays."
+  ],
+  "validation": {
+    "compile": "not-run",
+    "offline": "not-run",
+    "in_game": "not-run",
+    "notes": [
+      "Archive integrity checks: ZIP CRC, selected file hashes, current identity fields, scope review, and existing notices. No new game run or recompilation was performed.",
+      "Wolfpack Atlantik is Pingu's upstream mod, Workshop 3800952548. This folder is a contribution/overlay, not the complete upstream mod.",
+      "The marker-manager cache and earlier Scapa-specific predecessor had qualified game results. The generalized PatrolHistory/PatrolService candidate requires qualification.",
+      "Preserve Pingu's existing upstream ownership and the supplied submission summary."
+    ]
+  },
+  "known_issues": [
+    "The generalized candidate has not been qualified in UBOAT.",
+    "Recovery of already-poisoned state through arbitrary overlays remains deliberately narrow."
+  ],
+  "files": [
+    {
+      "path": "ARCHIVE.md",
+      "bytes": 1203,
+      "sha256": "fd6850e0d776974ec381b8484ba5fc26b7ca6e99f935088a9699d8e26283b69b"
+    },
+    {
+      "path": "CorrectedFiles/GameAdapters.cs",
+      "bytes": 231677,
+      "sha256": "9e371c641ca0de15f20f51d3857b93fe8b5968ea431ba4103ccc875eb64cbd30"
+    },
+    {
+      "path": "CorrectedFiles/PatrolHistory.cs",
+      "bytes": 10757,
+      "sha256": "446ff096ea064038eea3532d42549a5e7cec8bd9c6424bf29922b862a4ae3b8e"
+    },
+    {
+      "path": "CorrectedFiles/PatrolService.cs",
+      "bytes": 40174,
+      "sha256": "d0a7efb27ff011c5d9d8cefddce6b8bd440bd0e30898bf10dd2fbd421fdc8433"
+    },
+    {
+      "path": "Diffs/GameAdapters.diff",
+      "bytes": 8567,
+      "sha256": "3503cbf25cce4a66104c44f28f877d1dbc6249cdecbabe5d3ed90224a44f20b1"
+    },
+    {
+      "path": "Diffs/PatrolHistory.diff",
+      "bytes": 7172,
+      "sha256": "a784aec5b345fbc562e3e6371585b4984f962493bfeaef37222f048b37f3e6ff"
+    },
+    {
+      "path": "Diffs/PatrolService.diff",
+      "bytes": 12641,
+      "sha256": "5204d39d560a35c26889ade79a414dd0bbbe58566e1bc407f411b853a1591c60"
+    },
+    {
+      "path": "PINGU_SUBMISSION_SUMMARY.txt",
+      "bytes": 6822,
+      "sha256": "1374b90a998c933ed9fb8f738c67af2b33973ef18bb907ed433eba6ee7ae7172"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "WolfpackAtlantik_Pingu_Submission_CANDIDATE_UniversalPatrolOverlayGuard.zip",
+      "bytes": 70937,
+      "sha256": "841b9339f938cf2a3530f5a0ff03a864c2f92df0a0ef3402dbbc04cec0e1be98"
+    }
+  ],
+  "archive": {
+    "repository": "https://github.com/Landomatic/UboatMods",
+    "project_path": "contributions/wolfpack-atlantik/universal-patrol-overlay-guard",
+    "snapshot_kind": "Contribution to Pingu's upstream mod",
+    "original_package_crc_verified": true,
+    "documentation_edits": [],
+    "runtime_source_modified_for_archive": false,
+    "original_package_uploaded": false
+  }
+}

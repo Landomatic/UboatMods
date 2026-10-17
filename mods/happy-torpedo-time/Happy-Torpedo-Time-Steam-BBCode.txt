@@ -1,0 +1,55 @@
+[h1]Happy Torpedo Time[/h1]
+[b]By Landomatic[/b]
+
+Spend more time setting up your attack and less time chasing maintenance timers.
+
+Happy Torpedo Time combines longer maintenance windows, selected range improvements, and a broader blast footprint in one torpedo overhaul. Steam torpedoes retain their maintenance benefit for a base 12 hours; electric torpedoes retain theirs for a base 4 hours. Crew bonuses can affect the actual duration.
+
+Damage is tuned around a tradeoff: lower base damage than the supplied vanilla build, with a much larger damage radius. The wider blast is intended to spread damage across nearby compartments. Results depend on the target and where the torpedo strikes.
+
+The 1.1 test release adds range information to inventory/shop descriptions, launch-screen tube tooltips, physical tube and launch-lever tooltips, and fore/aft station loadouts. Loaded-tube displays show the current maintained/unmaintained state. Distances and speeds follow Metric, Metric with knots, or Nautical preferences; nautical ranges retain fractional precision.
+
+[h2]Changes and source comparison[/h2]
+[table]
+[tr][th]Setting[/th][th]Supplied vanilla[/th][th]Improved Maintenance[/th][th]UBE Torpedo Tweaks[/th][th]Happy Torpedo Time[/th][/tr]
+[tr][td]T1 maintenance benefit[/td][td]35 min[/td][td]12 h[/td][td]4 h[/td][td]12 h[/td][/tr]
+[tr][td]T2–T5 maintenance benefit[/td][td]35 min[/td][td]30 min[/td][td]4 h[/td][td]4 h[/td][/tr]
+[tr][td]T1 unmaintained range, fast / medium / slow[/td][td]5 / 7.5 / 12 km[/td][td]5 / 7.5 / 12 km[/td][td]5 / 7.5 / 12 km[/td][td]5 / 7.5 / 12 km[/td][/tr]
+[tr][td]T1 maintained range, fast / medium / slow[/td][td]5 / 7.5 / 12 km[/td][td]6 / 8 / 14 km[/td][td]5 / 7.5 / 12 km[/td][td]6 / 8 / 14 km[/td][/tr]
+[tr][td]T2 unmaintained → maintained range[/td][td]5 → 5 km[/td][td]4.5 → 7.5 km[/td][td]5 → 5 km[/td][td]5 → 7.5 km[/td][/tr]
+[tr][td]T3 unmaintained → maintained range[/td][td]7.5 → 7.5 km[/td][td]4.5 → 7.5 km[/td][td]7.5 → 7.5 km[/td][td]7.5 → 7.5 km[/td][/tr]
+[tr][td]T5 unmaintained → maintained range[/td][td]6.5 → 6.5 km[/td][td]4.5 → 5.7 km[/td][td]6.5 → 6.5 km[/td][td]6.5 → 6.5 km[/td][/tr]
+[tr][td]Base dud settings, T1 / T2 / T3 / T5 (Equipment)[/td][td]19 / 30 / 16 / 14%[/td][td]19 / 30 / 16 / 14%[/td][td]19 / 30 / 16 / 14%[/td][td]19 / 30 / 16 / 14%[/td][/tr]
+[tr][td]Damage, Pi1 / Pi1.1 / Pi3 / Pi2 / Pi4 (Equipment)[/td][td]7 / 7 / 7 / 7 / 7[/td][td]4.9 / 4.9 / 4.9 / 4.9 / 4.9[/td][td]4.9 / 5.39 / 6.1 / 6.1 / 5.39[/td][td]5 / 5.4 / 6.1 / 6.1 / 5.4[/td][/tr]
+[tr][td]DamageRadius, Equipment / Types[/td][td]6.5 / 5.8[/td][td]Equipment: 40; no Types override[/td][td]40 / 35[/td][td]40 / 40[/td][/tr]
+[tr][td]CrewDamage, Equipment / Types[/td][td]0.8 / 0.9[/td][td]Equipment: 0.8; no Types override[/td][td]0.8 / 0.9[/td][td]0.9 / 0.9[/td][/tr]
+[/table]
+
+[h2]Comparison notes[/h2]
+The table compares the supplied vanilla Entities.xlsx, the supplied Improved Torpedo Maintenance B129 workbook, the supplied UBE Torpedo Tweaks version 1.0 workbook, and Happy Torpedo Time. These are verified data entries, not measured running-distance or total-damage benchmarks.
+
+UBE Torpedo Tweaks supplies the companion torpedo-stat overrides used for the UBE comparison above. The newly supplied Tweaks workbook matches the archived copy exactly. The base UBE Entities.xlsx references torpedoes in Slots and has older torpedo entries under #Disabled Data; those disabled entries are not active comparison values. Happy Torpedo Time supplies both Equipment and Types overrides and replaces the Tweaks torpedo balance.
+
+Happy Torpedo Time uses the same base dud, damage, crew-damage, radius, and range settings in its paired Equipment and Types records, with the appropriate speed units for each sheet. Vanilla and the older Tweaks workbook have different dud settings in Types: 25 / 40 / 20 / 15%. Base dud settings are not guaranteed failure rates; maintenance, difficulty, crew effects, pistol choice, and impact geometry can affect the outcome.
+
+T1 ranges are listed from fastest to slowest running mode. T3 and T5 retain the same range in both maintenance states; maintaining them still affects their reliability. Damage and radius figures are internal game settings.
+
+[h2]Installation and compatibility[/h2]
+With Uboat Expanded, load Happy Torpedo Time after/below UBE. Happy already replaces the torpedo data supplied by UBE Torpedo Tweaks, so Tweaks is not required. If you retain Tweaks, use this order: UBE → UBE Torpedo Tweaks → Happy Torpedo Time last. Avoid another torpedo overhaul loading after Happy. Improved Torpedo Maintenance is also a data source, not a required installation.
+
+The 1.1 runtime features require the mod's Reflection permission. This is a test release: game compilation, UI layout, maintenance transitions, and firing behavior still require an in-game check.
+
+[h2]Credits and data sources[/h2]
+Improved Torpedo Maintenance — Sabre_One
+https://steamcommunity.com/sharedfiles/filedetails/?id=2548679647
+
+UBE Torpedo Tweaks — Fokka
+https://steamcommunity.com/sharedfiles/filedetails/?id=3040977385
+
+Uboat Expanded — the UBE team, for source balance data carried through the earlier Tweaks workbook.
+
+Selected data from these sources was adapted and combined by Landomatic. This release is maintained independently. Source credits are separate from required items.
+
+
+Diagnostic build 1.1.1-DIAG1: startup/shutdown and launch diagnostics; tooltip background sizing repair.
+Happy Torpedo Time! by Landomatic. Licensed CC BY-NC 4.0: https://creativecommons.org/licenses/by-nc/4.0/ . See LICENSE for visible-credit requirements.

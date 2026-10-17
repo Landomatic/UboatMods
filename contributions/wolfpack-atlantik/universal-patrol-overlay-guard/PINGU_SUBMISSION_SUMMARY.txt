@@ -1,0 +1,143 @@
+Pingu's Wolfpack Atlantik - candidate universal patrol-overlay preservation fix
+============================================================================
+
+Purpose
+-------
+This candidate generalizes the qualified 7.9 Scapa protection after testing showed the
+underlying lifecycle problem is not Scapa-specific: PlayerCareer.CurrentAssignment may be
+owned temporarily by many story, theatre, or special missions while the player's original
+patrol remains logically active.
+
+The production rule is therefore changed from:
+  "preserve the patrol for one known special mission type"
+to:
+  "preserve a live patrol until there is positive evidence that a patrol ended or was
+   replaced. A null or non-patrol CurrentAssignment is not replacement evidence."
+
+Positive lifecycle evidence retained by this candidate
+-------------------------------------------------------
+1. A different PatrolAssignment / GroupPatrolAssignment resolves with a valid journal /
+   stable patrol identity. This is a genuine patrol replacement.
+2. The current patrol's debrief/reward is explicitly accepted. This remains affirmative
+   completion evidence even if another assignment currently owns CurrentAssignment.
+3. Normal completed-patrol history remains usable when the current native patrol identity
+   itself is positively resolved.
+
+Not treated as patrol-ending evidence
+-------------------------------------
+- CurrentAssignment == null.
+- Any non-patrol assignment type by itself.
+- A PatrolAssignment whose journal/stable identity has not resolved yet.
+- Elapsed wall-clock time while assignment identity is unresolved.
+
+This preserves Pingu's existing participant and station manifest across arbitrary
+story/theatre/special overlays without having to maintain a whitelist of mission classes.
+
+PER-FILE CHANGES / RESULTS
+==========================
+
+1) GameAdapters.cs
+------------------
+Change:
+Unchanged from the qualified 7.7 production cleanup. Safely caches the inactive native
+EntityMarkersManager and avoids repeated global map-marker discovery while keeping marker
+mutation gated by activeInHierarchy.
+
+Result:
+QUALIFIED PASS. No recurring Wolfpack microstutter during repeated save loads, map use,
+leaving port, convoy/combat use, chained loads, or cold restart. This candidate does not
+alter the file from the already-tested clean build.
+
+2) PatrolHistory.cs
+-------------------
+Previous 7.9 behavior:
+A post-load null assignment was deferred, and SinkAnchoredBattleshipAssignment was
+explicitly whitelisted as a Scapa patrol-preserving overlay.
+
+Candidate correction:
+- Remove the Scapa-specific mission-name whitelist.
+- Classify only PatrolAssignment and GroupPatrolAssignment as native patrol identities.
+- While a Wolfpack patrol is active, defer patrol-history import whenever CurrentAssignment
+  is null, non-patrol, or a patrol assignment whose journal identity has not resolved.
+- Keep the saved patrol alive until a positively identified patrol assignment can be
+  compared against the saved stable patrol identity.
+- Preserve explicit acceptance of the current patrol's debrief as positive completion
+  evidence, even while another assignment owns CurrentAssignment.
+- Keep the post-load same-journal stale-completion guard and no-timeout rule.
+- Log the first unresolved/overlay assignment type once, without diagnostic TEST tracing.
+
+Expected result:
+Any story/theatre/special mission can temporarily replace CurrentAssignment without
+causing Wolfpack patrol history to import stale completion state and erase the live patrol.
+
+Status:
+NEW CANDIDATE LOGIC - requires qualification. Scapa-specific predecessor passed; this
+broader type-agnostic rule has not yet been run in UBOAT.
+
+3) PatrolService.cs
+-------------------
+Previous 7.9 behavior:
+The service preserved an active patrol for transient null only behind the load barrier and
+explicitly preserved SinkAnchoredBattleshipAssignment.
+
+Candidate correction:
+- Remove the Scapa-specific branch.
+- If a live patrol exists and CurrentAssignment is null or any non-patrol mission, return
+  without completing/clearing that patrol.
+- A replacement is recognized only when another PatrolAssignment / GroupPatrolAssignment
+  resolves to a non-zero stable ID different from the saved patrol ID.
+- Preserve all current participant IDs and station assignments while an overlay is active.
+- Keep the existing narrow same-mission poisoned-state recovery unchanged.
+
+Expected result:
+A patrol of any size (3, 6, 12, etc.) remains intact through arbitrary non-patrol mission
+overlays. The fix does not impose a boat count; it preserves the actual saved manifest.
+
+Status:
+NEW CANDIDATE LOGIC - requires qualification. Existing poisoned-state recovery is left
+narrow by design and is not generalized to reconstruct a previously poisoned patrol while
+an arbitrary overlay is already active.
+
+TEST HISTORY CARRIED FORWARD
+============================
+- 7.7 marker-manager cache: PASS.
+- 7.8 transient-null protection and narrow same-mission recovery: PASS in its tested case.
+- 7.9 Scapa overlay prevention: PASS.
+- Clean 7.9 production build: three normal/chained loads PASS; Scapa production log showed
+  the clean guard firing; performance remained smooth.
+- Poisoned JSON loaded while Scapa already owned CurrentAssignment: NOT repaired. This is
+  an old-state recovery edge case, not a prevention failure, and this candidate deliberately
+  does not broaden recovery inference through arbitrary overlays.
+
+QUALIFICATION FOR THIS CANDIDATE
+================================
+Minimum regression:
+1. Fresh launch with healthy active patrol; normal save load -> participants/icons intact.
+2. Scapa load; wait beyond old timeout -> participants/icons intact.
+3. Continue Scapa -> participants/icons intact.
+4. Same-client later-save load -> intact.
+5. Cold restart and direct later-save load -> intact and no recurring stutter.
+6. If another non-patrol story/theatre mission is available, trigger/load it while the
+   Wolfpack patrol is active and verify the same manifest is preserved.
+7. Complete/debrief a real patrol and verify the patrol still closes normally when the
+   current patrol report is explicitly accepted or a new patrol identity replaces it.
+
+Package contents
+================
+CorrectedFiles/GameAdapters.cs
+CorrectedFiles/PatrolHistory.cs
+CorrectedFiles/PatrolService.cs
+Diffs/GameAdapters.diff
+Diffs/PatrolHistory.diff
+Diffs/PatrolService.diff
+PINGU_SUBMISSION_SUMMARY.txt
+
+Installation overlay
+====================
+The flat candidate ZIP contains only the three corrected .cs files. Extract directly over:
+  ...\steamapps\workshop\content\494840\3800952548\Source\
+
+Review note
+===========
+Do not label this generalized candidate fully qualified until the regression above passes.
+The previous clean 7.9 package remains the known-good Scapa-specific baseline.

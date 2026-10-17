@@ -1,0 +1,7 @@
+Temp/
+Logs/
+artifacts/
+*.pdb
+output_log*.txt
+*Diagnostics.txt
+!Docs/Diagnostics.example.txt
