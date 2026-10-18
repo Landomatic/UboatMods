@@ -1,3 +1,9 @@
+> Companion 1.0.22 supports the new Nose Down 2.1.5 / Proper Ballast 1.2.0
+> contracts. Their pitch/bow-lift and flooding behavior changed. Follow the
+> upstream-version baseline in KUGLER-SWITCHES.md before the older experiments
+> below; new-version entry testing starts with our extra entry/torque OFF and
+> Fast dive OFF. Existing formulas and saved settings are retained.
+
 # Experimental controls in 1.0.20
 
 All three new options default OFF. Existing saved companion settings are retained. Install with a game restart; the new options then apply live. Compare from the same starting save because settings cannot rewind motion, flooding or crew assignments.

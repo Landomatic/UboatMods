@@ -15,7 +15,7 @@ namespace NoseDownCompanion
     public class CompanionLoader : IUserMod
     {
         internal const string Tag = "[NoseDownCompanion]";
-        internal const string BuildId = "v1.0.21";
+        internal const string BuildId = "v1.0.22";
         internal const string HarmonyId = "com.landomatic.nosedown.companion";
         internal static Harmony Instance;
 

@@ -1,40 +1,48 @@
-Nose Down Depth Companion 1.0.21 — entry diagnostic build
+Nose Down Depth Companion 1.0.22 — Kugler menu compatibility
 Prepared 2026-10-18 UTC
 
 CHANGE
-Adds read-only immersion, centre-of-mass, game and Unity angular drag, engine,
-forced-depth flags, pitch/rate and pitch-law output observations. Uses the
-existing FixedUpdate/law hooks; no new control formula, gain, limit, default,
-config key or menu identity. Trace logging controls the recorder. It can observe
-with companion master OFF and Nose Down absent. LICENSE, Workshop steamFileId=0
-and upstream credits are preserved.
+Hosts Nose Down 2.1.5's new trim-water switch in place of the retired command-file
+experiment flag. Hosts Proper Ballast 1.2.0's Fast dive switch and three saved
+1-5 flood-factor sliders. Detects supported legacy config contracts at runtime.
+Existing provider names/shared keys persist. Boolean reset preserves numeric
+values. Adds read-only upstream bow-lift LastMoment to entry diagnostics.
+No change to companion pitch/depth formulas, limits, defaults or user settings.
 
 COMPILE: PASSED
-Full C# 7.3 source compilation against 184 supplied game/Unity/Harmony assembly
-references passed. Compilation does not exercise Unity native behavior.
+Full C# 7.3 companion compilation against 184 supplied game references passed.
+Both complete supplied upstream source sets also compile locally (Nose Down
+2.1.5 has two expected injection-field-unassigned compiler warnings). Reference
+sources and game assemblies are private validation inputs, not bundled.
 
-OFFLINE: PASSED
-1147 assertions: the prior 1125 behavior/parser/menu cases plus 22 diagnostic
-checks for logging gates, missing Nose Down/master-off observation, distinct
-game/Unity drag, pre/post COM and law output, absent/stale law data, 10 Hz
-throttle, time rewind, window edges and preservation of observed physics state.
-Unity/game objects and Harmony dispatch are fixtures. Full source compilation
-is separate. Static review confirms no added game-field or rigidbody writes.
+OFFLINE BEHAVIOR/MENU CHECKS: PASSED
+1249 assertions against actual supplied 2.1.5/1.2.0 parsers and pitch law;
+1152 against earlier 2.1.4/1.1.0 contracts, with unchanged Seakeeping 1.2.2 and
+Community Patch 0.38.1 parser fixtures. Tests include complete boolean inventory,
+legacy selection, real menu parsing, numeric range/locale/duplicate/comment
+round trips, unchanged active numeric values, numeric restart-pending state,
+boolean reset preserving numbers, and previous companion behavior/diagnostics.
+These assertion counts belong to separate process runs, not unique cases.
 
-GAMEPLAY: NOT RUN for 1.0.21
-Native dispatch, sampled row completeness and recorder overhead remain untested
-inside UBOAT. No CI build is claimed. Earlier 1.0.20 VIIB tests showed much less
-actual PD hull movement with precise arrival ON, but retained entry pitch loss
-and approximately 0.14 m mean deeper deck-depth bias. These are partial results
-of 1.0.20, not validation of 1.0.21 or other hulls.
+NATIVE HOOK SMOKE ATTEMPT: NOT VALIDATED
+A separate actual-Harmony smoke attempt in the host .NET 8 environment exited
+with code 139. It did not validate hook dispatch and is not counted as passed.
+The ordinary offline assertions use Harmony/Unity fixtures. Source inspection
+confirms that the new Compute signature retains our used parameter names and
+adds two optional parameters; native Mono/Unity dispatch still needs gameplay.
 
-LIMITS
-Update boundaries include patches, not just vanilla, and do not bracket a full
-physics-solver step. Controller torque is not net environmental torque. Missing
-reflected values are n/a; law output is absent when not called. Observer timing
-alone cannot prove a COM, drag or propulsion mechanism. Run a fresh all-mods-off
-comparison before attributing the dip. Reverse entry assistance remains outside
-the existing positive-angle gate. See ENTRY-DIAGNOSTICS.md for collection steps.
+GAMEPLAY: NOT RUN for 1.0.22
+No CI build is claimed. In-game menu rendering, native patch ordering and new
+upstream interaction remain unverified. Existing 1.0.20 PD observations remain
+partial results on the older upstream versions, not proof for the new setup.
 
-No private logs, saves, game DLLs, reference mod bundles or personal configs are
-packaged. The prior version's history record is retained unchanged.
+UPSTREAM CHANGES
+Nose Down 2.1.5 adds compartment trim-water behavior, bow-lift compensation and
+controller changes. Proper Ballast 1.2.0 adds skill-dependent vent timing/flow,
+default ON. Follow KUGLER-SWITCHES.md to rebaseline without silently resetting
+saved settings. Always Load Sea Floor 1.5.1 has no config switches to host;
+Seakeeping had no new source in this upload. Entry leveling, residual PD bias
+and surfacing interruption remain open. No upstream source or license is edited.
+
+License terms, author, upstream credit and steamFileId=0 are retained. No private
+logs, saves, user configs, upstream bundles or assemblies ship.

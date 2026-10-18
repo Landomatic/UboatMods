@@ -84,7 +84,7 @@ namespace NoseDownCompanion
                 var engine = ship.ActiveEngine;
                 string engineName = engine == null ? "none" : ReferenceEquals(engine, ship.DieselEngine) ? "diesel"
                     : ReferenceEquals(engine, ship.ElectricEngine) ? "electric" : "other";
-                var s = new StringBuilder("[NoseDownCompanion.EntryPhysics] v=1.0.21");
+                var s = new StringBuilder("[NoseDownCompanion.EntryPhysics] v=1.0.22");
                 Add(s, "t", Time.time); Add(s, "dt", Time.fixedDeltaTime); Add(s, "timeScale", Time.timeScale);
                 Add(s, "enabled", CompanionConfig.Enabled);
                 Add(s, "hull", ship.SandboxEntity != null && ship.SandboxEntity.Type != null ? ship.SandboxEntity.Type.Name : "unknown");
@@ -102,6 +102,8 @@ namespace NoseDownCompanion
                 Add(s, "wasSubmergedPre", _wasSubmerged); Add(s, "wasSubmergedPost", Read(SubmergedField, ship));
                 Add(s, "engine", engineName); Add(s, "power", engine == null ? "n/a" : F((float)engine.Power));
                 Add(s, "powerModifier", engine == null ? "n/a" : F(engine.PowerModifier));
+                float? bowLift = NoseDownBridge.Present ? NoseDownBridge.BowLiftMoment() : null;
+                Add(s, "bowLiftMoment", bowLift.HasValue ? F(bowLift.Value) : "n/a");
                 Add(s, "phase", NoseDownBridge.Present ? NoseDownBridge.PhaseName() : "absent");
                 Add(s, "officer", NoseDownBridge.Present && CompanionConfig.Enabled ? PlanesManning.OfficerSeated.ToString() : "n/a"); Add(s, "entryAssist", CompanionConfig.DiveEntryAssist);
                 Add(s, "torqueBoost", CompanionConfig.ViiTorqueBoost); Add(s, "torqueFactor", CompanionConfig.ViiTorqueFactor);

@@ -1,4 +1,4 @@
-Nose Down Depth Companion -- 1.0.21
+Nose Down Depth Companion -- 1.0.22
 Author: Landomatic
 Companion to Nose Down by Kugler (https://github.com/Isamylov).
 Requires STOCK Nose Down (Workshop 3729673507). Load this companion after it.
@@ -8,8 +8,8 @@ offline behavior checks passed. This build has not run inside UBOAT.
 The three 1.0.20 options and the earlier optional physics controls start OFF.
 See Docs/EXPERIMENTAL-CONTROLS.md for scope, historical caveat and test steps.
 
-UPGRADE FROM 1.0.20
-1. Close UBOAT. Keep 1.0.20 as a rollback copy outside the Mods folder.
+UPGRADE FROM 1.0.21
+1. Close UBOAT. Keep 1.0.21 as a rollback copy outside the Mods folder.
 2. Replace the installed NoseDownDepthCompanion folder with this folder:
    %USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\Mods\NoseDownDepthCompanion
    Manifest.json should be directly inside, without a doubled folder.
@@ -18,10 +18,25 @@ UPGRADE FROM 1.0.20
    or your other diving mods are needed for this upgrade.
 4. KEEP NoseDownCompanionConfig.txt. Existing values are loaded; new keys are
    added with comments. Do not replace it with a blank/default config.
-5. Confirm output_log.txt contains "[NoseDownCompanion] initialized [v1.0.21]"
+5. Confirm output_log.txt contains "[NoseDownCompanion] initialized [v1.0.22]"
    and "[NoseDownCompanion] Nose Down found".
    If an older build still loads, close the game, remove the cached compiled
    companion from UBOAT\Temp, and relaunch. Keep your Saves and configs.
+
+NEW IN 1.0.22 -- KUGLER MENU COMPATIBILITY
+ - Nose Down 2.1.5: Trim-aware compartment water replaces retired Command-file
+   experiments. The legacy menu remains for detected loaded 2.1.4 config.
+ - Proper Ballast 1.2.0: Crew-skill faster diving plus Type VII/IX/II flood-factor
+   sliders (1-5, default 4/2/3). All save for restart; numeric settings are
+   retained when resetting boolean switches. Detected 1.1.0 uses legacy rows.
+ - Without a readable runtime, menus target the newest supported contract.
+   Existing provider identities and shared setting keys are retained.
+ - EntryPhysics also observes the separate upstream bow-lift counter-moment
+   when available. No new pitch/depth control formula or tuning changes.
+ - Nose Down 2.1.5 already adds bow-lift compensation and controller changes;
+   Proper Ballast 1.2.0 changes flood timing/flow with crew skill. Rebaseline
+   testing before comparing results to older versions. See KUGLER-SWITCHES.md.
+ - Compiled and offline menu/behavior checks passed; gameplay is NOT RUN.
 
 NEW IN 1.0.21 -- DIAGNOSTIC BUILD
  - Adds read-only EntryPhysics observations at up to 10 Hz while traceLogging
