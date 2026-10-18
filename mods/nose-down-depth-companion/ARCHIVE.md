@@ -1,27 +1,27 @@
-# Nose Down Depth Companion — archive snapshot
+# Nose Down Depth Companion — diagnostic archive
 
-Snapshot identifier: `1.0.20`.
-Role: Landomatic's companion to stock Nose Down by Kugler, with optional settings menus for three separate Kugler mods.
+Snapshot: `1.0.21`. Companion by Landomatic to stock Nose Down by Kugler
+(https://github.com/Isamylov), Workshop 3729673507.
 
-## Change and validation
+Adds read-only entry observations controlled by existing trace logging:
+centre of mass and game/Unity angular drag at update boundaries, direct hull Y,
+pitch/rate, engine output, forced-depth flags and observed controller output.
+It can observe with the companion master off and Nose Down absent. Existing
+physics formulas, saved configs, defaults, menu keys and license are retained.
 
-- Adds three default-OFF experimental controls: VII entry-pitch assistance, nonhistorical II/VII precise PD arrival (2–10 m), and surfaced planes-station availability for pre-dive assignment.
-- All three hosted Kugler menus distinguish detected session patches from saved config; Seakeeping's runtime master is shown independently. Existing provider names and feature keys remain stable.
-- Includes the requested GitHub source/history references inside LICENSE, preserving the prior license text and credits.
-- Full compilation against 184 supplied game references passed; 1125 offline assertions passed. Fixtures exercise control bounds/gates and the real supplied upstream config parsers and Community Patch 0.38.1 row/reset contract.
-- Gameplay status: **not run**. Native patch ordering, UI/pathfinding and actual improvement remain unverified. No CI results are claimed.
+Full compilation against 184 supplied assemblies passed; 1147 offline
+assertions passed. Gameplay status is **not run** for this build. No CI result
+is claimed. Controller output is not net hydrodynamic torque, and observation
+boundaries include patches. See `Docs/ENTRY-DIAGNOSTICS.md` and
+`Docs/VALIDATION.txt` for the baseline plan and limitations.
 
-## Limits
+Earlier 1.0.20 VIIB gameplay remains partial: precise arrival reduced measured
+PD hull movement in that setup, but entry leveling, a small depth bias and the
+separate surfacing interruption remain open. A fresh vanilla comparison has
+not yet been supplied. No causal conclusion or universal fix is claimed.
 
-- Entry assistance covers ordinary VIIB/VIIC/VIIC41 entry and excludes alarm/crash dives and blows. It is an attempt to remedy leveling, not a demonstrated fix.
-- Precise arrival needs the existing II/VII shallow plane/trim handover; Type II requires a seated officer. It replaces other arrival/hold offsets and deeper-PD bias on those hulls. Deeper orders and Type IX retain existing behavior.
-- Pre-dive station availability is shared with crew slots and assigns nobody automatically; other station restrictions remain. Turning it OFF restores the normal surface restriction.
-- Most upstream switch changes still require a restart. Status is based on patch registration and readable current config, not certification of every mod feature. Status-only rows ignore writes because the host has no read-only row kind.
-- Entry leveling, prolonged PD oscillation and surfacing propulsion interruption remain open. Section 106's intentional test-dive overshoot changes how initial overshoot is interpreted; this build does not recreate that procedure.
+`history/nose-down-depth-companion/1.0.21/update.json` records the delivered
+package and source hashes. Prior records remain unchanged. Private logs,
+saves, assemblies, reference mod bundles and personal configs are excluded.
 
-## Integrity
-
-`history/nose-down-depth-companion/1.0.20/update.json` records project file hashes and the delivered ZIP fingerprint. Earlier records remain unchanged. Private telemetry, saves, game assemblies, user configs and downloaded reference bundles are excluded.
-
-Source and project license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
-Companion by Landomatic; upstream Nose Down by Kugler (https://github.com/Isamylov), Workshop 3729673507. Upstream files remain separate.
+Source and existing license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion

@@ -318,12 +318,15 @@ namespace NoseDownCompanion
         private static void LawComputePostfix(object __instance, double targetRad, double pitchRad,
             double pitchRateRad, double inertia, ref double __result)
         {
+            double before = __result;
             ViiTorqueAssist.AfterCompute(__instance, ref __result);
             double limit;
             if (ViiTorqueAssist.TryLimit(__instance, out limit))
                 DiveEntryAssist.Apply(targetRad, pitchRad, pitchRateRad, inertia, limit, ref __result);
             if (TrimScale > 0.001f && TrimScale < 0.999f)
                 __result *= TrimScale;
+            EntryDiagnostics.Law(targetRad, pitchRad, pitchRateRad, inertia, before, __result,
+                limit, DiveEntryAssist.LastAdded, TrimScale);
         }
     }
 }

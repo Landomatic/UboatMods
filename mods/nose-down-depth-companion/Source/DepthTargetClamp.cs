@@ -49,6 +49,7 @@ namespace NoseDownCompanion
             var ship = __instance as PlayerShip;
             if (ship == null)
                 return;
+            EntryDiagnostics.Begin(ship);
             PreDivePlanes.Observe(ship);
             try
             {
@@ -100,6 +101,7 @@ namespace NoseDownCompanion
         private static void Postfix(PlayableSubmarine __instance, ref float ___targetDepth, ref float ___internalTargetDepth)
         {
             var ship = __instance as PlayerShip;
+            EntryDiagnostics.End(ship);
             if (ship == null || !NoseDownBridge.Present)
                 return;
             ShallowStandDown.EndFrame();

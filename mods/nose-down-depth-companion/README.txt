@@ -1,4 +1,4 @@
-Nose Down Depth Companion -- 1.0.20
+Nose Down Depth Companion -- 1.0.21
 Author: Landomatic
 Companion to Nose Down by Kugler (https://github.com/Isamylov).
 Requires STOCK Nose Down (Workshop 3729673507). Load this companion after it.
@@ -8,8 +8,8 @@ offline behavior checks passed. This build has not run inside UBOAT.
 The three 1.0.20 options and the earlier optional physics controls start OFF.
 See Docs/EXPERIMENTAL-CONTROLS.md for scope, historical caveat and test steps.
 
-UPGRADE FROM 1.0.19
-1. Close UBOAT. Keep 1.0.19 as a rollback copy outside the Mods folder.
+UPGRADE FROM 1.0.20
+1. Close UBOAT. Keep 1.0.20 as a rollback copy outside the Mods folder.
 2. Replace the installed NoseDownDepthCompanion folder with this folder:
    %USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\Mods\NoseDownDepthCompanion
    Manifest.json should be directly inside, without a doubled folder.
@@ -18,10 +18,22 @@ UPGRADE FROM 1.0.19
    or your other diving mods are needed for this upgrade.
 4. KEEP NoseDownCompanionConfig.txt. Existing values are loaded; new keys are
    added with comments. Do not replace it with a blank/default config.
-5. Confirm output_log.txt contains "[NoseDownCompanion] initialized [v1.0.20]"
+5. Confirm output_log.txt contains "[NoseDownCompanion] initialized [v1.0.21]"
    and "[NoseDownCompanion] Nose Down found".
    If an older build still loads, close the game, remove the cached compiled
    companion from UBOAT\Temp, and relaunch. Keep your Saves and configs.
+
+NEW IN 1.0.21 -- DIAGNOSTIC BUILD
+ - Adds read-only EntryPhysics observations at up to 10 Hz while traceLogging
+   is ON, within -3 to 12 m deck depth, 0-50 m orders and 0 < timeScale <= 10.
+ - Records centre of mass before/after the patched update, hydrodynamic and
+   rigidbody angular drag separately, pitch/rate, direct hull position,
+   engine/power, forced-depth flags and observed Nose Down law output.
+ - Existing assistance, gains, limits, defaults and saved configs are retained.
+ - Observation can run with companion master OFF and Nose Down absent.
+   That is a diagnostic baseline, not a completely unmodded game.
+ - See Docs/ENTRY-DIAGNOSTICS.md for vanilla and instrumented comparisons.
+ - This build has compiled and passed offline checks; gameplay is NOT RUN.
 
 NEW IN 1.0.20
  - Preserve VII dive-entry pitch (experimental): bounded torque assistance in
