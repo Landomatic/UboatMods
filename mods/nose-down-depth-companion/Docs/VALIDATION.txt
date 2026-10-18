@@ -1,65 +1,40 @@
-Nose Down Depth Companion 1.0.20 -- experimental controls and session status
-Prepared 2026-10-17 UTC
+Nose Down Depth Companion 1.0.21 — entry diagnostic build
+Prepared 2026-10-18 UTC
 
 CHANGE
-Three new opt-in controls: bounded VII entry-pitch torque assistance, a
-nonhistorical II/VII precise PD-arrival attempt (ordinary 2-10 m orders),
-and pre-dive planes-station availability. All default OFF; existing saved
-settings remain. Every hosted Kugler menu now separates session patch
-registration from saved selections, with restart-pending indication.
-Seakeeping also reports its runtime master separately from the saved master.
-The requested GitHub repository and project references are inside LICENSE;
-existing terms, copyright and credits are unchanged.
+Adds read-only immersion, centre-of-mass, game and Unity angular drag, engine,
+forced-depth flags, pitch/rate and pitch-law output observations. Uses the
+existing FixedUpdate/law hooks; no new control formula, gain, limit, default,
+config key or menu identity. Trace logging controls the recorder. It can observe
+with companion master OFF and Nose Down absent. LICENSE, Workshop steamFileId=0
+and upstream credits are preserved.
 
-COMPILE
-Full source compiles with C# 7.3 against 184 supplied game/Unity/Harmony
-assembly references. Compilation does not exercise Unity native behavior.
-No game assemblies, upstream sources, personal configs or raw logs ship.
+COMPILE: PASSED
+Full C# 7.3 source compilation against 184 supplied game/Unity/Harmony assembly
+references passed. Compilation does not exercise Unity native behavior.
 
-OFFLINE
-1125 assertions pass, using actual current selected companion classes,
-all three supplied upstream config parsers, the supplied stock torque law,
-and Community Patch 0.38.1 row/reset contract code. Game/Unity objects and
-Harmony dispatch are fixtures in the host's .NET runtime.
- - All 31 upstream feature switches round-trip ON/OFF through the supplied
-   parsers, preserving numeric values, comments, aliases and unrelated files.
- - All three menus report no session patches despite saved config/loaded
-   fixture assemblies; informational row setters cannot activate mods.
- - Status getters ignore persisted host values. Seakeeping's saved OFF and
-   runtime ON remain distinct; restart-pending and unloaded state are checked.
- - Prior casing live update, config-instance replacement, save-failure
-   rollback, host reset, officer brake release and physics-option checks pass.
- - Entry assist is OFF by default, anticipates upward pitch rate, fades by
-   1 m deck immersion, and shares a 1.5 x stock total torque ceiling with the
-   older torque option. Protected modes, unsupported hulls, Hold, kinematic
-   physics, high time compression and invalid values are excluded.
- - Precise PD preview signs, bounds, rate limit, same-frame idempotence,
-   convergence without accumulation, new orders, option OFF and hard gates
-   are checked. Deeper-PD bias stands down when the new II/VII option owns
-   the target; unsupported/deep/disabled handover cases remain inactive.
- - Pre-dive availability clears only the player planes station's Depth flag;
-   damage/docking flags and NPC stations remain unchanged. Option/master OFF
-   restores the surfaced restriction in the game-object fixture.
- - The three new settings save, reload and reset with defaults OFF.
+OFFLINE: PASSED
+1147 assertions: the prior 1125 behavior/parser/menu cases plus 22 diagnostic
+checks for logging gates, missing Nose Down/master-off observation, distinct
+game/Unity drag, pre/post COM and law output, absent/stale law data, 10 Hz
+throttle, time rewind, window edges and preservation of observed physics state.
+Unity/game objects and Harmony dispatch are fixtures. Full source compilation
+is separate. Static review confirms no added game-field or rigidbody writes.
 
-GAME STATUS AND LIMITS
-Not run inside UBOAT. Native Harmony ordering/dispatch, menu rendering,
-officer UI/pathfinding/schedules and actual diving response remain unverified.
-The preceding 1.0.19 run confirmed entry pitch loss and prolonged PD cycling
-with Seakeeping absent and officer PD brake OFF. It did not validate these
-new controls. No issue is closed by offline checks.
-The arrival attempt applies only where the existing II/VII shallow plane/trim
-handover is enabled; Type II additionally requires a seated officer. Other
-hulls and depths retain existing controls. The new controller takes precedence
-over legacy II/VII arrival/hold offsets and deeper-PD bias while selected.
-The game's other depth corrections and environmental forces remain active.
+GAMEPLAY: NOT RUN for 1.0.21
+Native dispatch, sampled row completeness and recorder overhead remain untested
+inside UBOAT. No CI build is claimed. Earlier 1.0.20 VIIB tests showed much less
+actual PD hull movement with precise arrival ON, but retained entry pitch loss
+and approximately 0.14 m mean deeper deck-depth bias. These are partial results
+of 1.0.20, not validation of 1.0.21 or other hulls.
 
-Historical arrival overshoot must not automatically be classified as a fault:
-section 106 describes a deliberate overshoot and two air-clearing pitch cycles
-for a test dive. This optional precise-arrival mode does not reproduce it.
-OFF retains existing behavior; it does not establish historical fidelity.
+LIMITS
+Update boundaries include patches, not just vanilla, and do not bracket a full
+physics-solver step. Controller torque is not net environmental torque. Missing
+reflected values are n/a; law output is absent when not called. Observer timing
+alone cannot prove a COM, drag or propulsion mechanism. Run a fresh all-mods-off
+comparison before attributing the dip. Reverse entry assistance remains outside
+the existing positive-angle gate. See ENTRY-DIAGNOSTICS.md for collection steps.
 
-TEST NEXT
-See Docs/EXPERIMENTAL-CONTROLS.md. Compare entry assist alone first from the
-same starting save. Then test pre-dive availability and precise PD arrival
-separately. Keep compilation, offline and gameplay outcomes separate.
+No private logs, saves, game DLLs, reference mod bundles or personal configs are
+packaged. The prior version's history record is retained unchanged.
