@@ -1,27 +1,29 @@
-# Nose Down Depth Companion — diagnostic archive
+# Nose Down Depth Companion — compatibility archive
 
-Snapshot: `1.0.21`. Companion by Landomatic to stock Nose Down by Kugler
+Snapshot: `1.0.22`. Companion by Landomatic to Nose Down by Kugler
 (https://github.com/Isamylov), Workshop 3729673507.
 
-Adds read-only entry observations controlled by existing trace logging:
-centre of mass and game/Unity angular drag at update boundaries, direct hull Y,
-pitch/rate, engine output, forced-depth flags and observed controller output.
-It can observe with the companion master off and Nose Down absent. Existing
-physics formulas, saved configs, defaults, menu keys and license are retained.
+Updates menus for supplied Nose Down 2.1.5 and Proper Ballast 1.2.0: trim-water,
+Fast dive and three flood-factor sliders. Supported older runtime config
+contracts retain their menus. Shared provider names/keys and user settings
+persist; boolean reset preserves numbers. New settings save for restart.
+Adds a read-only upstream bow-lift counter-moment to entry diagnostics.
+Existing companion control formulas, defaults, LICENSE and credits are retained.
 
-Full compilation against 184 supplied assemblies passed; 1147 offline
-assertions passed. Gameplay status is **not run** for this build. No CI result
-is claimed. Controller output is not net hydrodynamic torque, and observation
-boundaries include patches. See `Docs/ENTRY-DIAGNOSTICS.md` and
-`Docs/VALIDATION.txt` for the baseline plan and limitations.
+Full companion and supplied upstream source compilation passed. Separate offline
+runs passed 1249 current-contract and 1152 legacy-contract assertions. Native
+Harmony smoke execution in the host .NET 8 process exited 139 and did not
+validate dispatch. Gameplay: **not run** for 1.0.22. No CI result is claimed.
+See `Docs/VALIDATION.txt` for the distinction and `Docs/KUGLER-SWITCHES.md` for
+the new upstream-version baseline before adding extra pitch assistance.
 
-Earlier 1.0.20 VIIB gameplay remains partial: precise arrival reduced measured
-PD hull movement in that setup, but entry leveling, a small depth bias and the
-separate surfacing interruption remain open. A fresh vanilla comparison has
-not yet been supplied. No causal conclusion or universal fix is claimed.
+The new upstream bow-lift/controller and skill-based flooding changes mean older
+telemetry is not an identical baseline. Entry leveling, PD bias and surfacing
+interruption remain unresolved. Source-history acceptance is not a tested release.
+Always Load Sea Floor has no config switches; Seakeeping remains based on 1.2.2.
 
-`history/nose-down-depth-companion/1.0.21/update.json` records the delivered
-package and source hashes. Prior records remain unchanged. Private logs,
-saves, assemblies, reference mod bundles and personal configs are excluded.
+`history/nose-down-depth-companion/1.0.22/update.json` records source/package
+hashes. Earlier records are unchanged. Private telemetry, saves, assemblies,
+upstream source bundles and user configs are excluded.
 
-Source and existing license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
+Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion

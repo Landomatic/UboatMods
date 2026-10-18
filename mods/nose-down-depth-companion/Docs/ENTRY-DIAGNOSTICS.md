@@ -1,4 +1,4 @@
-# Dive-entry observations — 1.0.21 diagnostic build
+# Dive-entry observations — 1.0.22
 
 Source/history: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
 License and existing upstream credits: ../LICENSE. Companion by Landomatic to Nose Down by Kugler.
@@ -8,7 +8,7 @@ limits and defaults. Full game restart is required after replacing the source
 package. Keep the existing NoseDownCompanionConfig.txt. Enable its existing
 traceLogging option (the companion menu's diagnostic logging switch when Dusty's
 is available, or traceLogging=true in that config while the game is closed).
-Check the initialized [v1.0.21] line and EntryPhysics rows in output_log.txt.
+Check the initialized [v1.0.22] line and EntryPhysics rows in output_log.txt.
 No game validation of this diagnostic build has yet occurred.
 
 ## Test sequence
@@ -25,13 +25,17 @@ needed. Do not change weather, ballast staffing, assistance or speed mid-run.
    short external-view video showing the pitch, depth and speed through entry;
    preserve output_log.txt separately. Note hull, order, telegraph and sea state.
    With every mod off, our telemetry and Proper Ballast CSV recording are absent.
-2. **Instrumented current setup:** install 1.0.21 and restart with the usual
-   diving mods. Keep Seakeeping OFF, casing fix ON, officer brake OFF, torque
-   boost ON at 1.35, entry assistance ON, precise arrival ON, pre-dive planes
-   OFF, PD bias OFF and wave reduction OFF. Keep diagnostics enabled as before.
-   Reproduce the same hull, speed, order and sea conditions as closely as the
-   available fresh scenario allows. Preserve output_log.txt and the new
-   ProperBallast recording folder (ZIP). Label this Instrumented-Modded.
+2. **Instrumented current setup:** install 1.0.22 and restart with the usual
+   diving mods. With Nose Down 2.1.5 / Proper Ballast 1.2.0, start with our
+   entry assistance OFF, VII torque boost OFF and Fast dive OFF. Keep Seakeeping
+   OFF, casing fix ON, officer brake OFF, precise arrival ON, pre-dive planes
+   OFF, PD bias OFF and wave reduction OFF. Keep diagnostics enabled. Match
+   hull, speed, order and sea conditions as closely as the scenario allows.
+   Preserve output_log.txt and the new ProperBallast folder (ZIP) as
+   Instrumented-Modded. Reintroduce Fast dive, then extra torque separately;
+   restart between upstream changes. See KUGLER-SWITCHES.md. If deliberately
+   comparing old upstream builds, retain that older test's settings and label
+   its versions rather than mixing it with the new-version baseline.
 3. **If the vanilla video also shows the dip:** a useful further comparison is
    to enable ONLY this companion, leave enabled=false and traceLogging=true in
    NoseDownCompanionConfig.txt, keep Nose Down and every other mod disabled,
@@ -85,3 +89,15 @@ The recorder cannot directly observe all buoyancy, drag and wave torques. A
 COM/drag change coincident with leveling is a candidate mechanism, not proof.
 A baseline comparison is still required to attribute behavior to vanilla.
 Private logs, saves and CSV recordings are not included in the public archive.
+
+
+## New upstream versions
+
+The original sequence above describes the earlier 2.1.4/1.1.0 setup. For Nose
+Down 2.1.5 / Proper Ballast 1.2.0, first follow the upstream-version baseline
+in KUGLER-SWITCHES.md: our entry assistance and torque boost OFF, Fast dive OFF,
+restart, and keep all other choices fixed. Reintroduce one change at a time.
+The upstream pitch controller, bow-lift compensation and flooding behavior
+changed, so older recordings are not an identical baseline. bowLiftMoment
+observes the separate upstream compensation when available; it is not included
+in lawAfter and does not measure net torque. The log row version is 1.0.22.

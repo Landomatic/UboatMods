@@ -56,6 +56,18 @@ namespace NoseDownCompanion
             return field != null && field.FieldType == typeof(bool) && !field.IsInitOnly && !field.IsLiteral ? field : null;
         }
 
+        internal static bool LegacyRuntime(KuglerMod mod, string newField)
+        {
+            object config = RuntimeConfig(mod);
+            return config != null && config.GetType().GetField(newField, InstanceMembers) == null;
+        }
+
+        private static FieldInfo NumberField(object config, KuglerNumber setting)
+        {
+            FieldInfo field = config != null ? config.GetType().GetField(setting.Field, InstanceMembers) : null;
+            return field != null && field.FieldType == typeof(float) ? field : null;
+        }
+
         private static string ConfigPath(KuglerMod mod)
         {
             return Path.Combine(Application.persistentDataPath, mod.FileName);
@@ -67,7 +79,7 @@ namespace NoseDownCompanion
                 : "NOT LOADED / NO ACTIVE PATCHES DETECTED. Saved settings only; enable the mod in the launcher and restart to use it. ";
             return status + mod.Name + " by Kugler. This is a settings host, not a launcher switch. "
                 + "Status rows are informational; they cannot enable a mod. Other ON/OFF rows are SAVED config values. "
-                + "Supported source version " + mod.Version + ". Values save to " + mod.FileName
+                + "Supported source version " + mod.Version + ". Older loaded config contracts use the legacy menu; with no readable runtime the latest supported menu is shown. Values save to " + mod.FileName
                 + ". Restart UBOAT to apply rows marked restart. The casing fix applies live only when Proper Ballast is loaded. "
                 + "Reset restores only this mod's saved switches; numeric settings are kept. Patch detection does not certify every feature is working.";
         }
@@ -88,6 +100,11 @@ namespace NoseDownCompanion
             {
                 FieldInfo field = RuntimeField(config, setting);
                 if (field != null && (bool)field.GetValue(config) != Read(mod, setting)) return true;
+            }
+            foreach (KuglerNumber setting in mod.Numbers)
+            {
+                FieldInfo field = NumberField(config, setting);
+                if (field != null && Math.Abs((float)field.GetValue(config) - ReadNumber(mod, setting)) > 0.0001f) return true;
             }
             return false;
         }
@@ -119,7 +136,49 @@ namespace NoseDownCompanion
                     new Func<object>(() => Read(mod, captured)),
                     new Action<object>(value => Write(mod, captured, Convert.ToBoolean(value, CultureInfo.InvariantCulture))) });
             }
+            foreach (KuglerNumber setting in mod.Numbers)
+            {
+                KuglerNumber captured = setting;
+                rows.Add(new object[] { "float", setting.Key, "Saved: " + setting.Label + " (restart)",
+                    (Loaded(mod) ? "" : "Mod not loaded: saved settings only. ") + setting.Help,
+                    new Func<object>(() => ReadNumber(mod, captured)),
+                    new Action<object>(value => WriteNumber(mod, captured, Convert.ToSingle(value, CultureInfo.InvariantCulture))),
+                    setting.Min, setting.Max, setting.Step });
+            }
             return rows.ToArray();
+        }
+
+        internal static float ReadNumber(KuglerMod mod, KuglerNumber setting)
+        {
+            object config = RuntimeConfig(mod);
+            FieldInfo field = NumberField(config, setting);
+            float value = field != null ? (float)field.GetValue(config) : setting.Default;
+            if (float.IsNaN(value) || float.IsInfinity(value)) value = setting.Default;
+            string path = ConfigPath(mod);
+            if (File.Exists(path)) foreach (string raw in File.ReadAllLines(path))
+            {
+                string line = raw;
+                int hash = line.IndexOf('#');
+                if (hash >= 0) line = line.Substring(0, hash);
+                int equal = line.IndexOf('=');
+                float parsed;
+                if (equal > 0 && string.Equals(line.Substring(0, equal).Trim(), setting.Key, StringComparison.OrdinalIgnoreCase)
+                    && float.TryParse(line.Substring(equal + 1).Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out parsed)
+                    && !float.IsNaN(parsed) && !float.IsInfinity(parsed)) value = parsed;
+            }
+            return Math.Max(setting.Min, Math.Min(setting.Max, value));
+        }
+
+        internal static void WriteNumber(KuglerMod mod, KuglerNumber setting, float value)
+        {
+            if (float.IsNaN(value) || float.IsInfinity(value)) return;
+            value = Math.Max(setting.Min, Math.Min(setting.Max, value));
+            string path = ConfigPath(mod);
+            string original = File.Exists(path) ? File.ReadAllText(path) : "";
+            string updated = UpdateValueText(original, mod, setting.Key, new string[0], value.ToString("R", CultureInfo.InvariantCulture));
+            if (updated != original) SaveAtomically(path, updated);
+            Debug.Log(CompanionLoader.Tag + " " + mod.Name + " " + setting.Key + "=" + value.ToString(CultureInfo.InvariantCulture)
+                + " (saved, restart required)");
         }
 
         private static bool Matches(KuglerSwitch setting, string key)
@@ -179,10 +238,14 @@ namespace NoseDownCompanion
 
         internal static string UpdateText(string text, KuglerMod mod, KuglerSwitch setting, bool enabled)
         {
-            string value = enabled ? "true" : "false";
+            return UpdateValueText(text, mod, setting.Key, setting.Aliases, enabled ? "true" : "false");
+        }
+
+        private static string UpdateValueText(string text, KuglerMod mod, string key, string[] aliases, string value)
+        {
             string newline = text.Contains("\r\n") ? "\r\n" : "\n";
-            var keys = new List<string> { Regex.Escape(setting.Key) };
-            foreach (string alias in setting.Aliases) keys.Add(Regex.Escape(alias));
+            var keys = new List<string> { Regex.Escape(key) };
+            foreach (string alias in aliases) keys.Add(Regex.Escape(alias));
             bool found = false;
             string updated = Regex.Replace(text,
                 @"^([ \t]*(?:" + string.Join("|", keys.ToArray()) + @")[ \t]*=[ \t]*)[^#\r\n]*([^\r\n]*)",
@@ -195,7 +258,7 @@ namespace NoseDownCompanion
                     return match.Groups[1].Value + value + (comment.Length > 0 ? " " + comment : "");
                 }, RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
             if (found) return updated;
-            return text + (text.Length > 0 && !text.EndsWith("\n") ? newline : "") + setting.Key + "=" + value + newline;
+            return text + (text.Length > 0 && !text.EndsWith("\n") ? newline : "") + key + "=" + value + newline;
         }
 
         private static void SaveAtomically(string path, string text)

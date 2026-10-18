@@ -26,6 +26,7 @@ namespace NoseDownCompanion
         private static FieldInfo _heldShipField;
         private static FieldInfo _heldTorqueField;
         private static FieldInfo _pitchField;
+        private static FieldInfo _bowLiftMoment;
 
         private static PlayerShip _valveOwner;
         private static FloodingAndBlowingValve _valve;
@@ -47,6 +48,8 @@ namespace NoseDownCompanion
                             t = p.PatchMethod.DeclaringType;
                 if (t != null)
                 {
+                    Type bowLift = t.Assembly.GetType("DivePitch.BowLift");
+                    _bowLiftMoment = bowLift != null ? AccessTools.Field(bowLift, "LastMoment") : null;
                     FieldInfo pf = AccessTools.Field(t, "Planner");
                     _planner = pf != null ? pf.GetValue(null) : null;
                     _phaseProp = _planner != null ? AccessTools.Property(_planner.GetType(), "Phase") : null;
@@ -105,6 +108,13 @@ namespace NoseDownCompanion
             {
                 Debug.LogWarning(CompanionLoader.Tag + " shallow trim stand-down unavailable: " + e.Message);
             }
+        }
+
+        // Optional read-only diagnostic, introduced upstream in Nose Down 2.1.5.
+        internal static float? BowLiftMoment()
+        {
+            try { return _bowLiftMoment != null ? (float?)((float)_bowLiftMoment.GetValue(null)) : null; }
+            catch { return null; }
         }
 
         // v1.0.10: Kugler's measured hull pitch (deg, his sign: + = bow down), or null if unreadable.
