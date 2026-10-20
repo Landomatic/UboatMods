@@ -1,0 +1,265 @@
+0.1.18-test -- unrestricted native firing, independent speed sync and hover
+- Delete all mod mixed-speed/TDC-mismatch firing guards; warnings only. Native
+  flooded/ready checks and station permissions remain. Applied launch speeds stand.
+- Fix native TDC preset identity using authored dial slots, supporting forward and
+  reverse wrap despite rounded physical speed values; preserve exact m/s records.
+- Add host speedSync toggle (ON default), independent of viewport policy and
+  unchanged by Casual/Hardcore presets. OFF leaves tube/TDC settings independent.
+- Follow live game knots/km/h presentation, preserving unapplied native-speed drafts.
+- Remove port-only pistol policy; Free, locked-on-load and timed dry-tube remain.
+  Retired config value 2 is unrestricted at runtime; no config migration or rewrite.
+- Add model/type hover on overview/editor cards, with optional live HTT maintenance.
+- TRC7: all multiplayer companions must update. Preserve targeting/gyro relays,
+  Landomatic copyright, existing license and upstream credits. Game test pending.
+
+0.1.17-test -- TDC speed and larger, clearer preparation controls
+Copyright (c) 2026 Landomatic. License/third-party notices unchanged.
+- Synchronize applied selected-tube speed with actual native TDC/current target
+  speed and shared launch settings, preserving target speed estimation. TDC edits
+  in synchronized mode update selected native speed presets on the host.
+- Track last applied speed focus without viewport checkmarks; invalidate replaced
+  weapons. Marked selection takes precedence. TRC6 carries solution/focus to peers;
+  all shared-boat participants must update. Native MP still carries TDC proposals.
+- Read-only/hidden modes retain independent manual TDC preparation. Report mixed
+  speeds and block mixed salvos/lever launches or mismatched explicit speeds rather
+  than silently using a different firing-solution assumption. No role changes.
+- Increase internal dial size 24 percent, readout/label size and tube artwork.
+  Reserve layout space and keep native game-scale/station-shortcut behavior.
+- Larger highlighted 340x48 Apply button with bold label and pending/applied/host
+  wait feedback. Release host wait on reply or timeout; retain explicit Apply.
+- Compilation and 659 offline checks pass; live TDC/MP/launch tests pending.
+  Initial publication description and release checklist prepared; not published.
+
+0.1.16-test -- compass heading, committed labels and consistent controls
+- Full clockwise LUT compass with north wrap, cardinal needle alignment and typed
+  360 normalization. Other dials retain their bounded semicircle behavior.
+- Tube-top pistol labels use committed status, independent of the active draft.
+- Room speed knob and wheel use the same one-decimal readout as preset buttons;
+  native supported speed presets remain authoritative, without numeric entry.
+- Lower native depth-slider minimum to 1 native unit (0.5 m), retaining quarter-
+  metre edits. Guard tuning/restoration callbacks and restore original bounds.
+- Increase preparation panel/dock to 110 percent; preserve game scale and live
+  station-shortcut size. No config migration or new transport/permissions.
+- Full supplied-reference compilation and 612 offline assertions pass. No new
+  in-game run. Host StartScript/HQ loading evidence documented separately; no
+  unrelated mod source modified and no claimed loading-hang fix.
+
+0.1.15-test -- viewport speed list/range and larger rotating knobs
+- User reports room T1 max speed selectable but viewport max unavailable; knobs
+  remain too small and speed numeric entry is unnecessary. Supplied room screenshot
+  confirms small handles inside the larger instrument faces; it does not reveal
+  which torpedoes were marked during the earlier viewport speed attempt.
+- Extend viewport presets to stable marked dry tubes and rebuild common supported
+  speeds before manual callbacks/after native validation. Update slider bounds and
+  control visibility; retain mixed-selection common-speed restrictions.
+- Restore captured native slider ranges on disable/unload. Guard range callbacks;
+  exclude unstable tubes consistently from presets and projected mixed state.
+- Normalize rotating knob artwork into a safe hub-centred instrument area while
+  preserving native pivot/aspect. Do not merely enlarge the background face.
+- Replace speed text entry with a plain readout, preset buttons and dial/scroll.
+  Keep fixed speed visible, and preserve depth/run/heading text input and Apply.
+- Full supplied-reference compilation and 580 offline assertions pass, including
+  native-like slider clamping, stale preset lists, dry T1 max, common-speed limits,
+  callbacks/cleanup and enlarged artwork bounds. Actual game validation pending.
+
+0.1.14-test -- supported torpedo speed and instrument sizing
+- Review supplied 32.5 s 720p video: user reports 0.1.13 handles/tube art are too
+  small relative to launch-interface controls; speed selector still missing.
+- Add always-visible selected-tube speed instrument, including fixed-speed electric
+  weapons. Use real supported presets, discrete scroll/drag and Apply validation.
+- Store and replicate explicit per-tube speed; host validates against the loaded
+  weapon and launch prefixes use the captured speed rather than stale shared input.
+- Synchronize native marked-tube speed under existing viewport policies, preserve
+  manual shared-default changes, project/read mixed speeds and mask hidden controls.
+- Use full launch-panel handle template where available, add original vector dial
+  faces and enlarge tube artwork/remove the dock reduction without scaling raster
+  handles up to fill the entire instrument. Preserve pivots and input coordinates.
+- TRC5 requires all MP peers to update together. No new roles/fire controls, game
+  file replacement, config migration or added dependency. Hover tooltips queued.
+- Full supplied-reference compilation and 568 offline assertions pass. Actual
+  rendering/size comparison, Harmony launch speed, range and MP sessions untested.
+
+0.1.13-test -- live game UI scale and native artwork proportions
+- Follow actual main-game canvas scale, reference pixels per unit and pixel-perfect
+  setting, retaining the old resolution fallback only if native canvas is absent.
+- Avoid multiplying native UI scale by a second independent resolution scale;
+  update the existing canvas live without rebuilding the editor or replacing drafts.
+- Preserve screen-space native knob size and authored pivot; shrink oversized art
+  to the dial frame but do not enlarge small native artwork to fill the hit square.
+- Preserve station-bar authored local scale and original parent scale through a
+  separate holder, rather than forcing unit scale when moving the live bar.
+  Track native ancestor/own scale changes and restore original hierarchy on exit.
+- Avoid redundant canvas/transform writes while polling unchanged scale.
+- Keep 0.1.12 clean tube art, existing permissions, native callbacks, depth/program
+  logic and config behavior. Speed and per-icon hover tooltips remain queued.
+- Full supplied-reference compilation and 519 offline assertions pass; 15 added
+  UI checks cover live native scale, no doubled zoom, natural knob proportions,
+  bounds, original-parent scale and preservation of native changes during restore.
+  Actual Unity rendering/appearance and navigation lifecycle remain untested.
+
+0.1.12-test -- room artwork bounds and native station navigation
+- Review supplied 18.6 s 720p video and four screenshots. The room UI now appears;
+  remaining reports concern station shortcuts, overlapping labels and aft layers.
+- Preserve the live native station-switch bar at the left edge in supported modes,
+  retaining native listeners and MP permission hooks; restore original hierarchy
+  and layout on exit/loading/disable/rebuild. Do not enable hidden/disabled controls.
+- Restrict copied tube art to the torpedo and two doors. Exclude duplicate native
+  labels, arbitrary status backgrounds and mask-dependent flood overlays. Keep live
+  flooding status text and a separately placed editable AZ/MZ button.
+- Fit actual artwork bounds to a reserved area above the information labels;
+  deactivate old cards before deferred destruction when compartment access changes.
+- Native shared depth and per-tube override behavior remain unchanged.
+- Full reference compilation and 504 offline assertions pass, including 18 new
+  hierarchy/geometry checks. Actual 0.1.12 game rendering/navigation remain untested.
+
+0.1.11-test -- repair initialization failure
+- Supplied 0.1.10 log confirms an invalid Harmony target: abstract native
+  FPPInteractionObject.OnClick has no IL body, aborting all mod initialization.
+- Guard the concrete pointer entry point; reject abstract, bodyless and open
+  generic targets. Skip inherited targets already handled by their own class.
+- Isolate auxiliary input-guard installation errors and remove an attempted
+  failed guard without tearing down the core mod. Keep the modal raycast shield.
+- Retain quarter-metre depth and all existing controls/config behavior.
+- Full supplied-reference compilation and 486 offline assertions pass, including
+  abstract-target rejection and recovery after a simulated guard emitter failure.
+  Real game startup and Harmony/input behavior remain to be tested.
+
+0.1.10-test -- door states, authored rotation pivot, modal input and settings scroll
+- Correct inverse tube-door display, matching the supplied native OnEnable logic.
+- Retain rotating native artwork's authored pivot instead of forcing rectangle
+  centre; anchor that hub to the dial hit-area centre.
+- Add full-screen modal raycast shield and gate local native tube/dial/FPP pointer
+  input while editor is open. Release on close; no launch/flood commands or MP
+  roles/permissions are changed.
+- Permit cursor Alt with a shortcut that does not require Alt at a tube station.
+  Retain configured modifiers and strict Ctrl/Shift matching. Brief missed T
+  press is not fully diagnosed by video; this covers the cursor-Alt case.
+- Restore default timed dry-tube pistol preparation to 30 game seconds and Reset
+  Defaults. Preserve existing saved delays and other pistol-policy semantics.
+- Keep Dusty settings scroll offset when rebuilding dependent rows.
+- Main game UI scaling and multi-tube editing remain future work.
+
+0.1.9-test -- compact backed UI / dial geometry / quarter-metre depth / config
+- Reviewed supplied 0.1.8 video and two screenshots. User reports successful
+  synchronized settings for two matching LUT torpedoes in that prior build.
+- Correct dial coordinates for a top-left pivot. Intermediate angular positions
+  now map to intermediate values on translated/scaled controls.
+- Borrow only the native rotating knob, aligned with its hit square; remove
+  displaced copied slider/readout graphics. Preserve hidden child layers.
+- Use a 1920x1080 reference canvas (editor one-third smaller at 16:9), 0.85 dock
+  scale and dark editor/dock backings. Actual revised rendering needs game test.
+- Depth controls use 0.25 m steps; typed entries snap on Apply. Host quantizes new
+  depth overrides; two-decimal readouts preserve quarter metres. Unchanged legacy
+  saved depths are retained during unrelated edits.
+- Read/write TorpedoRoomConfig.txt directly. Per revised user instruction, remove
+  all config migration. Old files are not imported, renamed or deleted.
+- Retain existing viewport synchronization, permissions and launch authority.
+
+0.1.8-test -- confirmed readout crash fix / exclusive room graphic replacement
+- Supersedes 0.1.7, which retained the faulty readout click target.
+- Reuse an existing Graphic (including TMP text) for clickable native readouts.
+  Do not add a second Graphic to the same object. New regression fixture enforces
+  this Unity constraint, reproducing the source of the supplied 0.1.6 exception.
+- Automatically display our compact tube strip at the bottom of a tube station.
+  Keep stock room graphics masked while the mod/interface is enabled, including
+  with the editor closed. T or a tube click opens the centered editor; closing
+  collapses to our strip. Station exit/disable/loading restores stock graphics.
+- Keep the 0.1.7 grouped native display and LUT heading visibility corrections.
+- 0.25 m depth and TorpedoRoomConfig.txt migration remain queued.
+- Actual game rendering and station/cursor interactions still need user testing.
+
+0.1.7-test -- group synchronization / LUT heading repair; panel diagnostics
+- Matching selected FAT/LUT programs now populate native shared controls. Dashes
+  indicate differing dimensions, not simply a selection of multiple tubes.
+- Restore the LUT heading child after native selection validation, including dry
+  LUT tubes; exclude ordinary, FAT-only and straight-only selections correctly.
+- Explicit direction clicks resolve a mixed selection even when the common
+  ship setting already matches the clicked direction. Preserve independent runs.
+- Retry transient native refresh failures, with throttled error logging.
+- Keep the room overlay a root canvas; clean up failed construction and allow
+  retry. Log the failing stage; optional native-art copy failures use a fallback.
+- Missing-panel root cause still needs the current user's output_log.txt. No
+  claim of in-game repair validation. 0.1.6 screenshots are failure evidence.
+- Record 0.25 m depth increments and config filename migration in the future
+  queue. Neither behavior is changed in this repair.
+
+0.1.6-test
+- Borrow native tube-frame and dial graphics as passive image-only copies;
+  retain independent per-tube data and controls. Mask separate native room dials.
+- Add drag/scroll dials linked to numeric boxes for depth, run and LUT heading.
+  Depth supports 0.1 m steps; original native stepping is restored on disable.
+- Rename shared source to exactly Source: Last station.
+- Reduce ordinary viewport labels to depth; FAT/LUT labels retain program/depth
+  or STRAIGHT. Remove duplicated tube number, flood state and AZ/MZ labels there.
+- Fix Hardcore/Custom cycling, deferred dependent-row refresh and coherent Dusty
+  persistence. Replaying unrelated false pistol-policy rows no longer resets policy.
+- New shortcut default: T alone in tube rooms; preserve existing custom bindings.
+- Queue modifier multi-selection/mixed-salvo confirmation in ROADMAP (not implemented).
+- User reports 0.1.5 LUT firing successful, colored icons preserved, and stutter
+  resolved since 0.1.3. New 0.1.6 graphics/controls remain untested in game.
+
+0.1.5-test
+- Replace text-only cards with numbered tube-icon selectors using live native
+  sprites; optional Torpedo Type Icons provider preserves its colors.
+- Mask the native room panel only while the mod panel is open; restore on close.
+- Add per-tube depth, manual native-dial synchronization and launch-depth capture.
+- Add host-controlled current-only/opposite-read-only/all-editable room access.
+- Add synchronized/read-only/hidden viewport reports and Casual/Hardcore/Custom
+  presets. MP continues to determine station access and firing permissions.
+- Replace pin wording with Straight / fitted-pattern mode, retaining saved flags
+  and pattern values. Add no failure mechanic.
+- Extend wire to TRC4; all crew peers must update. Keep native single-tube program
+  and depth display projections guarded against feedback loops.
+- Offline compiled with 382 fixture assertions passed; in-game checks pending.
+
+0.1.4-test
+ - Address reported UZO authority failure: snapshot each admitted launch before
+   detach, use typed ref arguments on launcher overloads and again at the fired
+   Torpedo.SetProgramParameters, and audit native result fields per application.
+ - Protect room-owned programs from native viewport input and host viewport
+   requests. Shared mode stays shared; mixed edits skip room-owned tubes.
+ - Add 5 Hz regular stock-field refresh independent of auto-targeting; room-owned
+   controls read-only, multiple room programs shown without a misleading value.
+ - Replace System.Diagnostics timing with Unity realtime after cache rejection.
+ - Retain TRC3 packet shape. Update all peers because authority semantics changed.
+ - Compilation and 336 offline assertions passed. Actual flight, native Harmony
+   ordering, stock rendering, multiplayer and cache behavior require retesting.
+
+0.1.3-test
+ - Rename the visible mod to Torpedo Room and migrate config to TorpedoRoom.txt.
+ - Center the panel. Clarify the existing current-room/opposite-room overview
+   switch and replace Policy: Free with unrestricted AZ/MZ wording.
+ - Hide program data while the pin is inserted; retain it for removal.
+ - Add stock viewport manual-program import for marked tubes only, one-field
+   merging, per-tube display projection and stock tube program/water annotations.
+ - Refresh clean drafts on confirmation without overwriting unsent edits.
+ - Add host water-state snapshots and a program-only viewport batch route with
+   existing assigned scope/TDC station checks. No firing/access grants added.
+ - Wire format TRC3: every shared-boat participant must update.
+ - Remove recurring installed-adapter type searches, cache reflection metadata,
+   batch raw transport bytes, skip unchanged writes and render open grid at 5 Hz.
+ - Add diagnostic timings once per 10 seconds, enabled for this test build.
+ - Compilation and 312 offline assertions pass. Runtime/visual/synchronization
+   and stutter improvements require the next gameplay test.
+
+0.1.2-test
+ - Fix reported source compiler failure: replace IMGUI grid with Unity UI.
+ - Compile with a limited game reference set excluding UnityEngine.IMGUIModule;
+   reproduce 0.1.1 errors under the same set. Confirm new DLL has no IMGUI ref.
+ - Create the default config on first startup without a settings change.
+ - Correct menu instructions: Submarine / Torpedoes -> Torpedo Room Controls.
+ - Add actual Settings.cs config/provider checks: first creation, preservation,
+   atomic save, legacy defaults, reserved shortcuts and host restrictions.
+ - Compilation and 239 offline assertions passed. In-game retest pending.
+ - Multiplayer payload remains TRC2; no changes to preparation rules/transport.
+
+0.1.1-test
+ - Replace the conflicting F8 shortcut with Ctrl+Alt+T by default.
+ - Add native Dusty key picker and independent Ctrl/Alt/Shift requirements.
+ - Refuse F8/F9; invalid saved keys disable the shortcut. Missing old config
+   keys use the new default. Each player owns their local shortcut.
+ - Add host-configurable per-torpedo straight-running FAT/LUT lockout.
+   Pin flags start removed; stored program settings survive lockout/removal.
+ - Companion protocol TRC2 adds pin flags and host availability; mixed 0.1.0
+   and 0.1.1 companion sessions cannot exchange preparation edits. Update all.
+ - Compilation and 211 offline assertions passed; no gameplay test performed.

@@ -1,0 +1,76 @@
+Torpedo Room 0.1.18-test -- Landomatic
+Source/history reference: https://github.com/Landomatic/UboatMods
+
+This is a separate, independently authored companion mod. It does not include
+or replace the supplied multiplayer mod's source, assets, manifest or assemblies.
+
+Compatibility credit:
+Uboats: Coop Multiplayer 1.11.5 -- Pingu565 (project lead), Kugler and Dusty.
+Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=3815285055
+Pingu565 source profile: https://github.com/tomc5651508-oss
+The supplied upstream source identifies its license as CC BY-NC-SA 4.0:
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+The adapter calls that installed mod's transport/station APIs by reflection;
+the locally supplied MpProtocol.cs was also used, unmodified, for offline tests.
+That file and the resulting upstream-containing test assembly are not shipped.
+
+Dusty's Community Patch provides the optional settings UI. This companion uses
+the reflection-based CommunityPatchSettings provider shape already used by
+Landomatic's Nose Down Depth Companion. No Dusty assembly is bundled.
+
+UBOAT and its game/Unity assets belong to their respective owners. No game
+assemblies or assets, private logs, user saves or live configs are bundled.
+
+Historical scope:
+AZ/MZ is treated here as the game's selectable operating mode. This test build
+does not claim that all historical pistol models used the same mechanisms or
+could be adjusted instantly in a flooded tube. Lock/dry-tube policies
+are optional gameplay rules; FAT/LUT settings remain adjustable at sea.
+
+0.1.1 key control uses Dusty's native external-provider "key" row, verified against
+the supplied Community Patch source. Ctrl/Alt/Shift are separate local booleans.
+No Dusty source or key-capture implementation is included or replaced.
+Straight running is a gameplay program bypass, not a claimed historical chassis
+pin. Existing saved StraightRun flags retain their meaning; no failure mechanic
+or historical preparation delay is added for FAT/LUT.
+
+Optional graphics compatibility:
+Torpedo Type Icons, Workshop 3761351154 (supplied Manifest version 1.0;
+loader reports v2.9). https://steamcommunity.com/sharedfiles/filedetails/?id=3761351154
+The supplied manifest has no author value. Its source and images are not copied
+or redistributed. If installed, its TryGetLauncherByName API is called by
+reflection to borrow its live sprite, with native sprites as fallback. Display
+uses white Image tint to preserve colors. Native sprite borrowing also follows
+other mods that replace TorpedoLauncherUI.torpedoImage. Runtime coexistence is
+not confirmed by offline API tests.
+
+0.1.6 reuses live native UI image/text geometry, sprites, fonts and materials.
+Fresh controls bind to our per-tube handlers; native game station-control
+scripts and existing listeners are not copied. No game artwork is
+exported into this package. Dusty preset refresh/persistence calls are optional
+reflection calls into the installed provider APIs; no Dusty source is bundled.
+
+0.1.7 corrects native grouped-program presentation and selection validation.
+Native panel construction is recoverable and records the failing stage.
+This is an experimental repair/diagnostic build, not an in-game-verified fix
+for the missing room panel reported in 0.1.6.
+
+0.1.8 reuses the existing text Graphic for readout clicks and replaces native
+room graphics with a persistent compact strip while enabled at a tube station.
+The readout crash is located in the supplied 0.1.6 runtime log. The fix is
+compiled and offline-tested; actual in-game rendering is not yet verified.
+
+0.1.9 changes layout scaling/backgrounds and native knob graphic selection; no
+new game artwork is exported or bundled. Quarter-metre depth is a requested
+setting convention, not an assertion of universal historical accuracy across
+all torpedo types. Config migration is removed at the user's explicit request.
+
+0.1.10 retains native artwork pivots and native tube-door display conventions.
+Local modal pointer guards affect only input while the room editor is open;
+no upstream source or assets are copied, and no new role/firing rules are added.
+Thirty-second timed dry-tube preparation remains a gameplay approximation.
+
+0.1.18 optional hover compatibility: Happy Torpedo Time by Landomatic. Only its
+runtime presence is detected; model and maintenance values come from the live
+UBOAT StoredTorpedo. No Happy Torpedo Time source or implementation is copied or
+bundled. No additional dependency is introduced.

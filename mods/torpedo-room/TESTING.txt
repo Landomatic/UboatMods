@@ -1,0 +1,328 @@
+0.1.18-test -- REQUIRED BEFORE INITIAL PUBLICATION
+1. Fully replace TorpedoRoomControls, restart, check 0.1.18-test in output_log.
+   Every shared-boat player needs this build (TRC7). Retain an untouched save.
+2. PRIORITY: VII/C fore and aft. Flood a tube, set the fire-control selector to
+   the opposite compartment, and fire using its physical lever. Repeat with no
+   TDC operator and with different tube speeds / deliberately mismatched TDC speed.
+   Type II: repeat with no TDC operator. None may be blocked by this mod's speed
+   checks or selected speed focus. Native readiness/MP permissions still apply.
+3. Fire permitted flooded tubes from TDC, scopes, UZO and fire-control controls.
+   Mixed speeds must warn without a mod hold. Verify each actual torpedo honors
+   its own applied speed; do not infer launch behavior from a display alone.
+4. With bidirectional sync ON, test room→TDC and TDC→tube at each report policy
+   (Synchronized, Read-only, Hidden). Preserve target speed, bearing, AOB/range,
+   native manual gyro relays and target-lock aim point. With no checkmarks, Apply
+   a speed-prepared tube to establish focus; then Apply another tube / replace it.
+5. Toggle speed sync OFF. Change tube speed and TDC speed separately; each must
+   stay independent and launch must remain available. Casual/Hardcore presets
+   must not alter this option. Client config must show and enforce the host rule.
+6. T1 native TDC dial: starting at 40, click forward through 44, 30, 40; repeat
+   several cycles, then right-click in reverse. Verify actual loaded weapon
+   presets, room/viewport readouts and physical launch speeds. Electric weapons
+   must not gain unsupported speeds. Test host and joiner TDC inputs.
+7. Switch game speed units between knots and km/h while the room editor is open
+   with unapplied changes. Check every room speed readout and overridden viewport
+   readout, fixed-speed weapons and speed steps. Apply must preserve the same
+   physical speed. Native TDC calculations/engraved historical scales stay native.
+8. Hover tube icons in both collapsed dock and expanded editor: type/model only.
+   Repeat with HTT: add maintenance state/remaining benefit, counting down correctly.
+   Move away, change compartments, reload/change torpedoes, hide UI and load save:
+   no stale tooltip. Hover must not block selectors, Apply or native station icons.
+9. Verify no port-only pistol option. Free AZ/MZ changes at sea; locked and timed
+   dry-tube policies still work, default time 30 game seconds. FAT/LUT stays immediate.
+10. Minimal MP stack: supplied MP + optional Community Patch + Torpedo Room. Test
+    host/client rule changes, room Apply, TDC updates, rejected/stale requests,
+    save/reload and client reconnect. All peers same version; no new roles required.
+11. Inspect larger dials and Apply inside the background at several game UI scales.
+    No overlap, background clicks or loss of native left station-switch icons.
+Record actual passes/failures before public release. Offline fixtures do not prove
+Unity UI, Harmony execution, torpedo flight or multiplayer outcomes. Investigate
+larger mod stacks separately after the reduced stack passes.
+
+Previous patch checklists (historical):
+0.1.16-test priority checks
+1. Replace the entire TorpedoRoomControls folder and restart. Confirm the log
+   says 0.1.16-test loaded. All shared-boat peers should use this test build.
+2. Choose a LUT weapon and set Source: Per-tube. Click each compass direction:
+   top=0, right=90, bottom=180, left=270. Check all four needle positions and drag
+   around the bottom half too. Scroll 359.9 -> 0 -> 0.1; reverse through north.
+   Type 360 and Apply: it must mean north/0. Compare actual launch heading too.
+3. Change AZ/MZ using the lower selector and tube-top button. Before Apply, only
+   the lower draft label changes; card and viewport retain committed mode. Apply
+   with unrestricted policy, then repeat with dry preparation and its 30-second
+   default. The card must wait for actual preparation completion/host acceptance.
+4. On a three-speed steam weapon use knob clicks, dragging, mouse wheel and < >
+   at each preset. All methods must display exactly the same one-decimal value.
+   Apply and compare native viewport, reselect and fire. A fixed-speed electric
+   still shows its readout without numeric entry or extra presets.
+5. Apply room depth 0.5, then mark that tube in synchronized viewport mode. Native
+   depth must display 0.5, not clamp to 1. Edit native depth to 0.5 and 0.75 and
+   confirm room data. Repeat after reselect/save/load and across host/client.
+   Disable mod and check original native stepping/minimum are restored.
+6. Check 10 percent larger panel/dock at game UI scales and resolutions. No
+   clipped fields, neighboring control overlaps or clicks through the modal.
+   Native live station shortcuts should retain their normal size and behavior.
+7. Host loading retest: repeat the same career/save startup with only Torpedo
+   Room disabled, keeping the other mods/settings identical. Compare StartScript
+   blockade and HQ BuildStaticEntity exception in both logs. If both persist,
+   isolate the campaign/HQ/MP startup separately. If only this mod triggers it,
+   retain both logs and the exact startup scenario for a focused compatibility fix.
+Individual in-menu native/Happy Torpedo Time hover tooltips remain queued.
+
+Previous checklists:
+
+0.1.15-test priority checks
+1. Replace the complete TorpedoRoomControls folder and restart. Confirm
+   [TorpedoRoom] 0.1.15-test loaded; use the same build for all shared-boat players.
+2. In synchronized mode mark ONLY stable dry T1 tubes in the native viewport.
+   Drag native speed to maximum, then return to room: their highest supported
+   preset should be retained. Repeat flooded, deselect/reselect and after choosing
+   a room speed first. The native slider must not remain stuck at an old maximum.
+3. Mark a fixed-speed electric too. Native shared speed must then offer only common
+   supported speeds; it should not allow T1 max if the electric cannot support it.
+   Unmark the electric and confirm T1 max becomes available again. Test mixed saved
+   speeds, read-only/hidden policies, and loading/flooding/draining transitions.
+4. In our room menu, speed is a plain readout: no editable box, keyboard input or
+   caret. Use < > presets, dial dragging or wheel on multi-speed weapons, then
+   Apply. Fixed-speed weapons remain displayed; no unsupported speeds are offered.
+5. Compare rotating knob size against 0.1.14 screenshot. Handles themselves should
+   be larger, retain their pivot and rotate within the face/hit area without
+   overlapping labels or neighboring controls. Repeat depth/run/heading and speed.
+6. Change game UI scale and verify sizing/input remain consistent. Check native
+   station shortcuts, normal controls after closing, modal click isolation and
+   disable/re-enable restoring native speed-slider ranges.
+7. Retest save/reload and host/client edits/authority. Actual max-speed firing and
+   range remain necessary checks; native TDC still has one current solution.
+If max speed still fails, capture the native viewport with its tube checkmarks,
+requested speed and current output_log.txt so the selection and runtime can be seen.
+Individual in-menu hover tooltips remain queued.
+
+Previous checklists:
+
+0.1.14-test priority checks
+1. Replace the complete TorpedoRoomControls folder and restart UBOAT. Confirm
+   [TorpedoRoom] 0.1.14-test loaded. ALL MP peers need 0.1.14 (TRC5 speed records).
+   Keep an untouched save for testing this new speed/record feature.
+2. Select an electric single-speed torpedo in our room menu. Speed (kn) must be
+   present with its actual value and fixed label. No extra speeds should be offered.
+   Check ordinary torpedoes too; speed must not depend on FAT/LUT capability.
+3. Load/select a multi-speed weapon. Scroll/drag through supported presets and type
+   a value; Apply should select the nearest supported native speed. Select another
+   tube and return: each tube should retain its own applied speed. Dry/flooded
+   stable tubes are eligible under existing room access rules.
+4. In synchronized viewport mode, mark a tube and compare its speed on the native
+   launch panel. Edit native speed, return to room and verify that marked tube's
+   setting changed. Unmarked explicit speed overrides should remain independent.
+   Repeat with matching/mixed marked speeds, then read-only and hidden policies.
+5. Test-fire using the physical lever after selecting a supported speed. Verify
+   actual running speed/range, not only UI text. Repeat after changing the native
+   shared speed to expose stale-input overrides. The TDC still has one current
+   speed/solution: test common-speed salvos before mixed-speed experiments.
+6. Compare artwork with the main launch interface: room cards should be larger,
+   no extra dock reduction, and depth/speed/run/heading have complete circular
+   instrument faces around native handles. Check pivots, input, nonoverlapping
+   labels and left-side station icons at multiple UI scales/resolutions.
+7. Save/reload; test host/client speed edits, authority/revisions, mixed contents,
+   opposite-compartment read-only and current-compartment-only modes. Check T,
+   normal physical levers, pistol timer and no background click-through regressions.
+Send current output_log.txt and readable footage for startup or speed problems.
+The separate individual-menu-icon hover tooltip feature remains queued.
+
+Previous checklists:
+
+0.1.13-test priority checks
+1. Replace the complete TorpedoRoomControls folder and restart UBOAT. Confirm
+   [TorpedoRoom] 0.1.13-test loaded. All shared-boat peers should use this version.
+2. At the same resolution/UI-scale setting compare native depth knob and left
+   station icons before entering the room with their room equivalents. The room
+   knob must retain its native proportions instead of stretching to fill a square;
+   the left shortcuts must retain native size and appearance. Test fore and aft.
+3. Change the game's UI scale (for example 100%, 125%, then back). Return to the
+   room or use supported live shortcuts: dock/editor should follow the game scale
+   and station icons should not receive an extra zoom multiplier. Test a different
+   supported screen resolution/window size as well.
+4. Open a tube draft, type a distinctive un-applied depth or LUT value, change UI
+   scale and check the draft/selection remains. No menu rebuild or auto-Apply is
+   intended. Drag/scroll dials at multiple scales: intermediate values and .25 m
+   depth steps should still work, with the arm rotating around the knob hub.
+5. Return to scope/UZO/TDC with the left icons. Check original native layout is
+   restored, including after changing scale while in the room. Repeat disable/
+   enable interface, loading and station changes. Native MP restrictions remain.
+6. Retest clean tube labels, aft artifacts, door states and modal click isolation
+   from 0.1.12. Physical levers remain available with editor closed.
+Speed selection and individual menu-icon hover tooltips are queued, not included.
+A same-resolution before/after screenshot is most useful for size/sharpness;
+readable 720p video is sufficient for interaction and scale-change behavior.
+
+Previous checklists:
+
+0.1.12-test priority checks
+1. Replace the complete TorpedoRoomControls folder and fully restart UBOAT; all
+   shared-boat peers should update together. Confirm 0.1.12-test loaded in the log.
+2. Enter tubes through the native station shortcuts in a mode supporting them.
+   The left bar should remain available in the room. Return to scopes/UZO/TDC;
+   verify normal layout is restored. Repeat fore/aft, close/open editor, save/load
+   and disable/re-enable interface. Native FPP/MP restrictions still apply; do not
+   expect a hidden/disabled station to become available.
+3. Inspect dock/editor tube numbers, AZ/MZ buttons and text: native duplicate
+   labels and status plates should be gone, and door/torpedo art must stay above
+   the information. Verify colored icons, dry/flooded and empty/reloaded tubes.
+4. Select Current compartment only, switch fore/aft and repeat each access mode.
+   No blue/grey leftover native layer should appear. Flood/drain percentage remains
+   in status text. Physical levers remain usable with the editor closed.
+5. Check each separate AZ/MZ button opens/selects its tube and changes its draft;
+   Apply and existing pistol policy/timer are still required. Read-only opposite
+   tubes must not become editable. Check no physical click leaks under the editor.
+6. Native depth is intentionally still shared: observe tubes without overrides,
+   give an unmarked tube an independent depth, then change native depth with other
+   tubes marked in synchronized mode. The marked tubes should take the chosen
+   depth; the unmarked explicit override should remain. Retest .25 m steps.
+7. Retest matching/mixed LUT controls, deselect/reselect, T/Alt and Dusty scrolling.
+Send the current log and a focused readable screenshot/720p clip for failures.
+
+Previous checklists:
+
+0.1.11-test priority checks
+1. Replace the complete TorpedoRoomControls folder and fully restart UBOAT.
+   All shared-boat peers should use 0.1.11. Do not layer old Source files.
+2. Confirm output_log.txt contains [TorpedoRoom] 0.1.11-test loaded and no new
+   [TorpedoRoom] Initialization failed exception. An auxiliary guard warning
+   should leave the core room interface active; send the log if one appears.
+3. Enter a torpedo control station: our bottom strip should replace the native
+   room graphic. T/click should open the backed editor; close should keep strip.
+4. Scroll depth in 0.25 m steps, then enter 3.25 m and Apply. Verify room and
+   synchronized viewport readouts. Existing saved values need not change until
+   a new depth is selected. Retest LUT values and deselect/reselect behavior.
+5. With editor open, test background tube buttons/dials: no underlying action
+   should occur. Close editor and verify normal physical controls work again.
+6. Repeat previous door-state, dial-pivot, cursor-Alt and Dusty-scroll checks.
+Send the new output_log.txt if startup, room display or depth still fails.
+
+Previous checklists:
+
+0.1.10-test priority checks
+1. Fully replace TorpedoRoomControls and restart; all peers should use 0.1.10.
+2. Compare a dry and flooded tube: dry graphic is OPEN with torpedo visible;
+   flooded graphic CLOSED. Test flood, drain, empty/reload and fore/aft station.
+3. Rotate each dial from left through middle to right, then scroll/type. The hub
+   must stay stationary at the click-area centre as its arm rotates.
+4. With the editor open click over/around physical tube buttons and native UI:
+   they must not flood, drain, mark, fire or change pistol settings. Close the
+   editor and verify those normal local controls work again. Check station exit.
+5. Press T with Alt released and held for cursor visibility. Test your configured
+   Ctrl/Alt/Shift binding too. If a press still fails, retain the current log.
+6. In Dusty's Torpedo Room settings scroll near the bottom, change a host option
+   or preset and verify dependent rows update without losing scroll position.
+7. Default pistol preparation duration is 30 game seconds in timed dry-tube mode.
+   Existing configs keep their stored value; set it to 30 for this test if 0 is
+   still stored. Verify cancellation on flooding/leaving, and immediate FAT/LUT.
+8. Retest quarter-metre depth, synchronized two-tube LUT values and host room
+   access/viewport policies. Main game UI-scale support remains queued.
+A focused 720p/30 fps clip is adequate if labels are readable; 1080p is usable.
+
+Previous checklists (superseded where behavior/defaults changed):
+
+0.1.9-test priority checks (supersedes prior UI/depth/config checklist)
+1. Replace the complete TorpedoRoomControls folder, restart and check the loaded
+   version. All shared-boat peers should update. TorpedoRoomConfig.txt is created
+   with defaults if absent; old config filenames are ignored and untouched.
+2. At the tube station check the smaller bottom strip and dark backing. T/click
+   opens the smaller centred editor with a background. Close leaves only our
+   strip, with the stock room graphic still hidden. Exit/disable restores stock.
+3. Select a tube. The native knob should sit inside its dial hit area, with no
+   stray slider/readout below it. Click/drag across left, centre and right of the
+   upper semicircle: depth, run and LUT heading must show intermediate values.
+   Scroll in both directions; verify text entry rotates the needle as before.
+4. Depth scroll must use .25 m. Type 3.25 and Apply: room/viewport should show
+   3.25 m. Type 3.14 and Apply: it should snap to 3.25 m. Verify bounds .5-14 m.
+   Existing old-save depths need not change until a new depth is selected.
+5. Repeat matching/mixed two-tube LUT and deselect/reselect checks from earlier
+   tests; confirm synchronization still works with the compact interface.
+6. Repeat read-only/opposite-compartment/hidden display and physical lever tests.
+   No new permissions or firing/flooding controls are introduced.
+Send the new output_log.txt and screenshot/video if layout or dial input fails.
+
+Historical checklists (old precision/config instructions are superseded):
+
+0.1.8-test priority checks (supersedes 0.1.7 checklist)
+1. Replace the complete TorpedoRoomControls folder and restart. Log should show
+   0.1.8-test loaded. All shared-boat peers should update to this build.
+2. Enter the fore tube control station: our tube strip should appear at the
+   bottom automatically. The old native speed/depth/room graphic should be gone.
+3. Press T or use the game's cursor control and click a tube. The editor should
+   open centrally. Click its native numeric readout: it should focus the text
+   entry, not crash. Check depth, initial run and applicable LUT heading dials.
+4. Close/Escape/T: our bottom strip should stay; stock room graphics must remain
+   hidden. Existing physical levers must remain usable with the editor closed.
+5. Visit aft station and test the host's current/opposite-read-only/all-editable
+   modes. Leave the tube station: our strip should disappear, and original scope,
+   UZO and TDC presentation should follow the existing host viewport policy.
+6. Disable the room interface in settings: native room graphics should return.
+   Re-enable: our strip should replace them again. Check load/save transitions.
+7. Repeat the shared matching/mixed LUT settings and deselect/reselect tests
+   below. No role or firing permissions are changed.
+If opening fails, send current output_log.txt with 'Room interface stage='.
+Depth precision/config filename requests are still queued and unchanged.
+
+Prior repair/regression checklists:
+
+0.1.7-test priority checks
+1. Fully replace TorpedoRoomControls, restart and verify 0.1.7-test loaded in log.
+2. At the torpedo control station press T (or your saved configured shortcut).
+   The centered panel should open and hide stock speed/depth controls. Close it
+   and check they return. If absent, send output_log.txt from this run; look for
+   'Room interface opened' or 'Room interface stage='. No native assets/logs ship.
+3. With synchronized viewport display enabled, mark two LUT tubes with identical
+   run, direction and heading. Native shared fields must show the matching data.
+   Give just one tube a different run: only run should show a dash. Different
+   headings should make only the heading mixed. Individual badges stay accurate.
+4. Deselect every tube, then reselect LUT tubes while dry and again flooded. The
+   LUT heading row must return. FAT-only selection must not show LUT heading.
+5. Give tubes opposite first-turn directions; click Left and then Right. Each
+   explicit click must set both while retaining their independent run distances.
+6. Read-only/hidden host display modes and MP station access must remain intact.
+   No new firing, flooding, marking or role permissions are introduced.
+7. 0.25 m depth and TorpedoRoomConfig.txt are queued; current step/file unchanged.
+
+Previous broader regression checklist (still applicable):
+
+TORPEDO ROOM 0.1.6-test -- focused game check
+
+Replace the entire old folder, restart, keep your baseline save, and load a test
+slot. Default is now T alone at a tube station. Existing custom bindings persist;
+if yours still has modifiers, change them in Dusty or reset defaults.
+
+1. Open at a fore tube station before visiting any scope. Confirm native tube
+frames, colored torpedo sprites and native dial graphics appear instead of the
+old flat cards, and the separate bottom speed/depth panel is hidden. Close and
+confirm the original controls return. Repeat from the stern when available.
+The log reports UI native dials=N/3 board=True/False; N<3 identifies fallback.
+
+2. Click a tube graphic, then its AZ/MZ hotspot. Confirm selection and pistol
+draft update (Apply confirms). Click each native numeric readout and confirm its
+text field receives focus. Drag and scroll depth to 3.1 m, then type 4.2 m. The numeric
+box and needle must track each other. Apply, change tube and return: value must
+remain. Check run and heading dials the same way, plus text entry and limits.
+Opposite-room read-only controls must reject dial edits as well as typing.
+FAT/LUT controls remain usable while dry. Source: Last station uses the common
+native program; Source: Per-tube enables that tube's own program fields.
+
+3. At UZO/scope/TDC with reports enabled: ordinary torpedoes should show depth
+only. FAT/LUT should show program/run/direction/heading as applicable and depth;
+select Straight in the room and confirm STRAIGHT is shown there instead. No
+extra tube number, flooded/ready or AZ/MZ text should duplicate stock graphics.
+Check a 3.1 m per-tube setting displays correctly on the native depth dial too.
+
+4. Dusty: Submarine / Torpedoes -> Torpedo Room. Cycle Casual -> Hardcore ->
+Custom -> Casual. Confirm the selector advances and related room-access,
+viewport and pistol-policy rows refresh without reopening. Set a custom option,
+quit/restart, and check it survives. Presets must not change firing/role rules.
+
+5. Repeat one known LUT firing check and one distinct per-tube launch depth
+check. For multiplayer, every shared-boat peer should use 0.1.6; test host-only
+rule changes, synchronized edits and ordinary MP station restrictions.
+
+Send a screenshot and output_log.txt for layout/control mismatches. No real
+Unity/Steam/flight validation was performed offline. Prior user reports establish
+LUT success in 0.1.5, icon compatibility and no stutter since 0.1.3; do not redo
+unrelated performance investigations unless this patch introduces a regression.
