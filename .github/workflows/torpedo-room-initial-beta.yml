@@ -1,0 +1,44 @@
+name: Publish Torpedo Room initial Beta
+on:
+  push:
+    branches: [main]
+    paths:
+      - history/torpedo-room/0.1.18-beta/RELEASE_NOTES.md
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: torpedo-room-initial-beta
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'Landomatic/UboatMods' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the reviewed commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Verify exact previously delivered package
+        working-directory: packages/torpedo-room/0.1.18-beta
+        run: sha256sum --check SHA256SUMS.txt
+      - name: Publish initial Beta once
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag=torpedo-room-v0.1.18-beta
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo 'Release already exists; leaving it unchanged.'
+            exit 0
+          fi
+          gh release create "$tag" \
+            packages/torpedo-room/0.1.18-beta/TorpedoRoom_v0.1.18-test.zip \
+            packages/torpedo-room/0.1.18-beta/SHA256SUMS.txt \
+            --target "$GITHUB_SHA" --prerelease --latest=false \
+            --title 'Torpedo Room 0.1.18 — Initial BETA' \
+            --notes-file history/torpedo-room/0.1.18-beta/RELEASE_NOTES.md

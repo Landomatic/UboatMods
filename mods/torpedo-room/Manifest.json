@@ -1,0 +1,15 @@
+{
+  "name": "Torpedo Room",
+  "version": "0.1.18",
+  "description": "Experimental Torpedo Room: per-tube preparations, optional bidirectional TDC speed, game speed units, minimal torpedo hover and native firing permissions. Source/history: https://github.com/Landomatic/UboatMods",
+  "author": "Landomatic",
+  "supportedGameVersions": [
+    "2026.1"
+  ],
+  "assemblyName": "LandomaticTorpedoRoom",
+  "permissions": [
+    "Reflection",
+    "IO"
+  ],
+  "steamFileId": 0
+}
