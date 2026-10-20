@@ -1,4 +1,4 @@
-0.1.19-beta publication preparation
+0.1.20-beta publication preparation
 Player ZIP: Source, Manifest.json, README.txt, CHANGELOG.txt, LICENSE, NOTICE.txt.
 Use only that player ZIP for Workshop, not the separate source archive.
 Retain the already assigned Workshop steamFileId/preview in the publishing folder;

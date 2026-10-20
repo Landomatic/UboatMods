@@ -5,7 +5,7 @@ station-restricted multiplayer play. Choose a tube, adjust its settings and Appl
 your physical levers still flood, drain and fire.
 [list]
 [*]Per-tube depth, supported speed, AZ/MZ and FAT/LUT programming.
-[*]Full-circle LUT heading and 0.25 m depth increments from 0.5 to 14 m.
+[*]Full-circle LUT heading and 0.25 m depth increments from 1 to 14 m.
 [*]Native torpedo artwork, larger instruments and a prominent Apply button.
 [*]Current compartment, read-only opposite tubes, or all tubes editable.
 [*]Synchronized, read-only or hidden viewing-station reports.
@@ -15,7 +15,7 @@ your physical levers still flood, drain and fire.
 [/list]
 Press [b]T[/b] at a tube station. Configure through optional Dusty's Community Patch
 or TorpedoRoomConfig.txt in UBOAT persistent data. Solo needs no multiplayer mod.
-All shared-boat players require the same build (0.1.19 / TRC8). Supplied MP
+All shared-boat players require the same build (0.1.20 / TRC8). Supplied MP
 integration targets Uboats: Coop Multiplayer 1.11.5 / protocol 54.
 Mixed speeds/TDC mismatches warn without mod-added firing holds; existing native
 readiness and MP permissions apply. FAT/LUT remains adjustable at sea.
@@ -25,3 +25,12 @@ https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 Copyright (c) 2026 Landomatic. CC BY-NC 4.0. See LICENSE/NOTICE.txt for full credits.
 Compatibility credit: Pingu565, Kugler and Dusty. UBOAT and third-party assets
 remain their owners' work. No upstream mod source or game assets are bundled.
+
+[h2]0.1.20 Beta additions[/h2]
+Hidden Reports leaves only the native Feuer button in the launch panel. The native
+fire-control boxes select its tube/salvo; flood tubes with the normal controls.
+Read-only and synchronized retain native selection/dispersion/firing. Physical
+TDC and direct tube levers retain native behavior. Running depth is 1–14 m in
+0.25 m steps. An all-T5 selection (stock prototype included) can use the viewing
+Feuer interface through 50 m of boat depth; this does not set running depth to
+50 m or change engine/guidance behavior. Live .20 game/MP testing is pending.

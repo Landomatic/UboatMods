@@ -1,3 +1,21 @@
+0.1.20-beta -- Feuer-only reports and T5 viewing-interface depth exception
+- Hidden Reports hides the entire native launch panel, moving the original
+  Feuer button, confirmation popup and any nested station navigation outside
+  the mask. Restore the exact authored hierarchy/layout on policy changes,
+  station exit, closing, loading and disable. Add a hover-only firing hint.
+- In Hidden Reports only, use native fire-control tube/salvo mapping before UI
+  readiness and Feuer/confirmation. No stale-mark or first-ready fallback;
+  do not remap during an active salvo. Keep native ordering, timing, targeting,
+  readiness and MP transport. Physical TDC and tube lever paths stay native.
+- Restrict running-depth settings to 1–14 m, retaining 0.25 m steps and typed
+  entry/native synchronization. Clamp old out-of-range weapon records when
+  read on the host; no user config migration or rewrite is added.
+- Lift only the viewing-panel boat-depth blocker for an all-T5 selected set,
+  including stock prototype, through 50 m boat depth. Ordinary/mixed/unknown
+  types keep the normal blocker. No change to engine launches or guidance.
+- Preserve copyright, license and compatibility credits. Full supplied-reference
+  compilation and offline checks pass; live game/MP verification pending.
+
 0.1.19-beta -- tube state recovery and clean player packaging
 - Remove locked-on-load pistol mode and enforcement. Free and optional timed dry
   tube remain; retired saved values are unrestricted without config migration.

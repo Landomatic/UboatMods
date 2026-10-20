@@ -1,34 +1,56 @@
-0.1.19-beta -- compilation passed; offline passed; new live test not run
-723 assertions: 269 model/protocol, 38 adapter, 32 shortcut, 59 config/provider,
-82 stock UI/depth, 24 launch authority, 54 dial, 11 native click, 38 native skin,
-35 speed/units, 51 TDC sync/cycle, 11 hover formatting, 19 tube UI transitions.
+0.1.20-beta -- supplied-reference compilation passed; offline passed; game NOT RUN
+802 assertions: 274 model/protocol, 38 MP adapter, 32 shortcut, 59 config/provider,
+85 stock UI/depth, 71 viewing fire/layout, 24 launch authority, 54 dial, 11 click,
+38 native skin, 35 speed/units, 51 TDC sync/cycle, 11 hover, 19 tube UI transitions.
 
-Full Source compiled against supplied real UBOAT/Unity/Harmony references using
-the native compiler's reference set plus UIModule. Fixture groups test actual
-classes against independent native/API doubles; no game DLLs are distributed.
+Full Source compiled with the actual supplied UBOAT/Unity/Harmony references,
+using the native compiler reference set plus UIModule. Actual mod classes are
+exercised by independently authored API/Unity fixtures. No game/reference DLLs
+or downloaded upstream source are distributed. These checks do not render Unity,
+launch a real torpedo, or prove MP/network/hull compatibility in-game.
 
-New checks cover replacement identities, unload/empty/new host state, preserved
-same-weapon drafts, busy/stable cancellation transitions, 100 unchanged polls
-without repeated refresh, busy/permissions/host reason strings; native icon-only
-refresh and empty sprite clearing. Config tests confirm no loaded-lock row or
-port row, optional dry tube remains, retired values do not rewrite live configs.
-Wire TRC8 rejects removed policy values. All shared-boat players must update.
+Native supplied-game code inspected:
+- TorpedoLaunchersUI.Update applies firingBlockade for PlayerShip.Depth > 18 m.
+  This is boat depth, separate from the 14 m torpedo running-depth UI maximum.
+- Torpedo.TargetDepth setter assigns directly. Direct launcher Launch checks
+  flooding, without that viewing overlay. Engine deep firing is unchanged.
+- Native DoFire/OnFire/OnConfirmFire preserve the gyro-unsynchronized popup and
+  LaunchAllTorpedoes entry point. Its coroutine selects flooded marked tubes,
+  uses native launch order and group gyro/spread, with native sequencing/timing.
+- Fire-control boxes' ValidateMarkedLaunchersFromSalvoSettings maps selectors/
+  salvo settings for the supplied II/VII/IX setups. Unsupported/unmapped native
+  results cannot keep stale marks. No guessed first-ready selection exists.
+- ExtendedTorpedoLauncher.IsMarkedForLaunch setter directly writes its field;
+  resolving marks does not emit per-frame change events. No inverse selection
+  mapping, selector-value writes or automatic flooding is added.
+- Supplied MP 1.11.5 / protocol54 intercepts native LaunchAllTorpedoes and carries
+  fire-control selection/targets through its existing dispatch. New code does
+  not create a fire packet, grant station access or bypass MP's interceptors.
 
-Native TorpedoLauncherUI IL inspected: ValidateTorpedoIcon refreshes only artwork;
-ValidateState also changes native launch marks. This patch explicitly calls only
-the icon method on observed state/content changes. No native task, tube state,
-mark, animation completion or firing permissions are forced. Grid/Runtime are
-compiled and source-reviewed, not driven by a live Unity input harness.
+New/updated checks cover 1 m minimum and quarter-metre input/projection, bounded
+model/protocol records; Hidden Reports complete-root masking and native control
+identity/layout restoration; original popup and station navigation hierarchy;
+station/mode/load/close/disable recovery; stale/opposite/none/salvo selections;
+missing boxes/unsupported mapping with no fallback; no remapping active salvos;
+confirmation selection recheck; native-disabled button/DisallowFire retention;
+T5/prototype/warmed equipment keys and depth boundaries, unknown/mixed/dry non-T5
+rejection; ordinary/read-only/synchronized selection behavior; restored depth
+mask after surfacing; UI-only hook targets; failed-layout retry suppression.
+Physical TDC/tube lever code is not patched by ViewingFire; live firing from each
+station still needs verification. Runtime normalization/Grid host integration is
+compiled and source-reviewed, not driven by a live game fixture.
 
-Prior .18 live evidence: user reports successful TDC/UZO/direct-tube firing; log
-20261020-074718 identifies Type IXA and three program audits verified=True.
-Other periscopes and native TDC speed clicks remain pending. The cancelled
-maintenance explanation is unconfirmed: no cancellation/state trace was in the
-log. This revision addresses identified stale UI paths, not a reproduced native
-maintenance bug. Remaining focused cases are in TESTING.txt.
+Screenshot cdfc8426f77b02388e0309744f40fdd8.jpg was visually inspected this time:
+remaining empty tube outlines/marks, knobs, dispersion and background motivated
+whole-panel masking. Screenshot is not bundled. Exact new game appearance, live
+UI-scale changes, native confirmation interactions and host/client launches are
+pending. TESTING.txt contains the focused acceptance cases. Do not equate offline
+selection checks with recorded real selected/fired tube indices.
 
-Player ZIP excludes tests, historical developer notes, publication drafts and
-UPDATE.json. Separate source archive retains those records. No raw logs, saves,
-credentials, reference assemblies or downloaded upstream source are included.
-License terms and copyright unchanged; project reference metadata refreshed.
-This preparation does not update the Workshop item or replace the .18 release.
+Owner reported .19 looks good in solo. Earlier .18 reported TDC/UZO/direct-tube
+firing; remaining periscope/TDC speed-button tests are unconfirmed. The cancelled
+maintenance issue and broader mod-stack loading/crash interactions remain separate.
+TRC8 format is unchanged; all peers should nevertheless use the same .20 build.
+No user config migration, license change, Workshop upload or GitHub release/tag.
+Player ZIP includes Source + 5 player documents only; separate source archive
+retains Tests, developer docs and validation. No raw logs/saves/private configs.

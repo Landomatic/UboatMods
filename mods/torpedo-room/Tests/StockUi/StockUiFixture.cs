@@ -20,23 +20,26 @@ namespace HarmonyLib {
 }
 namespace UnityEngine {
  public class Object {public static void Destroy(object o){} }
- public class Component {public GameObject gameObject=new GameObject("fixture");public Transform transform=new RectTransform();public T GetComponent<T>() where T:new(){return gameObject.GetComponent<T>();}public T[] GetComponentsInChildren<T>(bool all){return gameObject.Children<T>();} }
+ public class Component {public GameObject gameObject=new GameObject("fixture");public Transform transform {get{return gameObject.transform;}}public T GetComponent<T>() where T:new(){return gameObject.GetComponent<T>();}public T[] GetComponentsInChildren<T>(bool all){return gameObject.Children<T>();} }
  public class MonoBehaviour:Component {}
  public class GameObject {
   public T[] Children<T>(){var list=new List<T>();foreach(var v in components.Values)if(v is T)list.Add((T)v);return list.ToArray();}
+  public T[] GetComponentsInChildren<T>(bool all){return Children<T>();}
   readonly Dictionary<Type,object> components=new Dictionary<Type,object>();public bool activeSelf=true;public Transform transform=new RectTransform();
-  public GameObject(string s,params Type[] t){}public void SetActive(bool b){activeSelf=b;}
+  public string name;public GameObject(string s,params Type[] t){name=s;transform.gameObject=this;foreach(var type in t)if(type!=typeof(RectTransform))components[type]=Activator.CreateInstance(type);}public void SetActive(bool b){activeSelf=b;}
   public T GetComponent<T>() where T:new(){object value;return components.TryGetValue(typeof(T),out value)?(T)value:default(T);}
   public T AddComponent<T>() where T:new(){var value=new T();components[typeof(T)]=value;return value;}
  }
  public class CanvasGroup {public bool interactable=true,blocksRaycasts=true;public float alpha=1;}
  public class Sprite {}
  public static class Debug {public static void LogWarning(object o){} }
- public class Transform {public Transform parent;public GameObject gameObject;public void SetParent(Transform t,bool b){parent=t;} }
- public class RectTransform:Transform {public Vector2 anchorMin,anchorMax,pivot,anchoredPosition,sizeDelta;}
+ public class Transform {public Transform parent;public GameObject gameObject;public Vector3 localScale=new Vector3(1,1,1),position;public Quaternion localRotation;public int Sibling;public void SetParent(Transform t,bool b){parent=t;}public int GetSiblingIndex(){return Sibling;}public void SetSiblingIndex(int i){Sibling=i;}public void SetAsLastSibling(){Sibling=999;}public bool IsChildOf(Transform p){for(var x=this;x!=null;x=x.parent)if(x==p)return true;return false;} }
+ public class RectTransform:Transform {public Vector2 anchorMin,anchorMax,pivot,anchoredPosition,sizeDelta;public Rect rect {get{return new Rect{size=sizeDelta};}}}
  public class CanvasRenderer {}
- public struct Vector2 {public Vector2(float a,float b){} }
- public struct Color {public Color(float a,float b,float c){} }
+ public struct Vector2 {public static Vector2 zero {get{return new Vector2(0,0);}}public float x,y;public Vector2(float a,float b){x=a;y=b;} }
+ public struct Vector3 {public float x,y,z;public Vector3(float a,float b,float c){x=a;y=b;z=c;}}
+ public struct Quaternion {public float w;}public struct Rect {public Vector2 size;}
+ public struct Color {public Color(float a,float b,float c){}public Color(float a,float b,float c,float d){} }
  public static class Time {public static float unscaledTime;}
 }
 namespace UnityEngine.UI { public class Toggle {public bool isOn;public int Notifications;public void SetIsOnWithoutNotify(bool value){isOn=value;}} public class Slider {
@@ -46,7 +49,7 @@ namespace UnityEngine.UI { public class Toggle {public bool isOn;public int Noti
  public float value {get{return current;}set{Update(value);}}
  public void SetValueWithoutNotify(float v){current=Math.Max(min,Math.Min(max,v));}
  void Update(float v){v=Math.Max(min,Math.Min(max,v));if(whole)v=(float)Math.Round(v);if(v!=current){current=v;if(Callback!=null)Callback(v);}}
-} public class Image:UnityEngine.Component {public UnityEngine.Sprite sprite;public bool enabled=true;} public class Button:UnityEngine.Component {} }
+} public class Image:UnityEngine.Component {public UnityEngine.Color color;public bool raycastTarget;public UnityEngine.Sprite sprite;public bool enabled=true;} public class Button:UnityEngine.Component {public bool interactable=true;} }
 namespace TMPro {
  public enum TextAlignmentOptions {Bottom}
  public class TextMeshProUGUI:UnityEngine.Component {public object font;public float fontSize,fontSizeMin,fontSizeMax;public bool enableAutoSizing,raycastTarget,richText;public UnityEngine.Color color;public TextAlignmentOptions alignment;public UnityEngine.RectTransform rectTransform=new UnityEngine.RectTransform();public string text;}
@@ -57,24 +60,28 @@ namespace UBOAT.Game.Core.Serialization {public class NonSerializedInGameState:A
 namespace UBOAT.Game.Scene.Entities {
  public class Torpedo {public enum TorpedoProgramType {None,FAT,LUT}public TorpedoProgramType ProgramType=TorpedoProgramType.LUT;}
  public class PlayerShipTorpedoAttackSettings {public float TorpedoDepth=3;}
- public class PlayerShip {public PlayerShipTorpedoAttackSettings TorpedoAttackSettings=new PlayerShipTorpedoAttackSettings();public bool TorpedoProgramDirection;public float TorpedoProgramDistance=1500,TorpedoProgramAngleAbsolute;public TorpedoLauncher[] TorpedoLaunchers;}
+ public class PlayerShip {public float Depth;public bool IsPreparingToLaunchTorpedoes,IsLaunchingTorpedoes;public TorpedoFireControlBoxes Boxes;public T GetEquipment<T>() where T:class{return Boxes as T;}public PlayerShipTorpedoAttackSettings TorpedoAttackSettings=new PlayerShipTorpedoAttackSettings();public bool TorpedoProgramDirection;public float TorpedoProgramDistance=1500,TorpedoProgramAngleAbsolute;public TorpedoLauncher[] TorpedoLaunchers;}
 }
 namespace UBOAT.Game.Scene.Items {
- public class StoredTorpedo {public string Name="G7e Torpedo T3 - Pi2 - LUT",name="G7e Torpedo T3 - Pi2 - LUT";public PreparationStatus Saved=new PreparationStatus();public Torpedo Missile=new Torpedo();}
- public class TorpedoLauncher {public bool IsMarkedForLaunch=true,IsLoaded=true;public StoredTorpedo Torpedo=new StoredTorpedo();}
+ public class EquipmentData {public string Name;}
+ public class StoredTorpedo {public EquipmentData Data=new EquipmentData();public string Name="G7e Torpedo T3 - Pi2 - LUT",name="G7e Torpedo T3 - Pi2 - LUT";public PreparationStatus Saved=new PreparationStatus();public Torpedo Missile=new Torpedo();}
+ public class TorpedoFireControlBoxes {public bool UnsupportedMapping;public int Calls,Selected=1;public void ValidateMarkedLaunchersFromSalvoSettings(){Calls++;if(UnsupportedMapping)return;var tubes=Landomatic.TorpedoRoom.Runtime.Ship.TorpedoLaunchers;for(int i=0;i<tubes.Length;i++)if(tubes[i]!=null)tubes[i].IsMarkedForLaunch=Selected==i+1||Selected==99;}}
+ public class TorpedoLauncher {public bool IsFlooded,IsMarkedForLaunch=true,IsLoaded=true;public StoredTorpedo Torpedo=new StoredTorpedo();}
 }
 namespace UBOAT.Game.UI {public class GameUI {public UBOAT.Game.UI.Periscope.TorpedoLaunchersUI CurrentTorpedoLaunchersUI;}
+ public class TorpedoAttackStationsViewSwitchUI:UnityEngine.MonoBehaviour {}
  public class TorpedoLaunchersSpeedDialUI:UnityEngine.MonoBehaviour {}
  public class TorpedoLaunchersDepthDialUI:UnityEngine.MonoBehaviour {void OnEnable(){}void Update(){}void OnValueChanged(float value){}}
  public class TorpedoLauncherUI:UnityEngine.MonoBehaviour {public UnityEngine.UI.Image torpedoImage=new UnityEngine.UI.Image();public UnityEngine.UI.Button pistolTypeButton=new UnityEngine.UI.Button();public TorpedoLauncher Launcher;} }
 namespace UBOAT.Game.UI.Periscope {public class TorpedoLaunchersUI:UnityEngine.MonoBehaviour {
-  public UnityEngine.GameObject programParameters=new UnityEngine.GameObject("params"),dataPanel=new UnityEngine.GameObject("data");public TMPro.TextMeshProUGUI programSettingsName=new TMPro.TextMeshProUGUI();public UnityEngine.GameObject fireButton=new UnityEngine.GameObject("fire");
+  public UnityEngine.GameObject programParameters=new UnityEngine.GameObject("params"),dataPanel=new UnityEngine.GameObject("data");public TMPro.TextMeshProUGUI programSettingsName=new TMPro.TextMeshProUGUI();public UnityEngine.UI.Button fireButton=new UnityEngine.UI.Button();public UnityEngine.GameObject fireConfirmationPopup=new UnityEngine.GameObject("popup"),firingBlockade=new UnityEngine.GameObject("depth blocker");public bool DisallowFire;void Update(){}void OnFire(){}void DoFire(){}void Close(){}void OnDisable(){}void OnDestroy(){}
   public UBOAT.Game.UI.TorpedoLauncherUI[] Launchers;public bool IsOpened=true;public int Calls;public bool FailOnce;
   public UnityEngine.UI.Toggle programLeft=new UnityEngine.UI.Toggle(),programRight=new UnityEngine.UI.Toggle();
   public TMPro.TMP_InputField programDistance=new TMPro.TMP_InputField(),programAngle=new TMPro.TMP_InputField();
   void SetProgramDisplayValues(){Calls++;if(FailOnce){FailOnce=false;throw new Exception("synthetic transient refresh error");}programDistance.text=Landomatic.TorpedoRoom.Runtime.Ship.TorpedoProgramDistance.ToString();programAngle.text=Landomatic.TorpedoRoom.Runtime.Ship.TorpedoProgramAngleAbsolute.ToString();}
  } }
 namespace Landomatic.TorpedoRoom {
+ public class TorpedoHover:UnityEngine.MonoBehaviour {public Action Enter,Exit;}
  public class PreparationStatus {public Preparation Value=new Preparation {ProgramOverride=true};}
  internal static class NativeSkin {public static UnityEngine.GameObject ManualRoot=new UnityEngine.GameObject("manual");}
  internal static class Bridge {public static bool IsRemote;public static TubeSnapshot[] Sent;public static void RequestViewport(TubeSnapshot[] edits){Sent=edits;} }
@@ -182,7 +189,8 @@ public static class StockUiChecks {
   var tubeUi=new UBOAT.Game.UI.TorpedoLauncherUI{Launcher=ship.TorpedoLaunchers[0]};ui.Launchers=new[]{tubeUi};Runtime.Ui=new UBOAT.Game.UI.GameUI{CurrentTorpedoLaunchersUI=ui};
   var nativeSpeed=ui.gameObject.AddComponent<UBOAT.Game.UI.TorpedoLaunchersSpeedDialUI>();
   NativePresentation.Room(true);Check(NativeSkin.ManualRoot.GetComponent<UnityEngine.CanvasGroup>().alpha==0,"separate native room dials masked");Check(ui.gameObject.GetComponent<UnityEngine.CanvasGroup>().alpha==0,"room replacement masks native panel");NativePresentation.Room(false);Check(ui.gameObject.GetComponent<UnityEngine.CanvasGroup>().alpha==1,"closing room restores native panel");Check(NativeSkin.ManualRoot.GetComponent<UnityEngine.CanvasGroup>().alpha==1,"closing room restores separate native dials");
-  Runtime.Viewport=ViewportMode.Hidden;NativePresentation.Refresh(ui);Check(tubeUi.gameObject.GetComponent<UnityEngine.CanvasGroup>().alpha==0&&!tubeUi.gameObject.GetComponent<UnityEngine.CanvasGroup>().blocksRaycasts,"hidden reports hide native tube icons and clicks");
+  ui.transform.SetParent(new UnityEngine.GameObject("canvas").transform,false);ui.fireButton.transform.SetParent(ui.transform,false);ui.fireConfirmationPopup.transform.SetParent(ui.transform,false);
+  Runtime.Viewport=ViewportMode.Hidden;NativePresentation.Refresh(ui);Check(ui.gameObject.GetComponent<UnityEngine.CanvasGroup>().alpha==0&&HiddenLayout.Active,"hidden reports masks the complete native panel");Check(ui.fireButton.transform.parent==ui.transform.parent,"original Feuer moved outside hidden root");Check(tubeUi.gameObject.GetComponent<UnityEngine.CanvasGroup>().alpha==0&&!tubeUi.gameObject.GetComponent<UnityEngine.CanvasGroup>().blocksRaycasts,"hidden reports hide native tube icons and clicks");
   Check(nativeSpeed.gameObject.GetComponent<UnityEngine.CanvasGroup>().alpha==0&&!nativeSpeed.gameObject.GetComponent<UnityEngine.CanvasGroup>().blocksRaycasts,"hidden policy masks native speed reports/input too");
   Check(ui.fireButton.GetComponent<UnityEngine.CanvasGroup>()==null,"firing control is outside report masks");
   Runtime.Viewport=ViewportMode.ReadOnly;NativePresentation.Refresh(ui);Check(tubeUi.gameObject.GetComponent<UnityEngine.CanvasGroup>().alpha==1,"read-only restores visible tube icons");Check(!tubeUi.pistolTypeButton.gameObject.GetComponent<UnityEngine.CanvasGroup>().interactable,"read-only pistol button disabled");
@@ -204,12 +212,13 @@ public static class StockUiChecks {
   a.Value.Depth=9;ship.TorpedoAttackSettings.TorpedoDepth=3;args=new object[]{null};depthCall("Project",args);Check(ship.TorpedoAttackSettings.TorpedoDepth==9&&Runtime.Applying==1,"native depth display projects per-tube depth with refresh guard");
   object[] callback={18f,false};Check((bool)depthCall("Before",callback)&&!(bool)callback[1],"display refresh does not generate depth transaction");
   depthCall("Restore",args);depthCall("Finally",new object[]{error,args[0]});Check(ship.TorpedoAttackSettings.TorpedoDepth==3&&Runtime.Applying==0,"depth projection restores once including finalizer");
-  var slider=new UnityEngine.UI.Slider();depthCall("Tune",new object[]{slider});Check(!slider.wholeNumbers,"native dial permits quarter-metre depth instead of whole slider units");Check(slider.minValue==1,"native lower bound accepts 0.5 metres in double-depth slider units");
-  a.Value.Depth=.5f;args=new object[]{null};depthCall("Project",args);slider.SetValueWithoutNotify(ship.TorpedoAttackSettings.TorpedoDepth*2);Check(slider.value==1,"room half-metre depth projects without native one-metre clamping");depthCall("Restore",args);
-  object[] halfEdit={1f,false};Check((bool)depthCall("Before",halfEdit)&&(float)halfEdit[0]==1,"native half-metre edit remains selectable");
+  var slider=new UnityEngine.UI.Slider();depthCall("Tune",new object[]{slider});Check(!slider.wholeNumbers,"native dial permits quarter-metre depth instead of whole slider units");Check(slider.minValue==2,"native lower bound is one metre in double-depth slider units");
+  ship.TorpedoAttackSettings.TorpedoDepth=.5f;depthCall("Tune",new object[]{slider});Check(ship.TorpedoAttackSettings.TorpedoDepth==1,"native shared legacy depth also respects the one metre minimum");ship.TorpedoAttackSettings.TorpedoDepth=3;
+  a.Value.Depth=1.25f;args=new object[]{null};depthCall("Project",args);slider.SetValueWithoutNotify(ship.TorpedoAttackSettings.TorpedoDepth*2);Check(slider.value==2.5f,"room quarter-metre depth projects into native dial");depthCall("Restore",args);
+  object[] halfEdit={1f,false};Check((bool)depthCall("Before",halfEdit)&&(float)halfEdit[0]==2,"native half-metre edit is clamped to one metre");
   ship.TorpedoAttackSettings.TorpedoDepth=3;slider.value=1;slider.Callback=v=>{object[] cb={v,false};if((bool)depthCall("Before",cb)){ship.TorpedoAttackSettings.TorpedoDepth=(float)cb[0]/2;depthCall("After",new object[]{cb[1]});}};
   int revision=a.Value.Revision;Runtime.Active=false;DepthControl.RestoreSteps();Check(slider.wholeNumbers&&slider.minValue==2,"disabling mod restores native dial stepping and minimum");Check(ship.TorpedoAttackSettings.TorpedoDepth==3&&a.Value.Revision==revision&&Runtime.Applying==0,"restoration callback cannot leak shared depth or a preparation edit");Runtime.Active=true;
-  slider.wholeNumbers=false;slider.minValue=0;slider.value=.5f;ship.TorpedoAttackSettings.TorpedoDepth=4;depthCall("Tune",new object[]{slider});Check(slider.minValue==1&&ship.TorpedoAttackSettings.TorpedoDepth==4&&Runtime.Applying==0,"tuning minimum guards native range callbacks and preserves shared setting");
+  slider.wholeNumbers=false;slider.minValue=0;slider.value=.5f;ship.TorpedoAttackSettings.TorpedoDepth=4;depthCall("Tune",new object[]{slider});Check(slider.minValue==2&&ship.TorpedoAttackSettings.TorpedoDepth==4&&Runtime.Applying==0,"tuning minimum guards native range callbacks and preserves shared setting");
   Runtime.Active=false;DepthControl.RestoreSteps();Check(!slider.wholeNumbers&&slider.minValue==0,"restore preserves actual original bounds and stepping rather than assuming defaults");Runtime.Active=true;
   args=new object[]{6.28f,false};depthCall("Before",args);Check(Math.Abs((float)args[0]-6.5f)<.001,"native manual dial input quantized to 0.25 m");
   args=new object[]{float.NaN,false};Check(!(bool)depthCall("Before",args),"invalid native dial value rejected");
@@ -236,5 +245,75 @@ public static class StockUiChecks {
   installer.Fail=null;Call("InstallInputGuard",installer,typeof(NativePointerFixture),"OnDrag");Check(installer.Installed.Count==1&&Runtime.Active,"later guards and core runtime continue after auxiliary failure");
   NativePresentation.Restore();
   Console.WriteLine("PASS: "+count+" native UI/depth assertions (actual stock, mask and depth classes; independent API fixtures).");return count;
+ }
+}
+
+public static class ViewingChecks {
+ static int count;
+ static void Check(bool value,string name){count++;if(!value)throw new Exception("FAILED: "+name);}
+ static object Call(string name,params object[] args){return typeof(ViewingFire).GetMethod(name,BindingFlags.NonPublic|BindingFlags.Static).Invoke(null,args);}
+ static void Frame(UBOAT.Game.UI.Periscope.TorpedoLaunchersUI ui,bool ready=true){
+  Call("BeforeUpdate");ui.firingBlockade.SetActive(Runtime.Ship.Depth>18);ui.fireButton.interactable=ready;Call("AfterUpdate",ui);
+ }
+ public static int Run(){
+  NativePresentation.Restore();Runtime.Active=true;Runtime.Loading=false;Runtime.ViewingStation=true;Runtime.Viewport=ViewportMode.Hidden;
+  var a=new TorpedoLauncher{IsFlooded=true};var b=new TorpedoLauncher{IsFlooded=true};a.Torpedo.Name="G7es Zaunkönig Torpedo T5 - Pi4";b.Torpedo.Name="G7a Torpedo T1 - Pi1";a.Torpedo.Data.Name=a.Torpedo.Name;b.Torpedo.Data.Name=b.Torpedo.Name;
+  var ship=Runtime.Ship=new PlayerShip{TorpedoLaunchers=new[]{a,b},Boxes=new TorpedoFireControlBoxes()};
+  var ui=new UBOAT.Game.UI.Periscope.TorpedoLaunchersUI{Launchers=new UBOAT.Game.UI.TorpedoLauncherUI[0]};
+  var canvas=new UnityEngine.GameObject("main canvas");ui.transform.SetParent(canvas.transform,false);
+  var button=ui.fireButton;var originalParent=new UnityEngine.GameObject("authored button parent");originalParent.transform.SetParent(ui.transform,false);button.transform.SetParent(originalParent.transform,false);
+  var rect=(UnityEngine.RectTransform)button.transform;rect.anchorMin=new UnityEngine.Vector2(.2f,.3f);rect.anchorMax=new UnityEngine.Vector2(.6f,.7f);rect.pivot=new UnityEngine.Vector2(.4f,.8f);rect.sizeDelta=new UnityEngine.Vector2(101,43);rect.anchoredPosition=new UnityEngine.Vector2(72,89);rect.localScale=new UnityEngine.Vector3(2,3,1);rect.localRotation=new UnityEngine.Quaternion{w=.4f};rect.Sibling=7;
+  ui.fireConfirmationPopup.transform.SetParent(button.transform,false);ui.fireConfirmationPopup.SetActive(false);
+  var nav=ui.gameObject.AddComponent<UBOAT.Game.UI.TorpedoAttackStationsViewSwitchUI>();nav.transform.SetParent(ui.transform,false);
+  Check(ViewingFire.IsT5(a.Torpedo.Name)&&ViewingFire.IsT5(a.Torpedo.Name+" - Prototype"),"T5 and stock prototype equipment keys recognized");
+  Check(ViewingFire.IsT5(a.Torpedo.Name+" (Warmed)")&&ViewingFire.IsT5(a.Torpedo.Name+" - Prototype (Warmed)"),"maintained T5 and prototype data keys recognized");
+  foreach(var key in new[]{null,"",b.Torpedo.Name,"T5","G7es Torpedo T4 - Pi4",a.Torpedo.Name+" typo"})Check(!ViewingFire.IsT5(key),"unrecognized keys never bypass depth: "+key);
+  foreach(float depth in new[]{18.01f,30f,50f})Check(ViewingFire.DeepPermission(depth,1,true),"deep T5 permission at "+depth);
+  foreach(float depth in new[]{float.NaN,float.PositiveInfinity,float.NegativeInfinity,-1f,0f,18f,50.01f})Check(!ViewingFire.DeepPermission(depth,1,true),"no deep exception at "+depth);
+  Check(!ViewingFire.DeepPermission(30,0,true)&&!ViewingFire.DeepPermission(30,2,false),"empty and mixed selections have no depth exception");
+  // Physical box mapping controls marks; no first-ready fallback even though both tubes are flooded.
+  a.IsMarkedForLaunch=false;b.IsMarkedForLaunch=true;Frame(ui);Check(a.IsMarkedForLaunch&&!b.IsMarkedForLaunch,"hidden Feuer uses box selection, replacing stale marks");
+  Check((bool)Call("BeforeFire",ui),"native ready hidden selection can fire");
+  Check(HiddenLayout.Active&&ui.gameObject.GetComponent<UnityEngine.CanvasGroup>().alpha==0,"all native background and controls masked at root");
+  Check(ui.fireButton==button&&button.transform.parent==canvas.transform,"same Feuer instance moved outside hidden root");
+  Check(ui.fireConfirmationPopup.transform.parent==canvas.transform&&!ui.fireConfirmationPopup.activeSelf,"native confirmation moved without auto-confirming or opening");
+  Check(nav.transform.parent==canvas.transform,"native station navigation stays outside mask");
+  var masks=ui.gameObject.GetComponent<UnityEngine.CanvasGroup>();Check(!masks.interactable&&!masks.blocksRaycasts,"hidden panel cannot accept stray tube/dispersion clicks");
+  ship.Boxes.UnsupportedMapping=true;Frame(ui);Check(!a.IsMarkedForLaunch&&!b.IsMarkedForLaunch&&!button.interactable,"unsupported native mapping cannot retain stale marks");ship.Boxes.UnsupportedMapping=false;
+  ship.Boxes.Selected=2;Frame(ui);Check(!a.IsMarkedForLaunch&&b.IsMarkedForLaunch,"aft selection replaces bow selection");
+  ship.Boxes.Selected=0;Frame(ui);Check(!a.IsMarkedForLaunch&&!b.IsMarkedForLaunch&&!button.interactable&&!(bool)Call("BeforeFire",ui),"no selection never launches a random flooded tube");
+  ship.Boxes.Selected=99;Frame(ui);Check(a.IsMarkedForLaunch&&b.IsMarkedForLaunch&&(bool)Call("BeforeFire",ui),"mixed salvo at ordinary depth remains native; no speed gate");
+  int calls=ship.Boxes.Calls;ship.IsPreparingToLaunchTorpedoes=true;ship.Boxes.Selected=1;Call("BeforeUpdate");Check(ship.Boxes.Calls==calls&&b.IsMarkedForLaunch,"no remapping during an active preparation");Check(!(bool)Call("BeforeFire",ui),"no duplicate fire during preparation");ship.IsPreparingToLaunchTorpedoes=false;
+  ship.IsLaunchingTorpedoes=true;Call("BeforeUpdate");Check(ship.Boxes.Calls==calls,"no remapping an executing salvo");ship.IsLaunchingTorpedoes=false;
+  ship.Boxes=null;Frame(ui);Check(!button.interactable&&!(bool)Call("BeforeFire",ui),"missing box fails closed without selecting a fallback tube");ship.Boxes=new TorpedoFireControlBoxes();
+  ship.Depth=30;Frame(ui);Check(!ui.firingBlockade.activeSelf&&button.interactable&&(bool)Call("BeforeFire",ui),"T5 can use native Feuer at 30 m boat depth");
+  Frame(ui,false);Check(!button.interactable&&!(bool)Call("BeforeFire",ui),"T5 exception never enables a native-disabled fire button");
+  Frame(ui);ui.DisallowFire=true;Check(!(bool)Call("BeforeFire",ui),"native station permission still applies");ui.DisallowFire=false;
+  a.Torpedo.Data.Name+=" (Warmed)";a.Torpedo.Name="localized display";Frame(ui);Check(button.interactable,"T5 classification uses equipment data and accepts warmed variant");
+  ship.Depth=50;Frame(ui);Check(!ui.firingBlockade.activeSelf&&(bool)Call("BeforeFire",ui),"T5 defensive exception includes exactly 50 m");
+  ship.Depth=50.01f;Frame(ui);Check(ui.firingBlockade.activeSelf&&!button.interactable&&!(bool)Call("BeforeFire",ui),"exception ends above 50 m");
+  ship.Depth=30;ship.Boxes.Selected=2;Frame(ui);Check(ui.firingBlockade.activeSelf&&!button.interactable&&!(bool)Call("BeforeFire",ui),"ordinary torpedo keeps native depth restriction");
+  ship.Boxes.Selected=99;Frame(ui);Check(!(bool)Call("BeforeFire",ui),"mixed selected salvo cannot borrow T5 exception");
+  b.IsFlooded=false;Frame(ui);Check(!(bool)Call("BeforeFire",ui),"selected dry non-T5 cannot be flooded into a deep mixed salvo");
+  ship.Boxes.Selected=1;Frame(ui);ship.Boxes.Selected=2;Check(!(bool)Call("BeforeFire",ui),"native confirmation rechecks current box selection");
+  ship.Boxes.Selected=1;Frame(ui);ship.Depth=5;Frame(ui);Check(!ui.firingBlockade.activeSelf&&button.interactable,"return to shallow depth cannot restore a stale deep mask");
+  // Both other policies retain native checkbox selection and native callbacks.
+  foreach(var mode in new[]{ViewportMode.ReadOnly,ViewportMode.Synchronized}){
+   Runtime.Viewport=mode;a.IsMarkedForLaunch=false;b.IsMarkedForLaunch=true;calls=ship.Boxes.Calls;Frame(ui);
+   Check(ship.Boxes.Calls==calls&&!a.IsMarkedForLaunch&&b.IsMarkedForLaunch,"native selection untouched in "+mode);
+   Check(!HiddenLayout.Active&&button.transform.parent==originalParent.transform&&nav.transform.parent==ui.transform,"authored button/navigation parents restored in "+mode);
+   Check(ui.fireConfirmationPopup.transform.parent==button.transform&&!ui.fireConfirmationPopup.activeSelf,"authored confirmation hierarchy restored in "+mode);
+   Check(rect.anchorMin.x==.2f&&rect.anchorMax.y==.7f&&rect.pivot.y==.8f&&rect.sizeDelta.x==101&&rect.anchoredPosition.x==72&&rect.localScale.y==3&&rect.localRotation.w==.4f&&rect.Sibling==7,"exact authored button layout restored in "+mode);
+   button.interactable=false;Check((bool)Call("BeforeFire",ui),"ordinary native callbacks unchanged in "+mode);
+  }
+  Runtime.Viewport=ViewportMode.ReadOnly;ship.Depth=30;a.IsMarkedForLaunch=true;b.IsMarkedForLaunch=false;Frame(ui);Check(!ui.firingBlockade.activeSelf,"T5 UI depth exception also available in read-only mode");
+  Runtime.Active=false;Frame(ui);Check(ui.firingBlockade.activeSelf&&!HiddenLayout.Active,"disable restores depth blocker and original UI");Runtime.Active=true;
+  Runtime.Viewport=ViewportMode.Hidden;ship.Depth=5;Frame(ui);ui.fireConfirmationPopup.SetActive(true);Call("Closed",ui);Check(!HiddenLayout.Active&&button.transform.parent==originalParent.transform&&ui.fireConfirmationPopup.activeSelf,"closing restores live button/popup without altering native active state");ui.fireConfirmationPopup.SetActive(false);
+  Frame(ui);Runtime.Loading=true;Frame(ui);Check(!HiddenLayout.Active,"loading restores detached controls");Runtime.Loading=false;
+  Frame(ui);Runtime.ViewingStation=false;Frame(ui);Check(!HiddenLayout.Active,"station exit restores detached controls");Runtime.ViewingStation=true;
+  Frame(ui);ui.IsOpened=false;Frame(ui);Check(!HiddenLayout.Active,"closed panel cannot leak a floating Feuer");ui.IsOpened=true;
+  NativePresentation.Restore();ui.transform.SetParent(null,false);HiddenLayout.Apply(ui,true);Check(!HiddenLayout.Active&&button.transform.parent==originalParent.transform,"missing panel parent never hides or strands Feuer");ui.transform.SetParent(canvas.transform,false);HiddenLayout.Apply(ui,true);Check(!HiddenLayout.Active,"failed layout is not retried/allocated every frame");HiddenLayout.Apply(ui,false);HiddenLayout.Apply(ui,true);Check(HiddenLayout.Active,"switching policy allows a recovered native layout to retry");HiddenLayout.Restore();
+  var harmony=new HarmonyLib.Harmony();ViewingFire.Install(harmony);Check(harmony.Attempts.Count==6,"six native UI entry/lifecycle hooks installed");foreach(var method in harmony.Attempts)Check(method.DeclaringType==typeof(UBOAT.Game.UI.Periscope.TorpedoLaunchersUI),"hook excludes physical TDC and tube levers: "+method.Name);
+  Console.WriteLine("PASS: "+count+" viewing fire/layout assertions (actual classes; independent native/Unity fixtures, no live game).");return count;
  }
 }

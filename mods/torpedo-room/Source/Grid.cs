@@ -167,13 +167,13 @@ namespace Landomatic.TorpedoRoom
         {
             if(draft==null||!Editable())return;
             float d=draft.Distance,a=draft.Angle,depth;
-            if(!float.TryParse(depthInput.text,NumberStyles.Float,CultureInfo.InvariantCulture,out depth)||!Preparation.Finite(depth)||depth<.5f||depth>14){Say("Enter launch depth 0.5–14 m.");return;}
+            if(!float.TryParse(depthInput.text,NumberStyles.Float,CultureInfo.InvariantCulture,out depth)||!Preparation.Finite(depth)||depth<1||depth>14){Say("Enter launch depth 1–14 m.");return;}
             if(draft.SpeedOverride){float speed;if(!float.TryParse(speedInput.text,NumberStyles.Float,CultureInfo.InvariantCulture,out speed)||!Preparation.Finite(speed)){Say("Choose a supported torpedo speed.");return;}draft.Speed=SpeedValues.Nearest(SpeedControl.Options(Ship.TorpedoLaunchers[selected].Torpedo),speed/speedFactor);}
             bool parse=ProgramValues.ShowFields(draft,LockoutAllowed)&&draft.ProgramOverride;
             if(parse&&(!float.TryParse(distanceInput.text,NumberStyles.Float,CultureInfo.InvariantCulture,out d)||!float.TryParse(angleInput.text,NumberStyles.Float,CultureInfo.InvariantCulture,out a)
                 ||!Preparation.Finite(d)||!Preparation.Finite(a)||d<500||d>15000||a<0||a>360)){Say("Enter run 500–15000 m and bearing 0–360 degrees (360 = north).");return;}
             if(parse)a=DialValues.Compass(a,.1f);
-            draft.Depth=DialValues.Snap(depth,.5f,14,.25f);draft.DepthOverride=true;draft.Distance=d;draft.Angle=a;
+            draft.Depth=DialValues.Snap(depth,1,14,.25f);draft.DepthOverride=true;draft.Distance=d;draft.Angle=a;
             if(Request(selected,draft.Copy())){if(Bridge.IsRemote){awaiting=true;awaitingSnapshot=Bridge.Last;awaitingUntil=Time.unscaledTime+5;}else Select(selected);}
         }
         void StepSpeed(float direction)
@@ -298,7 +298,7 @@ namespace Landomatic.TorpedoRoom
             editor=GridPanel(rect,"Instruments",Color.clear).gameObject;Place((RectTransform)editor.transform,16,320,918,218);editor.GetComponent<Image>().raycastTarget=false;editorAccess=editor.AddComponent<CanvasGroup>();
             pistolButton=GridButton(editor.transform,"Pistol","",0,0,140,26,()=>{if(Editable()){draft.Pistol=1-draft.Pistol;DraftChanged();}},out pistolLabel);
             policyLabel=GridLabel(editor.transform,"Access","",720,0,190,26,12);
-            gridStage="depth instrument";depthDial=MakeDial(editor.transform,"Depth (m)",0,.5f,14,.25f,()=>Editable(),out depthInput,out depthDialRoot,out depthTitle);
+            gridStage="depth instrument";depthDial=MakeDial(editor.transform,"Depth (m)",0,1,14,.25f,()=>Editable(),out depthInput,out depthDialRoot,out depthTitle);
             speedDial=MakeDial(editor.transform,"Speed (kn)",230,0,100,.1f,()=>Editable()&&speedDial.Choices!=null&&speedDial.Choices.Length>1,out speedInput,out speedDialRoot,out speedTitle);
             speedDial.DisplayFormat="0.0";speedInput.readOnly=true;speedInput.transition=Selectable.Transition.None;speedInput.enabled=false;
             speedInput.targetGraphic.raycastTarget=false;var speedBackground=speedInput.targetGraphic as Image;if(speedBackground!=null){speedBackground.sprite=null;speedBackground.color=Color.clear;speedBackground.enabled=false;}

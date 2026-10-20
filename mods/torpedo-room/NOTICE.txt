@@ -1,4 +1,4 @@
-Torpedo Room 0.1.19 BETA -- Landomatic
+Torpedo Room 0.1.20 BETA -- Landomatic
 Copyright (c) 2026 Landomatic. License: LICENSE (CC BY-NC 4.0).
 Source/history: https://github.com/Landomatic/UboatMods
 Project: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
@@ -32,7 +32,8 @@ UBOAT, Unity, Harmony and their assets remain their respective owners' work.
 Native artwork, fonts and materials are borrowed at runtime. No game assets,
 assemblies, private logs, saves or live user configurations are distributed.
 Fresh preparation controls bind to this mod; native station scripts and firing
-listeners are not cloned. No new firing/role permissions are introduced.
+listeners are not cloned. No MP role/station access is granted. The T5-only
+viewing-interface depth exception is described in README.txt.
 
 GAMEPLAY SCOPE
 AZ/MZ follows the game's selectable operating modes. Dry-tube preparation and its

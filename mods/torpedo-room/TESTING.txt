@@ -1,3 +1,41 @@
+0.1.20-beta -- live acceptance checklist (NOT RUN here)
+All peers must install this same .20 build; TRC8 format remains unchanged.
+1. Hidden Reports in solo and shared-boat host/client: only Feuer remains in the
+   native launch panel. No rings, tube numbers/marks, spread, depth, speed, gyro
+   labels or background. Preserve native station shortcuts. Hover Feuer for hint.
+   Check default/min/max game UI scale, both fullscreen/windowed if used.
+2. Switch Hidden/Read-only/Synchronized repeatedly at all available scopes, UZO
+   and TDC viewing panel; close/reopen, leave station, disable, load/save and
+   change hull. Exact native controls return; no floating button/popup/hint,
+   invisible clickable controls or duplicated firing listener remains.
+3. Hidden fire linking: ready bow and stern simultaneously, select one receiver
+   and tube/salvo at native boxes. Leave stale opposite marks before switching
+   mode. Verify only intended flooded tubes fire. Cover dry/empty/busy tubes,
+   no selection, one/many ready, each supported native salvo preset, opposite
+   receiver, live selector changes and repeated presses during an active salvo.
+   Native order/timing and gyro/spread must remain. Record selected/fired indices.
+4. Keep native gyro-unsynchronized confirmation: cancel and confirm; change
+   selector/depth before confirming and verify the final eligible selection.
+   Never auto-confirm. Native station permissions and compressed air still apply.
+5. Read-only/Synchronized retain native checkbox/dispersion/firing behavior.
+   Physical TDC lever and direct fore/aft tube levers stay native in ALL three
+   modes. Direct tube levers still fire that flooded tube independently of box
+   selection and TDC operator. Mixed speed/TDC mismatch does not add a mod hold.
+6. Running depth: room and native controls accept 1, 1.25, 1.5 ... 14 m; reject
+   .5/.75 and >14 typed edits. Recheck apply, native display, actual launched
+   TargetDepth, host/client snapshot and save/reload. Existing out-of-range
+   weapon records clamp when the host reads them; no user config is migrated.
+7. T5 and stock prototype: flooded selected T5 viewing fire at 18, just above18,
+   30 and exactly50 m boat depth. Above50, ordinary weapons, mixed selected set,
+   selected dry non-T5 and unrecognized type names keep native viewing block.
+   Test fresh controls and native confirmation after live selector changes.
+   Weapon running depth stays <=14 m. Physical levers are unchanged, including
+   the engine's existing ability to launch directly at greater boat depth.
+8. Check host/client firing and cancellation, role/station restrictions, MP's
+   native fire dispatch and reconnects. No new MP bypass or custom fire packet.
+   Only native supplied-code paths/offline fixtures have been checked so far.
+
+Prior .19 regression checklist (retain applicable cases):
 0.1.19-beta -- focused live checks
 1. Replace Source, restart; verify 0.1.19-beta and TRC8. All MP peers same build.
 2. Open Tube 1 editor, alter a draft, unload/reload or replace the torpedo. New

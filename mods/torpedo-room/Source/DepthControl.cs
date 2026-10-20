@@ -24,12 +24,13 @@ namespace Landomatic.TorpedoRoom
         {
             if(___slider==null||!Runtime.Active||Runtime.Loading)return;
             if(!originalSteps.ContainsKey(___slider))originalSteps[___slider]=new DialState{Whole=___slider.wholeNumbers,Minimum=___slider.minValue};
-            // Native slider units are twice metres: 1 means 0.5 m. Range changes
-            // can invoke native callbacks, so retain the shared setting as well as
-            // guarding preparation transactions during this display-only change.
+            // Native slider units are twice metres: 2 means 1 m. Range changes
+            // can invoke native callbacks. Keep the shared setting within the new
+            // bounds without turning refresh callbacks into tube transactions.
             var ship=Runtime.Ship;float depth=ship==null?0:ship.TorpedoAttackSettings.TorpedoDepth;
+            if(ship!=null)depth=Preparation.Finite(depth)?Math.Max(1,Math.Min(14,depth)):4;
             Runtime.Applying++;
-            try{if(___slider.wholeNumbers)___slider.wholeNumbers=false;if(___slider.minValue!=1)___slider.minValue=1;}
+            try{if(___slider.wholeNumbers)___slider.wholeNumbers=false;if(___slider.minValue!=2)___slider.minValue=2;}
             finally{try{if(ship!=null)ship.TorpedoAttackSettings.TorpedoDepth=depth;}finally{Runtime.Applying--;}}
         }
         internal static void RestoreSteps(bool force=false)
@@ -60,10 +61,10 @@ namespace Landomatic.TorpedoRoom
             if(Runtime.RoomEditorOpen)return false;
             if(!Preparation.Finite(value))return false;
             if(Runtime.CurrentGroup==null&&Runtime.Viewport!=ViewportMode.Synchronized)return false;
-            value=DialValues.Snap(value/2,.5f,14,.25f)*2;
+            value=DialValues.Snap(value/2,1,14,.25f)*2;
             if(Runtime.CurrentGroup!=null)return true;
             float requested=value/2;var selected=StockUi.SingleMarked();float before=selected!=null&&selected.DepthOverride?selected.Depth:ship.TorpedoAttackSettings.TorpedoDepth;
-            __state=Preparation.Finite(requested)&&requested>=.5f&&requested<=14&&requested!=before;return true;
+            __state=Preparation.Finite(requested)&&requested>=1&&requested<=14&&requested!=before;return true;
         }
         static void After(bool __state,TMPro.TextMeshProUGUI ___label,float value)
         {

@@ -44,8 +44,8 @@ namespace Landomatic.TorpedoRoom
                 UnityEngine.Object.DontDestroyOnLoad(go);go.AddComponent<Runtime>();
                 Bridge.Install(harmony);
                 StockUi.Install(harmony);
-                DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.19-beta loaded. Optional independent TDC speed sync; TRC8 host rules; game speed units and type/maintenance hover. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);
+                Debug.Log("[TorpedoRoom] 0.1.20-beta loaded. Feuer-only Hidden Reports; T5 viewing depth exception through 50 m; running depth 1–14 m in quarter metres; TRC8 host rules. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");
@@ -100,13 +100,13 @@ namespace Landomatic.TorpedoRoom
         {
             if(item==null || item is StoredMinePacket)return null;
             if(item.Statuses!=null)foreach(var s in item.Statuses){var p=s as PreparationStatus;if(p!=null){
-                if(p.Value!=null&&!p.Value.DepthOverride&&(!Preparation.Finite(p.Value.Depth)||p.Value.Depth<.5f||p.Value.Depth>14)){var boat=Ship;p.Value.Depth=boat==null?4:Mathf.Clamp(boat.TorpedoAttackSettings.TorpedoDepth,.5f,14);}
+                if(p.Value!=null&&!Bridge.IsRemote&&(!Preparation.Finite(p.Value.Depth)||p.Value.Depth<1||p.Value.Depth>14)){var boat=Ship;p.Value.Depth=p.Value.DepthOverride&&Preparation.Finite(p.Value.Depth)?Mathf.Clamp(p.Value.Depth,1,14):boat==null?4:Mathf.Clamp(boat.TorpedoAttackSettings.TorpedoDepth,1,14);if(p.Value.Revision<int.MaxValue)p.Value.Revision++;}
                 return p;}}
             if(!create)return null;
             var torp=Missile(item);if(torp==null)return null;
             var ship=Ship;
             var made=new PreparationStatus { Value=new Preparation { Pistol=(int)torp.PistolSetting,InitialPistol=(int)torp.PistolSetting,ProgramOverride=torp.ProgramType!=Torpedo.TorpedoProgramType.None,
-                Depth=ship==null?4:Mathf.Clamp(ship.TorpedoAttackSettings.TorpedoDepth,.5f,14),
+                Depth=ship==null?4:Mathf.Clamp(ship.TorpedoAttackSettings.TorpedoDepth,1,14),
                 Right=ship!=null&&ship.TorpedoProgramDirection,Distance=ship==null?1500:Mathf.Clamp(ship.TorpedoProgramDistance,500,15000),
                 Angle=ship==null?0:Mathf.Repeat(ship.TorpedoProgramAngleAbsolute,360) } };
             item.AddStatus(made);return made;
@@ -231,7 +231,7 @@ namespace Landomatic.TorpedoRoom
             var next=edit.Copy();next.InitialPistol=status.Value.InitialPistol;next.Revision=status.Value.Revision+1;
             // Quantize newly selected depths on the host as well as in the UI.
             // Unrelated edits do not rewrite a legacy save's unchanged depth.
-            if(next.DepthOverride&&(!status.Value.DepthOverride||next.Depth!=status.Value.Depth))next.Depth=DialValues.Snap(next.Depth,.5f,14,.25f);
+            if(next.DepthOverride&&(!status.Value.DepthOverride||next.Depth!=status.Value.Depth))next.Depth=DialValues.Snap(next.Depth,1,14,.25f);
             status.Value=next;var missile=Missile(tube.Torpedo);if(missile!=null&&(int)missile.PistolSetting!=next.Pistol)SetPistol(missile,next.Pistol);
             if(focusSpeed&&next.SpeedOverride)TdcSpeed.Applied(tube);else TdcSpeed.Sync();
         }

@@ -31,7 +31,7 @@ namespace Landomatic.TorpedoRoom
             Guid id;
             return Guid.TryParseExact(Id, "N", out id) && Revision >= 0 && Pistol >= 0 && Pistol <= 1
                 && Finite(Speed)&&Speed>=0&&Speed<=100&&(!SpeedOverride||Speed>0)
-                && Finite(Depth) && Depth >= .5f && Depth <= 14 && InitialPistol >= 0 && InitialPistol <= 1 && Finite(Distance) && Distance >= 500 && Distance <= 15000
+                && Finite(Depth) && Depth >= 1 && Depth <= 14 && InitialPistol >= 0 && InitialPistol <= 1 && Finite(Distance) && Distance >= 500 && Distance <= 15000
                 && Finite(Angle) && Angle >= 0 && Angle < 360;
         }
         public static bool Finite(float v) { return !float.IsNaN(v) && !float.IsInfinity(v); }

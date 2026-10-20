@@ -51,7 +51,7 @@ namespace Landomatic.TorpedoRoom
         public static void Save()
         {
             string tmp=PathName+".tmp";
-            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.19-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
+            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.20-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
                 +"speedSync="+SpeedSync+"\nenabled="+Enabled+"\ninterface="+Interface+"\ninterfacePreset="+Preset+"\nroomAccess="+(int)Access+"\nviewportDisplay="+(int)Viewport+"\npistolPolicy="+(int)Policy+"\npreparationSeconds="+Delay.ToString(CultureInfo.InvariantCulture)
                 +"\nperformanceTrace="+PerformanceTrace+"\nshortcutKey="+ShortcutKey+"\nshortcutCtrl="+ShortcutCtrl+"\nshortcutAlt="+ShortcutAlt+"\nshortcutShift="+ShortcutShift+"\nallowStraightRun="+AllowLockout+"\n");
             if(File.Exists(PathName))File.Replace(tmp,PathName,null);else File.Move(tmp,PathName);

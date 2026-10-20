@@ -1,6 +1,8 @@
-0.1.19 implemented for testing: remove loaded-pistol lock; stale weapon/draft
-recovery; state-triggered icon refresh/empty clear; specific read-only reasons;
-transition-only diagnostics; clean player packaging. No config migration.
-Pending live validation: TESTING.txt. Remaining periscope/TDC speed-cycle tests.
+0.1.20 implemented for testing: Feuer-only Hidden Reports; native fire-control
+selection for hidden viewing-panel fire; T5-only viewing depth exception through
+50 m boat depth; running depth 1–14 m in 0.25 m steps. No engine/physical-lever
+or guidance changes. Compilation/offline checks pass; live validation pending.
+Retain .19 state recovery. No config migration. See TESTING.txt.
 Future: modifier multi-tube selection and mixed-salvo program retain/straight choice.
+Remaining prior cases: other periscopes and native TDC speed-cycle testing.
 Larger-stack loading/crash interactions remain a separate investigation.
