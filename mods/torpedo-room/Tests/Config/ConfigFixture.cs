@@ -55,7 +55,7 @@ public static class ConfigChecks {
    File.WriteAllText(file,"enabled=True\n");Config.Load();Check(Config.ShortcutKey==UnityEngine.KeyCode.T&&Config.ShortcutCtrl&&Config.ShortcutAlt,"legacy config inherits default shortcut");
    Check(CommunityPatchSettings.Category=="Submarine / Torpedoes","actual Dusty tab name");
    Check(CommunityPatchSettings.ModName=="Torpedo Room","Dusty provider name");
-   object[] rows=CommunityPatchSettings.GetSettings();Check(rows.Length==16,"provider exposes all rows");
+   object[] rows=CommunityPatchSettings.GetSettings();Check(rows.Length==15,"provider exposes all rows");
    object[] key=null,master=null;
    foreach(object value in rows){var row=(object[])value;Check(row.Length>=6&&row[4] is Func<object>&&row[5] is Action<object>,"provider row delegates "+row[1]);((Func<object>)row[4])();if((string)row[1]=="shortcutKey")key=row;if((string)row[1]=="enabled")master=row;}
    Check(key!=null&&(string)key[0]=="key","native key picker contract");
@@ -71,7 +71,7 @@ public static class ConfigChecks {
    Check(File.ReadAllText(legacy)==oldText&&File.ReadAllText(previous)==oldText,"older config files remain untouched");
    File.WriteAllText(file,"enabled=False\nshortcutKey=K\n");Config.Enabled=true;Config.ShortcutKey=UnityEngine.KeyCode.T;Config.Load();
    Check(!Config.Enabled&&Config.ShortcutKey==UnityEngine.KeyCode.K,"only TorpedoRoomConfig.txt supplies preferences");
-   Check(CommunityPatchSettings.GetSettings().Length==16,"diagnostic timing option exposed");
+   Check(CommunityPatchSettings.GetSettings().Length==15,"diagnostic timing option exposed");
    Config.Access=RoomAccess.AllEditable;Config.Viewport=ViewportMode.Hidden;Config.Save();Config.Access=RoomAccess.CurrentCompartment;Config.Viewport=ViewportMode.ReadOnly;Config.Load();
    Check(Config.Access==RoomAccess.AllEditable&&Config.Viewport==ViewportMode.Hidden,"new room and viewport modes persisted");
    object[] preset=null,access=null;foreach(object value in CommunityPatchSettings.GetSettings()){var row=(object[])value;if((string)row[1]=="preset")preset=row;if((string)row[1]=="roomAccess")access=row;}
@@ -85,14 +85,15 @@ public static class ConfigChecks {
    ((Action<object>)access[5])(0);Check(Config.Preset==2&&DustysCommunityPatch.Core.QolConfig.Values["Torpedo_Room.preset"]=="Custom","manual rule edit marks and persists Custom");
    Config.Preset=0;Config.Load();Check(Config.Preset==2,"explicit custom preset persisted in own config");
    object[] locked=null,port=null,dry=null,sync=null;foreach(object value in CommunityPatchSettings.GetSettings()){var row=(object[])value;if((string)row[1]=="locked")locked=row;if((string)row[1]=="port")port=row;if((string)row[1]=="dry")dry=row;if((string)row[1]=="speedSync")sync=row;}
-   Check(port==null&&sync!=null,"retired port policy absent and independent speed rule present");
-   ((Action<object>)locked[5])(true);((Action<object>)dry[5])(false);Check(Config.Policy==PistolPolicy.LockedOnLoad,"replaying unrelated false policy rows does not erase selected policy");
+   Check(locked==null&&port==null&&sync!=null,"retired port policy absent and independent speed rule present");
+   ((Action<object>)dry[5])(true);Check(Config.Policy==PistolPolicy.DryTubePreparation,"optional timed dry-tube policy remains selectable");
    ((Action<object>)preset[5])(1);((Action<object>)preset[5])(2);Check(Config.Access==RoomAccess.CurrentCompartment&&Config.Viewport==ViewportMode.Hidden,"Custom preserves existing settings");
    Check(Config.SpeedSync,"new speed rule defaults ON");
    ((Action<object>)sync[5])(false);Config.SpeedSync=true;Config.Load();Check(!Config.SpeedSync,"speed rule persists independently");
    ((Action<object>)preset[5])(0);((Action<object>)preset[5])(1);Check(!Config.SpeedSync,"presets preserve independent speed rule");
    Bridge.IsRemote=true;Bridge.Last=new Snapshot{SpeedSync=true};Check((bool)((Func<object>)sync[4])(),"client displays host speed rule");((Action<object>)sync[5])(true);Check(!Config.SpeedSync,"client cannot edit host speed rule");Bridge.IsRemote=false;
-   string retired="pistolPolicy=2\n";File.WriteAllText(file,retired);Config.Policy=PistolPolicy.LockedOnLoad;Config.Load();Check(Config.Policy==PistolPolicy.Free&&File.ReadAllText(file)==retired,"retired port policy falls back to free without rewriting settings");
+   string retired="pistolPolicy=2\n";File.WriteAllText(file,retired);Config.Policy=PistolPolicy.DryTubePreparation;Config.Load();Check(Config.Policy==PistolPolicy.Free&&File.ReadAllText(file)==retired,"retired port policy falls back to free without rewriting settings");
+   File.WriteAllText(file,"pistolPolicy=1\n");Config.Policy=PistolPolicy.DryTubePreparation;Config.Load();Check(Config.Policy==PistolPolicy.Free&&File.ReadAllText(file)=="pistolPolicy=1\n","retired loaded lock is free at runtime without config migration");
    CommunityPatchSettings.ResetToDefaults();Check(Config.SpeedSync,"reset enables speed sync");
    Console.WriteLine("PASS: "+count+" configuration/provider assertions (actual Settings.cs, isolated temporary directory).");return count;
   } finally {Directory.Delete(dir,true);}

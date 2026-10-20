@@ -1,60 +1,6 @@
-0.1.18 work-list status -- implemented for testing
-Completed: remove firing interlocks; native TDC speed cycle; game speed units;
-independent host speed-sync toggle; remove port-only pistol option; minimal
-model/type + optional HTT maintenance hover in overview and expanded editor.
-No config migration, additional roles or targeting/gyro-relay changes.
-Pending validation: focused solo/minimal-MP checklist in TESTING.txt.
-Future: modifier multi-tube selection and mixed-salvo keep/disable program choice.
-Larger-stack loading/crash compatibility remains a separate investigation.
-
-Earlier roadmap/history (superseded by the status above):
-Torpedo Room -- requested future work (multi-tube selection not implemented in 0.1.17)
-
-Modifier-based multi-tube editing: Ctrl or Alt selects several tubes in the room.
-Selection for editing must remain separate from stock marking for firing.
-
-For a mixed selection of FAT/LUT-capable and ordinary torpedoes, offer an explicit
-confirmation: Keep programs active / Set selected FAT/LUT torpedoes to straight.
-Do not silently disable programs. Ordinary torpedoes stay ordinary. Preserve
-stored pattern values so the player can restore them later. Bulk edits need
-host-side identity/revision validation and clear partial/stale-edit handling.
-No new role checks or firing permissions are intended.
-
-Completed in 0.1.9: quarter-metre depth selection and TorpedoRoomConfig.txt.
-No config migration is implemented, per the user's revised instruction.
-
-Implemented in 0.1.13 (in-game validation pending): follow the game's actual
-main canvas pixel scale live for dock/editor; retain native knob proportions and
-native station-icon effective scale, including original parent/local transforms.
-Confirm sprite appearance, pointer mapping and station restoration in-game.
-
-Implemented in 0.1.14 (game validation pending): speed instrument for every
-selected loaded torpedo, fixed-speed display, native supported presets, per-tube
-record/launch override and existing viewport-policy synchronization. TRC5 requires
-all MP peers to update. Instrument faces and tube artwork enlarged following
-0.1.13 feedback; actual visual comparison and firing speed need game tests.
-
-NEXT PATCH -- native torpedo hover tooltips
-Hovering over each torpedo icon INSIDE OUR MENU should show the same relevant torpedo information
-as the main native display. Prefer the native tooltip path so Happy Torpedo Time,
-when installed and compatible, can supply its normal augmentation; otherwise use
-vanilla torpedo information. Inspect that optional mod's API/patches before
-claiming compatibility. Preserve current tube identity, hover exit and station
-cleanup; avoid stale or duplicate tooltip panels. No new dependency is intended.
-
-The physical tube action already provides the working consolidated tooltip;
-that physical interaction/tooltip is not part of the queued change.
-
-0.1.15 follow-up (game validation pending): enlarge rotating knob artwork itself,
-remove speed text entry in favor of presets, and extend native speed buffer/range
-handling to stable dry marked tubes while retaining common-speed restrictions.
-
-0.1.16 follow-up (game validation pending): complete compass heading, consistent
-speed readouts, committed tube-top pistol labels, native half-metre depth and a
-10 percent larger panel/dock. Host loading issue remains a separate diagnostic.
-
-0.1.17 implemented for testing: bidirectional TDC speed, no-checkmark speed focus,
-mixed/mismatch launch checks, larger instruments/readouts, prominent Apply state.
-Initial public description/checklist prepared. TDC/MP game test is the release gate.
-Broader mod-stack interaction troubleshooting is deferred separately.
-
+0.1.19 implemented for testing: remove loaded-pistol lock; stale weapon/draft
+recovery; state-triggered icon refresh/empty clear; specific read-only reasons;
+transition-only diagnostics; clean player packaging. No config migration.
+Pending live validation: TESTING.txt. Remaining periscope/TDC speed-cycle tests.
+Future: modifier multi-tube selection and mixed-salvo program retain/straight choice.
+Larger-stack loading/crash interactions remain a separate investigation.

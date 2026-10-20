@@ -2,11 +2,11 @@
 
 Source, version history, and test records for Landomatic's UBOAT mods.
 
-## Torpedo Room — initial Beta
+## Torpedo Room
 
-[Torpedo Room 0.1.18 Beta](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Source and instructions](mods/torpedo-room) · [Install ZIP](packages/torpedo-room/0.1.18-beta/TorpedoRoom_v0.1.18-test.zip)
+[Initial 0.1.18 Beta release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Source and instructions](mods/torpedo-room) · [Install ZIP](packages/torpedo-room/0.1.18-beta/TorpedoRoom_v0.1.18-test.zip)
 
-Compilation and 700 offline checks passed; live testing of this revision remains pending. All multiplayer peers need the same TRC7 build. This prerelease retains the exact delivered `0.1.18-test` package.
+Latest source/package archive: [0.1.19 Beta player ZIP](packages/torpedo-room/0.1.19-beta/TorpedoRoom_v0.1.19-beta.zip). Compilation and 723 offline checks passed; live state-recovery testing remains pending. All multiplayer peers need the same TRC8 build. The initial .18 release is retained separately.
 
 ## Repository layout
 

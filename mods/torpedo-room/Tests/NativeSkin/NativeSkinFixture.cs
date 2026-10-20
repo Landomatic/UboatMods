@@ -59,13 +59,13 @@ namespace UBOAT.Game.UI {
  public class TorpedoAttackStationsViewSwitchUI:UnityEngine.MonoBehaviour {}
  public class TorpedoLaunchersManualUI:UnityEngine.MonoBehaviour {}
  public class TorpedoLaunchersDepthDialUI:UnityEngine.MonoBehaviour {public TMPro.TextMeshProUGUI label;public UnityEngine.Transform pointer;public UnityEngine.GameObject blockade;}
- public class TorpedoLauncherUI:UnityEngine.MonoBehaviour {public object Launcher;public UnityEngine.UI.Image torpedoImage,coverOpenImage,coverCloseImage,floodingProgress,blockadeImage;public UnityEngine.UI.Button pistolTypeButton;}
+ public class TorpedoLauncherUI:UnityEngine.MonoBehaviour {public int IconRefreshes;void ValidateTorpedoIcon(){IconRefreshes++;torpedoImage.sprite=new UnityEngine.Sprite();}public object Launcher;public UnityEngine.UI.Image torpedoImage,coverOpenImage,coverCloseImage,floodingProgress,blockadeImage;public UnityEngine.UI.Button pistolTypeButton;}
 }
 namespace UBOAT.Game.UI.Periscope {public class TorpedoLaunchersUI:UnityEngine.MonoBehaviour {public TMPro.TMP_InputField programDistance;}}
 namespace Landomatic.TorpedoRoom {
  internal class PlayerShip {public object[] TorpedoLaunchers;}
  internal static class Runtime {public static PlayerShip Ship;public static UBOAT.Game.UI.GameUI Ui;public static T Get<T>() where T:class{return Ui as T;}}
- internal static class NativePresentation {public static UBOAT.Game.UI.TorpedoLauncherUI TubeView(int i){return null;}}
+ internal static class NativePresentation {public static UBOAT.Game.UI.TorpedoLauncherUI Current;public static UBOAT.Game.UI.TorpedoLauncherUI TubeView(int i){return Current;}}
 }
 public static class NativeSkinChecks {
  static int count;static void Check(bool b,string name){count++;if(!b)throw new Exception(name);}
@@ -92,6 +92,10 @@ public static class NativeSkinChecks {
   var update=new UnityEngine.Sprite();tube.torpedoImage.sprite=update;tube.coverOpenImage.gameObject.SetActive(false);v.Sync();
   Check(v.Icon.sprite==update&&v.OpenCover.gameObject.activeSelf,"live artwork refresh retains room-owned node visibility");BoundsFit(v,target.transform,136,86);
   Check(NativeSkin.Tube(null,target.transform,136,86)==null,"absent native art can use fallback");
+  NativePresentation.Current=tube;var stale=tube.torpedoImage.sprite;NativeSkin.RefreshTubeIcon(0);v.Sync();
+  Check(tube.IconRefreshes==1&&v.Icon.sprite!=stale&&v.Icon.sprite==NativeSkin.TubeSprite(0),"state recovery invokes native icon refresh and synchronizes new artwork");
+  tube.torpedoImage.sprite=null;v.Sync();Check(v.Icon.sprite==null&&NativeSkin.TubeSprite(0)==null,"empty native sprite clears old copied torpedo");
+  NativePresentation.Current=null;NativeSkin.RefreshTubeIcon(-1);Check(NativeSkin.TubeSprite(-1)==null,"absent native view has safe artwork fallback");
   // Live native station controller is moved, never cloned or granted permissions.
   var host=Node("native host");var before=Node("before",host.transform);var barGo=Node("station bar",host.transform,42,300);var bar=barGo.AddComponent<UBOAT.Game.UI.TorpedoAttackStationsViewSwitchUI>();Node("after",host.transform);
   barGo.transform.anchorMin=new UnityEngine.Vector2(.2f,.3f);barGo.transform.anchorMax=new UnityEngine.Vector2(.4f,.8f);barGo.transform.pivot=new UnityEngine.Vector2(.1f,.7f);barGo.transform.anchoredPosition=new UnityEngine.Vector2(17,-22);barGo.transform.sizeDelta=new UnityEngine.Vector2(42,300);barGo.transform.localScale=new UnityEngine.Vector3(.7f,.8f,1);

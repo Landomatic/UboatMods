@@ -21,6 +21,8 @@ namespace Landomatic.TorpedoRoom
         TorpedoLauncherGroup gridGroup;
         int selected=-1;
         Preparation draft;
+        StoredTorpedo selectedItem;
+        readonly Dictionary<int,TubeUiState> tubeUiStates=new Dictionary<int,TubeUiState>();
         GameInput blocked;
         CursorManager cursor;
         static readonly object CursorFlag=new object();
@@ -61,6 +63,7 @@ namespace Landomatic.TorpedoRoom
             if(Time.unscaledTime>=nextGridRender)banner.text=Shortcut.Display+"  TORPEDO ROOM";
             banner.gameObject.SetActive(!open);
             if(!open){if(Time.unscaledTime>=nextGridRender){nextGridRender=Time.unscaledTime+.2f;RenderGrid();}return;}
+            RefreshSelectedWeapon();
             if(awaiting&&((Bridge.Last!=awaitingSnapshot&&Bridge.Last!=null&&!string.IsNullOrEmpty(Bridge.Last.Notice))||Time.unscaledTime>=awaitingUntil)){
                 var reply=selected>=0&&selected<Ship.TorpedoLaunchers.Length?Status(Ship.TorpedoLaunchers[selected].Torpedo,false):null;
                 if(reply!=null&&draft!=null&&reply.Value.Id==draft.Id&&reply.Value.Revision>draft.Revision)Select(selected);
@@ -98,7 +101,7 @@ namespace Landomatic.TorpedoRoom
         void OpenGrid()
         {
             NativeSkin.Capture();
-            selected=-1;draft=null;awaiting=false;dirty=false;nextGridRender=0;gridGroup=CurrentGroup;
+            selected=-1;selectedItem=null;draft=null;awaiting=false;dirty=false;nextGridRender=0;gridGroup=CurrentGroup;
             blocked=Get<GameInput>();cursor=Get<CursorManager>();
             if(blocked==null||cursor==null){CloseGrid();Say("Preparation input is not ready; retry at the tube station.");return;}
             blocked.AddBlockade(InputOwner);cursor.AddCursorVisibilityFlag(CursorFlag);
@@ -109,7 +112,7 @@ namespace Landomatic.TorpedoRoom
             HideTubeHover();
             if(blocked!=null)blocked.RemoveBlockade(InputOwner);
             if(cursor!=null)cursor.RemoveCursorVisibilityFlag(CursorFlag);
-            blocked=null;cursor=null;open=false;selected=-1;draft=null;awaiting=false;
+            blocked=null;cursor=null;open=false;selected=-1;selectedItem=null;draft=null;awaiting=false;
             if(gridReady)SetGridLayout(false);
             else if(gridRoot!=null)gridRoot.SetActive(false);
         }
@@ -131,13 +134,22 @@ namespace Landomatic.TorpedoRoom
         void Select(int i)
         {
             var tubes=Ship.TorpedoLaunchers;if(i<0||i>=tubes.Length)return;
-            var s=Status(tubes[i].Torpedo,!Bridge.IsRemote);
+            var item=tubes[i]==null?null:tubes[i].Torpedo;var s=Status(item,!Bridge.IsRemote);selectedItem=item;
             selected=i;draft=s==null?null:s.Value.Copy();awaiting=false;dirty=false;nextGridRender=0;settingFields=true;
             if(draft!=null){depthInput.text=(draft.DepthOverride?draft.Depth:Ship.TorpedoAttackSettings.TorpedoDepth).ToString("0.##",CultureInfo.InvariantCulture);distanceInput.text=draft.Distance.ToString("0",CultureInfo.InvariantCulture);angleInput.text=draft.Angle.ToString("0.#",CultureInfo.InvariantCulture);}
             if(draft!=null){
                 RefreshSpeedUnits(true);
             }
             settingFields=false;
+        }
+        void RefreshSelectedWeapon()
+        {
+            if(selected<0||Ship==null||selected>=Ship.TorpedoLaunchers.Length)return;
+            var tube=Ship.TorpedoLaunchers[selected];var item=tube==null?null:tube.Torpedo;
+            var status=Status(item,!Bridge.IsRemote);
+            if(TubeUiState.NeedsRebind(selectedItem==item,draft,status==null?null:status.Value)){
+                HideTubeHover();Select(selected);
+            }
         }
         void RefreshSpeedUnits(bool force=false)
         {
@@ -178,6 +190,7 @@ namespace Landomatic.TorpedoRoom
         }
         void RenderGrid()
         {
+            RefreshSelectedWeapon();
             closeLabel.text="Close · "+Shortcut.Display;notice.text=Notice;var speedWarning=TdcSpeed.Warning();if(speedWarning.Length>0)notice.text=speedWarning;
             foreach(var dial in dialVisuals)NativeSkin.SizeDial(dial);
             var tubes=Ship.TorpedoLaunchers;
@@ -206,8 +219,13 @@ namespace Landomatic.TorpedoRoom
             }
             for(int n=0;n<cardIndices.Count;n++){
                 int i=cardIndices[n];var tube=tubes[i];var item=tube.Torpedo;var missile=Missile(item);var s=Status(item,!Bridge.IsRemote);
+                TubeUiState observed;if(!tubeUiStates.TryGetValue(i,out observed)){observed=new TubeUiState();tubeUiStates[i]=observed;}
+                bool stateChanged=observed.Observe((int)tube.CurrentState,s==null?null:s.Value.Id,item!=null,Stable(tube));
+                if(stateChanged)NativeSkin.RefreshTubeIcon(i);
+                if(stateChanged&&Config.PerformanceTrace)
+                    Debug.Log("[TorpedoRoom] TUBE STATE tube="+(i+1)+" state="+tube.CurrentState+" loaded="+(item!=null)+" stable="+Stable(tube)+" id="+(s==null?"none":s.Value.Id)+" editor="+(i==selected)+" awaiting="+awaiting);
                 if(tubeVisuals[n]!=null){var v=tubeVisuals[n];v.Sync();bool closed=ProgramValues.DoorClosed(tube.IsFlooded,(int)tube.CurrentState);if(v.OpenCover!=null)v.OpenCover.enabled=!closed;if(v.ClosedCover!=null)v.ClosedCover.enabled=closed;}
-                var sprite=NativePresentation.SpriteFor(i);if(tubeVisuals[n]!=null){var v=tubeVisuals[n];if(v.Icon!=null){v.Icon.enabled=item!=null;if(sprite!=null)v.Icon.sprite=sprite;}}cardIcons[n].sprite=sprite;cardIcons[n].enabled=sprite!=null;
+                var sprite=item==null?null:NativePresentation.SpriteFor(i)??NativeSkin.TubeSprite(i);if(tubeVisuals[n]!=null){var v=tubeVisuals[n];if(v.Icon!=null){v.Icon.enabled=item!=null&&sprite!=null;v.Icon.sprite=sprite;}}cardIcons[n].sprite=sprite;cardIcons[n].enabled=item!=null&&sprite!=null;
                 cardPistols[n].interactable=!awaiting&&s!=null&&RoomEditable(tube.Group)&&Stable(tube)&&(!Bridge.IsRemote||Bridge.Synced);
                 cardPistolLabels[n].text=s==null?"—":s.Value.Pistol==0?"AZ":"MZ";
                 string info=tube.Group==CurrentGroup?"":"OPPOSITE "+(Access==RoomAccess.AllEditable?"":"· READ ONLY")+"\n";
@@ -230,7 +248,7 @@ namespace Landomatic.TorpedoRoom
             selectionLabel.text="▼ TUBE "+(selected+1)+" · "+(current.Torpedo==null?"EMPTY":current.Torpedo.TypeName)+(!valid?" · Contents changed — select again":status.Value.Revision!=draft.Revision?" · Refresh required":"");
             editorAccess.interactable=editable;
             pistolLabel.text=draft.Pistol==0?"AZ · Contact":"MZ · Magnetic";
-            policyLabel.text=awaiting?"AWAITING HOST":editable?"":"READ ONLY";
+            policyLabel.text=TubeUiState.ReadOnlyReason(editable,awaiting,valid,Stable(current),RoomEditable(current.Group),!Bridge.IsRemote||Bridge.Synced,current.CurrentState.ToString());
             applyLabel.text=awaiting?"WAITING FOR HOST":dirty?"APPLY CHANGES":"APPLY";
             applyState.text=awaiting?"Awaiting confirmation":dirty?"Unapplied changes":"Settings applied";
             applyButton.interactable=editable&&!awaiting;
@@ -322,7 +340,7 @@ namespace Landomatic.TorpedoRoom
             if(visual!=null&&visual.ValueText!=null){var readout=visual.ValueText;readout.color=Paper;field.onValueChanged.AddListener(v=>readout.text=v+(title.Contains("°")?"°T":" m"));NativeSkin.ClickArea(readout.rectTransform,()=>{if(allowed()){field.Select();field.ActivateInputField();}});}
             input.onValueChanged.AddListener(v=>dial.Refresh());return dial;
         }
-        void ResetGrid(){NativeSkin.RestoreStations();CloseGrid();if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);gridRoot=null;hoverPanel=null;hoverText=null;gridPanel=null;roomCanvas=null;roomScaler=null;gridReady=false;dialVisuals.Clear();cards.Clear();cardPistols.Clear();cardPistolLabels.Clear();cardLabels.Clear();cardIcons.Clear();cardIndices.Clear();tubeVisuals.Clear();nativeDialCount=0;}
+        void ResetGrid(){NativeSkin.RestoreStations();CloseGrid();if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);gridRoot=null;hoverPanel=null;hoverText=null;gridPanel=null;roomCanvas=null;roomScaler=null;gridReady=false;tubeUiStates.Clear();dialVisuals.Clear();cards.Clear();cardPistols.Clear();cardPistolLabels.Clear();cardLabels.Clear();cardIcons.Clear();cardIndices.Clear();tubeVisuals.Clear();nativeDialCount=0;}
         void DraftChanged(){if(!settingFields){dirty=true;nextGridRender=0;}}
         static void Place(RectTransform r,float x,float y,float w,float h)
         {r.anchorMin=r.anchorMax=new Vector2(0,1);r.pivot=new Vector2(0,1);r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(w,h);}

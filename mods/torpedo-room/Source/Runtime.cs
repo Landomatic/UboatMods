@@ -45,7 +45,7 @@ namespace Landomatic.TorpedoRoom
                 Bridge.Install(harmony);
                 StockUi.Install(harmony);
                 DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.18-test loaded. Optional independent TDC speed sync; TRC7 host rules; game speed units and type/maintenance hover. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                Debug.Log("[TorpedoRoom] 0.1.19-beta loaded. Optional independent TDC speed sync; TRC8 host rules; game speed units and type/maintenance hover. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");

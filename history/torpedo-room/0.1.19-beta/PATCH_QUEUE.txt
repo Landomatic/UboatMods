@@ -1,0 +1,68 @@
+Torpedo Room -- work-list status
+Copyright (c) 2026 Landomatic
+Implemented for testing: 0.1.18-test
+
+Completed in this test build:
+1. Remove all mod mixed-speed and TDC mismatch firing interlocks; warnings only.
+   Preserve native readiness and MP permissions; individual launch settings stand.
+2. Native TDC click progression uses actual authored dial slots, forward/reverse
+   wrap, with exact physical speeds retained. Offline cycle checks pass.
+3. Follow game knots/km/h preference in room/overridden viewport readouts without
+   changing native speed records or unapplied drafts.
+4. Independent host bidirectional speed-sync toggle, ON by default. Report policy
+   and Casual/Hardcore presets do not control it. OFF preserves independent inputs.
+5. Remove port-only pistol policy; retain Free, locked-on-load and timed dry tube.
+   Default preparation time remains 30 game seconds. No config migration.
+6. Model/type hover in both room overview and editor; optional HTT maintenance
+   state/remaining benefit. No redundant preparation information on hover.
+7. Preserve native targeting/gyro relays, Landomatic attribution, copyright and
+   existing license/upstream credits. Publication materials updated.
+
+Validation: full supplied-reference compilation and 700 offline assertions pass.
+Initial GitHub Beta published as torpedo-room-v0.1.18-beta. Further live testing remains pending.
+First check: manually fire fore/aft with the opposite fire-control selection,
+then Type II with no TDC operator, including mixed speeds and mismatched TDC.
+
+Future queue:
+- Modifier-based multi-tube selection.
+- Mixed-salvo choice to retain or disable FAT/LUT programming.
+- Investigate larger-stack loading/crash interactions separately.
+
+Next patch queue -- 2026-10-20 (America/Los_Angeles)
+- Remove "Pistol mode locked when loaded" and its policy enforcement. Retain
+  unrestricted changes and optional timed dry-tube preparation. Do not migrate
+  user configuration files. No runtime change made by this queue update.
+- Clean Workshop packaging: remove development/publication drafts from player
+  distribution; retain license, attribution, credits and concise player instructions.
+- Investigate Tube 1 temporarily read-only with stale/empty artwork after a
+  possible cancelled maintenance action. Cancellation is a user hypothesis, not
+  confirmed by this log. Check loading/unloading/maintenance cancellation and
+  return-to-stable state; refresh drafts/graphics when weapon identity changes.
+  If reproduction requires diagnostics, log state/identity transitions and the
+  actual read-only reason rather than adding high-frequency per-frame output.
+
+0.1.18 live test update -- user report and supplied log 20261020-074718
+- User reports successful firing from all stations tested so far: TDC, UZO and
+  direct tube controls. Other periscopes remain untested; native TDC speed-button
+  cycling remains untested. This does not establish complete hull/MP coverage.
+- Supplied log identifies Type IXA and confirms three launch records: I, IV, III,
+  all with preparation audit verified=True. That audit checks program parameters;
+  it does not certify firing-station identity, actual running speed or flight.
+- No Torpedo Room exception or failed launch audit found. HTT shutdown summary
+  reports errors=0, repeatedErrors=0, launches=3, tooltipUpdates=47.
+- No per-tube maintenance cancellation/state transition trace is present, so the
+  transient read-only/artwork cause remains unconfirmed. Existing code allows
+  Loaded, Preheating and Flooded states; maintenance alone is not proven a cause.
+- Separate log errors: WaterQualityMod patch ambiguity, MP/Realistic Uniforms
+  Revival compatibility ambiguity, and SleepBehaviour null reference during
+  scene teardown. No logged causal link to the tube symptom is established.
+
+0.1.19-beta implementation status -- 2026-10-20
+Completed for retest: removed loaded-pistol lock; selected weapon/record identity
+rebind, empty editor/icon clear, same-weapon draft preservation, state-triggered
+native icon-only refresh, specific busy/read-only reasons and transition logging.
+Clean player ZIP separated from development archive. No config migration.
+Compilation and 723 offline checks pass. New live validation remains pending;
+cancelled-maintenance cause is still unconfirmed. TRC8 requires all peers update.
+Still queued: remaining periscope and TDC speed-click live tests, modifier tube
+multiselect/mixed-salvo program choice, larger-stack compatibility investigation.

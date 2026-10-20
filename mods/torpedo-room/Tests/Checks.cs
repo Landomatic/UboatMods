@@ -27,7 +27,7 @@ public static class Checks
         Check(unpinned.Distance==3500&&unpinned.Angle==123&&unpinned.Right,"pin removal preserves program");
         Check(Rules.Check(current,pinned,PistolPolicy.Free,false,false,false,true)!=null,"no pin fitted to straight runner");
         Check(Rules.Check(current,edit,PistolPolicy.Free,false,false,false)==null,"free pistol at sea");
-        Check(Rules.Check(current,edit,PistolPolicy.LockedOnLoad,true,true,false)!=null,"locked pistol even in port");
+        Check(Rules.Check(current,edit,(PistolPolicy)1,true,true,false)==null,"retired loaded-pistol lock has no enforcement");
         Check(Rules.Check(current,edit,PistolPolicy.DryTubePreparation,false,false,false)!=null,"dry preparation refuses flooded");
         Check(Rules.Check(current,edit,PistolPolicy.DryTubePreparation,false,true,false)==null,"dry preparation at sea");
         edit=current.Copy();edit.ProgramOverride=true;edit.Distance=3500;edit.Right=true;edit.Angle=271;
@@ -54,7 +54,7 @@ public static class Checks
         byte[] payload=Wire.Encode(state);var decoded=Roundtrip(payload);
         Check(decoded.Epoch==state.Epoch && decoded.Enabled && decoded.Policy==state.Policy && decoded.Delay==30,"host policy roundtrip");
         Check(decoded.SolutionSpeed==20.57f&&decoded.SpeedTube==3,"host solution speed and room focus round trip");
-        var trc5=Wire.Pack(Wire.Hello,w=>{});trc5[3]=(byte)'5';Bad(()=>{byte op;using(var q=Wire.Open(trc5,out op)){}},"TRC5 peer is refused by TRC7");
+        var trc5=Wire.Pack(Wire.Hello,w=>{});trc5[3]=(byte)'5';Bad(()=>{byte op;using(var q=Wire.Open(trc5,out op)){}},"TRC5 peer is refused by TRC8");
         var malformed=new Snapshot{Epoch=Guid.NewGuid().ToString("N"),SolutionSpeed=float.NaN};Bad(()=>Roundtrip(Wire.Encode(malformed)),"nonfinite host solution speed refused");
         malformed.SolutionSpeed=101;Bad(()=>Roundtrip(Wire.Encode(malformed)),"out of range host solution speed refused");
         malformed.SolutionSpeed=20;malformed.SpeedTube=16;Bad(()=>Roundtrip(Wire.Encode(malformed)),"invalid host room speed focus refused");
@@ -89,6 +89,7 @@ public static class Checks
         state.Tubes[1].Settings.Revision=-1;Bad(()=>Roundtrip(Wire.Encode(state)),"negative revision");state.Tubes[1].Settings.Revision=1;
         state.Delay=float.NaN;Bad(()=>Roundtrip(Wire.Encode(state)),"invalid host delay");state.Delay=0;
         state.SpeedSync=false;Check(!Roundtrip(Wire.Encode(state)).SpeedSync,"independent speed sync OFF roundtrip");state.SpeedSync=true;Check(Roundtrip(Wire.Encode(state)).SpeedSync,"independent speed sync ON roundtrip");
+        state.Policy=(PistolPolicy)1;Bad(()=>Roundtrip(Wire.Encode(state)),"retired loaded-lock wire policy refused");
         state.Policy=(PistolPolicy)2;Bad(()=>Roundtrip(Wire.Encode(state)),"retired port-only wire policy refused");
         state.Policy=(PistolPolicy)200;Bad(()=>Roundtrip(Wire.Encode(state)),"invalid host policy");state.Policy=PistolPolicy.Free;
         state.Enabled=false;Check(!Roundtrip(Wire.Encode(state)).Enabled,"disabled master replicated");
@@ -155,7 +156,7 @@ public static class Checks
         speedOnly.Pistol=1-current.Pistol;Check(!Rules.SpeedOnlyEdit(current,speedOnly),"TDC route cannot bypass report policy for pistol");
         speedOnly=current.Copy();speedOnly.Distance+=500;Check(!Rules.SpeedOnlyEdit(current,speedOnly),"TDC route cannot bypass report policy for FAT/LUT");
         speedOnly=current.Copy();speedOnly.DepthOverride=!current.DepthOverride;Check(!Rules.SpeedOnlyEdit(current,speedOnly),"TDC route cannot bypass report policy for depth");
-        var trc4=Wire.Pack(Wire.Hello,w=>{});trc4[3]=(byte)'4';Bad(()=>{byte op;using(var q=Wire.Open(trc4,out op)){}},"TRC4 peer cannot parse TRC7 speed payload");
+        var trc4=Wire.Pack(Wire.Hello,w=>{});trc4[3]=(byte)'4';Bad(()=>{byte op;using(var q=Wire.Open(trc4,out op)){}},"TRC4 peer cannot parse TRC8 speed payload");
         Console.WriteLine("PASS: "+count+" policy/protocol assertions (actual upstream writer/reader/bundler).");
         return count;
     }

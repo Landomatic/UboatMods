@@ -1,57 +1,67 @@
 {
   "schema_version": 1,
   "project": "Torpedo Room",
-  "version": "0.1.18-test",
-  "prepared_at_utc": "2026-10-20T06:35:18+00:00",
+  "version": "0.1.19-beta",
+  "prepared_at_utc": "2026-10-20T07:59:58+00:00",
   "changes": [
-    "Remove mod firing interlocks; native TDC preset cycle fix; live speed units; independent host speed-sync toggle; retire port-only pistol policy; minimal model/optional HTT maintenance hover; publication materials updated."
+    "Remove loaded-pistol lock; recover selected weapon/record identity and native icons after tube transitions; expose busy reasons and transition-only diagnostics; separate clean player package from development archive."
   ],
   "validation": {
     "compile": "passed",
     "offline": "passed",
     "in_game": "not-run",
     "notes": [
-      "Full supplied-game reference compilation and 700 offline assertions passed. Existing license unchanged; targeting relays and upstream credits retained. No live Unity/Harmony/MP or launch test of this revision."
+      "Full supplied-game reference compilation and 723 offline assertions pass. License terms/copyright preserved, repository references refreshed. No native tube readiness, firing permissions or targeting changes. Prior .18 live results are partial and not validation of this new code."
     ]
   },
   "known_issues": [
-    "Requires focused solo and minimal-MP tests before initial publication. Larger-stack crashes remain a separate investigation. All peers need 0.1.18/TRC7; modifier multi-tube edits remain queued."
+    "Cancelled maintenance was not traced/reproduced; state recovery requires live retest. Remaining periscopes/TDC click tests pending. TRC8: all peers update. Existing Workshop ID was not supplied; retain assigned ID in publishing manifest."
   ],
   "files": [
     {
       "path": "CHANGELOG.txt",
-      "bytes": 18865,
-      "sha256": "28f3618d561401ca2a6d34870da42577fe49cdb436dd60b413d12482724c3799"
+      "bytes": 19734,
+      "sha256": "32d22e542a59f205f5aeef4089459c59fd715eb6aa3ec2b4926976f865b103d4"
     },
     {
-      "path": "LICENSE",
-      "bytes": 1112,
-      "sha256": "e4b02f51ea54d2fb4cc768435ba2cedd9d42d9b9452df9921359873d5169c5a7"
-    },
-    {
-      "path": "Manifest.json",
-      "bytes": 470,
-      "sha256": "e28eadf2f0872b3864e3e0b85120b46152f0fdc08fc9ad0aa87783dd0aabec15"
-    },
-    {
-      "path": "NOTICE.txt",
+      "path": "Docs/History/NOTICE-through-0.1.18.txt",
       "bytes": 4502,
       "sha256": "dea10cf6dceed56a7f43f650b87fc6492bcd99bf0fa2a22c72eafd93297675a8"
     },
     {
-      "path": "PUBLISHING.txt",
-      "bytes": 2662,
-      "sha256": "80841092788b90bc0b7d1e89291206aabee0266bddea9a7be36e4f0029277419"
-    },
-    {
-      "path": "README.txt",
+      "path": "Docs/History/README-through-0.1.18.txt",
       "bytes": 26763,
       "sha256": "872b20be76ec857b3f7703a0da16972f77fdf3174efa27438bac5df6a2bc79f7"
     },
     {
+      "path": "LICENSE",
+      "bytes": 1087,
+      "sha256": "ff2f1f4200ef2a9b75870b4d0ca87b91fad4c1dc1e63dd37046f1e5da251c036"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 429,
+      "sha256": "7233a52cc56524bcb22d772f680f3412b62d06238e317e42fb9185051afcd622"
+    },
+    {
+      "path": "NOTICE.txt",
+      "bytes": 2502,
+      "sha256": "bf413ef8281e2ab2d76024497e845b5cfe353c8f9fce1170cdd718a5bf792950"
+    },
+    {
+      "path": "PUBLISHING.txt",
+      "bytes": 601,
+      "sha256": "a572f98aab08dd5057045fb81cf71df03620af6814d05472dea5e2c13599800b"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 3429,
+      "sha256": "6fd9467832966766821f6c36a3f738eb3d504da4477638612814e71f65ed4f14"
+    },
+    {
       "path": "ROADMAP.txt",
-      "bytes": 3691,
-      "sha256": "ca926509236db8a03704dc8d61abb29acf54de63092f197f4b6306ef22684614"
+      "bytes": 472,
+      "sha256": "6c8fe27f89fb13876c8736a009b6c25793810ccb85ac6ba921a419d87605e8e9"
     },
     {
       "path": "Source/Bridge.cs",
@@ -70,8 +80,8 @@
     },
     {
       "path": "Source/Grid.cs",
-      "bytes": 32615,
-      "sha256": "40419cf12ad6a8025617bd20be3a03840c60e27b8f1a2fd78fb782f39ef79ea5"
+      "bytes": 34152,
+      "sha256": "f6064fc5e35ff68a5f9a376fa76ea3b5eaa6778edaa7b7ada039f2d894fe60f0"
     },
     {
       "path": "Source/InstrumentFace.cs",
@@ -85,13 +95,13 @@
     },
     {
       "path": "Source/MenuIntegration.cs",
-      "bytes": 2953,
-      "sha256": "e14cb074d15535e86c4607f31216830e63dfba34d8ba24663044262df618846f"
+      "bytes": 2938,
+      "sha256": "08affa77e4729ba9c262d15a126e06a191e4f8290d3b74a7dfb1dd8d86586022"
     },
     {
       "path": "Source/Model.cs",
-      "bytes": 13392,
-      "sha256": "e016d5ced1e93a65f7b0017278732b8d7e46fa37e3888b1752be6651513600a1"
+      "bytes": 13191,
+      "sha256": "2ef5c9a5763a7c4760fe0446ff7ac6448f21f0675e88733a58745110fc9a6639"
     },
     {
       "path": "Source/NativeClick.cs",
@@ -105,18 +115,18 @@
     },
     {
       "path": "Source/NativeSkin.cs",
-      "bytes": 16030,
-      "sha256": "191e8b93c4d03e3bc8170a47b26e61a79fab41a155404604a2797ab6359e2ae9"
+      "bytes": 16889,
+      "sha256": "a291b0b67167b50d3e59bffec7b181483d097ed59a136eddda1441548f367d00"
     },
     {
       "path": "Source/Runtime.cs",
       "bytes": 21224,
-      "sha256": "1f292c114519ec8345f72d03a0724b1f61f32e384f442fccdd27a5d10b371907"
+      "sha256": "3aa54c1dce7aae2c4845ea3ca2659c9fa071ac60ff83eefda86b55e5e8c1f66a"
     },
     {
       "path": "Source/Settings.cs",
-      "bytes": 13987,
-      "sha256": "f9f9fa7d8e3883f9092826a5479557a569b41154f4cad40ba04aa27ce939cc7e"
+      "bytes": 13540,
+      "sha256": "6a046022ef7f888a34de0b679a8851c6cc320a02330a31176a33aaf1b7538702"
     },
     {
       "path": "Source/Shortcut.cs",
@@ -154,14 +164,19 @@
       "sha256": "ea745d76c9e6101d0a3e384d5ed2ed68f12bb22e43d68544fa6466a7277d5f3e"
     },
     {
+      "path": "Source/TubeUiState.cs",
+      "bytes": 1425,
+      "sha256": "235160a41707e04ef22bc9c0763da6e2ffe2b0c234a1eca1067f2c5c72497ce9"
+    },
+    {
       "path": "Source/UiScale.cs",
       "bytes": 3461,
       "sha256": "f90257943bb9ed0655f41fdde8fe4d890840d3640b07eb029ea89ce821501ca6"
     },
     {
       "path": "TESTING.txt",
-      "bytes": 22744,
-      "sha256": "0e181df5678335f6609b565fcf9c1b093c7a77d8235e669996fa0d7a2adc9e3d"
+      "bytes": 1582,
+      "sha256": "a62a1100a9f3df9f428d4ce3d9232b658dfca2899d95c7529033a59f4ad9b64a"
     },
     {
       "path": "Tests/BridgeFixture.cs",
@@ -170,13 +185,13 @@
     },
     {
       "path": "Tests/Checks.cs",
-      "bytes": 20560,
-      "sha256": "8f8cf91eeeec707f8d0bd87846856c364aa1a031ebc779c83134919b7c8dff97"
+      "bytes": 20688,
+      "sha256": "2f06cb72c93bdcc61536fd65e488e33f6857e05a3f7d279ea0ddf6f7b94cf10a"
     },
     {
       "path": "Tests/Config/ConfigFixture.cs",
-      "bytes": 11634,
-      "sha256": "f57b84f7682c559fbb66bf659f9b253895bb334eae93dffd109aeb3755be4b97"
+      "bytes": 11863,
+      "sha256": "6da0cdb365146db2cad0a1179da939d34be68d8c9f07fe5e8bf644cb4f0ce0f2"
     },
     {
       "path": "Tests/Dial/DialFixture.cs",
@@ -195,13 +210,13 @@
     },
     {
       "path": "Tests/NativeSkin/NativeSkinFixture.cs",
-      "bytes": 20838,
-      "sha256": "bab902f780a641c71c0ad33dcec8a8fa754b9e4c0e5fcc8e59d7150c0ef6cb4b"
+      "bytes": 21588,
+      "sha256": "b2e21caaafc5d8087967dd0f340a6b8dd48238acee375090b4d1099b81ebcfde"
     },
     {
       "path": "Tests/README.txt",
-      "bytes": 11724,
-      "sha256": "3798b0fa98f1c437f92272c4295262e23c7fb224d61f6570ece9dd9b82eb4337"
+      "bytes": 390,
+      "sha256": "dd5c7469f73fb0821ae2a9adbbfc6acd6cf67a4629b26ed1cc54cc9a2912656c"
     },
     {
       "path": "Tests/Speed/InfoFixture.cs",
@@ -224,14 +239,19 @@
       "sha256": "cc9cbfed8daa66dfd8306ed522179956ae51d1b0a2c0c334d30420f535b13eec"
     },
     {
+      "path": "Tests/TubeUiFixture.cs",
+      "bytes": 2408,
+      "sha256": "8a3563a6d2a2b374820b5e54786ef6ebb5af33c2481a65de9ea462a7d5d9874b"
+    },
+    {
       "path": "VALIDATION.txt",
-      "bytes": 24840,
-      "sha256": "c33701a6ff549056c0141efe6c01147593a4659534c8d2aab3a5927dba6e8bfe"
+      "bytes": 2270,
+      "sha256": "ca220eb572de8575d54f821785104ba9a4684ddcbde933124fed67a82eff575c"
     },
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
-      "bytes": 3690,
-      "sha256": "ebbde0e113ee9f633e2cf8c05510cb95d9c409242b53961e680779292b425366"
+      "bytes": 1779,
+      "sha256": "b389296ee0dec6e7ffa0a7f9925c55dc7fea96d0ad21395aed8164aacddaaf5d"
     }
   ],
   "artifacts": []

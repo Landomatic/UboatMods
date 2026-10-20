@@ -8,7 +8,7 @@ namespace Landomatic.TorpedoRoom
 {
     public enum RoomAccess { CurrentCompartment, OppositeReadOnly, AllEditable }
     public enum ViewportMode { Synchronized, ReadOnly, Hidden }
-    public enum PistolPolicy { Free=0, LockedOnLoad=1, DryTubePreparation=3 }
+    public enum PistolPolicy { Free=0, DryTubePreparation=3 }
     [Serializable]
     public sealed class Preparation
     {
@@ -53,7 +53,6 @@ namespace Landomatic.TorpedoRoom
             if(edit.StraightRun && !allowLockout && !current.StraightRun) return "The host has disabled straight running.";
             if (edit.Pistol != current.Pistol)
             {
-                if (policy == PistolPolicy.LockedOnLoad) return "Pistol mode is locked when first loaded.";
                 if (policy == PistolPolicy.DryTubePreparation && !dry) return "Drain the tube before preparing its pistol mode.";
             }
             return null;
@@ -80,7 +79,7 @@ namespace Landomatic.TorpedoRoom
         public static bool ShowFields(Preparation p,bool lockoutAllowed){return p!=null&&!(lockoutAllowed&&p.StraightRun);}
         public static bool DoorClosed(bool flooded,int state){return flooded||state==5||state==7;}
         public static string PolicyLabel(PistolPolicy p)
-        {return p==PistolPolicy.Free?"Pistol: unrestricted AZ/MZ changes":p==PistolPolicy.LockedOnLoad?"Pistol: mode locked on load":"Pistol: dry-tube preparation";}
+        {return p==PistolPolicy.Free?"Pistol: unrestricted AZ/MZ changes":"Pistol: dry-tube preparation";}
     }
     public static class DialValues
     {
@@ -141,7 +140,7 @@ namespace Landomatic.TorpedoRoom
     public static class Wire
     {
         public const byte Hello = 1, State = 2, Edit = 3, Viewport = 4;
-        const int Magic = 0x37435254;
+        const int Magic = 0x38435254;
         public static byte[] Pack(byte operation, Action<BinaryWriter> body)
         {
             using (var stream = new MemoryStream())
@@ -178,7 +177,7 @@ namespace Landomatic.TorpedoRoom
         {
             var s = new Snapshot { Epoch = r.ReadString(), Enabled = r.ReadBoolean(), Policy = (PistolPolicy)r.ReadByte(), Delay = r.ReadSingle(), AllowLockout=r.ReadBoolean(),SpeedSync=r.ReadBoolean(), Access=(RoomAccess)r.ReadByte(), Viewport=(ViewportMode)r.ReadByte(), Notice = r.ReadString(),SolutionSpeed=r.ReadSingle(),SpeedTube=r.ReadInt32() };
             Guid epoch;
-            if (!Guid.TryParseExact(s.Epoch, "N", out epoch) || (int)s.Access>2 || (int)s.Viewport>2 || ((int)s.Policy!=0&&(int)s.Policy!=1&&(int)s.Policy!=3) || !Preparation.Finite(s.Delay) || s.Delay < 0 || s.Delay > 120 || s.Notice.Length > 512 || !Preparation.Finite(s.SolutionSpeed) || s.SolutionSpeed<0 || s.SolutionSpeed>100 || s.SpeedTube< -1 || s.SpeedTube>15)
+            if (!Guid.TryParseExact(s.Epoch, "N", out epoch) || (int)s.Access>2 || (int)s.Viewport>2 || ((int)s.Policy!=0&&(int)s.Policy!=3) || !Preparation.Finite(s.Delay) || s.Delay < 0 || s.Delay > 120 || s.Notice.Length > 512 || !Preparation.Finite(s.SolutionSpeed) || s.SolutionSpeed<0 || s.SolutionSpeed>100 || s.SpeedTube< -1 || s.SpeedTube>15)
                 throw new FormatException("Invalid host settings.");
             int count = r.ReadByte();
             if (count > 16) throw new FormatException("Too many tubes.");

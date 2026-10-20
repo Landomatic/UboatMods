@@ -42,8 +42,8 @@ namespace Landomatic.TorpedoRoom
                     if(kv[0]=="shortcutCtrl"&&bool.TryParse(kv[1],out b))ShortcutCtrl=b;
                     if(kv[0]=="shortcutAlt"&&bool.TryParse(kv[1],out b))ShortcutAlt=b;
                     if(kv[0]=="shortcutShift"&&bool.TryParse(kv[1],out b))ShortcutShift=b;
-                    if(kv[0]=="pistolPolicy" && int.TryParse(kv[1],out n) && (n==0||n==1||n==3))Policy=(PistolPolicy)n;
-                    if(kv[0]=="pistolPolicy"&&int.TryParse(kv[1],out n)&&n==2)Policy=PistolPolicy.Free;
+                    if(kv[0]=="pistolPolicy" && int.TryParse(kv[1],out n) && (n==0||n==3))Policy=(PistolPolicy)n;
+                    if(kv[0]=="pistolPolicy"&&int.TryParse(kv[1],out n)&&(n==1||n==2))Policy=PistolPolicy.Free;
                     if(kv[0]=="preparationSeconds" && float.TryParse(kv[1],NumberStyles.Float,CultureInfo.InvariantCulture,out f) && Preparation.Finite(f))Delay=Mathf.Clamp(f,0,120);
                 }
             } catch(Exception e) { Debug.LogWarning("[TorpedoRoom] Config read: "+e.Message); }
@@ -51,7 +51,7 @@ namespace Landomatic.TorpedoRoom
         public static void Save()
         {
             string tmp=PathName+".tmp";
-            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.18-test\n# Policy: 0 free, 1 locked on load, 3 dry-tube preparation (2 retired)\n"
+            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.19-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
                 +"speedSync="+SpeedSync+"\nenabled="+Enabled+"\ninterface="+Interface+"\ninterfacePreset="+Preset+"\nroomAccess="+(int)Access+"\nviewportDisplay="+(int)Viewport+"\npistolPolicy="+(int)Policy+"\npreparationSeconds="+Delay.ToString(CultureInfo.InvariantCulture)
                 +"\nperformanceTrace="+PerformanceTrace+"\nshortcutKey="+ShortcutKey+"\nshortcutCtrl="+ShortcutCtrl+"\nshortcutAlt="+ShortcutAlt+"\nshortcutShift="+ShortcutShift+"\nallowStraightRun="+AllowLockout+"\n");
             if(File.Exists(PathName))File.Replace(tmp,PathName,null);else File.Move(tmp,PathName);
@@ -67,7 +67,7 @@ namespace Landomatic.TorpedoRoom
         {
             return new object[]{"bool",key,title,help,new Func<object>(()=>get()),new Action<object>(v=>{
                 if(host && Bridge.IsRemote) { Runtime.Say("Only the host can change session rules.");return; }
-                bool old=get();var oldPolicy=Config.Policy;int oldPreset=Config.Preset; try {set(Convert.ToBoolean(v));if(host&&(key=="locked"||key=="dry"||key=="allowStraightRun")&&old!=get())Config.Preset=2;Config.Save();if(host)MenuIntegration.Publish();}catch(Exception e){set(old);Config.Policy=oldPolicy;Config.Preset=oldPreset;Runtime.Say("Setting not saved: "+e.Message);}
+                bool old=get();var oldPolicy=Config.Policy;int oldPreset=Config.Preset; try {set(Convert.ToBoolean(v));if(host&&(key=="dry"||key=="allowStraightRun")&&old!=get())Config.Preset=2;Config.Save();if(host)MenuIntegration.Publish();}catch(Exception e){set(old);Config.Policy=oldPolicy;Config.Preset=oldPreset;Runtime.Say("Setting not saved: "+e.Message);}
             })};
         }
         static object[] Choice(string key,string title,string help,Func<int> get,Action<int> set,string[] options)
@@ -101,8 +101,7 @@ namespace Landomatic.TorpedoRoom
                 Bool("allowStraightRun","Allow straight running for FAT/LUT","Host rule. Allows a per-torpedo Straight / Pattern choice. Stored pattern settings are retained. This is a gameplay bypass, not a simulated historical pin; no failure mechanic is added.",
                     ()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.AllowLockout:Config.AllowLockout,v=>Config.AllowLockout=v,true),
                 Bool("removeRecords","Remove preparation records before uninstalling","One-shot host/single-player cleanup. Disables this mod and removes its records from torpedoes. Then save to a separate slot before uninstalling. Checkbox returns to OFF.",()=>false,v=>{if(v)Runtime.RemoveRecords();},true),
-                Bool("locked","Pistol mode locked when loaded","Host rule. Captures mode when first observed in a loaded tube. Settings follow the torpedo through unloading/reloading. Exclusive with the other pistol policies.",()=>EffectivePolicy==PistolPolicy.LockedOnLoad,v=>{if(v)Config.Policy=PistolPolicy.LockedOnLoad;else if(Config.Policy==PistolPolicy.LockedOnLoad)Config.Policy=PistolPolicy.Free;},true),
-                Bool("dry","Require dry tube for pistol preparation","Host rule. Drain first; flooding, unloading or leaving the station cancels pending work. Does not animate withdrawal. Exclusive with locked-on-load policy.",()=>EffectivePolicy==PistolPolicy.DryTubePreparation,v=>{if(v)Config.Policy=PistolPolicy.DryTubePreparation;else if(Config.Policy==PistolPolicy.DryTubePreparation)Config.Policy=PistolPolicy.Free;},true),
+                Bool("dry","Require dry tube for pistol preparation","Host rule. Drain first; flooding, unloading or leaving the station cancels pending work. Does not animate withdrawal. AZ/MZ is otherwise unrestricted.",()=>EffectivePolicy==PistolPolicy.DryTubePreparation,v=>{if(v)Config.Policy=PistolPolicy.DryTubePreparation;else if(Config.Policy==PistolPolicy.DryTubePreparation)Config.Policy=PistolPolicy.Free;},true),
                     new object[]{"float","delay","Pistol preparation time (game seconds)","Default 30 game seconds. Used only with dry-tube preparation; 0 is instant. FAT/LUT has no delay.",
                     new Func<object>(()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.Delay:Config.Delay),new Action<object>(v=>{
                         if(Bridge.IsRemote){Runtime.Say("Only the host can change session rules.");return;}
