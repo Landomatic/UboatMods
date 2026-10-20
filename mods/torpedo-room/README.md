@@ -1,10 +1,10 @@
-# Torpedo Room — initial Beta 0.1.18
+# Torpedo Room — Beta 0.1.19
 
 By **Landomatic** · Copyright (c) 2026 Landomatic · [CC BY-NC 4.0](LICENSE)
 
 Local torpedo preparations for first-person and multiplayer station-restricted play.
 
-[Download the initial Beta](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Archived install ZIP](../../packages/torpedo-room/0.1.18-beta/TorpedoRoom_v0.1.18-test.zip) · [Testing checklist](TESTING.txt)
+[Download the clean 0.1.19 player ZIP](../../packages/torpedo-room/0.1.19-beta/TorpedoRoom_v0.1.19-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
 
 ## Features
 
@@ -16,7 +16,7 @@ Local torpedo preparations for first-person and multiplayer station-restricted p
 - Independent host toggle for bidirectional tube/TDC speed synchronization; ON by default and unaffected by interface presets. OFF preserves independent inputs.
 - Follow the game's knots/km/h preference in room and overridden viewport speed readouts.
 - Type/model hover in the dock and editor, plus live maintenance benefit when Happy Torpedo Time is installed.
-- Free, locked-on-load or timed dry-tube pistol policies; the optional dry-tube delay defaults to 30 game seconds. No port-only policy.
+- Unrestricted or optional timed dry-tube pistol preparation, with a 30-game-second default. Port-only and locked-on-load rules are removed.
 - Optional straight running for programmable torpedoes, without an added failure mechanic.
 
 Physical flooding, draining and firing controls remain in use. The mod adds no mixed-speed or TDC-mismatch firing interlocks; those conditions only warn. Native readiness and multiplayer station/firing permissions still apply. Native targeting and manual gyro relays remain unchanged.
@@ -29,17 +29,17 @@ Physical flooding, draining and firing controls remain in use. The mod adds no m
 
 Optional Dusty's Community Patch provides the settings menu. Standalone settings use `TorpedoRoomConfig.txt` in UBOAT's persistent-data folder (`AppData/LocalLow/Deep Water Studio/UBOAT` on Windows). No configuration migration is performed.
 
-Solo play does not require multiplayer or Community Patch. The supplied multiplayer adapter targets Uboats: Coop Multiplayer **1.11.5 / protocol 54**. All shared-boat players must use this same build (**TRC7**).
+Solo play does not require multiplayer or Community Patch. The supplied multiplayer adapter targets Uboats: Coop Multiplayer **1.11.5 / protocol 54**. All shared-boat players must use this same build (**TRC8**).
 
-## Beta status
+## 0.1.19 changes and validation
 
-The download is the **exact 0.1.18-test package** previously prepared for testing; its manifest stays `0.1.18` and log/build identity stays `0.1.18-test`. GitHub labels it as the initial Beta. No runtime source or package bytes were changed for publication.
+Remove the loaded-pistol lock; rebind the editor when a tube's weapon/preparation identity changes, preserve same-weapon drafts through temporary busy states, refresh native icons on state changes and clear empty-tube artwork. Busy/read-only controls now show a specific reason. Diagnostic state entries log transitions only. No native task, tube state or firing permission is forced.
 
-Full compilation against the supplied game references and **700 offline assertions passed**. Live Unity/Harmony, torpedo-flight and multiplayer testing of this revision remains pending. Earlier reduced-stack MP feedback does not establish compatibility with larger stacks.
+The player ZIP contains 22 runtime source files and five player/manifest/license files. Tests, development markdown, publication drafts and historical notes stay in the [separate source archive](../../packages/torpedo-room/0.1.19-beta/TorpedoRoom_v0.1.19-beta_source-archive.zip). The player and source ZIPs are byte-for-byte the delivered .19 packages.
 
-First tests: manually fire fore/aft tubes with the opposite fire-control compartment selected, repeat on Type II without a TDC operator, then test mixed speeds, TDC cycling, both speed-sync states and host/client exchange. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
+Full compilation against supplied game references and **723 offline assertions passed**. Live verification of this revision remains pending. The earlier .18 user test reported successful TDC, UZO and direct-tube firing; other periscopes and TDC speed-button cycles remain pending. A cancelled-maintenance explanation for transient read-only/artwork behavior was not established by the log. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
 
-The `.txt` publication drafts and `UPDATE.json` inside the original package record its preparation-time state. This README and the GitHub release describe the subsequent Beta publication; they do not upgrade its gameplay validation status.
+The initial .18 GitHub release and its assets remain unchanged. This .19 update archives source and packages; it does not create a new release/tag or upload to Workshop. When updating the existing Workshop item, retain its assigned `steamFileId` and preview; its ID has not been supplied, so the generic manifest keeps `0`.
 
 ## Credits
 

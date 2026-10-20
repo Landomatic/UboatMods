@@ -1,44 +1,8 @@
-Torpedo Room -- initial publication preparation
-Author/publisher: Landomatic
-Copyright (c) 2026 Landomatic
-Candidate: 0.1.18-test (manifest version 0.1.18)
-Status: prepared, NOT published; speed/firing/hover game validation pending.
-
-RELEASE GATE
-Finish the current TESTING.txt TDC checklist in solo and minimal supported MP.
-Verify actual torpedo running speeds, the TDC solution/current/target speed,
-unchanged target estimate, no-checkmark focus, manual fore/aft firing with opposite selector and mixed/mismatched speeds, client
-confirmation, save/load and visual layout. Offline fixtures do not establish
-those Unity/Harmony/network outcomes. Larger-stack compatibility is a separate
-investigation; record any remaining limitations honestly before submission.
-
-DISTRIBUTION CONTENT
-The ZIP installs one TorpedoRoomControls folder. UBOAT compiles Source on launch.
-Use the same build for all shared-boat players; TRC7 refuses older companions.
-LICENSE, NOTICE.txt, source copyright headers and compatibility credits stay with
-redistributions. No game DLLs/assets, private logs/saves or live configs belong
-in the submitted folder. Keep Tests/validation/history as source documentation;
-they are outside Source and are not game-compiled. No compiled DLL is supplied.
-
-WORKSHOP PREPARATION
-Use WORKSHOP_DESCRIPTION.txt as a draft. Update its tested status only from actual
-results; remove the initial draft line after tests pass. Choose a clear in-game
-screenshot showing the larger controls and an applied speed/TDC match as preview.
-No preview image is generated or third-party art copied in this candidate.
-The manifest keeps author Landomatic and steamFileId=0 for this new item. Perform
-initial submission through your own UBOAT/Steam publishing workflow; retain the
-Workshop ID assigned by Steam for subsequent updates. Do not invent an ID.
-Do not mark optional solo integrations as hard dependencies without game evidence.
-
-SOURCE HISTORY
-Existing reference: https://github.com/Landomatic/UboatMods
-This new project is not yet present there. The ZIP and UPDATE.json preserve local
-source history/integrity. Repository publication, tags/releases and Workshop upload
-have not been performed by this preparation. Retain the current CC BY-NC 4.0
-license and upstream credits when adding it; do not replace third-party notices.
-
-NEXT RECORD
-After the focused game test, update validation status and known issues to match
-results, regenerate UPDATE.json/package hashes, and retain the final tested
-candidate separately from further experiments. A failed or partial test remains
-failed/partial in the record; do not turn the offline pass into a gameplay claim.
+0.1.19-beta publication preparation
+Player ZIP: Source, Manifest.json, README.txt, CHANGELOG.txt, LICENSE, NOTICE.txt.
+Use only that player ZIP for Workshop, not the separate source archive.
+Retain the already assigned Workshop steamFileId/preview in the publishing folder;
+the supplied generic manifest uses 0 because the existing item ID was not supplied.
+Do not create another Workshop item accidentally. Record live test results as partial
+until focused tests pass. This patch preparation does not publish a new release.
+Keep the existing .18 GitHub Beta and its exact original package unchanged.

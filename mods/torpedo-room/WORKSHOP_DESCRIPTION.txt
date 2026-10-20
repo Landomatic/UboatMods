@@ -1,63 +1,27 @@
-Torpedo Room
-By Landomatic
-Copyright (c) 2026 Landomatic
-
-DRAFT FOR INITIAL PUBLICATION -- pending 0.1.18 TDC and multiplayer game tests.
-Remove this draft-status line only after completing the release checklist.
-
-Prepare torpedoes from the torpedo room while keeping the physical flooding,
-draining and firing levers. Designed for first-person play, multiplayer station
-restrictions, and configurable casual or more demanding play.
-
-FEATURES
-- Per-tube depth, supported torpedo speed, AZ/MZ pistol mode and FAT/LUT programming.
-- Full-circle LUT heading dial; depth in 0.25 m steps from 0.5 to 14 m.
-- Larger room instruments and tube graphics; a prominent Apply button confirms edits.
-- Choose current-compartment tubes, read-only opposite tubes, or all editable tubes.
-- Synchronized viewing-station controls, read-only reports or hidden reports.
-- Independent host toggle for bidirectional TDC speed, preserving target-speed estimates.
-- Follow the game knots / km/h preference in room speed controls.
-- Torpedo icon hover: model/type, plus maintenance benefit when HTT is installed.
-- No scope checkmarks required for the last explicitly applied room speed focus.
-- Configurable pistol preparation policies, including timed dry-tube preparation.
-- Optional straight-running mode for programmable torpedoes; no added failure rate.
-- Existing multiplayer station, role and firing permissions continue to apply.
-
-USE
-At a tube station press T (configurable). Choose a tube, edit its preparation,
-then click Apply. Physical controls continue to flood, drain and fire.
-With bidirectional speed sync ON, the TDC follows consistently selected torpedoes
-and its speed dial updates their supported speed presets. Without checkmarks, Apply
-on a speed-prepared room tube sets the focus. Turn this independent option OFF to
-prepare tube speeds and the TDC separately. Report visibility does not control it.
-Mixed speeds and TDC mismatches are warnings only; existing native readiness and
-multiplayer firing permissions determine whether a station may fire.
-
-CONFIGURATION
-Optional Dusty's Community Patch integration provides the settings menu.
-Standalone configuration: TorpedoRoomConfig.txt under UBOAT's persistent-data
-folder (Windows: AppData/LocalLow/Deep Water Studio/UBOAT).
-Default room shortcut: T. No settings migration is performed.
-
-COMPATIBILITY
-Single player; optional Uboats: Coop Multiplayer 1.11.5 / protocol 54.
-All shared-boat players need the SAME Torpedo Room version (0.1.18 uses TRC7).
-Multiplayer and Dusty's Community Patch are not bundled or required for solo use.
-Uses live native artwork and can retain installed Torpedo Type Icons colors.
-Compatibility with every mod stack is not established. Larger-stack loading/crash
-interactions are being investigated separately. Hover information is deliberately minimal: type/model plus maintenance benefit
-when Happy Torpedo Time is present. Full native/HTT tooltip contents are not copied.
-
-CREDITS AND LICENSE
-Torpedo Room: Landomatic. Copyright (c) 2026 Landomatic.
-Source/history reference: https://github.com/Landomatic/UboatMods
-This project has not yet been added to that public repository.
-Landomatic's source/docs/original tests: CC BY-NC 4.0.
-https://creativecommons.org/licenses/by-nc/4.0/
-
-Compatibility credit: Uboats: Coop Multiplayer -- Pingu565, Kugler and Dusty.
-https://steamcommunity.com/sharedfiles/filedetails/?id=3815285055
-Thanks to Dusty for the optional Community Patch settings interface.
-UBOAT, Unity, Harmony and third-party mods/assets remain their owners' work.
-No game assets, assemblies or upstream multiplayer source are distributed here.
-See bundled LICENSE and NOTICE.txt for full notices.
+[h1]Torpedo Room — BETA[/h1]
+[b]By Landomatic[/b]
+Take control of torpedo preparation from the torpedo rooms in first-person and
+station-restricted multiplayer play. Choose a tube, adjust its settings and Apply;
+your physical levers still flood, drain and fire.
+[list]
+[*]Per-tube depth, supported speed, AZ/MZ and FAT/LUT programming.
+[*]Full-circle LUT heading and 0.25 m depth increments from 0.5 to 14 m.
+[*]Native torpedo artwork, larger instruments and a prominent Apply button.
+[*]Current compartment, read-only opposite tubes, or all tubes editable.
+[*]Synchronized, read-only or hidden viewing-station reports.
+[*]Independent host toggle for bidirectional TDC speed sync; game knots/km/h units.
+[*]Type/model hover, plus optional Happy Torpedo Time maintenance information.
+[*]Optional timed dry-tube pistol preparation (30 game seconds by default).
+[/list]
+Press [b]T[/b] at a tube station. Configure through optional Dusty's Community Patch
+or TorpedoRoomConfig.txt in UBOAT persistent data. Solo needs no multiplayer mod.
+All shared-boat players require the same build (0.1.19 / TRC8). Supplied MP
+integration targets Uboats: Coop Multiplayer 1.11.5 / protocol 54.
+Mixed speeds/TDC mismatches warn without mod-added firing holds; existing native
+readiness and MP permissions apply. FAT/LUT remains adjustable at sea.
+[b]Beta:[/b] compilation/offline checks passed; further live testing and larger
+mod-stack compatibility work remain. Source and history:
+https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
+Copyright (c) 2026 Landomatic. CC BY-NC 4.0. See LICENSE/NOTICE.txt for full credits.
+Compatibility credit: Pingu565, Kugler and Dusty. UBOAT and third-party assets
+remain their owners' work. No upstream mod source or game assets are bundled.

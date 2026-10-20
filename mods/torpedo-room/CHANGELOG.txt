@@ -1,3 +1,15 @@
+0.1.19-beta -- tube state recovery and clean player packaging
+- Remove locked-on-load pistol mode and enforcement. Free and optional timed dry
+  tube remain; retired saved values are unrestricted without config migration.
+- Rebind selected preparations when the weapon or preparation identity changes;
+  clear empty/replaced weapon drafts and preserve same-weapon drafts while busy.
+- Refresh native torpedo icon on state/content changes, clear stale empty art,
+  and show the actual busy/read-only reason. No native task or state is forced.
+- Add state-change-only diagnostics. Existing targeting/firing behavior retained.
+- TRC8: all shared-boat companions must update. Prepare clean player ZIP without
+  tests, publication drafts, developer markdown or historical development notes.
+- Preserve Landomatic copyright and license terms; refresh repository references.
+
 0.1.18-test -- unrestricted native firing, independent speed sync and hover
 - Delete all mod mixed-speed/TDC-mismatch firing guards; warnings only. Native
   flooded/ready checks and station permissions remain. Applied launch speeds stand.

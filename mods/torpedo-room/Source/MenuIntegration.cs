@@ -24,7 +24,7 @@ namespace Landomatic.TorpedoRoom
             Find();if(setString==null||setBool==null||Bridge.IsRemote)return;
             try{
                 foreach(object value in CommunityPatchSettings.GetSettings()){
-                    var row=(object[])value;string key=(string)row[1];if(key!="preset"&&key!="roomAccess"&&key!="viewportDisplay"&&key!="locked"&&key!="dry"&&key!="allowStraightRun"&&key!="speedSync")continue;
+                    var row=(object[])value;string key=(string)row[1];if(key!="preset"&&key!="roomAccess"&&key!="viewportDisplay"&&key!="dry"&&key!="allowStraightRun"&&key!="speedSync")continue;
                     object current=((Func<object>)row[4])();string full="Torpedo_Room."+key;
                     if((string)row[0]=="choice")setString.Invoke(null,new object[]{full,((string[])row[6])[Convert.ToInt32(current)]});
                     else setBool.Invoke(null,new object[]{full,Convert.ToBoolean(current)});

@@ -83,6 +83,16 @@ namespace Landomatic.TorpedoRoom
         }
         internal static TorpedoLauncherUI TubeView(int index)
         {var view=NativePresentation.TubeView(index);if(view!=null)return view;if(Runtime.Ship==null||index<0||index>=Runtime.Ship.TorpedoLaunchers.Length)return null;foreach(var candidate in views)if(candidate!=null&&candidate.gameObject.scene.IsValid()&&candidate.Launcher==Runtime.Ship.TorpedoLaunchers[index])return candidate;return null;}
+        static readonly MethodInfo ValidateIcon=typeof(TorpedoLauncherUI).GetMethod("ValidateTorpedoIcon",BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic);
+        static readonly FieldInfo TubeIcon=AccessTools.Field(typeof(TorpedoLauncherUI),"torpedoImage");
+        internal static void RefreshTubeIcon(int index)
+        {
+            var view=TubeView(index);if(view==null||ValidateIcon==null)return;
+            // Refresh artwork only. ValidateState also changes native tube marks.
+            try{ValidateIcon.Invoke(view,null);}catch(Exception e){Debug.LogWarning("[TorpedoRoom] Tube artwork refresh: "+e.GetType().Name);}
+        }
+        internal static Sprite TubeSprite(int index)
+        {var view=TubeView(index);var image=view==null||TubeIcon==null?null:TubeIcon.GetValue(view) as Image;return image==null?null:image.sprite;}
         internal static Sprite Board
         {get{if(manual==null)return null;var image=manual.GetComponent<Image>();if(image==null&&manual.transform.parent!=null)image=manual.transform.parent.GetComponent<Image>();return image==null?null:image.sprite;}}
         internal sealed class Visual
