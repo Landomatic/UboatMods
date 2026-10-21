@@ -14,6 +14,10 @@ namespace NoseDownCompanion
     internal static class CompanionConfig
     {
         internal static bool Enabled = true;
+        // Config-only test controls: Dusty's saved rows must not restore these.
+        internal static bool DiagnosticOnly = false;
+        internal static bool DiagnosticDisableNoseDownCasing = false;
+        internal static bool CorrectionsEnabled { get { return Enabled && !DiagnosticOnly; } }
         internal static bool DiveEntryAssist = false;
         internal static bool PreciseDepthArrival = false;
         internal static bool PreDivePlanes = false;
@@ -151,6 +155,8 @@ namespace NoseDownCompanion
                         switch (k)
                         {
                             case "enabled": Enabled = Bool(v, Enabled); break;
+                            case "diagnosticonly": DiagnosticOnly = Bool(v, DiagnosticOnly); break;
+                            case "diagnosticdisablenosedowncasing": DiagnosticDisableNoseDownCasing = Bool(v, DiagnosticDisableNoseDownCasing); break;
                             case "diveentryassist": DiveEntryAssist = Bool(v, DiveEntryAssist); break;
                             case "precisedeptharrival": PreciseDepthArrival = Bool(v, PreciseDepthArrival); break;
                             case "prediveplanes": PreDivePlanes = Bool(v, PreDivePlanes); break;
@@ -257,7 +263,12 @@ namespace NoseDownCompanion
         {
             string nl = "\r\n";
             string s =
-                "# Nose Down Depth Companion (Landomatic). Requires Nose Down by Kugler." + nl
+                "# Config-only diagnostic lock: disables all Companion corrections regardless of menu master." + nl
+                + "diagnosticOnly=" + (DiagnosticOnly ? "true" : "false") + nl
+                + "# Test-only Nose Down 2.1.5 casing bypass. Requires diagnosticOnly=true. Restart and reload the same save between A/B runs." + nl
+                + "# Affects only Nose Down casing correction for the observed player tank, never Proper Ballast or base-game flooding." + nl
+                + "diagnosticDisableNoseDownCasing=" + (DiagnosticDisableNoseDownCasing ? "true" : "false") + nl + nl
+                + "# Nose Down Depth Companion (Landomatic). Requires Nose Down by Kugler." + nl
                 + "# Master switch. All companion corrections stand aside when false." + nl
                 + "enabled=" + (Enabled ? "true" : "false") + nl + nl
                 + "# Experimental VII ordinary-dive entry torque supplement; default OFF. Combined torque cap 1.5 x stock." + nl
@@ -482,3 +493,4 @@ namespace NoseDownCompanion
 
     }
 }
+

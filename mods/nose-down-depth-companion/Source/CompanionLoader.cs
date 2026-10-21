@@ -15,7 +15,7 @@ namespace NoseDownCompanion
     public class CompanionLoader : IUserMod
     {
         internal const string Tag = "[NoseDownCompanion]";
-        internal const string BuildId = "v1.0.22";
+        internal const string BuildId = "v1.0.23";
         internal const string HarmonyId = "com.landomatic.nosedown.companion";
         internal static Harmony Instance;
 
@@ -32,6 +32,9 @@ namespace NoseDownCompanion
                 harmony.CreateClassProcessor(typeof(PreDivePlanes)).Patch();
                 Debug.Log(Tag + " initialized [" + BuildId + "] by Landomatic, companion to Nose Down by Kugler. "
                     + "enabled=" + CompanionConfig.Enabled
+                    + " diagnosticOnly=" + CompanionConfig.DiagnosticOnly
+                    + " correctionsActive=" + CompanionConfig.CorrectionsEnabled
+                    + " diagnosticDisableNoseDownCasing=" + CompanionConfig.DiagnosticDisableNoseDownCasing
                     + " diveEntryAssist=" + CompanionConfig.DiveEntryAssist
                     + " preciseDepthArrival=" + CompanionConfig.PreciseDepthArrival
                     + " preDivePlanes=" + CompanionConfig.PreDivePlanes + " clampMaxDepth=" + CompanionConfig.ClampMaxDepth
@@ -68,3 +71,4 @@ namespace NoseDownCompanion
         }
     }
 }
+

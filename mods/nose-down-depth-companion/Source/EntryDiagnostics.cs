@@ -84,17 +84,33 @@ namespace NoseDownCompanion
                 var engine = ship.ActiveEngine;
                 string engineName = engine == null ? "none" : ReferenceEquals(engine, ship.DieselEngine) ? "diesel"
                     : ReferenceEquals(engine, ship.ElectricEngine) ? "electric" : "other";
-                var s = new StringBuilder("[NoseDownCompanion.EntryPhysics] v=1.0.22");
+                var s = new StringBuilder("[NoseDownCompanion.EntryPhysics] v=1.0.23");
                 Add(s, "t", Time.time); Add(s, "dt", Time.fixedDeltaTime); Add(s, "timeScale", Time.timeScale);
                 Add(s, "enabled", CompanionConfig.Enabled);
+                Add(s, "diagnosticOnly", CompanionConfig.DiagnosticOnly);
+                Add(s, "correctionsActive", CompanionConfig.CorrectionsEnabled);
+                Add(s, "casingBypassRequested", CompanionConfig.DiagnosticDisableNoseDownCasing);
+                Add(s, "casingHookReady", DiagnosticIsolation.Ready);
+                Add(s, "casingObservedCalls", DiagnosticIsolation.ObservedCalls);
+                Add(s, "casingBypassCalls", DiagnosticIsolation.BypassCalls);
+                Add(s, "casingBypassApplied", DiagnosticIsolation.AppliedTo(ship));
                 Add(s, "hull", ship.SandboxEntity != null && ship.SandboxEntity.Type != null ? ship.SandboxEntity.Type.Name : "unknown");
                 Add(s, "order", ship.TargetDepth); Add(s, "depth", ship.Depth); Add(s, "deck", ship.DeckDepth);
                 Add(s, "pitch", Mathf.DeltaAngle(0, rb.rotation.eulerAngles.x));
                 Add(s, "rateDeg", localRate.x * 180 / Math.PI); Add(s, "speed", ship.AverageVelocity);
+                Add(s, "velocityWorld", Vec(rb.velocity));
+                Add(s, "forwardSpeed", Vector3.Dot(rb.velocity, ship.transform.forward));
                 Add(s, "yPre", _y); Add(s, "yPost", rb.position.y); Add(s, "vy", rb.velocity.y);
                 Add(s, "comPre", Vec(_com)); Add(s, "comPost", Vec(rb.centerOfMass));
                 Add(s, "hydroDragPre", _hydroDrag); Add(s, "hydroDragPost", HydroDrag(ship));
                 Add(s, "rbDragPre", _unityDrag); Add(s, "rbDragPost", rb.angularDrag);
+                Add(s, "uniformBuoyancyCentreLocal", BuoyancyCentre(ship));
+                var casing = ship.HullInternalTank;
+                Add(s, "casingWater", casing == null ? "n/a" : F(casing.Water));
+                Add(s, "casingAir", casing == null ? "n/a" : F(casing.Air));
+                Add(s, "casingFuel", casing == null ? "n/a" : F(casing.Fuel));
+                Add(s, "casingCapacity", casing == null ? "n/a" : F(casing.Capacity));
+                Add(s, "buoyancyRatio", ship.BuoyancyRatio);
                 Add(s, "mass", rb.mass); Add(s, "inertiaTensor", Vec(rb.inertiaTensor));
                 Add(s, "balance", Read(BalanceField, ship)); Add(s, "customBalance", Read(CustomField, ship));
                 Add(s, "planeAuthorityBoundary", Read(PlaneField, ship)); Add(s, "steer", Read(SteerField, ship));
@@ -105,7 +121,7 @@ namespace NoseDownCompanion
                 float? bowLift = NoseDownBridge.Present ? NoseDownBridge.BowLiftMoment() : null;
                 Add(s, "bowLiftMoment", bowLift.HasValue ? F(bowLift.Value) : "n/a");
                 Add(s, "phase", NoseDownBridge.Present ? NoseDownBridge.PhaseName() : "absent");
-                Add(s, "officer", NoseDownBridge.Present && CompanionConfig.Enabled ? PlanesManning.OfficerSeated.ToString() : "n/a"); Add(s, "entryAssist", CompanionConfig.DiveEntryAssist);
+                Add(s, "officer", NoseDownBridge.Present && CompanionConfig.CorrectionsEnabled ? PlanesManning.OfficerSeated.ToString() : "n/a"); Add(s, "entryAssist", CompanionConfig.DiveEntryAssist);
                 Add(s, "torqueBoost", CompanionConfig.ViiTorqueBoost); Add(s, "torqueFactor", CompanionConfig.ViiTorqueFactor);
                 Add(s, "preciseArrival", CompanionConfig.PreciseDepthArrival); Add(s, "lawCalls", _lawCalls);
                 if (_lawCalls > 0)
@@ -125,6 +141,34 @@ namespace NoseDownCompanion
             try { return field == null ? "n/a" : Convert.ToString(field.GetValue(owner), CultureInfo.InvariantCulture) ?? "n/a"; }
             catch { return "n/a"; }
         }
+        private static PlayerShip _physicsOwner;
+        private static MonoBehaviour _physics;
+        private static FieldInfo _buoyancyCentre;
+        private static float _physicsRetry;
+        private static string BuoyancyCentre(PlayerShip ship)
+        {
+            try
+            {
+                if (!ReferenceEquals(_physicsOwner, ship))
+                {
+                    _physicsOwner = ship; _physics = null; _buoyancyCentre = null; _physicsRetry = 0;
+                }
+                if (_physics == null && Time.unscaledTime >= _physicsRetry)
+                {
+                    _physicsRetry = Time.unscaledTime + 2f;
+                    foreach (var behaviour in ship.GetComponentsInChildren<MonoBehaviour>(true))
+                    {
+                        if (behaviour == null || behaviour.GetType().Name != "NeuralNetworkPhysics") continue;
+                        _physics = behaviour;
+                        _buoyancyCentre = AccessTools.Field(behaviour.GetType(), "uniformDensityCenterOfMass");
+                        break;
+                    }
+                }
+                return _physics == null || _buoyancyCentre == null ? "n/a" : Vec((Vector3)_buoyancyCentre.GetValue(_physics));
+            }
+            catch { return "n/a"; }
+        }
+
         private static string HydroDrag(PlayerShip ship)
         {
             try
@@ -152,3 +196,4 @@ namespace NoseDownCompanion
         }
     }
 }
+

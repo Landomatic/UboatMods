@@ -59,7 +59,7 @@ namespace NoseDownCompanion
         {
             PlayerShip ship = _ship;
             float strength = CompanionConfig.PdWaveForceFactor;
-            if (!Ready || !CompanionConfig.Enabled || !CompanionConfig.PdWaveForce
+            if (!Ready || !CompanionConfig.CorrectionsEnabled || !CompanionConfig.PdWaveForce
                 || !NoseDownBridge.Present || ship == null
                 || !(HullKey.IsVIIClampHull || HullKey.IsTypeII || HullKey.Current == "TypeIX")
                 || ship.TargetDepth < 2f || ship.TargetDepth > 10f || ship.DeckDepth < 2f
@@ -143,3 +143,4 @@ namespace NoseDownCompanion
         }
     }
 }
+

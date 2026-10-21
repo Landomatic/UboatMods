@@ -66,7 +66,7 @@ namespace NoseDownCompanion
         {
             try
             {
-                if (!Ready || !CompanionConfig.Enabled || !CompanionConfig.ViiTorqueBoost
+                if (!Ready || !CompanionConfig.CorrectionsEnabled || !CompanionConfig.ViiTorqueBoost
                     || !ReferenceEquals(instance, _law) || _ship == null || !HullKey.IsVIIClampHull
                     || ShallowStandDown.TrimScale <= 0.001f
                     || _ship.TargetDepth < 2f || _ship.TargetDepth > CompanionConfig.ClampMaxDepth
@@ -131,3 +131,4 @@ namespace NoseDownCompanion
         private static bool Finite(double value) { return !double.IsNaN(value) && !double.IsInfinity(value); }
     }
 }
+

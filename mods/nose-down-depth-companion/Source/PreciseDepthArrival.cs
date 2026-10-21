@@ -18,7 +18,7 @@ namespace NoseDownCompanion
 
         internal static bool Selected(PlayerShip ship)
         {
-            return CompanionConfig.Enabled && CompanionConfig.PreciseDepthArrival && ship != null
+            return CompanionConfig.CorrectionsEnabled && CompanionConfig.PreciseDepthArrival && ship != null
                 && CompanionConfig.ShallowStandDown && CompanionConfig.ShallowTrimStandDown && HullKey.IsStandDownHull
                 && (HullKey.IsVIIClampHull || (HullKey.IsIIClampHull && PlanesManning.OfficerSeated))
                 && ship.TargetDepth >= 2f && ship.TargetDepth <= 10f;
@@ -65,3 +65,4 @@ namespace NoseDownCompanion
         private static bool Finite(float v) { return !float.IsNaN(v) && !float.IsInfinity(v); }
     }
 }
+

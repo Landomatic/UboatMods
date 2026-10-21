@@ -23,8 +23,14 @@ namespace NoseDownCompanion
         {
             return new object[]
             {
+                Bool("diagnosticLockStatus", "Diagnostic lock active (read-only)",
+                    "Status only. Set diagnosticOnly in the config while the game is closed. When ON, all Companion corrections remain off regardless of the master or other menu rows. Explicit diagnostic casing bypass is separate.",
+                    () => CompanionConfig.DiagnosticOnly, v => { }),
+                Bool("correctionsActiveStatus", "Companion corrections active (read-only)",
+                    "Effective master state after the diagnostic lock. OFF means Companion correction gates are closed; an explicitly requested diagnostic casing bypass has its own log status.",
+                    () => CompanionConfig.CorrectionsEnabled, v => { }),
                 Bool("enabled", "Enable depth companion",
-                    "Master switch for every correction in this companion. Nose Down and the other mods keep their own settings.",
+                    "Master switch for Companion corrections. The config-only diagnosticOnly lock overrides this switch; casing bypass is a separate explicit diagnostic test. Nose Down and the other mods keep their own settings.",
                     () => CompanionConfig.Enabled, v =>
                     {
                         if (CompanionConfig.Enabled != v)
@@ -80,7 +86,7 @@ namespace NoseDownCompanion
                     "1.00 = unchanged; 0.50 = half the explicit wave-force term after the entry ramp. Visible troughs and buoyancy still act, so detector immersion is not guaranteed. Only used when enabled.",
                     () => CompanionConfig.PdWaveForceFactor, v => CompanionConfig.PdWaveForceFactor = v, 0f, 1f, 0.05f),
                 Bool("traceLogging", "Diagnostic trace logging",
-                    "Writes sampled troubleshooting lines to output_log. Leave off for normal play.",
+                    "Writes sampled troubleshooting lines to output_log, including effective corrections and casing-bypass status. Logging remains available with master OFF or diagnosticOnly=true. Leave off for normal play.",
                     () => CompanionConfig.TraceLogging, v => CompanionConfig.TraceLogging = v)
             };
         }
@@ -88,8 +94,12 @@ namespace NoseDownCompanion
         public static void ResetToDefaults()
         {
             bool enabled = CompanionConfig.Enabled;
+            bool diagnosticOnly = CompanionConfig.DiagnosticOnly;
+            bool casingBypass = CompanionConfig.DiagnosticDisableNoseDownCasing;
             CompanionConfig.ResetDefaults();
             CompanionConfig.Enabled = enabled; // same master-switch convention as Dusty's own reset
+            CompanionConfig.DiagnosticOnly = diagnosticOnly;
+            CompanionConfig.DiagnosticDisableNoseDownCasing = casingBypass;
             DepthTargetClamp.ResetControlState("defaults");
             CompanionConfig.SaveCurrent();
         }
@@ -116,3 +126,4 @@ namespace NoseDownCompanion
         }
     }
 }
+

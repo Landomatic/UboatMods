@@ -1,4 +1,4 @@
-Nose Down Depth Companion -- 1.0.22
+Nose Down Depth Companion -- 1.0.23
 Author: Landomatic
 Companion to Nose Down by Kugler (https://github.com/Isamylov).
 Requires STOCK Nose Down (Workshop 3729673507). Load this companion after it.
@@ -8,8 +8,8 @@ offline behavior checks passed. This build has not run inside UBOAT.
 The three 1.0.20 options and the earlier optional physics controls start OFF.
 See Docs/EXPERIMENTAL-CONTROLS.md for scope, historical caveat and test steps.
 
-UPGRADE FROM 1.0.21
-1. Close UBOAT. Keep 1.0.21 as a rollback copy outside the Mods folder.
+UPGRADE FROM 1.0.22
+1. Close UBOAT. Keep 1.0.22 as a rollback copy outside the Mods folder.
 2. Replace the installed NoseDownDepthCompanion folder with this folder:
    %USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\Mods\NoseDownDepthCompanion
    Manifest.json should be directly inside, without a doubled folder.
@@ -18,10 +18,19 @@ UPGRADE FROM 1.0.21
    or your other diving mods are needed for this upgrade.
 4. KEEP NoseDownCompanionConfig.txt. Existing values are loaded; new keys are
    added with comments. Do not replace it with a blank/default config.
-5. Confirm output_log.txt contains "[NoseDownCompanion] initialized [v1.0.22]"
+5. Confirm output_log.txt contains "[NoseDownCompanion] initialized [v1.0.23]"
    and "[NoseDownCompanion] Nose Down found".
    If an older build still loads, close the game, remove the cached compiled
    companion from UBOAT\Temp, and relaunch. Keep your Saves and configs.
+
+NEW IN 1.0.23 -- CASING ISOLATION DIAGNOSTIC
+Adds config-only diagnosticOnly lock, explicit player-only Nose Down 2.1.5
+casing bypass, and casing/uniform-density buoyancy-reference measurements.
+Diagnostic controls default OFF. Normal updates retain user configs; for this
+test only, use the included A/B templates and Docs/CASING-ISOLATION-TEST.md.
+Removes redundant Saved: prefixes from hosted Kugler menu labels (keys unchanged).
+Full compilation and targeted offline checks passed; new gameplay not run.
+See Docs/VALIDATION-1.0.23.txt. Earlier version validation below is historical.
 
 NEW IN 1.0.22 -- KUGLER MENU COMPATIBILITY
  - Nose Down 2.1.5: Trim-aware compartment water replaces retired Command-file
@@ -236,3 +245,4 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=3806934448
 https://steamcommunity.com/sharedfiles/filedetails/?id=3789419523
 https://steamcommunity.com/sharedfiles/filedetails/?id=3806002226
 Their source and the game DLLs are not included.
+

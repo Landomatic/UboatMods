@@ -1,7 +1,7 @@
 {
   "name": "[2026.1] Nose Down Depth Companion",
-  "version": "1.0.22",
-  "description": "Companion to stock Nose Down by Kugler (3729673507), load after it. Updates hosted menus for Nose Down 2.1.5 and Proper Ballast 1.2.0, including trim-water, crew-skill Fast dive and saved flood-factor sliders. Detects older loaded config contracts. Retains optional depth controls and entry diagnostics. Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion",
+  "version": "1.0.23",
+  "description": "Diagnostic companion to stock Nose Down by Kugler (3729673507), load after it. Adds config-only correction lock, optional player-only Nose Down 2.1.5 casing bypass and casing/buoyancy measurements. Experimental; no new in-game validation. Source and license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion",
   "author": "Landomatic",
   "supportedGameVersions": [
     "2026.1"
@@ -13,3 +13,4 @@
   ],
   "steamFileId": 0
 }
+
