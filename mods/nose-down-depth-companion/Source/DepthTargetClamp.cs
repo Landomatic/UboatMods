@@ -34,7 +34,7 @@ namespace NoseDownCompanion
 
         internal static bool EligibleNow(PlayerShip ship)
         {
-            if (!CompanionConfig.Enabled || ship == null || !NoseDownBridge.Present)
+            if (!CompanionConfig.CorrectionsEnabled || ship == null || !NoseDownBridge.Present)
                 return false;
             float t = ship.TargetDepth;
             if (t < MinOrder || t > CompanionConfig.ClampMaxDepth)
@@ -49,6 +49,7 @@ namespace NoseDownCompanion
             var ship = __instance as PlayerShip;
             if (ship == null)
                 return;
+            DiagnosticIsolation.Observe(ship);
             EntryDiagnostics.Begin(ship);
             PreDivePlanes.Observe(ship);
             try
@@ -56,7 +57,7 @@ namespace NoseDownCompanion
                 NoseDownBridge.EnsureResolved();
                 if (!NoseDownBridge.Present)
                     return;
-                if (!CompanionConfig.Enabled)
+                if (!CompanionConfig.CorrectionsEnabled)
                 {
                     if (!_disabled) ResetControlState("disabled");
                     _disabled = true;
@@ -107,7 +108,7 @@ namespace NoseDownCompanion
             ShallowStandDown.EndFrame();
             try
             {
-                if (!CompanionConfig.Enabled) return;
+                if (!CompanionConfig.CorrectionsEnabled) return;
                 // v1.0.16: Type IX target pin (own gate; IX is never an EligibleNow hull).
                 if (HullKey.Current == "TypeIX")
                     IxTargetPin.Post(ship, ___targetDepth, ref ___internalTargetDepth);
@@ -297,3 +298,4 @@ namespace NoseDownCompanion
         }
     }
 }
+

@@ -35,7 +35,7 @@ namespace NoseDownCompanion
 
         private static string Gate(PlayerShip ship)
         {
-            if (!CompanionConfig.Enabled || !CompanionConfig.PdDepthBias) return "disabled";
+            if (!CompanionConfig.CorrectionsEnabled || !CompanionConfig.PdDepthBias) return "disabled";
             if (!NoseDownBridge.Present || ship == null || !HullListed) return "hull";
             if (CompanionConfig.PdBiasOfficerOnly && !PlanesManning.OfficerSeated) return "noOfficer";
             if (ship.TargetDepth < 2f || ship.TargetDepth > 10f) return "order";
@@ -85,7 +85,7 @@ namespace NoseDownCompanion
                     if (_wrote && ReferenceEquals(ship, _writeShip) && ship != null
                         && !NoseDownBridge.IsProtected(ship) && Math.Abs(targetRaw - _writeOrder) <= OrderBand
                         && Math.Abs(internalRaw - _writtenRaw) <= 0.0001f)
-                        internalRaw = CompanionConfig.Enabled ? _baseRaw : targetRaw;
+                        internalRaw = CompanionConfig.CorrectionsEnabled ? _baseRaw : targetRaw;
                     _wrote = false;
                     Clear(block);
                     return;
@@ -166,3 +166,4 @@ namespace NoseDownCompanion
         }
     }
 }
+

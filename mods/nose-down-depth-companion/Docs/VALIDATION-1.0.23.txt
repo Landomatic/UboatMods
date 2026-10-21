@@ -1,0 +1,34 @@
+Nose Down Depth Companion 1.0.23 — diagnostic validation
+Author: Landomatic; companion to Nose Down by Kugler.
+Source/license: https://github.com/Landomatic/UboatMods/tree/main/mods/nose-down-depth-companion
+
+Compilation: complete 24-file Source set compiled with C# 7.3 against 184
+supplied game/Unity/Harmony references. Compiler output is private and is not
+included in the player/source package.
+
+Offline: 42 current-contract assertions and 32 separate unsupported-version
+assertions passed (the runs share config checks; these are not 74 unique tests).
+Actual CompanionConfig, CommunityPatchSettings and DiagnosticIsolation exercised with
+independent native/Unity/Harmony doubles. Tests cover configuration load/save,
+master restoration with diagnostic lock, all bypass gate combinations, patch
+discovery, player-tank identity, stale/null tank exclusion, counters, boat change,
+duplicate-hook prevention and unsupported-version rejection. See fixture source.
+Source/package integrity and config/template coverage checked separately.
+
+Native Harmony dispatch: not executed in this host; fixture patch installation
+is simulated. Runtime hook readiness alone is insufficient: observed/bypass
+counters must advance in the owner's test. No passing native dispatch claim.
+Gameplay: not run for 1.0.23. MP: not run. Intended test is solo VIIB.
+CI: no new CI result claimed. Prior 1249/1152 checks belong to 1.0.22 and are
+not represented as a re-run of this version.
+
+Existing pitch/arrival formulas and numeric defaults retained. New diagnostic
+controls default false and can bypass physics only with explicit diagnostic lock
+plus casing request. Lock covers Companion gates including upstream law hooks.
+Kugler menu label cleanup removes Saved prefixes without changing keys or values.
+Existing LICENSE, attribution and Workshop identity retained.
+
+Known unresolved: entry pitch dip, PD overshoot/oscillation, engine-transition
+and immersion slowdown. Casing causality is not established by previous logs.
+The game uniform-density centre is not the net instantaneous centre of buoyancy.
+No supplied game DLLs, upstream source bundle, private logs or saves are shipped.

@@ -21,7 +21,7 @@ namespace NoseDownCompanion
 
         private static void Prefix(Device __instance, DeviceDisableFlag __0, ref bool __1)
         {
-            if (!CompanionConfig.Enabled || !CompanionConfig.PreDivePlanes || __0 != DeviceDisableFlag.Depth) return;
+            if (!CompanionConfig.CorrectionsEnabled || !CompanionConfig.PreDivePlanes || __0 != DeviceDisableFlag.Depth) return;
             var station = __instance as DivingPlanesStation;
             if (station != null && station.ParentEntity is PlayerShip) __1 = false;
         }
@@ -30,7 +30,7 @@ namespace NoseDownCompanion
         internal static void Observe(PlayerShip ship)
         {
             if (ship == null) return;
-            bool on = CompanionConfig.Enabled && CompanionConfig.PreDivePlanes;
+            bool on = CompanionConfig.CorrectionsEnabled && CompanionConfig.PreDivePlanes;
             if (!ReferenceEquals(ship, _ship)) _touched = false;
             if (!on && !_touched) return;
             if (ReferenceEquals(ship, _ship) && on == _lastEnabled && Time.time < _nextRetry) return;
@@ -52,3 +52,4 @@ namespace NoseDownCompanion
         }
     }
 }
+

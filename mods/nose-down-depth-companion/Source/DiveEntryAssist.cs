@@ -32,7 +32,7 @@ namespace NoseDownCompanion
             double inertia, double limit, ref double result)
         {
             PlayerShip ship = _ship;
-            if (!CompanionConfig.Enabled || !CompanionConfig.DiveEntryAssist || ship == null
+            if (!CompanionConfig.CorrectionsEnabled || !CompanionConfig.DiveEntryAssist || ship == null
                 || !NoseDownBridge.Present || !HullKey.IsVIIClampHull || ShallowStandDown.TrimScale <= 0.001f
                 || ship.TargetDepth < 2 || ship.TargetDepth > CompanionConfig.ClampMaxDepth
                 || ship.TargetDepth - ship.DeckDepth < 2 || ship.DeckDepth >= 1
@@ -59,3 +59,4 @@ namespace NoseDownCompanion
         private static bool Finite(double v) { return !double.IsNaN(v) && !double.IsInfinity(v); }
     }
 }
+

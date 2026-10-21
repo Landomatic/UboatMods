@@ -42,7 +42,7 @@ These are recovered source snapshots, including experimental and diagnostic buil
 
 | Project | Snapshot | Role |
 | --- | --- | --- |
-| [Nose Down Depth Companion](mods/nose-down-depth-companion) | `1.0.17` | Landomatic mod |
+| [Nose Down Depth Companion](mods/nose-down-depth-companion) | `1.0.23` | Landomatic mod; casing-isolation diagnostic, gameplay not yet run |
 | [Nimm Bitte Platz: Hydrophone Fix](mods/nimm-bitte-platz) | `1.3.2-beta-DIAG1` | Landomatic mod |
 | [Happy Torpedo Time!](mods/happy-torpedo-time) | `1.1.1-DIAG1` | Landomatic integration |
 | [UZO Null Data Guard](mods/uzo-null-data-guard) | `0.2.0-test` | Landomatic mod |

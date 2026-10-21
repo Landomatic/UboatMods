@@ -1,0 +1,30 @@
+# Nose Down Depth Companion v1.0.23 - CASING TEST Run-A
+# Keep Nose Down 2.1.5 and Companion enabled; Proper Ballast/Seakeeping/Glide disabled.
+# Instructions: Docs/CASING-ISOLATION-TEST.md. Restart and reload the same save per run.
+diagnosticOnly=true
+diagnosticDisableNoseDownCasing=false
+enabled=false
+traceLogging=true
+diveEntryAssist=false
+preciseDepthArrival=false
+preDivePlanes=false
+viiTorqueBoost=false
+pdDepthBias=false
+pdBiasOfficerOnly=false
+pdWaveForce=false
+iidOfficerClamp=false
+mannedAscentBrake=false
+shallowStandDown=false
+shallowTrimStandDown=false
+iiAfloatTrim=false
+officerPdBrake=false
+c41PlaneDamping=false
+ixDepthFix=false
+surfaceBrake=false
+surfaceTrimBrake=false
+surfaceHold=false
+viiDeckHandover=false
+pdHoldDamp=false
+pdDampOfficerOnly=false
+ixTargetPin=false
+

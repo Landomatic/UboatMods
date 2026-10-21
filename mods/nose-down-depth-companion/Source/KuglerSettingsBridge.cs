@@ -115,7 +115,7 @@ namespace NoseDownCompanion
             var rows = new List<object>();
             rows.Add(Status("sessionLoaded", "Mod loaded this session",
                 "ON means this mod's runtime patches are detected. OFF means no patches detected: the mod may be disabled, absent, or failed to initialize. This is not an enable switch. Change the launcher mod list and restart UBOAT.", () => Loaded(mod)));
-            rows.Add(Status("restartPending", "Saved settings differ from this session",
+            rows.Add(Status("restartPending", "Settings differ from this session",
                 "ON means readable current settings differ from the saved values below. Restart UBOAT to apply them. OFF does not imply the mod is loaded; check the loaded status above.", () => RestartPending(mod)));
             if (mod == KuglerSwitchCatalog.Seakeeping)
                 rows.Add(Status("sessionCorrections", "Seakeeping corrections enabled this session",
@@ -132,14 +132,14 @@ namespace NoseDownCompanion
                 bool live = setting.Live && RuntimeField(config, setting) != null;
                 string apply = live ? "Applies live when loaded. " : "Saved now; restart UBOAT to apply. ";
                 string state = Loaded(mod) ? "" : "Mod not loaded: saved settings only. ";
-                rows.Add(new object[] { "bool", setting.Key, "Saved: " + setting.Label + (live ? " (live)" : " (restart)"), state + apply + setting.Help,
+                rows.Add(new object[] { "bool", setting.Key, setting.Label + (live ? " (live)" : " (restart)"), state + apply + setting.Help,
                     new Func<object>(() => Read(mod, captured)),
                     new Action<object>(value => Write(mod, captured, Convert.ToBoolean(value, CultureInfo.InvariantCulture))) });
             }
             foreach (KuglerNumber setting in mod.Numbers)
             {
                 KuglerNumber captured = setting;
-                rows.Add(new object[] { "float", setting.Key, "Saved: " + setting.Label + " (restart)",
+                rows.Add(new object[] { "float", setting.Key, setting.Label + " (restart)",
                     (Loaded(mod) ? "" : "Mod not loaded: saved settings only. ") + setting.Help,
                     new Func<object>(() => ReadNumber(mod, captured)),
                     new Action<object>(value => WriteNumber(mod, captured, Convert.ToSingle(value, CultureInfo.InvariantCulture))),
@@ -283,3 +283,4 @@ namespace NoseDownCompanion
         }
     }
 }
+

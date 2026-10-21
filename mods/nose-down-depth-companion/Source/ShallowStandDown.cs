@@ -28,7 +28,7 @@ namespace NoseDownCompanion
             DiveEntryAssist.BeginFrame(ship);
             try
             {
-                if (!CompanionConfig.Enabled || !NoseDownBridge.Present)
+                if (!CompanionConfig.CorrectionsEnabled || !NoseDownBridge.Present)
                     return;
                 if (ship == null)
                     return;
@@ -302,7 +302,7 @@ namespace NoseDownCompanion
         // Prefix on DivePitch.PitchControlLaw.Compute (patched at runtime by NoseDownBridge).
         private static bool LawComputePrefix(object __instance, double dt, ref double __result)
         {
-            if (TrimScale > 0.001f)
+            if (!CompanionConfig.CorrectionsEnabled || TrimScale > 0.001f)
                 return true; // full or partial: his law runs, the Postfix scales the result
             try
             {
@@ -323,10 +323,11 @@ namespace NoseDownCompanion
             double limit;
             if (ViiTorqueAssist.TryLimit(__instance, out limit))
                 DiveEntryAssist.Apply(targetRad, pitchRad, pitchRateRad, inertia, limit, ref __result);
-            if (TrimScale > 0.001f && TrimScale < 0.999f)
+            if (CompanionConfig.CorrectionsEnabled && TrimScale > 0.001f && TrimScale < 0.999f)
                 __result *= TrimScale;
             EntryDiagnostics.Law(targetRad, pitchRad, pitchRateRad, inertia, before, __result,
                 limit, DiveEntryAssist.LastAdded, TrimScale);
         }
     }
 }
+
