@@ -1,3 +1,25 @@
+0.1.23-beta -- full supplied UBOAT/Unity/Harmony reference compilation PASSED
+269 targeted assertions PASSED: 85 stock/depth, 99 viewing fire/layout, 50 MP
+scope Feuer, 35 Prep outline/Feuer affordance. Actual mod classes compiled with
+independent native/Unity/MP fixtures. Other prior suites were not re-run.
+New checks cover T5 deselect/reselect at 45 m without flooding or selector writes,
+mixed selection correction, shallow recovery and over-50 m denial with selection
+still accessible; native-disabled fire readiness remains disabled. Checks cover
+four non-raycasting outline edges and switching/clearing selection; 1.5x button
+and exact restoration; scaled right gap, neighbouring icon avoidance, right edge,
+live icon following and missing icon fallback. Native Unity rendering, actual
+click hit testing, firing indices, callback order and MP dispatch need live test.
+No live .23 rendering/firing/network execution was run here.
+Workshop ID remains 3823181610; no config migration or protocol change (TRC9).
+Copyright/license/credits unchanged. Clean player ZIP is 27 Source files plus
+five manifest/player/license files; separate source archive includes tests/docs.
+No game/reference DLLs, upstream sources, private logs/configs/saves bundled.
+Prior .22 owner evidence is partial: Tube V launch audit verified=True, with
+whole-panel lockout at depth and half-full flood graphic. This patch addresses
+UI depth lockout; the flood graphic issue remains under investigation.
+
+Historical validation records follow (not new .23 results):
+
 Publishing metadata revision: Manifest.json now targets existing Workshop item
 3823181610. Both ZIP manifests parsed and verified; C# Source remains identical
 to the compiled/offline-tested .22 snapshot. No new compilation/tests needed.

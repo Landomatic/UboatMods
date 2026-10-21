@@ -1,3 +1,3 @@
-0.1.22: re-run StockUiChecks (85), ViewingChecks (82), MpScopeChecks (50).
-Full supplied-game-reference compilation passed. Other prior suites not re-run.
-See VALIDATION.txt and TESTING.txt; no live firing/rendering/network validation.
+0.1.23: StockUiChecks 85, ViewingChecks 99, MpScopeChecks 50, UiAffordanceChecks 35.
+Full supplied-reference compilation passed. Other prior suites not re-run.
+Offline fixtures do not replace live Unity rendering/firing/network validation.

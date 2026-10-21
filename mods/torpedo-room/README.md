@@ -1,10 +1,10 @@
-# Torpedo Room — Beta 0.1.22
+# Torpedo Room — Beta 0.1.23
 
 By **Landomatic** · Copyright (c) 2026 Landomatic · [CC BY-NC 4.0](LICENSE)
 
 Local torpedo preparations for first-person and multiplayer station-restricted play.
 
-[Download the clean 0.1.22 player ZIP](../../packages/torpedo-room/0.1.22-beta/TorpedoRoom_v0.1.22-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
+[Download the clean 0.1.23 player ZIP](../../packages/torpedo-room/0.1.23-beta/TorpedoRoom_v0.1.23-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
 
 ## Features
 
@@ -31,7 +31,15 @@ Optional Dusty's Community Patch provides the settings menu. Standalone settings
 
 Solo play does not require multiplayer or Community Patch. The supplied multiplayer adapter targets Uboats: Coop Multiplayer **1.11.5 / protocol 54**. All shared-boat players must use this same build (**TRC9**).
 
-## 0.1.22 changes and validation
+## 0.1.23 changes and validation
+
+A brass border identifies the active Prep card, without intercepting input. Multi-tube Prep editing is not added.
+
+The whole-panel depth overlay is hidden while the mod controls viewing UI; depth gates only Feuer. At 45 m, uncheck/recheck a T5 without draining or moving the fire-control selector. A flooded mixed selection still cannot fire at depth, but its checkboxes remain accessible. Synchronized/Read-only preserve native checkbox selection; Hidden Reports uses native fire-control box mapping.
+
+Hidden/MP Feuer is 1.5× its authored size and click area, follows the torpedo opener on the right with scaled spacing, and moves above neighbouring controls when crowded. Missing icon uses a higher fallback. The original button remains outside the hidden/disabled icon hierarchy. Live rendering across scales and resolutions is pending.
+
+Retained from .22:
 
 The T5 viewing-depth exception now checks only marked, flooded tubes containing weapons, matching native launch-candidate counting. A dry/empty checked tube cannot keep a T5 blocked. Flooding a selected non-T5 blocks a deep mixed selection; draining it restores eligibility without deselecting it. Confirmation rechecks live state. Native marks, flooding controls, physical levers and other readiness checks remain unchanged.
 
@@ -41,11 +49,11 @@ A separate host opt-in, **MP: Show Feuer when scope tubes are restricted**, defa
 
 MP's icon disabling stays in effect. The adapter exempts only its UI opening gate and panel closing in two known MP UI cleanup callbacks. Native station entry, firing readiness/confirmation and MP dispatch stay in use; physical TDC/tube lever code is unchanged. Genuine native close is respected; re-enter the scope to resume. Automatically opened panels close when the condition ends; player-opened panels are retained. Feuer is raised above the bottom icons.
 
-All peers need **.22/TRC9**. The adapter targets supplied MP **1.11.5**. There is no config migration, new dependency or custom fire packet. Prior running-depth settings remain 1–14 m in quarter-metre steps, with the separate all-T5 viewing exception through 50 m boat depth.
+All peers need **.23/TRC9**. The adapter targets supplied MP **1.11.5**. There is no config migration, new dependency or custom fire packet. Prior running-depth settings remain 1–14 m in quarter-metre steps, with the separate all-T5 viewing exception through 50 m boat depth.
 
-Full supplied-reference compilation and **217 targeted offline assertions passed** for .22: 85 stock/depth, 82 viewing fire/layout and 50 MP display checks. Other prior suites were not re-run. **No new live game/network test was run.** The owner reported .20 periscope firing successful in Read-only and Hidden Reports after fire-control selection/flooding; aft and TDC/bridge firing remain pending. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
+Full supplied-reference compilation and **269 targeted offline assertions passed** for .23: 85 stock/depth, 99 viewing fire/layout, 50 MP display and 35 UI affordance checks. Other prior suites were not re-run. **No new live game/network test was run.** The owner reported .20 periscope firing successful in Read-only and Hidden Reports after fire-control selection/flooding; aft and TDC/bridge firing remain pending. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
 
-The clean player ZIP contains 25 source files and five player/manifest/license files. The [source archive](../../packages/torpedo-room/0.1.22-beta/TorpedoRoom_v0.1.22-beta_source-archive.zip) contains tests and development records. No game assemblies, downloaded upstream source or private diagnostics are bundled. Existing .18 release and prior packages remain unchanged; no release/tag/Workshop publication. Retain assigned Workshop ID/preview when updating the publishing folder.
+The clean player ZIP contains 27 source files and five player/manifest/license files. The [source archive](../../packages/torpedo-room/0.1.23-beta/TorpedoRoom_v0.1.23-beta_source-archive.zip) contains tests and development records. No game assemblies, downloaded upstream source or private diagnostics are bundled. Existing .18 release and prior packages remain unchanged; no release/tag/Workshop publication. Retain assigned Workshop ID/preview when updating the publishing folder.
 
 ## Credits
 
@@ -53,6 +61,8 @@ Existing [license](LICENSE) and [upstream notices](NOTICE.txt) are retained. Mul
 
 
 Configuration-help revision: generated config and Dusty menu explain both host
-settings, default OFF, solo behavior and .22/TRC9 requirement. Existing configs
+settings, default OFF, solo behavior and .23/TRC9 requirement. Existing configs
 gain comments on the next normal settings save; no automatic migration is added.
 
+
+The .22 owner logs record a Tube V launch audit verified=True but also the whole-panel lockout and half-full flood graphic. This .23 build addresses the depth overlay lockout; the flood graphic issue remains under investigation. No live .23 result is claimed.
