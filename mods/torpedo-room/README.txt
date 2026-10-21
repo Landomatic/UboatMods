@@ -8,8 +8,9 @@ Extract TorpedoRoomControls into your local UBOAT mods folder, enable Torpedo Ro
 in the launcher and fully restart. Replace the old Source folder completely.
 All shared-boat players need this same version (TRC9; older companions cannot exchange settings).
 Do not mix .20 and .21 companions. Keep a separate save while testing Beta.
-When updating an existing Workshop item, retain its assigned steamFileId and
-preview from your publishing folder; the generic manifest cannot supply that ID.
+Manifest targets the existing Torpedo Room Workshop item 3823181610:
+https://steamcommunity.com/sharedfiles/filedetails/?id=3823181610
+Keep that steamFileId and retain the preview from your publishing folder.
 
 USE
 At a tube station press T (configurable). Choose a loaded torpedo, edit its

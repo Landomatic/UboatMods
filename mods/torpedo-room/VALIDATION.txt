@@ -1,3 +1,13 @@
+Publishing metadata revision: Manifest.json now targets existing Workshop item
+3823181610. Both ZIP manifests parsed and verified; C# Source remains identical
+to the compiled/offline-tested .22 snapshot. No new compilation/tests needed.
+Latest owner log output_log(20261021-093337).txt confirms .22 loaded and Tube V
+launch audit verified=True. Live result remains PARTIAL: unchecking T5 at depth
+locks the whole viewing panel (cannot recheck until drain/reflood); flooded
+non-T5 selection also blocks the panel, and native flood graphic was reported
+half-full despite Flooded state. These UI lockout/refresh bugs are NOT fixed by
+this metadata update. No Workshop upload performed here.
+
 0.1.22-beta -- full supplied-game-reference compilation PASSED
 217 targeted assertions PASSED: 85 native UI/depth, 82 viewing fire/layout,
 50 MP scope Feuer. Actual mod classes compiled with independent Unity/native/MP

@@ -1,4 +1,6 @@
 0.1.22-beta -- recover deep T5 viewing fire after draining a mixed selection
+- Publishing metadata revision: set steamFileId to existing Workshop item
+  3823181610 in Manifest.json and both ZIPs. Gameplay/source unchanged.
 - Count only marked, flooded tubes with weapons for the 18–50 m T5 viewing
   exception, matching native launch-candidate counting. A dry/empty marked tube
   no longer keeps the blocker active. Recheck live state at native confirmation.
