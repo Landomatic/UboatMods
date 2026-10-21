@@ -6,7 +6,7 @@ Source, version history, and test records for Landomatic's UBOAT mods.
 
 [Initial 0.1.18 Beta release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Source and instructions](mods/torpedo-room) · [Install ZIP](packages/torpedo-room/0.1.18-beta/TorpedoRoom_v0.1.18-test.zip)
 
-Latest source/package archive: [0.1.22 Beta test player ZIP](packages/torpedo-room/0.1.22-beta/TorpedoRoom_v0.1.22-beta.zip). Full supplied-reference compilation and 217 targeted offline checks passed. Fixes T5 viewing-fire recovery after draining a checked non-T5; live .22 firing/rendering and optional MP-only Feuer validation remain pending. Other prior suites were not re-run. All multiplayer peers need the same TRC9 build. The initial .18 release is retained separately.
+Latest source/package archive: [0.1.23 Beta test player ZIP](packages/torpedo-room/0.1.23-beta/TorpedoRoom_v0.1.23-beta.zip). Adds active Prep outline; depth gates Feuer without covering tube selection; larger Feuer follows the opener. Full supplied-reference compilation and 269 targeted offline checks passed; no live .23 rendering/firing/network validation. Native half-full flood indicator remains under investigation. All multiplayer peers should use .23/TRC9. Workshop item 3823181610 preserved; initial .18 release retained separately.
 
 ## Repository layout
 
@@ -52,6 +52,7 @@ These are recovered source snapshots, including experimental and diagnostic buil
 | [Type IXC40 280m - UBE Compatibility](contributions/type-ixc40-280m-ube-compatibility) | `1.0` | Compatibility contribution |
 
 Hydrophone Surface Noise Fix is the earlier name of Nimm Bitte Platz. The original stock Nose Down, Proper Ballast, Seakeeping, Dusty's bundle, UBE, and other downloaded reference mods are not bundled here.
+
 
 
 

@@ -63,15 +63,16 @@ namespace Landomatic.TorpedoRoom
             if(!Enabled){NativePresentation.Refresh(__instance);return;}
             bool mapped=!Hidden||SelectFromBoxes();bool all;bool selected=HasSelected(out all);
             bool deep=DeepAllowed();
-            if(deep&&Blockade!=null){
+            if(Blockade!=null){
                 var mask=Blockade.GetValue(__instance) as GameObject;
                 if(mask!=null){depthOwner=__instance;depthMask=mask;depthMaskWasActive=mask.activeSelf;mask.SetActive(false);}
             }
-            // In Hidden Reports the blocker is masked with the panel. Transfer
-            // its restriction to the live button without making a disabled native
-            // button enabled. The stock compressed-air/solution/MP checks remain.
+            // The depth overlay blocks the entire panel, including selection. Mask it
+            // regardless of current marks, and transfer only its depth rule to
+            // Feuer in EVERY report mode. Never enable a native-disabled button.
+            // This lets users deselect/reselect T5 without a flood/drain cycle.
             var button=Button(__instance);
-            if(button!=null&&Hidden&&(!mapped||!selected||Runtime.Ship.Depth>18&&!deep))button.interactable=false;
+            if(button!=null&&((Hidden&&(!mapped||!selected))||Runtime.Ship.Depth>18&&!deep))button.interactable=false;
             NativePresentation.Refresh(__instance);
             HiddenLayout.Reason=!mapped?"Fire-control selection is unavailable.":!selected?"Select and flood the intended tubes using the native controls.":Runtime.Ship.Depth>18&&!deep?"Viewing-station firing is blocked at this depth. Only flooded T5 launch candidates are permitted down to 50 m.":button!=null&&!button.interactable?"Native firing requirements are not met.":"Fire the flooded tubes selected at the fire-control boxes.";
         }

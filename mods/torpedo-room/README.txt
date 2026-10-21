@@ -1,4 +1,4 @@
-TORPEDO ROOM -- 0.1.22 BETA
+TORPEDO ROOM -- 0.1.23 BETA
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
@@ -14,7 +14,9 @@ Keep that steamFileId and retain the preview from your publishing folder.
 
 USE
 At a tube station press T (configurable). Choose a loaded torpedo, edit its
-settings and press Apply. Physical controls still flood, drain and fire.
+settings and press Apply. A brass outline marks the active Prep card.
+Only one Prep tube is editable at a time; no multi-tube Prep editing is added.
+Physical controls still flood, drain and fire.
 Depth uses 0.25 m increments from 1 to 14 m. Speed offers only the loaded
 weapon's supported presets and follows the game knots/km/h preference.
 AZ/MZ, FAT/LUT run/direction and LUT heading use the weapon's available controls.
@@ -54,7 +56,7 @@ station access or actual firing readiness. Both native torpedo icons remain
 restricted by MP; tube reports, selection, dispersion and preparations stay
 hidden. Firing uses native fire-control selection and the normal native button,
 confirmation and MP dispatch. Physical TDC and direct tube levers stay native.
-All players need .22/TRC9. The adapter targets supplied MP 1.11.5 only.
+All players need .23/TRC9. The adapter targets supplied MP 1.11.5 only.
 
 OFF, no other shared-boat player, or MP's scope panel allowed: normal display
 rules apply. Panels automatically opened by this option close when it ends;
@@ -65,13 +67,18 @@ Feuer is raised above the bottom icon strip in both solo Hidden Reports and MP.
 
 T5 DEFENSIVE VIEWING-INTERFACE FIRE
 The game's viewing-panel blocker normally appears below 18 m boat depth.
+Torpedo Room keeps that whole-panel depth overlay hidden in all report modes
+and applies its restriction only to Feuer. Selection remains accessible even
+when nothing is checked, a mixed salvo is checked, or boat depth exceeds 50 m.
+Synchronized/Read-only preserve vanilla checkbox selection and its one-way
+relationship with the physical selector. Hidden Reports uses box selection.
 An all-T5 flooded selection (including the stock prototype) can use the native viewing
 Feuer button down to 50 m boat depth. Select and flood the intended tubes first.
 A flooded mixed selection cannot borrow this exception. Dry/empty checked tubes
 do not veto it: draining a checked non-T5 restores T5 eligibility; reflooding it
 blocks the mixed selection again. Native marks are retained. Unknown/mod-renamed
 equipment keys retain the normal restriction.
-This changes the viewing-interface blocker only. Running depth stays 1–14 m;
+This changes the viewing-interface depth/UI restriction only. Running depth stays 1–14 m;
 it does not become 50 m. Native readiness, confirmations and MP permissions
 remain. Physical TDC and direct tube levers retain their native behavior.
 No engine/guidance modification or historical safety claim is made.
@@ -90,15 +97,24 @@ targets Uboats: Coop Multiplayer 1.11.5 / protocol 54. No new role or firing rul
 mixed speeds and TDC mismatches only warn. Native targeting/gyro relays remain.
 Uses live game art and supports optional Torpedo Type Icons and HTT integration.
 
-Full supplied-game reference compilation and 217 targeted offline checks passed
-for .22 (85 stock/depth, 82 viewing fire/layout, 50 MP display). Other prior
-suites were not re-run. No live game or network test was run for .22. The owner reported successful .20
+Full supplied-game reference compilation and 269 targeted offline checks passed
+for .23 (85 stock/depth, 99 viewing fire/layout, 50 MP display, 35 UI affordance).
+Other prior suites were not re-run. No live game or network test was run for .23. The owner reported successful .20
 periscope firing in Read-only and Hidden Reports after fire-control selection
 and compartment flooding. Aft and TDC/bridge firing remain pending. Test the new
 host option with both host/client, join/leave, all report modes, target lock
 changes and station switches. Larger-stack compatibility remains ongoing.
 
 Configuration-help revision: generated config and Dusty menu explain both host
-settings, default OFF, solo behavior and .22/TRC9 requirement. Existing configs
+settings, default OFF, solo behavior and .23/TRC9 requirement. Existing configs
 gain comments on the next normal settings save; no automatic migration is added.
 
+
+FEUER LAYOUT (.23)
+Hidden/MP Feuer uses the original native button at 1.5 times its authored visual
+and clickable size. It follows the visible torpedo opener icon on its right,
+with a scaled gap. Nearby icon controls move it above the crowded strip;
+a missing opener (including TDC) uses a higher fallback. It remains outside the
+hidden panel/disabled opener hierarchy. Native layout is restored on exit.
+Test all UI scales/resolutions; live geometry is not validated here.
+The previously reported half-full native flood indicator remains under investigation.

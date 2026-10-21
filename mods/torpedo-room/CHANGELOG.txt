@@ -1,3 +1,21 @@
+0.1.23-beta -- selectable T5 at depth, Prep outline and larger docked Feuer
+- Hide the whole-panel depth overlay while the mod controls viewing UI and apply
+  the depth restriction only to Feuer in all report modes. Uncheck/recheck T5 at
+  45 m without a drain/reflood cycle. No fallback tube selection is introduced.
+- Synchronized/Read-only retain vanilla checkbox selection without moving the
+  physical selector. Hidden/MP Feuer retains native box mapping. Flooded mixed
+  selections and over-50 m remain blocked from firing, not from UI selection.
+- Add brass border around active Prep card, independent of borrowed native art;
+  input-transparent, follows selection and clears on editor close/empty weapon.
+  Multi-tube Prep editing remains future work.
+- Enlarge original Hidden/MP Feuer and click area 1.5 times. Follow the native
+  opener on the right with scaled gap, avoid neighbouring selectable controls,
+  use higher fallback if icon missing, restore authored placement/scale on exit.
+- Full supplied-reference compilation and 269 targeted offline checks pass.
+  No live .23 rendering/firing/network run. Native half-full flood indicator
+  remains under investigation; other prior suites not re-run.
+- Preserve Workshop item 3823181610, TRC9, copyright, license and credits.
+
 0.1.22-beta -- recover deep T5 viewing fire after draining a mixed selection
 - Publishing metadata revision: set steamFileId to existing Workshop item
   3823181610 in Manifest.json and both ZIPs. Gameplay/source unchanged.

@@ -1,3 +1,28 @@
+0.1.23-beta -- priority live tests (NOT RUN here)
+1. Replace older mod folder with .23 and restart. Log must say 0.1.23-beta.
+   Manifest retains Workshop item 3823181610. All shared-boat peers use .23/TRC9.
+2. In Prep choose different tubes: exactly the currently edited card has a brass
+   outline, including native/colored artwork. Check busy/read-only/empty/reloaded
+   weapon, compartment change and editor close. Border must not intercept clicks
+   or tooltips. Multi-tube Prep selection is not included.
+3. At 45 m with aft T5 flooded, test both Synchronized and Read-only. Uncheck T5:
+   Feuer disables, but panel/checkbox remains usable. Recheck: eligibility returns
+   without draining/reflooding or changing the physical fire-control selector.
+4. Select a flooded non-T5 as well: only Feuer blocks; deselect or drain that
+   non-T5 and confirm T5 eligibility returns. Try all unchecked, all dry, no T5,
+   18 m, 50 m, over 50 m and ascending to shallow depth. Native readiness stays.
+5. Hidden Reports and opted-in MP-only Feuer: native box selection still drives
+   firing. Verify intended fired indices, air/solution/confirmation/station checks,
+   no arbitrary fallback tube, gyro inputs and native TDC/direct tube levers.
+6. Hidden/MP Feuer: original button 1.5x, beside/right of torpedo opener with gap.
+   Test min/default/max UI scale, resolutions, UZO/scopes/TDC, crowded tray and MP
+   disabled/missing icon. Neither tray nor Feuer should occlude the other. Button
+   and native confirmation remain usable. Exit/change policies restores layout.
+7. Native half-full flood indicator is NOT claimed fixed. Record any discrepancy
+   between displayed fill and actual tube state; do not assume physical readiness.
+
+Previous .22/.21 regression checklist follows (historical):
+
 0.1.22-beta -- priority live test (NOT RUN here)
 1. Install .22 completely and restart. Check startup log says 0.1.22-beta.
 2. At 30–45 m boat depth, select/flood aft T5 and confirm viewing Feuer available

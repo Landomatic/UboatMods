@@ -1,4 +1,4 @@
-0.1.22-beta publication preparation
+0.1.23-beta publication preparation
 Player ZIP: Source, Manifest.json, README.txt, CHANGELOG.txt, LICENSE, NOTICE.txt.
 Use only that player ZIP for Workshop, not the separate source archive.
 Manifest steamFileId is 3823181610, the existing Torpedo Room Workshop item:

@@ -15,7 +15,7 @@ your physical levers still flood, drain and fire.
 [/list]
 Press [b]T[/b] at a tube station. Configure through optional Dusty's Community Patch
 or TorpedoRoomConfig.txt in UBOAT persistent data. Solo needs no multiplayer mod.
-All shared-boat players require the same build (0.1.22 / TRC9). Supplied MP
+All shared-boat players require the same build (0.1.23 / TRC9). Supplied MP
 integration targets Uboats: Coop Multiplayer 1.11.5 / protocol 54.
 Mixed speeds/TDC mismatches warn without mod-added firing holds; existing native
 readiness and MP permissions apply. FAT/LUT remains adjustable at sea.
@@ -26,7 +26,8 @@ Copyright (c) 2026 Landomatic. CC BY-NC 4.0. See LICENSE/NOTICE.txt for full cre
 Compatibility credit: Pingu565, Kugler and Dusty. UBOAT and third-party assets
 remain their owners' work. No upstream mod source or game assets are bundled.
 
-[h2]0.1.22 Beta additions[/h2]
+[h2]0.1.23 Beta additions[/h2]
+Selected Prep card has a brass outline. At depth, the UI stays available for tube selection; only Feuer is depth-blocked. Hidden/MP Feuer is 1.5x and follows the torpedo opener with spacing. Live .23 test pending.
 The T5 deep-launch display now recovers when a selected non-T5 is fully drained. Dry/empty checked tubes do not block flooded T5 candidates. A flooded mixed selection still cannot use the exception. Retains the raised Feuer and optional MP-only display from .21.
 Hidden Reports leaves only the native Feuer button in the launch panel. The native
 fire-control boxes select its tube/salvo; flood tubes with the normal controls.
@@ -41,7 +42,7 @@ The host can enable [b]MP: Show Feuer when scope tubes are restricted[/b] in Tor
 Room settings (OFF by default). With another shared-boat player aboard and MP's
 [b]TUBES PANEL AT THE SCOPES[/b] OFF, scopes/UZO automatically show Feuer alone.
 This is independent of solo/global report settings. Native selection, readiness,
-confirmation and MP firing transport remain. All players need .22/TRC9; adapter
+confirmation and MP firing transport remain. All players need .23/TRC9; adapter
 targets supplied MP 1.11.5. New live MP testing is pending. Feuer is also raised
 above the bottom icons. Copyright (c) 2026 Landomatic; existing license/credits.
 
