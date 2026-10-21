@@ -6,7 +6,7 @@ Source, version history, and test records for Landomatic's UBOAT mods.
 
 [Initial 0.1.18 Beta release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Source and instructions](mods/torpedo-room) · [Install ZIP](packages/torpedo-room/0.1.18-beta/TorpedoRoom_v0.1.18-test.zip)
 
-Latest source/package archive: [0.1.24 Beta test player ZIP](packages/torpedo-room/0.1.24-beta/TorpedoRoom_v0.1.24-beta.zip). Adds brief depth-restriction explanations on Feuer hover and existing per-tube reports, retaining .23 Prep outline, T5 selection fix and docked Feuer. Full supplied-reference compilation and 316 targeted offline checks passed; no live .24 rendering/firing/network test. Native flood indicator remains under investigation. All shared-boat peers should use .24/TRC9. Workshop item 3823181610 preserved; initial .18 release retained separately.
+Latest source/package archive: [0.1.24 Beta test player ZIP](packages/torpedo-room/0.1.24-beta/TorpedoRoom_v0.1.24-beta.zip). Adds Too deep / Launch limit depth-restriction explanations on Feuer hover and existing per-tube reports, retaining .23 Prep outline, T5 selection fix and docked Feuer. Full supplied-reference compilation and 316 targeted offline checks passed; no live .24 rendering/firing/network test. Native flood indicator remains under investigation. All shared-boat peers should use .24/TRC9. Workshop item 3823181610 preserved; initial .18 release retained separately.
 
 ## Repository layout
 

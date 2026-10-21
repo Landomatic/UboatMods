@@ -122,7 +122,7 @@ The previously reported half-full native flood indicator remains under investiga
 
 FEUER DEPTH TOOLTIP (.24)
 Hover the disabled native Feuer button when depth blocks the selected launch:
-Too deep to launch.
+Too deep
 Applies to Synchronized, Read-only, Hidden Reports and the optional MP-only
 Feuer display. Updates while hovered when depth/selection changes; clears on
 exit, close/loading/station change/disable. Hidden Reports retains other
@@ -130,7 +130,7 @@ selection/readiness hints when depth is not the restriction. Hover never
 enables firing or changes tube selection/permissions.
 
 PER-TUBE DEPTH WARNING (.24)
-Existing tube depth/FAT/LUT reports append TOO DEEP for that loaded weapon
+Existing tube depth/FAT/LUT reports append Launch limit: 18 m (50 m for T5) for that loaded weapon
 when boat depth exceeds its viewing-interface limit (18 m; T5 through 50 m).
 Updates even if that tube is dry or unchecked; preserves the existing report
 and native/Happy Torpedo Time hover. Hidden Reports still hides per-tube info.

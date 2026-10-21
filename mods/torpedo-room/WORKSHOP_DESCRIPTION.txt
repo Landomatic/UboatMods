@@ -27,7 +27,7 @@ Compatibility credit: Pingu565, Kugler and Dusty. UBOAT and third-party assets
 remain their owners' work. No upstream mod source or game assets are bundled.
 
 [h2]0.1.24 Beta additions[/h2]
-Hover depth-disabled Feuer for a Too deep to launch. explanation in all report modes, including Hidden Reports. Updates when depth or selection changes.
+Hover depth-disabled Feuer for a Too deep explanation in all report modes, including Hidden Reports. Updates when depth or selection changes.
 Selected Prep card has a brass outline. At depth, the UI stays available for tube selection; only Feuer is depth-blocked. Hidden/MP Feuer is 1.5x and follows the torpedo opener with spacing. Live .23 test pending.
 The T5 deep-launch display now recovers when a selected non-T5 is fully drained. Dry/empty checked tubes do not block flooded T5 candidates. A flooded mixed selection still cannot use the exception. Retains the raised Feuer and optional MP-only display from .21.
 Hidden Reports leaves only the native Feuer button in the launch panel. The native

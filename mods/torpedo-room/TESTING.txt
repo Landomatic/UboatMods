@@ -2,14 +2,14 @@
 1. Install .24, restart; verify log says 0.1.24-beta and Workshop ID 3823181610.
 2. Synchronized and Read-only, at 45 m: select/flood a non-T5 or mixed selection.
    Feuer stays disabled, tube selection remains accessible. Hover Feuer: the
-   Too deep to launch. explanation should appear.
+   Too deep explanation should appear.
 3. Leave pointer over Feuer. Select only a ready T5 within 50 m, or ascend into
    normal depth range: stale depth explanation must disappear. Cross 50 m with
    T5 selected: explanation should return. No hover action may enable firing.
 4. Repeat in Hidden Reports and opted-in MP-only Feuer. Depth explanation still
    appears; otherwise preserve existing selection/readiness hover hints. Test
    exit/close/station/loading/disable, no orphaned/duplicate tooltip or input block.
-5. Per-tube report: at 45 m, a loaded non-T5 says TOO DEEP while T5 does not;
+5. Per-tube report: at 45 m, a loaded non-T5 says Launch limit: 18 m (50 m for T5) while T5 does not;
    above 50 m T5 also warns. Dry/unchecked tubes retain their individual warning.
    Depth/FAT/LUT text and native/HTT hovers remain; Hidden Reports hides badges.
 6. Native disabled Button hover events, rendering/position, scale and clipping

@@ -1,8 +1,10 @@
 0.1.24-beta -- brief Feuer and individual tube-depth explanations
-- Add Too deep to launch. explanation on the disabled
+- Wording revision: Feuer hover says Too deep; tube warning says Launch limit:
+  18 m (50 m for T5), shown only above that weapon limit and cleared within it.
+- Add Too deep explanation on the disabled
   original Feuer button in Synchronized, Read-only, Hidden Reports and optional
   MP-only Feuer. Shared tooltip lifecycle replaces the Hidden-only hint.
-- Append TOO DEEP in existing loaded-tube depth/FAT/LUT reports, per weapon
+- Append Launch limit: 18 m (50 m for T5) in existing loaded-tube depth/FAT/LUT reports, per weapon
   rather than overall selection, without replacing native/HTT hover. Applies to
   dry/unchecked weapons as well. Hidden Reports keeps per-tube information hidden.
 - Update text/visibility while already hovered as depth or selection changes.

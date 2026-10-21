@@ -2,9 +2,9 @@
   "schema_version": 1,
   "project": "Torpedo Room",
   "version": "0.1.24-beta",
-  "prepared_at_utc": "2026-10-21T20:18:35+00:00",
+  "prepared_at_utc": "2026-10-21T20:21:28+00:00",
   "changes": [
-    "Add Too deep to launch. hover on depth-restricted native Feuer in all report modes, including Hidden/MP Feuer. Update while hovered; preserve other Hidden readiness hints. Append TOO DEEP to existing per-tube depth/FAT/LUT reports using individual viewing limits, without replacing vanilla/HTT hover; keep reports hidden under Hidden Reports. No firing-rule change; retain .23 features, TRC9 and Workshop item 3823181610."
+    "Add Too deep hover on depth-restricted native Feuer in all report modes, including Hidden/MP Feuer. Update while hovered; preserve other Hidden readiness hints. Append Launch limit: 18 m / 50 m for T5 to existing per-tube depth/FAT/LUT reports using individual viewing limits, without replacing vanilla/HTT hover; keep reports hidden under Hidden Reports. No firing-rule change; retain .23 features, TRC9 and Workshop item 3823181610."
   ],
   "validation": {
     "compile": "passed",
@@ -20,8 +20,8 @@
   "files": [
     {
       "path": "CHANGELOG.txt",
-      "bytes": 26543,
-      "sha256": "606032801e120b9ea7d0b0f0f7e26bd33383881a15dba4ccda8433a272020029"
+      "bytes": 26715,
+      "sha256": "d7215737ddd1bccc89e129296fb51fcfa5ecd1e9ea3589cf0552204d56c4f6ff"
     },
     {
       "path": "Docs/History/NOTICE-through-0.1.18.txt",
@@ -55,13 +55,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 7638,
-      "sha256": "26c948681b33758a2e95c88986916bf128bb2e01165a38ba94e8bc3ab5701052"
+      "bytes": 7651,
+      "sha256": "780ca721775830e4cc711747f6e93df3dd2c56beb8a60d63a7e30cc24d159a6f"
     },
     {
       "path": "README.txt",
-      "bytes": 8599,
-      "sha256": "e4a9688973605537a22753f1fb55cbc026c07c011113e646ba49d9289de597aa"
+      "bytes": 8612,
+      "sha256": "df42df76182709e5aa3d8df0769581e3002a5cfcb3032abd2c3a811325c9d156"
     },
     {
       "path": "ROADMAP.txt",
@@ -205,13 +205,13 @@
     },
     {
       "path": "Source/ViewingFire.cs",
-      "bytes": 7191,
-      "sha256": "5c67fa91cdc5131302292fd1272da43fab72cb9c35a1f6077dfbd5403a2ee703"
+      "bytes": 7232,
+      "sha256": "d52144a40926afa1ccff1a3dad2e31891a4b6bc9920db063cfb4459cd1fccebb"
     },
     {
       "path": "TESTING.txt",
-      "bytes": 10984,
-      "sha256": "8c3d2b5aded6764fb162718f14ed3e020c043e566e3d03681a32830c36711737"
+      "bytes": 10997,
+      "sha256": "35b68719d22c3c37f6f1c94b7069eda3b6daa2c67cda80da36362011c2c6b65c"
     },
     {
       "path": "Tests/BridgeFixture.cs",
@@ -265,8 +265,8 @@
     },
     {
       "path": "Tests/StockUi/BadgeWarningFixture.cs",
-      "bytes": 3346,
-      "sha256": "6ba15098843b0b208807b774c52cf598fe8084fd7df29b83b21840e89f8d33b7"
+      "bytes": 3381,
+      "sha256": "8143ac97aa9d707e155171cec2b817792aefc44d303a2aa40e803d05decb1370"
     },
     {
       "path": "Tests/StockUi/StockUiFixture.cs",
@@ -275,8 +275,8 @@
     },
     {
       "path": "Tests/StockUi/TooltipFixture.cs",
-      "bytes": 3739,
-      "sha256": "3b5e65b9ded2fe565721f5424ab27524a79ed63691c9bc7ae2c7d0873e5710a3"
+      "bytes": 3697,
+      "sha256": "822d09f565a1962e98b46377b943b3d69d7bc337a03a5c3188f3f554c9adf704"
     },
     {
       "path": "Tests/StockUi/UiAffordanceFixture.cs",
@@ -300,15 +300,15 @@
     },
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
-      "bytes": 3613,
-      "sha256": "c3d3d34e089e326419886f38893961b5d2709ab9f470857573aaca1c1a27fb53"
+      "bytes": 3602,
+      "sha256": "a8b0ff2188611483a330d6c1d821a546c150e9f8dc273695a478442452fc15b0"
     }
   ],
   "artifacts": [
     {
       "name": "TorpedoRoom_v0.1.24-beta.zip",
-      "bytes": 78674,
-      "sha256": "f1159d3612709e2037cd3826c09c50f88aa971fef7e5324fca8b26fcbf997225"
+      "bytes": 78767,
+      "sha256": "a3145a1b30d7aa4732ac370aaea9f21f93dd3d12d2317cbbdaa8b28cd0f8c472"
     }
   ]
 }

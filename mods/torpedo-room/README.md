@@ -33,9 +33,9 @@ Solo play does not require multiplayer or Community Patch. The supplied multipla
 
 ## 0.1.24 changes and validation
 
-Hovering depth-restricted Feuer now explains: **Too deep to launch.** This works in Synchronized, Read-only, Hidden Reports and optional MP-only Feuer. The message updates during hover when depth/selection changes, without enabling firing. Hidden Reports retains its other selection/readiness hints.
+Hovering depth-restricted Feuer now explains: **Too deep** This works in Synchronized, Read-only, Hidden Reports and optional MP-only Feuer. The message updates during hover when depth/selection changes, without enabling firing. Hidden Reports retains its other selection/readiness hints.
 
-Individual loaded-tube depth/FAT/LUT reports also append **TOO DEEP** when boat depth exceeds that weapon's viewing limit (18 m normally; T5 through 50 m). This does not replace native/HTT hovers and remains hidden under Hidden Reports. Physical levers remain native.
+Individual loaded-tube depth/FAT/LUT reports also append **Launch limit: 18 m (50 m for T5)** when boat depth exceeds that weapon's viewing limit (18 m normally; T5 through 50 m). This does not replace native/HTT hovers and remains hidden under Hidden Reports. Physical levers remain native.
 
 Retained from .23:
 
