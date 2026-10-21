@@ -1,4 +1,4 @@
-TORPEDO ROOM -- 0.1.23 BETA
+TORPEDO ROOM -- 0.1.24 BETA
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
@@ -56,7 +56,7 @@ station access or actual firing readiness. Both native torpedo icons remain
 restricted by MP; tube reports, selection, dispersion and preparations stay
 hidden. Firing uses native fire-control selection and the normal native button,
 confirmation and MP dispatch. Physical TDC and direct tube levers stay native.
-All players need .23/TRC9. The adapter targets supplied MP 1.11.5 only.
+All players need .24/TRC9. The adapter targets supplied MP 1.11.5 only.
 
 OFF, no other shared-boat player, or MP's scope panel allowed: normal display
 rules apply. Panels automatically opened by this option close when it ends;
@@ -97,16 +97,17 @@ targets Uboats: Coop Multiplayer 1.11.5 / protocol 54. No new role or firing rul
 mixed speeds and TDC mismatches only warn. Native targeting/gyro relays remain.
 Uses live game art and supports optional Torpedo Type Icons and HTT integration.
 
-Full supplied-game reference compilation and 269 targeted offline checks passed
-for .23 (85 stock/depth, 99 viewing fire/layout, 50 MP display, 35 UI affordance).
-Other prior suites were not re-run. No live game or network test was run for .23. The owner reported successful .20
+Full supplied-game reference compilation and 316 targeted offline checks passed
+for .24 (85 stock/depth, 99 viewing fire/layout, 50 MP display, 35 UI affordance,
+32 Feuer tooltip, 15 individual tube report).
+Other prior suites were not re-run. No live game or network test was run for .24. The owner reported successful .20
 periscope firing in Read-only and Hidden Reports after fire-control selection
 and compartment flooding. Aft and TDC/bridge firing remain pending. Test the new
 host option with both host/client, join/leave, all report modes, target lock
 changes and station switches. Larger-stack compatibility remains ongoing.
 
 Configuration-help revision: generated config and Dusty menu explain both host
-settings, default OFF, solo behavior and .23/TRC9 requirement. Existing configs
+settings, default OFF, solo behavior and .24/TRC9 requirement. Existing configs
 gain comments on the next normal settings save; no automatic migration is added.
 
 
@@ -118,3 +119,19 @@ a missing opener (including TDC) uses a higher fallback. It remains outside the
 hidden panel/disabled opener hierarchy. Native layout is restored on exit.
 Test all UI scales/resolutions; live geometry is not validated here.
 The previously reported half-full native flood indicator remains under investigation.
+
+FEUER DEPTH TOOLTIP (.24)
+Hover the disabled native Feuer button when depth blocks the selected launch:
+Too deep to launch.
+Applies to Synchronized, Read-only, Hidden Reports and the optional MP-only
+Feuer display. Updates while hovered when depth/selection changes; clears on
+exit, close/loading/station change/disable. Hidden Reports retains other
+selection/readiness hints when depth is not the restriction. Hover never
+enables firing or changes tube selection/permissions.
+
+PER-TUBE DEPTH WARNING (.24)
+Existing tube depth/FAT/LUT reports append TOO DEEP for that loaded weapon
+when boat depth exceeds its viewing-interface limit (18 m; T5 through 50 m).
+Updates even if that tube is dry or unchecked; preserves the existing report
+and native/Happy Torpedo Time hover. Hidden Reports still hides per-tube info.
+This reports the viewing-interface rule; physical tube/TDC levers stay native.

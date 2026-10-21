@@ -1,3 +1,20 @@
+0.1.24-beta -- brief Feuer and individual tube-depth explanations
+- Add Too deep to launch. explanation on the disabled
+  original Feuer button in Synchronized, Read-only, Hidden Reports and optional
+  MP-only Feuer. Shared tooltip lifecycle replaces the Hidden-only hint.
+- Append TOO DEEP in existing loaded-tube depth/FAT/LUT reports, per weapon
+  rather than overall selection, without replacing native/HTT hover. Applies to
+  dry/unchecked weapons as well. Hidden Reports keeps per-tube information hidden.
+- Update text/visibility while already hovered as depth or selection changes.
+  Preserve Hidden Reports selection/readiness hints when depth is not the gate.
+  Clear on pointer exit, native close, loading, station exit and mod disable.
+- Tooltip graphics do not intercept input or enable firing. No changes to depth
+  rules, selection, native permissions, roles, physical levers or MP transport.
+- Full supplied-reference compilation and 316 targeted offline checks passed,
+  including 32 depth-tooltip cases across report modes. No live .24 test here.
+- Retain Workshop ID 3823181610, TRC9, credits/license and .23 outline/T5 UI fix.
+  Queued ordnance, Leave Station and Back controls are not part of this patch.
+
 0.1.23-beta -- selectable T5 at depth, Prep outline and larger docked Feuer
 - Hide the whole-panel depth overlay while the mod controls viewing UI and apply
   the depth restriction only to Feuer in all report modes. Uncheck/recheck T5 at

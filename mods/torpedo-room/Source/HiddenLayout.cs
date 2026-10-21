@@ -16,7 +16,6 @@ namespace Landomatic.TorpedoRoom
     {
         static TorpedoLaunchersUI owner,failed;
         static RectTransform liveFire;
-        static GameObject hint;static TextMeshProUGUI hintText;static TorpedoHover hover;
         internal static string Reason="";
         static readonly List<Placement> moved=new List<Placement>();
         static readonly System.Reflection.FieldInfo Fire=AccessTools.Field(typeof(TorpedoLaunchersUI),"fireButton"),Popup=AccessTools.Field(typeof(TorpedoLaunchersUI),"fireConfirmationPopup");
@@ -54,23 +53,10 @@ namespace Landomatic.TorpedoRoom
                     var rect=bar.transform as RectTransform;if(rect!=null)moved.Add(new Placement(rect,target,false));
                 }
                 moved.Add(new Placement(fire,target,true));owner=panel;liveFire=fire;FireDock.Follow(panel,fire);
-                CreateHint(fire);
             }catch(Exception e){Restore();failed=panel;Debug.LogWarning("[TorpedoRoom] Hidden Reports layout restored after an error: "+e.GetBaseException().Message);}
         }
-        static void CreateHint(RectTransform fire)
-        {
-            hint=new GameObject("Torpedo Room fire-control hint",typeof(RectTransform),typeof(CanvasRenderer),typeof(Image));hint.transform.SetParent(fire,false);
-            var rect=(RectTransform)hint.transform;rect.anchorMin=rect.anchorMax=new Vector2(.5f,1);rect.pivot=new Vector2(.5f,0);rect.anchoredPosition=new Vector2(0,8);rect.sizeDelta=new Vector2(350,74);
-            var image=hint.GetComponent<Image>();image.color=new Color(.07f,.07f,.06f,.96f);image.raycastTarget=false;
-            var label=new GameObject("Reason",typeof(RectTransform),typeof(CanvasRenderer),typeof(TextMeshProUGUI));label.transform.SetParent(hint.transform,false);
-            var labelRect=(RectTransform)label.transform;labelRect.anchorMin=new Vector2(0,0);labelRect.anchorMax=new Vector2(1,1);labelRect.sizeDelta=new Vector2(-20,-12);labelRect.anchoredPosition=Vector2.zero;
-            hintText=label.GetComponent<TextMeshProUGUI>();var originals=fire.gameObject.GetComponentsInChildren<TextMeshProUGUI>(true);
-            foreach(var original in originals)if(original!=hintText&&original.font!=null){hintText.font=original.font;break;}
-            hintText.fontSize=17;hintText.color=new Color(.92f,.9f,.82f,1);hintText.raycastTarget=false;hintText.richText=false;
-            hover=fire.gameObject.AddComponent<TorpedoHover>();hover.Enter=()=>{if(hint!=null){hintText.text=Reason;hint.SetActive(!string.IsNullOrEmpty(Reason));}};hover.Exit=()=>{if(hint!=null)hint.SetActive(false);};hint.SetActive(false);
-        }
         internal static void Restore()
-        {if(hover!=null){hover.Enter=null;hover.Exit=null;UnityEngine.Object.Destroy(hover);hover=null;}if(hint!=null)UnityEngine.Object.Destroy(hint);hint=null;hintText=null;Reason="";liveFire=null;FireDock.Clear();for(int i=moved.Count-1;i>=0;i--)moved[i].Restore();moved.Clear();owner=null;}
+        {Reason="";liveFire=null;FireDock.Clear();for(int i=moved.Count-1;i>=0;i--)moved[i].Restore();moved.Clear();owner=null;}
         internal static void Closed(TorpedoLaunchersUI panel){if(owner==panel)Restore();}
     }
 }

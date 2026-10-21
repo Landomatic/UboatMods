@@ -1,2 +1,2 @@
-0.1.23 ready for live testing: active Prep border, selection remains usable at depth, 1.5x Feuer follows opener with spacing.
-Remaining: native flood graphic refresh investigation; multi-tube Prep editing.
+0.1.24 ready for live test: depth-disabled Feuer hover explanation in all report modes; retains .23 outline and T5 UI recovery.
+Queued: Manage Ordnance lower left, Leave Station lower right, Prep Back control, exclusive native ordnance display; multi-tube Prep editing; native flood graphic investigation.

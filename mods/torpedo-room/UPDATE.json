@@ -1,27 +1,27 @@
 {
   "schema_version": 1,
   "project": "Torpedo Room",
-  "version": "0.1.23-beta",
-  "prepared_at_utc": "2026-10-21T19:28:53+00:00",
+  "version": "0.1.24-beta",
+  "prepared_at_utc": "2026-10-21T20:18:35+00:00",
   "changes": [
-    "Keep native viewing tube selection accessible at depth; move depth gate to Feuer in all report modes, preserving native checkbox/selector relationship. Add active Prep border. Enlarge original Hidden/MP Feuer 1.5x and follow opener with scaled spacing/nearby-control avoidance and fallback. Retain TRC9 and Workshop item 3823181610."
+    "Add Too deep to launch. hover on depth-restricted native Feuer in all report modes, including Hidden/MP Feuer. Update while hovered; preserve other Hidden readiness hints. Append TOO DEEP to existing per-tube depth/FAT/LUT reports using individual viewing limits, without replacing vanilla/HTT hover; keep reports hidden under Hidden Reports. No firing-rule change; retain .23 features, TRC9 and Workshop item 3823181610."
   ],
   "validation": {
     "compile": "passed",
     "offline": "passed",
     "in_game": "not-run",
     "notes": [
-      "Full supplied UBOAT/Unity/Harmony reference compilation passed. 269 targeted offline assertions passed: 85 stock/depth, 99 viewing fire/layout, 50 MP display, 35 UI affordance. New T5 deselect/reselect, mixed-selection correction, shallow recovery, border and scaled dock tests use actual classes with native/Unity/MP fixtures. Other suites not re-run. No live .23 rendering/firing/network execution. License/credits unchanged."
+      "Full supplied UBOAT/Unity/Harmony reference compilation passed. 316 targeted offline assertions passed: 85 stock/depth, 99 viewing fire/layout, 50 MP display, 35 UI affordance, 32 Feuer tooltip, 15 individual tube reports. Actual classes with independent fixtures; other prior suites not re-run. No live .24 event-system/rendering/firing/network test. Copyright/license/credits retained."
     ]
   },
   "known_issues": [
-    "Live .23 Unity rendering/hit testing, exact fired indices, MP host/client and scale/resolution geometry need testing. Native half-full flooding graphic remains under investigation, not claimed fixed. Prior .22 logs record Tube V launch verified=True and whole-panel lockout; this patch addresses its depth overlay. Multi-tube Prep editing remains future work. No config migration or new release/tag/Workshop upload."
+    "Live disabled-button hover, badge text sizing/clipping, UI scale, firing and MP host/client regressions need testing. Native half-full flood graphic remains under investigation, not claimed fixed. Queued ordnance, Leave Station, Prep Back and exclusivity controls are not implemented here. No config migration, new protocol, new release/tag or Workshop upload."
   ],
   "files": [
     {
       "path": "CHANGELOG.txt",
-      "bytes": 25316,
-      "sha256": "1ce2d54bd658ccc0995588b300a0cb82bf9d82e499fba39635ef63b38b3fc3e0"
+      "bytes": 26543,
+      "sha256": "606032801e120b9ea7d0b0f0f7e26bd33383881a15dba4ccda8433a272020029"
     },
     {
       "path": "Docs/History/NOTICE-through-0.1.18.txt",
@@ -41,32 +41,32 @@
     {
       "path": "Manifest.json",
       "bytes": 455,
-      "sha256": "ac2db032311fa9010713bba50ce7fb0b355cb7df58947fd4eb6eaa7007c4fec4"
+      "sha256": "4930bc8f029edb28d33a98cfd96f9f1d6d64e589aa4281b5eb7d7c85ff3d5730"
     },
     {
       "path": "NOTICE.txt",
       "bytes": 3050,
-      "sha256": "edf0a803cadb0de706927d256b01e0adefc7ef6038ac6becc6129ad58c0ccc51"
+      "sha256": "462a24d63d353b1bd5c5dd97ea53da26ebdd3d08b2fea24b292f35453efb879c"
     },
     {
       "path": "PUBLISHING.txt",
       "bytes": 649,
-      "sha256": "2bf2272b6c4a4c149ed0ff34823714d34f1f7a4283e3187ed2b768e0fa7b4785"
+      "sha256": "da454ce0651026e11ae9850940f3e9b6b3f625c021ef141c2fa4d0fdf5dd206d"
     },
     {
       "path": "README.md",
-      "bytes": 6990,
-      "sha256": "bf850a42a479275e67e73fd56a91107300d30de374f94b18fb4d258a901f7184"
+      "bytes": 7638,
+      "sha256": "26c948681b33758a2e95c88986916bf128bb2e01165a38ba94e8bc3ab5701052"
     },
     {
       "path": "README.txt",
-      "bytes": 7659,
-      "sha256": "e687f1afef99c24db7cc8b28de4ae87170b9eb90075098c960b6166f0810bf07"
+      "bytes": 8599,
+      "sha256": "e4a9688973605537a22753f1fb55cbc026c07c011113e646ba49d9289de597aa"
     },
     {
       "path": "ROADMAP.txt",
-      "bytes": 206,
-      "sha256": "e7f67f946a43c0b934c4ed2a7637a60c5ac1ff488a95902aad517e717db6f1f4"
+      "bytes": 306,
+      "sha256": "7484eea1249381b4c930715409ce76e864ba03bec1098de8285b5a99253912b4"
     },
     {
       "path": "Source/Bridge.cs",
@@ -89,14 +89,19 @@
       "sha256": "e8471a339b8e076e34ae55a3f4cc55ac4b612f9a306ebaf7cce99e83e5c596ab"
     },
     {
+      "path": "Source/FireHint.cs",
+      "bytes": 2815,
+      "sha256": "da4bb3c34806607a7ba241669293c52651fd8622122f903bfa8ddd86be27bb8b"
+    },
+    {
       "path": "Source/Grid.cs",
       "bytes": 34515,
       "sha256": "387a767337a238b866112710b9d31153fd6105068b15db88b2adbdd40f667bde"
     },
     {
       "path": "Source/HiddenLayout.cs",
-      "bytes": 6095,
-      "sha256": "654e76f877852704fe26023f045f4010a12c1e54e5705b5f66e956e82e461fc8"
+      "bytes": 4235,
+      "sha256": "714a7f6905f304f05b2097e56bba9cdc5e8ee06eb7ba68ff471af82fbf4d5977"
     },
     {
       "path": "Source/InstrumentFace.cs",
@@ -130,8 +135,8 @@
     },
     {
       "path": "Source/NativePresentation.cs",
-      "bytes": 6487,
-      "sha256": "140cbb80a77a5e2d628bcbc0dc07c724040d50eea9be35465f05315a1ee37a32"
+      "bytes": 6523,
+      "sha256": "3578147d28eee75090f3e9cd71ca75fbb0143f5b290cfaca30071f5176280ee2"
     },
     {
       "path": "Source/NativeSkin.cs",
@@ -146,12 +151,12 @@
     {
       "path": "Source/Runtime.cs",
       "bytes": 22205,
-      "sha256": "bd0e2ece15ed5ddc3576226ed415c67fea4097038f49564b8c9828ed7034aea3"
+      "sha256": "8ec2710f9dc6465fd2a2d3346810a39f42664c84803e2fbbba2e31368c401b05"
     },
     {
       "path": "Source/Settings.cs",
       "bytes": 15520,
-      "sha256": "7a49b452c714defa0850fd018c39c258d985dfdb52ab1f752a2ea2112fe662c4"
+      "sha256": "3a926c0505cd48e51c8feb954ed7e224df06cf51d9626d92e4b777545b0e747e"
     },
     {
       "path": "Source/Shortcut.cs",
@@ -170,8 +175,8 @@
     },
     {
       "path": "Source/StockUi.cs",
-      "bytes": 17860,
-      "sha256": "3d207d4ae486d5ddf59753dff42e59786bb107407888876ebb2a3f820e3192c5"
+      "bytes": 18204,
+      "sha256": "a0d5ff518e84642a7226cc3be039e88d506bbb9a276a046d1d5e50b28586ed99"
     },
     {
       "path": "Source/TdcSpeed.cs",
@@ -200,13 +205,13 @@
     },
     {
       "path": "Source/ViewingFire.cs",
-      "bytes": 6696,
-      "sha256": "adf392e7fe30e3d1d4e6529db8750ff4f0d8d4af57d34ac1c407e16ca76cc671"
+      "bytes": 7191,
+      "sha256": "5c67fa91cdc5131302292fd1272da43fab72cb9c35a1f6077dfbd5403a2ee703"
     },
     {
       "path": "TESTING.txt",
-      "bytes": 9720,
-      "sha256": "fa1919f4d3124815cbca5cb0ae46a05b27a8ceb238902ddc457aeb6f6117abbf"
+      "bytes": 10984,
+      "sha256": "8c3d2b5aded6764fb162718f14ed3e020c043e566e3d03681a32830c36711737"
     },
     {
       "path": "Tests/BridgeFixture.cs",
@@ -245,8 +250,8 @@
     },
     {
       "path": "Tests/README.txt",
-      "bytes": 240,
-      "sha256": "35489f1c71380ef972e8b0026621fe98e1c346b4ea556050047851181eda1737"
+      "bytes": 263,
+      "sha256": "b37f29139f8926eec55274d516f23481b6a9a13813a22fda824e10fbfc9fe501"
     },
     {
       "path": "Tests/Speed/InfoFixture.cs",
@@ -259,9 +264,19 @@
       "sha256": "4542cc2035dface91d8a8094b9479a12c72b27bad9c249521ce7d34229fe0f98"
     },
     {
+      "path": "Tests/StockUi/BadgeWarningFixture.cs",
+      "bytes": 3346,
+      "sha256": "6ba15098843b0b208807b774c52cf598fe8084fd7df29b83b21840e89f8d33b7"
+    },
+    {
       "path": "Tests/StockUi/StockUiFixture.cs",
       "bytes": 54485,
       "sha256": "335be71666c11aad12007e1e9e5bb2611ed5b393b66087efd15de96dbd692c82"
+    },
+    {
+      "path": "Tests/StockUi/TooltipFixture.cs",
+      "bytes": 3739,
+      "sha256": "3b5e65b9ded2fe565721f5424ab27524a79ed63691c9bc7ae2c7d0873e5710a3"
     },
     {
       "path": "Tests/StockUi/UiAffordanceFixture.cs",
@@ -280,20 +295,20 @@
     },
     {
       "path": "VALIDATION.txt",
-      "bytes": 7292,
-      "sha256": "8a49ed213df9e88fd0f78d60f4a29f8f9a1f936bd0850fa2ce3231a44573cf9f"
+      "bytes": 8634,
+      "sha256": "402833f945d3e86ed51998e477a7c07c46873c22ebcd1834f08ac451ea7d4c14"
     },
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
-      "bytes": 3460,
-      "sha256": "d21b1f44e75eb3b15d0801cab08c5a3dd56e351265985e1ca54e3e73bd702435"
+      "bytes": 3613,
+      "sha256": "c3d3d34e089e326419886f38893961b5d2709ab9f470857573aaca1c1a27fb53"
     }
   ],
   "artifacts": [
     {
-      "name": "TorpedoRoom_v0.1.23-beta.zip",
-      "bytes": 77371,
-      "sha256": "f4ff3405c118c8d7db0cb54ba9bb574f64d58711d8b2dfe93fdc050d4918b239"
+      "name": "TorpedoRoom_v0.1.24-beta.zip",
+      "bytes": 78674,
+      "sha256": "f1159d3612709e2037cd3826c09c50f88aa971fef7e5324fca8b26fcbf997225"
     }
   ]
 }

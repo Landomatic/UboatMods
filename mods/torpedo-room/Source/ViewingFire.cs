@@ -30,6 +30,8 @@ namespace Landomatic.TorpedoRoom
             ||key=="G7es Zaunkönig Torpedo T5 - Pi4 (Warmed)"||key=="G7es Zaunkönig Torpedo T5 - Pi4 - Prototype (Warmed)";}
         internal static bool DeepPermission(float depth,int floodedSelected,bool allT5)
         {return Preparation.Finite(depth)&&depth>18&&depth<=50&&floodedSelected>0&&allT5;}
+        internal static string TubeDepthWarning(float boatDepth,string equipmentKey)
+        {return Preparation.Finite(boatDepth)&&boatDepth>(IsT5(equipmentKey)?50:18)?"TOO DEEP":"";}
         static bool HasSelected(out bool allT5)
         {
             allT5=true;bool any=false;var ship=Runtime.Ship;
@@ -60,7 +62,7 @@ namespace Landomatic.TorpedoRoom
         internal static void AwaitNativeUpdate(TorpedoLaunchersUI panel){var button=Button(panel);if(button!=null)button.interactable=false;}
         static void AfterUpdate(TorpedoLaunchersUI __instance)
         {
-            if(!Enabled){NativePresentation.Refresh(__instance);return;}
+            if(!Enabled){FireHint.Clear();NativePresentation.Refresh(__instance);return;}
             bool mapped=!Hidden||SelectFromBoxes();bool all;bool selected=HasSelected(out all);
             bool deep=DeepAllowed();
             if(Blockade!=null){
@@ -75,7 +77,10 @@ namespace Landomatic.TorpedoRoom
             if(button!=null&&((Hidden&&(!mapped||!selected))||Runtime.Ship.Depth>18&&!deep))button.interactable=false;
             NativePresentation.Refresh(__instance);
             HiddenLayout.Reason=!mapped?"Fire-control selection is unavailable.":!selected?"Select and flood the intended tubes using the native controls.":Runtime.Ship.Depth>18&&!deep?"Viewing-station firing is blocked at this depth. Only flooded T5 launch candidates are permitted down to 50 m.":button!=null&&!button.interactable?"Native firing requirements are not met.":"Fire the flooded tubes selected at the fire-control boxes.";
+            FireHint.Refresh(button,DepthHint(Runtime.Ship.Depth,deep,Hidden?HiddenLayout.Reason:""));
         }
+        internal static string DepthHint(float depth,bool permitted,string fallback)
+        {return depth>18&&!permitted?"Too deep to launch.":fallback;}
         static bool BeforeFire(TorpedoLaunchersUI __instance)
         {
             if(!Enabled)return true;
@@ -90,7 +95,7 @@ namespace Landomatic.TorpedoRoom
         static void RestoreDepthMask()
         {if(depthMask!=null)depthMask.SetActive(depthMaskWasActive);depthMask=null;depthOwner=null;}
         static void Closed(TorpedoLaunchersUI __instance)
-        {if(MpScopeFire.KeepPanel(__instance))return;HiddenLayout.Closed(__instance);if(depthOwner==__instance)RestoreDepthMask();}
+        {if(MpScopeFire.KeepPanel(__instance))return;FireHint.Close(Button(__instance));HiddenLayout.Closed(__instance);if(depthOwner==__instance)RestoreDepthMask();}
     }
 }
 

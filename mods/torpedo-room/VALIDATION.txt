@@ -1,3 +1,23 @@
+0.1.24-beta -- full supplied UBOAT/Unity/Harmony reference compilation PASSED
+316 targeted offline assertions PASSED: 85 stock/depth, 99 viewing fire/layout,
+50 MP display, 35 UI affordance, 32 Feuer tooltip, 15 individual tube reports. Actual FireHint/ViewingFire
+classes tested with independently authored native/Unity fixtures. Tooltip tests
+cover Synchronized/Read-only/Hidden, disabled button hover, no raycast interception
+or fire enabling, depth/selection changes while hovered, over-50 m, shallow
+recovery, pointer exit and close cleanup. Existing MP display suite also re-run.
+Individual badge tests exercise actual report output, T5/ordinary limits, dry/
+unchecked weapons, program/depth preservation, no hover interception, expansion
+and clearing on shallowing/empty/Hidden Reports.
+Other prior suites not re-run. No live .24 Unity/event-system/rendering/firing
+or network test was run here; disabled native button hover and clipping need
+live validation. This patch only adds explanatory UI, retains .23 functionality
+and does not implement queued ordnance/Back/Leave Station controls.
+Workshop ID 3823181610, TRC9, copyright/license and credits retained unchanged.
+Native half-full flood graphic remains under investigation. Prior game logs are
+partial evidence for .22, not live .24 acceptance.
+
+Historical validation follows:
+
 0.1.23-beta -- full supplied UBOAT/Unity/Harmony reference compilation PASSED
 269 targeted assertions PASSED: 85 stock/depth, 99 viewing fire/layout, 50 MP
 scope Feuer, 35 Prep outline/Feuer affordance. Actual mod classes compiled with

@@ -231,6 +231,10 @@ namespace Landomatic.TorpedoRoom
             var ship=Runtime.Ship;var value=p.Value;bool perTube=value.ProgramOverride;
             label.text=ReportText.Tube(torpedo.ProgramType!=Torpedo.TorpedoProgramType.None,torpedo.ProgramType==Torpedo.TorpedoProgramType.LUT,Runtime.LockoutEnabled&&value.StraightRun,
                 perTube?value.Right:ship.TorpedoProgramDirection,perTube?value.Distance:ship.TorpedoProgramDistance,perTube?value.Angle:ship.TorpedoProgramAngleAbsolute,value.DepthOverride?value.Depth:ship.TorpedoAttackSettings.TorpedoDepth);
+            var warning=ViewingFire.TubeDepthWarning(ship.Depth,tube.Torpedo.Data==null?null:tube.Torpedo.Data.Name);
+            if(warning.Length>0)label.text+="\n"+warning;
+            label.color=warning.Length>0?new Color(1,.55f,.3f):new Color(.9f,.8f,.5f);
+            label.rectTransform.sizeDelta=new Vector2(0,warning.Length>0?44:30);
         }
         void OnDestroy(){if(label!=null)UnityEngine.Object.Destroy(label.gameObject);}
     }
