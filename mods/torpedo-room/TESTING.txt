@@ -1,3 +1,35 @@
+0.1.21-beta -- new live checks (NOT RUN here)
+1. All players install .21/TRC9. In host Torpedo Room settings enable MP: Show
+   Feuer when scope tubes are restricted. Keep MP TUBES PANEL AT THE SCOPES OFF.
+   Default of our separate toggle is OFF. It does not change report presets.
+2. Solo/no other shared-boat peer: no automatic Feuer; normal click-to-open
+   Hidden Reports and Read-only/Synchronized behavior remains. Own-boat-only
+   peers must not trigger the feature. MP panel ON must not trigger it either.
+3. Join a shared boat and synchronize. At each permitted scope/UZO, Feuer alone
+   should appear without using the disabled launcher icon. No tube/control or
+   background flash on first opening. Repeat with host report mode Synchronized,
+   Read-only and Hidden: this separate option should behave identically there.
+4. Both host and client: selected flooded tubes at fire-control boxes, then fire
+   from Feuer. Verify exact selected/fired indices, native order/timing, existing
+   gyro/manual targeting and unsynchronized-gyro confirmation. No fallback tube.
+   Check invalid/missing selection, dry/empty/busy tubes, mixed speeds, T5 depth
+   exception and all normal compressed-air/depth/station requirements.
+5. Another player joins/leaves, host switches option OFF/ON, MP panel restriction
+   OFF/ON, change scope/UZO/TDC/tube/FPP stations, reconnect, load, disable master.
+   No orphaned control/popup; normal hierarchy and report policy restored. A panel
+   opened by the player before the condition is retained when it ends.
+6. Genuine native close (escape/dialog/lost aim) should be respected; re-enter
+   the scope to resume. Exercise lock/unlock/target changes and native UI dialogs.
+   Confirm no repeated reopening or unexpected target/spread/source changes.
+7. MP role/station restrictions remain. Check TDC and direct tube physical levers
+   unchanged, including manual firing independent of fire-control-box selection.
+8. Check higher Feuer at default/min/max UI scale and bottom icons, including solo
+   Hidden Reports. No No Spoilers restoration/patch is introduced.
+
+Prior .20 acceptance/regression list follows. Owner reports .20 periscope firing
+successful in Read-only and Hidden Reports, with correct fire-control selection
+and compartment flooding. Aft and TDC/bridge tests remain pending, not inferred.
+
 0.1.20-beta -- live acceptance checklist (NOT RUN here)
 All peers must install this same .20 build; TRC8 format remains unchanged.
 1. Hidden Reports in solo and shared-boat host/client: only Feuer remains in the

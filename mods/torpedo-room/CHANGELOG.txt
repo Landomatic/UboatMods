@@ -1,3 +1,22 @@
+0.1.21-beta -- optional MP-only Feuer at restricted scopes/UZO
+- Add host opt-in MP: Show Feuer when scope tubes are restricted (OFF default),
+  independent of report visibility, interface presets and TDC speed sync.
+- Activate only when MP 1.11.5 reports its effective scope-panel restriction:
+  another shared-boat player aboard and TUBES PANEL AT THE SCOPES OFF. Automatically
+  open the native masked panel at permitted scopes/UZO; display only the original
+  Feuer and normal confirmation, without using the disabled torpedo icon.
+- Keep MP's icon disabling. Exempt only the opted-in panel-opening check and the
+  two known MP UI cleanup callbacks (suppress repeated close logs). Genuine native close remains permitted.
+  Suppress hidden UI source/spread/program writes during forced Feuer-only mode,
+  including deferred native Start. Preserve native firing/transport/station paths.
+- Restore normal behavior when host toggle/restriction/station ends. Do not
+  repeatedly open a live panel or enable during an active salvo. Start disabled
+  until native readiness runs. Roll back partially installed optional hooks.
+- Raise Feuer from 28 to 96 native canvas units above the bottom edge.
+- TRC9 carries the separate host toggle; every shared-boat player must update.
+  Full supplied-reference compilation and 864 offline checks pass. New live MP
+  validation pending. Preserve Landomatic copyright, license and upstream credits.
+
 0.1.20-beta -- Feuer-only reports and T5 viewing-interface depth exception
 - Hidden Reports hides the entire native launch panel, moving the original
   Feuer button, confirmation popup and any nested station navigation outside

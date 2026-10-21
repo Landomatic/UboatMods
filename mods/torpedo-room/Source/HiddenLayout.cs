@@ -30,7 +30,7 @@ namespace Landomatic.TorpedoRoom
                 size=rect.sizeDelta;position=rect.anchoredPosition;scale=rect.localScale;rotation=rect.localRotation;
                 var actualSize=rect.rect.size;var world=rect.position;
                 rect.SetParent(target,true);rect.anchorMin=rect.anchorMax=pivot;rect.sizeDelta=actualSize;rect.position=world;
-                if(centre){rect.anchorMin=rect.anchorMax=rect.pivot=new Vector2(.5f,0);rect.anchoredPosition=new Vector2(0,28);}
+                if(centre){rect.anchorMin=rect.anchorMax=rect.pivot=new Vector2(.5f,0);rect.anchoredPosition=new Vector2(0,96);}
                 rect.SetAsLastSibling();
             }
             internal void Restore()

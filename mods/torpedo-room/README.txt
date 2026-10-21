@@ -1,4 +1,4 @@
-TORPEDO ROOM -- 0.1.20 BETA
+TORPEDO ROOM -- 0.1.21 BETA
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
@@ -6,8 +6,8 @@ License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
 INSTALL / UPDATE
 Extract TorpedoRoomControls into your local UBOAT mods folder, enable Torpedo Room
 in the launcher and fully restart. Replace the old Source folder completely.
-All shared-boat players need this same version (TRC8 format is unchanged).
-Mixed mod versions are not validated. Keep a separate save while testing Beta.
+All shared-boat players need this same version (TRC9; older companions cannot exchange settings).
+Do not mix .20 and .21 companions. Keep a separate save while testing Beta.
 When updating an existing Workshop item, retain its assigned steamFileId and
 preview from your publishing folder; the generic manifest cannot supply that ID.
 
@@ -38,6 +38,30 @@ AppData/LocalLow/Deep Water Studio/UBOAT). No config migration is performed.
   defaults to 30 game seconds. Port-only and locked-on-load rules are removed.
 - FAT/LUT remains adjustable at sea without that preparation delay.
 
+MP-ONLY FEUER OPTION (DEFAULT OFF)
+In the host's Torpedo Room settings, enable:
+  MP: Show Feuer when scope tubes are restricted
+Standalone config: mpScopeFeuer=True
+In MP's host settings, keep TUBES PANEL AT THE SCOPES set OFF (scope_tubes=false).
+With another synchronized shared-boat player aboard, Feuer alone automatically
+appears at permitted periscopes/UZO once native aim context is available. No
+need to click the disabled torpedo icon. This applies independently of our
+Synchronized/Read-only/Hidden Reports choice. Solo behavior is unchanged.
+
+This host opt-in makes an exception to MP's panel-only restriction, not to
+station access or actual firing readiness. Both native torpedo icons remain
+restricted by MP; tube reports, selection, dispersion and preparations stay
+hidden. Firing uses native fire-control selection and the normal native button,
+confirmation and MP dispatch. Physical TDC and direct tube levers stay native.
+All players need .21/TRC9. The adapter targets supplied MP 1.11.5 only.
+
+OFF, no other shared-boat player, or MP's scope panel allowed: normal display
+rules apply. Panels automatically opened by this option close when it ends;
+player-opened panels are retained. A genuine native close (escape/dialog/lost
+native aim context) is respected; re-enter the scope to resume. Presets do not
+change this toggle. No config migration, new dependency or fire packet.
+Feuer is raised above the bottom icon strip in both solo Hidden Reports and MP.
+
 T5 DEFENSIVE VIEWING-INTERFACE FIRE
 The game's viewing-panel blocker normally appears below 18 m boat depth.
 An all-T5 selection (including the stock prototype) can use the native viewing
@@ -63,10 +87,9 @@ targets Uboats: Coop Multiplayer 1.11.5 / protocol 54. No new role or firing rul
 mixed speeds and TDC mismatches only warn. Native targeting/gyro relays remain.
 Uses live game art and supports optional Torpedo Type Icons and HTT integration.
 
-Full supplied-game reference compilation and offline checks passed. No new live
-Unity or MP test was run for .20. Verify Feuer-only layout at your UI scale,
-fore/aft selector and salvo behavior, native confirmation, T5 launches through
-50 m and ordinary/mixed selections. See the source archive's TESTING.txt.
-The owner reported .19 looked good in solo play. Earlier .18 tests reported
-successful TDC, UZO and direct-tube firing; remaining periscope and native TDC
-speed-cycle cases are unconfirmed. Larger-stack compatibility is ongoing.
+Full supplied-game reference compilation and 864 offline checks passed. No new
+live game or network test was run for .21. The owner reported successful .20
+periscope firing in Read-only and Hidden Reports after fire-control selection
+and compartment flooding. Aft and TDC/bridge firing remain pending. Test the new
+host option with both host/client, join/leave, all report modes, target lock
+changes and station switches. Larger-stack compatibility remains ongoing.

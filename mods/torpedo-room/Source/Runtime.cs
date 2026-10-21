@@ -45,7 +45,7 @@ namespace Landomatic.TorpedoRoom
                 Bridge.Install(harmony);
                 StockUi.Install(harmony);
                 ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.20-beta loaded. Feuer-only Hidden Reports; T5 viewing depth exception through 50 m; running depth 1–14 m in quarter metres; TRC8 host rules. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                Debug.Log("[TorpedoRoom] 0.1.21-beta loaded. Feuer-only Hidden Reports; T5 viewing depth exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");
@@ -81,6 +81,10 @@ namespace Landomatic.TorpedoRoom
         internal static ViewportMode Viewport {get{return Bridge.IsRemote?Bridge.Last==null?ViewportMode.ReadOnly:Bridge.Last.Viewport:Config.Viewport;}}
         internal static bool RoomEditable(TorpedoLauncherGroup group){return CurrentGroup!=null&&(CurrentGroup==group||Access==RoomAccess.AllEditable);}
         internal static bool Active { get { return Bridge.IsRemote ? Bridge.Last!=null&&Bridge.Last.Enabled : Config.Enabled; } }
+        internal static bool MpScopeFeuer {get{return Bridge.IsRemote?Bridge.Last!=null&&Bridge.Last.MpScopeFeuer:Config.MpScopeFeuer;}}
+        internal static object ViewingScope {get{var c=MainCamera.Instance;var scope=c!=null&&c.CurrentMode==CameraMode.Generic&&c.GenericController!=null?c.GenericController.ExternalController as PeriscopeController:null;return scope==null?null:scope.Periscope;}}
+        internal static bool AimContext {get{var s=Ship;return s!=null&&(s.TorpedoesPeriscopeTargetter!=null||s.TorpedoesTarget!=null);}}
+        internal static bool LaunchBusy {get{var s=Ship;return s==null||s.IsPreparingToLaunchTorpedoes||s.IsLaunchingTorpedoes;}}
         internal static bool SpeedSync {get{return Bridge.IsRemote?Bridge.Last!=null&&Bridge.Last.SpeedSync:Config.SpeedSync;}}
         internal static bool ViewingStation
         {get{var c=MainCamera.Instance;var e=c!=null&&c.CurrentMode==CameraMode.Generic&&c.GenericController!=null?c.GenericController.ExternalController:null;return e is PeriscopeController||e is TorpedoCalculatorController||e is TorpedoFireControlBoxesController;}}
@@ -158,7 +162,7 @@ namespace Landomatic.TorpedoRoom
         {
             double tickStart=Config.PerformanceTrace?Time.realtimeSinceStartupAsDouble:double.NaN;
             try {
-                Bridge.Tick();MenuIntegration.Tick();DepthControl.RestoreSteps();SpeedControl.RestoreBounds();
+                Bridge.Tick();MpScopeFire.Tick();MenuIntegration.Tick();DepthControl.RestoreSteps();SpeedControl.RestoreBounds();
                 var ship=Ship;
                 if(ship!=lastShip){NativePresentation.Room(false);roomTakeover=false;nextRoomMask=0;lastShip=ship;pending.Clear();Epoch=Guid.NewGuid().ToString("N");ResetGrid();Bridge.ResetWorld();LaunchAuthority.Clear();TdcSpeed.Reset();}
                 if(Loading||ship==null){NativeSkin.RestoreStations();NativePresentation.Room(false);roomTakeover=false;CloseGrid();if(gridRoot!=null)gridRoot.SetActive(false);LaunchAuthority.Clear();if(ship==null)TdcSpeed.Reset();return;}
@@ -277,10 +281,10 @@ namespace Landomatic.TorpedoRoom
                 var status=Status(tube.Torpedo,true);if(status==null)continue;
                 rows.Add(new TubeSnapshot {Index=i,Type=tube.Torpedo.TypeName,State=(int)tube.CurrentState,Flooded=tube.IsFlooded,Flooding=Mathf.Clamp01(tube.FloodingProgress),Settings=status.Value.Copy()});
             }
-            return new Snapshot {Epoch=Epoch,Enabled=Config.Enabled,Policy=Config.Policy,Delay=Config.Delay,AllowLockout=Config.AllowLockout,SpeedSync=Config.SpeedSync,Access=Config.Access,Viewport=Config.Viewport,Notice=message??"",SolutionSpeed=TdcSpeed.ReportSpeed,SpeedTube=TdcSpeed.FocusIndex,Tubes=rows.ToArray()};
+            return new Snapshot {Epoch=Epoch,Enabled=Config.Enabled,Policy=Config.Policy,Delay=Config.Delay,AllowLockout=Config.AllowLockout,SpeedSync=Config.SpeedSync,MpScopeFeuer=Config.MpScopeFeuer,Access=Config.Access,Viewport=Config.Viewport,Notice=message??"",SolutionSpeed=TdcSpeed.ReportSpeed,SpeedTube=TdcSpeed.FocusIndex,Tubes=rows.ToArray()};
         }
         internal static string Roman(int index)
         { string[] names={"I","II","III","IV","V","VI","VII","VIII"};return index>=0&&index<names.Length?names[index]:(index+1).ToString(); }
-        void OnDestroy(){NativeSkin.RestoreStations();CloseGrid();NativePresentation.Room(false);NativePresentation.Restore();DepthControl.RestoreSteps(true);SpeedControl.RestoreBounds(true);if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);if(Instance==this)Instance=null;}
+        void OnDestroy(){MpScopeFire.Release();NativeSkin.RestoreStations();CloseGrid();NativePresentation.Room(false);NativePresentation.Restore();DepthControl.RestoreSteps(true);SpeedControl.RestoreBounds(true);if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);if(Instance==this)Instance=null;}
     }
 }

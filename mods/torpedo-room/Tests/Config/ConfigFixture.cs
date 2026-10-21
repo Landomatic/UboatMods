@@ -43,26 +43,27 @@ public static class ConfigChecks {
   UnityEngine.Application.persistentDataPath=dir;string file=Path.Combine(dir,"TorpedoRoomConfig.txt");
   try{
    Config.Load();Check(File.Exists(file),"first load creates config without menu interaction");
-   string initial=File.ReadAllText(file);Check(initial.Contains("shortcutKey=T")&&initial.Contains("shortcutCtrl=False")&&initial.Contains("shortcutAlt=False"),"created shortcut defaults");
+   string initial=File.ReadAllText(file);Check(initial.Contains("mpScopeFeuer=False"),"MP scope Feuer is explicitly opt-in");Check(initial.Contains("shortcutKey=T")&&initial.Contains("shortcutCtrl=False")&&initial.Contains("shortcutAlt=False"),"created shortcut defaults");
    Check(initial.Contains("preparationSeconds=30"),"new config has thirty-second timed pistol default");
    Check(initial.Contains("allowStraightRun=True"),"created host lockout default");
-   Config.ShortcutKey=UnityEngine.KeyCode.K;Config.Delay=35;Config.Enabled=false;Config.Save();
-   Config.Delay=0;Config.Enabled=true;Config.ShortcutKey=UnityEngine.KeyCode.T;Config.Load();
-   Check(Config.ShortcutKey==UnityEngine.KeyCode.K&&Config.Delay==35&&!Config.Enabled,"saved preferences restored");
+   Config.MpScopeFeuer=true;Config.ShortcutKey=UnityEngine.KeyCode.K;Config.Delay=35;Config.Enabled=false;Config.Save();
+   Config.MpScopeFeuer=false;Config.Delay=0;Config.Enabled=true;Config.ShortcutKey=UnityEngine.KeyCode.T;Config.Load();
+   Check(Config.ShortcutKey==UnityEngine.KeyCode.K&&Config.Delay==35&&!Config.Enabled,"saved preferences restored");Check(Config.MpScopeFeuer,"MP scope toggle round-trips standalone config");
    Check(!File.Exists(file+".tmp"),"atomic save leaves no temporary file");
    File.WriteAllText(file,"enabled=True\nshortcutKey=F8\n");Config.Load();Check(Config.ShortcutKey==UnityEngine.KeyCode.None,"reserved saved key disabled");
    Config.ShortcutKey=UnityEngine.KeyCode.T;Config.ShortcutCtrl=Config.ShortcutAlt=true;Config.ShortcutShift=false;
    File.WriteAllText(file,"enabled=True\n");Config.Load();Check(Config.ShortcutKey==UnityEngine.KeyCode.T&&Config.ShortcutCtrl&&Config.ShortcutAlt,"legacy config inherits default shortcut");
    Check(CommunityPatchSettings.Category=="Submarine / Torpedoes","actual Dusty tab name");
    Check(CommunityPatchSettings.ModName=="Torpedo Room","Dusty provider name");
-   object[] rows=CommunityPatchSettings.GetSettings();Check(rows.Length==15,"provider exposes all rows");
-   object[] key=null,master=null;
-   foreach(object value in rows){var row=(object[])value;Check(row.Length>=6&&row[4] is Func<object>&&row[5] is Action<object>,"provider row delegates "+row[1]);((Func<object>)row[4])();if((string)row[1]=="shortcutKey")key=row;if((string)row[1]=="enabled")master=row;}
+   object[] rows=CommunityPatchSettings.GetSettings();Check(rows.Length==16,"provider exposes all rows");
+   object[] key=null,master=null,mp=null;
+   foreach(object value in rows){var row=(object[])value;Check(row.Length>=6&&row[4] is Func<object>&&row[5] is Action<object>,"provider row delegates "+row[1]);((Func<object>)row[4])();if((string)row[1]=="shortcutKey")key=row;if((string)row[1]=="enabled")master=row;if((string)row[1]=="mpScopeFeuer")mp=row;}
    Check(key!=null&&(string)key[0]=="key","native key picker contract");
    ((Action<object>)key[5])(UnityEngine.KeyCode.K);Check(Config.ShortcutKey==UnityEngine.KeyCode.K&&File.ReadAllText(file).Contains("shortcutKey=K"),"key picker setter persists");
    ((Action<object>)key[5])(UnityEngine.KeyCode.F9);Check(Config.ShortcutKey==UnityEngine.KeyCode.K,"key picker rejects quickload");
    Bridge.IsRemote=true;Bridge.Last=new Snapshot{Enabled=true};((Action<object>)master[5])(false);Check(Config.Enabled,"client cannot change host master");
-   Bridge.IsRemote=false;CommunityPatchSettings.ResetToDefaults();Check(Config.ShortcutKey==UnityEngine.KeyCode.T&&!Config.ShortcutCtrl&&!Config.ShortcutAlt&&!Config.ShortcutShift&&Config.Enabled,"reset writes defaults");
+   Config.MpScopeFeuer=false;Bridge.Last.MpScopeFeuer=true;((Action<object>)mp[5])(true);Check(!Config.MpScopeFeuer&&(bool)((Func<object>)mp[4])(),"MP display toggle uses host snapshot and rejects client writes");
+   Bridge.IsRemote=false;int originalPreset=Config.Preset;var originalReports=Config.Viewport;((Action<object>)mp[5])(true);Check(Config.MpScopeFeuer&&Config.Viewport==originalReports&&Config.Preset==originalPreset,"host MP toggle is independent of report policy and preset");CommunityPatchSettings.ResetToDefaults();Check(!Config.MpScopeFeuer,"reset disables optional MP Feuer");Check(Config.ShortcutKey==UnityEngine.KeyCode.T&&!Config.ShortcutCtrl&&!Config.ShortcutAlt&&!Config.ShortcutShift&&Config.Enabled,"reset writes defaults");
    Check(Config.Delay==30,"reset restores thirty-second pistol preparation time");
    File.Delete(file);string legacy=Path.Combine(dir,"LandomaticTorpedoRoom.txt"),previous=Path.Combine(dir,"TorpedoRoom.txt");
    string oldText="enabled=False\nshortcutKey=K\noverview=True\n";File.WriteAllText(legacy,oldText);File.WriteAllText(previous,oldText);
@@ -71,7 +72,7 @@ public static class ConfigChecks {
    Check(File.ReadAllText(legacy)==oldText&&File.ReadAllText(previous)==oldText,"older config files remain untouched");
    File.WriteAllText(file,"enabled=False\nshortcutKey=K\n");Config.Enabled=true;Config.ShortcutKey=UnityEngine.KeyCode.T;Config.Load();
    Check(!Config.Enabled&&Config.ShortcutKey==UnityEngine.KeyCode.K,"only TorpedoRoomConfig.txt supplies preferences");
-   Check(CommunityPatchSettings.GetSettings().Length==15,"diagnostic timing option exposed");
+   Check(CommunityPatchSettings.GetSettings().Length==16,"diagnostic timing option exposed");
    Config.Access=RoomAccess.AllEditable;Config.Viewport=ViewportMode.Hidden;Config.Save();Config.Access=RoomAccess.CurrentCompartment;Config.Viewport=ViewportMode.ReadOnly;Config.Load();
    Check(Config.Access==RoomAccess.AllEditable&&Config.Viewport==ViewportMode.Hidden,"new room and viewport modes persisted");
    object[] preset=null,access=null;foreach(object value in CommunityPatchSettings.GetSettings()){var row=(object[])value;if((string)row[1]=="preset")preset=row;if((string)row[1]=="roomAccess")access=row;}

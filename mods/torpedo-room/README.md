@@ -1,10 +1,10 @@
-# Torpedo Room — Beta 0.1.20
+# Torpedo Room — Beta 0.1.21
 
 By **Landomatic** · Copyright (c) 2026 Landomatic · [CC BY-NC 4.0](LICENSE)
 
 Local torpedo preparations for first-person and multiplayer station-restricted play.
 
-[Download the clean 0.1.20 player ZIP](../../packages/torpedo-room/0.1.20-beta/TorpedoRoom_v0.1.20-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
+[Download the clean 0.1.21 player ZIP](../../packages/torpedo-room/0.1.21-beta/TorpedoRoom_v0.1.21-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
 
 ## Features
 
@@ -29,19 +29,19 @@ Physical flooding, draining and firing controls remain in use. The mod adds no m
 
 Optional Dusty's Community Patch provides the settings menu. Standalone settings use `TorpedoRoomConfig.txt` in UBOAT's persistent-data folder (`AppData/LocalLow/Deep Water Studio/UBOAT` on Windows). No configuration migration is performed.
 
-Solo play does not require multiplayer or Community Patch. The supplied multiplayer adapter targets Uboats: Coop Multiplayer **1.11.5 / protocol 54**. All shared-boat players must use this same build (**TRC8**).
+Solo play does not require multiplayer or Community Patch. The supplied multiplayer adapter targets Uboats: Coop Multiplayer **1.11.5 / protocol 54**. All shared-boat players must use this same build (**TRC9**).
 
-## 0.1.20 changes and validation
+## 0.1.21 changes and validation
 
-Hidden Reports now masks the full native launch panel while retaining the original **Feuer** button and confirmation popup. Native station navigation remains available. Hidden Feuer resolves the native fire-control box/receiver selection, then fires the eligible flooded tubes through the normal launch path. There is no stale-checkbox or first-ready fallback; read-only/synchronized selection, dispersion and firing remain native. Physical TDC and direct tube levers retain their native paths.
+A separate host opt-in, **MP: Show Feuer when scope tubes are restricted**, defaults OFF. With another synchronized shared-boat player aboard and MP's **TUBES PANEL AT THE SCOPES** OFF, permitted periscopes/UZO automatically show only the original Feuer button and native confirmation. The disabled launcher icon is not needed. This option is independent of Synchronized/Read-only/Hidden Reports, interface presets and speed sync; solo behavior is unchanged. Standalone key: `mpScopeFeuer=True`.
 
-Running-depth settings are **1–14 m in 0.25 m steps**. Separately, an all-T5 selected set (stock prototype and warmed variants included) can use the viewing Feuer interface through **50 m boat depth**. Ordinary, mixed and unrecognized selections keep the normal viewing restriction. This does not change engine/guidance behavior or make 50 m a running-depth setting.
+MP's icon disabling stays in effect. The adapter exempts only its UI opening gate and panel closing in two known MP UI cleanup callbacks. Native station entry, firing readiness/confirmation and MP dispatch stay in use; physical TDC/tube lever code is unchanged. Genuine native close is respected; re-enter the scope to resume. Automatically opened panels close when the condition ends; player-opened panels are retained. Feuer is raised above the bottom icons.
 
-The clean player ZIP contains 24 runtime source files and five player/manifest/license files. Tests, developer notes and full validation stay in the [source archive](../../packages/torpedo-room/0.1.20-beta/TorpedoRoom_v0.1.20-beta_source-archive.zip). No game assemblies/assets or private diagnostics are included.
+All peers need **.21/TRC9**. The adapter targets supplied MP **1.11.5**. There is no config migration, new dependency or custom fire packet. Prior running-depth settings remain 1–14 m in quarter-metre steps, with the separate all-T5 viewing exception through 50 m boat depth.
 
-Full supplied-game reference compilation and **802 offline assertions passed**. **No new live game/MP test was run.** Tests use actual mod classes with independent native/Unity fixtures; they do not prove real firing, rendering or network behavior. The owner reported .19 looks good in solo; remaining periscopes/native TDC speed clicks and broader stack compatibility remain pending. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
+Full supplied-reference compilation and **864 offline assertions passed**. **No new live game/network test was run.** The owner reported .20 periscope firing successful in Read-only and Hidden Reports after fire-control selection/flooding; aft and TDC/bridge firing remain pending. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
 
-The initial .18 release and prior packages remain unchanged. This is a test patch/source archive, with no new GitHub release/tag or Workshop upload. Keep the existing Workshop `steamFileId` and preview when updating the publishing folder; the generic manifest still uses `0` because the assigned ID was not supplied.
+The clean player ZIP contains 25 source files and five player/manifest/license files. The [source archive](../../packages/torpedo-room/0.1.21-beta/TorpedoRoom_v0.1.21-beta_source-archive.zip) contains tests and development records. No game assemblies, downloaded upstream source or private diagnostics are bundled. Existing .18 release and prior packages remain unchanged; no release/tag/Workshop publication. Retain assigned Workshop ID/preview when updating the publishing folder.
 
 ## Credits
 

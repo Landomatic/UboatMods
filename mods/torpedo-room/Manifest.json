@@ -1,7 +1,7 @@
 {
   "name": "Torpedo Room",
-  "version": "0.1.20",
-  "description": "Torpedo Room Beta: per-tube preparation, Feuer-only Hidden Reports and T5 viewing-interface defensive launch through 50 m boat depth. Source: https://github.com/Landomatic/UboatMods",
+  "version": "0.1.21",
+  "description": "Torpedo Room Beta: optional host-controlled Feuer-only access at MP-restricted scopes/UZO, per-tube preparations and configurable reports. Source: https://github.com/Landomatic/UboatMods",
   "author": "Landomatic",
   "supportedGameVersions": [
     "2026.1"

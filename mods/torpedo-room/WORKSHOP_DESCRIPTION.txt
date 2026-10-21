@@ -15,7 +15,7 @@ your physical levers still flood, drain and fire.
 [/list]
 Press [b]T[/b] at a tube station. Configure through optional Dusty's Community Patch
 or TorpedoRoomConfig.txt in UBOAT persistent data. Solo needs no multiplayer mod.
-All shared-boat players require the same build (0.1.20 / TRC8). Supplied MP
+All shared-boat players require the same build (0.1.21 / TRC9). Supplied MP
 integration targets Uboats: Coop Multiplayer 1.11.5 / protocol 54.
 Mixed speeds/TDC mismatches warn without mod-added firing holds; existing native
 readiness and MP permissions apply. FAT/LUT remains adjustable at sea.
@@ -26,7 +26,7 @@ Copyright (c) 2026 Landomatic. CC BY-NC 4.0. See LICENSE/NOTICE.txt for full cre
 Compatibility credit: Pingu565, Kugler and Dusty. UBOAT and third-party assets
 remain their owners' work. No upstream mod source or game assets are bundled.
 
-[h2]0.1.20 Beta additions[/h2]
+[h2]0.1.21 Beta additions[/h2]
 Hidden Reports leaves only the native Feuer button in the launch panel. The native
 fire-control boxes select its tube/salvo; flood tubes with the normal controls.
 Read-only and synchronized retain native selection/dispersion/firing. Physical
@@ -34,3 +34,12 @@ TDC and direct tube levers retain native behavior. Running depth is 1–14 m in
 0.25 m steps. An all-T5 selection (stock prototype included) can use the viewing
 Feuer interface through 50 m of boat depth; this does not set running depth to
 50 m or change engine/guidance behavior. Live .20 game/MP testing is pending.
+
+[h2]Optional multiplayer scope firing[/h2]
+The host can enable [b]MP: Show Feuer when scope tubes are restricted[/b] in Torpedo
+Room settings (OFF by default). With another shared-boat player aboard and MP's
+[b]TUBES PANEL AT THE SCOPES[/b] OFF, scopes/UZO automatically show Feuer alone.
+This is independent of solo/global report settings. Native selection, readiness,
+confirmation and MP firing transport remain. All players need .21/TRC9; adapter
+targets supplied MP 1.11.5. New live MP testing is pending. Feuer is also raised
+above the bottom icons. Copyright (c) 2026 Landomatic; existing license/credits.

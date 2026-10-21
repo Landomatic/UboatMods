@@ -68,10 +68,10 @@ namespace Landomatic.TorpedoRoom
         internal static void Refresh(TorpedoLaunchersUI panel)
         {
             if(panel==null)return;Panel(panel);bool viewing=Runtime.ViewingStation&&Runtime.Active&&!Runtime.Loading;
-            bool hidden=viewing&&Runtime.Viewport==ViewportMode.Hidden;
-            bool read=viewing&&Runtime.Viewport!=ViewportMode.Synchronized;
+            bool hidden=viewing&&(Runtime.Viewport==ViewportMode.Hidden||MpScopeFire.Active);
+            bool read=viewing&&(Runtime.Viewport!=ViewportMode.Synchronized||MpScopeFire.Active);
             HiddenLayout.Apply(panel,hidden&&!roomTakeover&&panel.IsOpened);
-            Set(panel.gameObject,roomTakeover||HiddenLayout.Active);
+            Set(panel.gameObject,roomTakeover||HiddenLayout.Active||MpScopeFire.Active);
             foreach(var field in Reports)if(field!=null)Set(ObjectOf(field.GetValue(panel)),hidden,read);
             if(panel.Launchers!=null)foreach(var tube in panel.Launchers)if(tube!=null){
                 Set(tube.gameObject,hidden); // read-only reports still permit stock tube selection/firing.

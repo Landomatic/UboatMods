@@ -22,7 +22,7 @@ namespace Landomatic.TorpedoRoom
             foreach(var name in new[]{"Close","OnDisable","OnDestroy"})harmony.Patch(AccessTools.Method(typeof(TorpedoLaunchersUI),name),new HarmonyMethod(typeof(ViewingFire),"Closed"));
         }
         static bool Enabled {get{return Runtime.Active&&!Runtime.Loading&&Runtime.ViewingStation&&Runtime.Ship!=null;}}
-        static bool Hidden {get{return Enabled&&Runtime.Viewport==ViewportMode.Hidden;}}
+        static bool Hidden {get{return Enabled&&(Runtime.Viewport==ViewportMode.Hidden||MpScopeFire.Active);}}
         // Exact equipment keys, including the stock prototype. Do not infer T5
         // from a localized tooltip, icon colour, or another acoustic weapon.
         internal static bool IsT5(string key)
@@ -41,7 +41,7 @@ namespace Landomatic.TorpedoRoom
             return any;
         }
         static bool DeepAllowed(){bool all;bool any=HasSelected(out all);return DeepPermission(Runtime.Ship.Depth,any?1:0,all);}
-        static bool SelectFromBoxes()
+        internal static bool SelectFromBoxes()
         {
             var ship=Runtime.Ship;if(ship.IsPreparingToLaunchTorpedoes||ship.IsLaunchingTorpedoes)return false;
             var boxes=ship.GetEquipment<TorpedoFireControlBoxes>();if(boxes==null)return false;
@@ -53,6 +53,7 @@ namespace Landomatic.TorpedoRoom
         }
         static void BeforeUpdate(){RestoreDepthMask();if(Hidden)SelectFromBoxes();}
         static Button Button(TorpedoLaunchersUI panel){return Fire==null?null:Fire.GetValue(panel) as Button;}
+        internal static void AwaitNativeUpdate(TorpedoLaunchersUI panel){var button=Button(panel);if(button!=null)button.interactable=false;}
         static void AfterUpdate(TorpedoLaunchersUI __instance)
         {
             if(!Enabled){NativePresentation.Refresh(__instance);return;}
@@ -84,6 +85,6 @@ namespace Landomatic.TorpedoRoom
         static void RestoreDepthMask()
         {if(depthMask!=null)depthMask.SetActive(depthMaskWasActive);depthMask=null;depthOwner=null;}
         static void Closed(TorpedoLaunchersUI __instance)
-        {HiddenLayout.Closed(__instance);if(depthOwner==__instance)RestoreDepthMask();}
+        {if(MpScopeFire.KeepPanel(__instance))return;HiddenLayout.Closed(__instance);if(depthOwner==__instance)RestoreDepthMask();}
     }
 }

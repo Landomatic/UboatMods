@@ -1,4 +1,4 @@
-Torpedo Room 0.1.20 BETA -- Landomatic
+Torpedo Room 0.1.21 BETA -- Landomatic
 Copyright (c) 2026 Landomatic. License: LICENSE (CC BY-NC 4.0).
 Source/history: https://github.com/Landomatic/UboatMods
 Project: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
@@ -43,3 +43,11 @@ Straight running is a gameplay program bypass, not a historical chassis pin.
 FAT/LUT has no added failure mechanic or preparation delay. Quarter-metre depth
 steps are a requested convention, not a universal historical claim.
 No user config migration is performed. Existing license terms remain unchanged.
+
+MP FEUER DISPLAY ADAPTER
+An independently authored, opt-in UI adapter targets the supplied MP 1.11.5
+station callbacks. MP attribution and license links above remain unchanged.
+No upstream source or game assets are copied into this package. This option
+permits a masked native Feuer-only panel under MP's scope-panel restriction;
+it does not remove MP station access checks, replace host fire dispatch or
+change physical TDC/tube lever code. Native confirmation/readiness remains.

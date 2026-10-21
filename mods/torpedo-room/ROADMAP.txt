@@ -1,8 +1,8 @@
-0.1.20 implemented for testing: Feuer-only Hidden Reports; native fire-control
-selection for hidden viewing-panel fire; T5-only viewing depth exception through
-50 m boat depth; running depth 1–14 m in 0.25 m steps. No engine/physical-lever
-or guidance changes. Compilation/offline checks pass; live validation pending.
-Retain .19 state recovery. No config migration. See TESTING.txt.
+0.1.21 ready for testing: host-controlled MP restricted-scope Feuer-only display,
+independent of solo/global report modes; higher Feuer placement. TRC9, all peers
+update. New MP behavior not live-tested. .20 periscope Read-only/Hidden firing
+reported successful; aft and TDC/bridge tests pending. See TESTING.txt.
+No Spoilers 2.0.1 source inspected: hides periscope target info, not a direct
+launcher-opener patch. MP 1.11.5 scope_tubes=false is the confirmed panel gate.
 Future: modifier multi-tube selection and mixed-salvo program retain/straight choice.
-Remaining prior cases: other periscopes and native TDC speed-cycle testing.
-Larger-stack loading/crash interactions remain a separate investigation.
+Broader mod-stack loading/crash investigations remain separate.

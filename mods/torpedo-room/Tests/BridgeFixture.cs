@@ -34,6 +34,7 @@ namespace UBOAT.Game.Scene.Items {
 }
 namespace Landomatic.TorpedoRoom {
  using UBOAT.Game.Scene.Items;
+ internal static class MpScopeFire {internal static void Install(HarmonyLib.Harmony h,Type t){} }
  internal static class Config {public static RoomAccess Access;public static ViewportMode Viewport=ViewportMode.Synchronized;public static UnityEngine.KeyCode ShortcutKey=UnityEngine.KeyCode.T;public static bool ShortcutCtrl=true,ShortcutAlt=true,ShortcutShift;}
  public class PreparationStatus {public Preparation Value=new Preparation();}
  public class FakeShip {public FakeTube[] TorpedoLaunchers={new FakeTube()};}
@@ -92,6 +93,7 @@ public static class BridgeChecks {
  static object[] Args(object endpoint,byte[] bytes){return new object[]{endpoint,(MpMsg)240,Body(bytes)};}
  public static int Run(){
   count=0;Bridge.Install(new HarmonyLib.Harmony("test"));
+  MpStations.TubesHiddenAtScopes=true;Check(Bridge.RestrictedScopes,"effective MP restriction is read from installed station API");MpStations.TubesHiddenAtScopes=false;Check(!Bridge.RestrictedScopes,"unrestricted or solo MP state does not activate optional Feuer");
   Check(Bridge.Status.Contains("ready"),"bridge exact-version installation");
   var peer=new MpPeer();MpSession.Peers.Add(peer);
   byte[] hello=Wire.Pack(Wire.Hello,w=>{});

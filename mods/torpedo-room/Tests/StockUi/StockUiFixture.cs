@@ -74,7 +74,7 @@ namespace UBOAT.Game.UI {public class GameUI {public UBOAT.Game.UI.Periscope.Tor
  public class TorpedoLaunchersDepthDialUI:UnityEngine.MonoBehaviour {void OnEnable(){}void Update(){}void OnValueChanged(float value){}}
  public class TorpedoLauncherUI:UnityEngine.MonoBehaviour {public UnityEngine.UI.Image torpedoImage=new UnityEngine.UI.Image();public UnityEngine.UI.Button pistolTypeButton=new UnityEngine.UI.Button();public TorpedoLauncher Launcher;} }
 namespace UBOAT.Game.UI.Periscope {public class TorpedoLaunchersUI:UnityEngine.MonoBehaviour {
-  public UnityEngine.GameObject programParameters=new UnityEngine.GameObject("params"),dataPanel=new UnityEngine.GameObject("data");public TMPro.TextMeshProUGUI programSettingsName=new TMPro.TextMeshProUGUI();public UnityEngine.UI.Button fireButton=new UnityEngine.UI.Button();public UnityEngine.GameObject fireConfirmationPopup=new UnityEngine.GameObject("popup"),firingBlockade=new UnityEngine.GameObject("depth blocker");public bool DisallowFire;void Update(){}void OnFire(){}void DoFire(){}void Close(){}void OnDisable(){}void OnDestroy(){}
+  public UnityEngine.GameObject programParameters=new UnityEngine.GameObject("params"),dataPanel=new UnityEngine.GameObject("data");public TMPro.TextMeshProUGUI programSettingsName=new TMPro.TextMeshProUGUI();public UnityEngine.UI.Button fireButton=new UnityEngine.UI.Button();public UnityEngine.GameObject fireConfirmationPopup=new UnityEngine.GameObject("popup"),firingBlockade=new UnityEngine.GameObject("depth blocker");public bool DisallowFire;public int OpenCalls,CloseCalls;public Action OpenProbe;void Update(){}void OnFire(){}void DoFire(){}public void Open(bool extended,int min,int max,bool close){OpenCalls++;if(OpenProbe!=null)OpenProbe();IsOpened=true;gameObject.SetActive(true);}public void Close(){CloseCalls++;IsOpened=false;gameObject.SetActive(false);}void OnDisable(){}void OnDestroy(){}void ValidateBearingSource(){}void OnSalvoSpreadChanged(){}void UpdateProgramTargetingValues(){}
   public UBOAT.Game.UI.TorpedoLauncherUI[] Launchers;public bool IsOpened=true;public int Calls;public bool FailOnce;
   public UnityEngine.UI.Toggle programLeft=new UnityEngine.UI.Toggle(),programRight=new UnityEngine.UI.Toggle();
   public TMPro.TMP_InputField programDistance=new TMPro.TMP_InputField(),programAngle=new TMPro.TMP_InputField();
@@ -84,10 +84,11 @@ namespace Landomatic.TorpedoRoom {
  public class TorpedoHover:UnityEngine.MonoBehaviour {public Action Enter,Exit;}
  public class PreparationStatus {public Preparation Value=new Preparation {ProgramOverride=true};}
  internal static class NativeSkin {public static UnityEngine.GameObject ManualRoot=new UnityEngine.GameObject("manual");}
- internal static class Bridge {public static bool IsRemote;public static TubeSnapshot[] Sent;public static void RequestViewport(TubeSnapshot[] edits){Sent=edits;} }
+ internal static class Bridge {public static bool IsRemote,RestrictedScopes;public static TubeSnapshot[] Sent;public static void RequestViewport(TubeSnapshot[] edits){Sent=edits;} }
  internal static class Runtime {
   public static UBOAT.Game.UI.GameUI Ui;public static T Get<T>() where T:class{return Ui as T;}
-  public static int Applying;public static bool RoomEditorOpen;public static object CurrentGroup;public static bool ViewingStation=true;public static ViewportMode Viewport=ViewportMode.ReadOnly;public static int IndexOf(Torpedo t){return 0;}
+  public static int Applying;public static bool MpScopeFeuer,AimContext=true,LaunchBusy;public static object ViewingScope;
+  public static bool RoomEditorOpen;public static object CurrentGroup;public static bool ViewingStation=true;public static ViewportMode Viewport=ViewportMode.ReadOnly;public static int IndexOf(Torpedo t){return 0;}
   public static PlayerShip Ship;public static bool Active=true,Loading,LockoutEnabled=true;public static int Accepted;
   public static bool Stable(TorpedoLauncher t){return true;}
   public static Torpedo Missile(StoredTorpedo item){return item==null?null:item.Missile;}
@@ -315,5 +316,46 @@ public static class ViewingChecks {
   NativePresentation.Restore();ui.transform.SetParent(null,false);HiddenLayout.Apply(ui,true);Check(!HiddenLayout.Active&&button.transform.parent==originalParent.transform,"missing panel parent never hides or strands Feuer");ui.transform.SetParent(canvas.transform,false);HiddenLayout.Apply(ui,true);Check(!HiddenLayout.Active,"failed layout is not retried/allocated every frame");HiddenLayout.Apply(ui,false);HiddenLayout.Apply(ui,true);Check(HiddenLayout.Active,"switching policy allows a recovered native layout to retry");HiddenLayout.Restore();
   var harmony=new HarmonyLib.Harmony();ViewingFire.Install(harmony);Check(harmony.Attempts.Count==6,"six native UI entry/lifecycle hooks installed");foreach(var method in harmony.Attempts)Check(method.DeclaringType==typeof(UBOAT.Game.UI.Periscope.TorpedoLaunchersUI),"hook excludes physical TDC and tube levers: "+method.Name);
   Console.WriteLine("PASS: "+count+" viewing fire/layout assertions (actual classes; independent native/Unity fixtures, no live game).");return count;
+ }
+}
+
+namespace PinguUboatMultiplayer {internal static class MpStations {internal static bool BeforeTubesOpen(){return false;}internal static void AfterPeriscopeLateUpdate(){}internal static void CloseTubesOffStation(){} }}
+public static class MpScopeChecks {
+ static int count;
+ static void Check(bool b,string name){count++;if(!b)throw new Exception("FAILED: "+name);}
+ static object Call(string n,params object[] args){return typeof(MpScopeFire).GetMethod(n,BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,args);}
+ public static int Run(){
+  Runtime.Active=true;Runtime.Loading=false;Runtime.MpScopeFeuer=false;Runtime.ViewingStation=true;Runtime.Viewport=ViewportMode.ReadOnly;Runtime.ViewingScope=new object();Runtime.AimContext=true;Runtime.LaunchBusy=false;Bridge.RestrictedScopes=true;
+  var ui=new UBOAT.Game.UI.Periscope.TorpedoLaunchersUI{IsOpened=false,Launchers=new UBOAT.Game.UI.TorpedoLauncherUI[0]};var canvas=new UnityEngine.GameObject("canvas");ui.transform.SetParent(canvas.transform,false);ui.fireButton.transform.SetParent(ui.transform,false);ui.fireConfirmationPopup.transform.SetParent(ui.transform,false);ui.gameObject.SetActive(false);
+  Runtime.Ui=new UBOAT.Game.UI.GameUI{CurrentTorpedoLaunchersUI=ui};var tube=new TorpedoLauncher{IsFlooded=true};Runtime.Ship=new PlayerShip{TorpedoLaunchers=new[]{tube},Boxes=new TorpedoFireControlBoxes()};
+  var nativeButton=ui.fireButton;var failure=new HarmonyLib.Harmony{Fail="AfterPeriscopeLateUpdate"};MpScopeFire.Install(failure,typeof(PinguUboatMultiplayer.MpStations));Check(!MpScopeFire.Active&&failure.Installed.Count==0&&failure.Unpatches>0,"failed optional installation removes partial hooks without enabling exception");var h=new HarmonyLib.Harmony();MpScopeFire.Install(h,typeof(PinguUboatMultiplayer.MpStations));Check(h.Attempts.Count==7,"MP adapter installs only three MP UI hooks and native close/open-write guards");
+  MpScopeFire.Tick();Check(!MpScopeFire.Active&&ui.OpenCalls==0,"default off leaves native MP restriction untouched");
+  object[] open={false};Check((bool)Call("OpenCheck",open)&&!(bool)open[0],"MP gate unchanged while option off");
+  Runtime.MpScopeFeuer=true;Bridge.RestrictedScopes=false;MpScopeFire.Tick();Check(!MpScopeFire.Active&&ui.OpenCalls==0,"no others aboard or unrestricted MP never activates feature");
+  Bridge.RestrictedScopes=true;Runtime.ViewingScope=null;MpScopeFire.Tick();Check(!MpScopeFire.Active,"no scope station, no automatic Feuer");Runtime.ViewingScope=new object();
+  Runtime.Loading=true;MpScopeFire.Tick();Check(!MpScopeFire.Active,"loading cannot expose a detached control");Runtime.Loading=false;
+  Runtime.Active=false;MpScopeFire.Tick();Check(!MpScopeFire.Active,"master off disables MP feature");Runtime.Active=true;
+  Check(MpScopeFire.Active,"host opt-in plus effective MP restriction at a scope activates feature");open=new object[]{false};Check(!(bool)Call("OpenCheck",open)&&(bool)open[0],"only restricted-scope display gate permits native open under opt-in");
+  Runtime.AimContext=false;MpScopeFire.Tick();Check(ui.OpenCalls==0&&!HiddenLayout.Active,"no native aiming context defers opening");Runtime.AimContext=true;Runtime.LaunchBusy=true;MpScopeFire.Tick();Check(ui.OpenCalls==0,"joining during active salvo does not enable native tube widgets");Runtime.LaunchBusy=false;
+  int probe=0;ui.OpenProbe=()=>{probe++;Check(ui.gameObject.GetComponent<UnityEngine.CanvasGroup>().alpha==0,"full panel is masked BEFORE native Open");Check(!ui.fireButton.interactable,"new display starts disabled until native readiness update");Check(!(bool)Call("OpeningWrites"),"automatic open suppresses changes to bearing/program/spread inputs");};
+  MpScopeFire.Tick();Check(ui.OpenCalls==1&&ui.IsOpened&&probe==1,"native open owns normal initialization and listeners");Check(HiddenLayout.Active&&ui.fireButton==nativeButton&&nativeButton.transform.parent==canvas.transform,"only original Feuer detached from hidden native panel");Check(((UnityEngine.RectTransform)nativeButton.transform).anchoredPosition.y==96,"Feuer raised above bottom icon strip");
+  Check(Runtime.Viewport==ViewportMode.ReadOnly,"MP display does not rewrite solo report policy");
+  for(int i=0;i<100;i++)MpScopeFire.Tick();Check(ui.OpenCalls==1,"steady polling never reopens an already open native panel");
+  Check(!(bool)Call("OpeningWrites"),"Feuer-only display and deferred Start cannot write hidden source/program/spread inputs");
+  // Same viewing-fire bridge as hidden reports, even when the report policy is synchronized.
+  Runtime.Viewport=ViewportMode.Synchronized;tube.IsMarkedForLaunch=false;typeof(ViewingFire).GetMethod("BeforeUpdate",BindingFlags.NonPublic|BindingFlags.Static).Invoke(null,new object[0]);Check(tube.IsMarkedForLaunch,"forced MP Feuer uses fire-control selection despite synchronized reports");
+  // Only the two MP UI-cleanup callbacks hold Close, with balanced finalizers.
+  object[] state={false};Call("BeginScope",state);Check(!(bool)Call("OffStation"),"MP off-station UI cleanup is skipped without repeated close logging");Check((bool)state[0]&&MpScopeFire.KeepPanel(ui)&&!(bool)Call("BeforeClose",ui),"known MP UI cleanup cannot close permitted Feuer-only panel");
+  var error=new Exception("synthetic upstream failure");Check(Call("EndScope",error,state[0])==error&&!MpScopeFire.KeepPanel(ui),"upstream exceptions preserve error and release temporary close guard");
+  Check((bool)Call("BeforeClose",ui),"native escape/story close remains allowed outside MP cleanup");ui.Close();MpScopeFire.Tick();Check(ui.OpenCalls==1&&!ui.IsOpened,"genuine native close is not immediately reopened");
+  Runtime.ViewingScope=new object();MpScopeFire.Tick();Check(ui.OpenCalls==2&&ui.IsOpened,"re-entering another scope resumes optional Feuer");
+  Runtime.MpScopeFeuer=false;MpScopeFire.Tick();Check(!ui.IsOpened&&!HiddenLayout.Active&&nativeButton.transform.parent==ui.transform,"host disables toggle: auto-opened panel closes and exact button parent restored");Check(Runtime.Viewport==ViewportMode.Synchronized,"disabling MP option preserves report policy");Check((bool)Call("OpeningWrites"),"ordinary native input handlers restored outside forced MP mode");Check((bool)Call("OffStation"),"native MP off-station cleanup resumes outside opted-in mode");
+  Runtime.MpScopeFeuer=true;MpScopeFire.Tick();Check(ui.OpenCalls==3,"host can re-enable display in same station");Bridge.RestrictedScopes=false;MpScopeFire.Tick();Check(!ui.IsOpened&&!HiddenLayout.Active,"last shared-boat peer leaves or MP permits panel: automatic display goes away");
+  // Return to normal click-to-open behavior; already-open panels are retained.
+  ui.OpenProbe=null;ui.Open(true,0,1,false);Bridge.RestrictedScopes=true;MpScopeFire.Tick();int closes=ui.CloseCalls;Bridge.RestrictedScopes=false;MpScopeFire.Tick();Check(ui.IsOpened&&ui.CloseCalls==closes,"panel opened by the player is not closed on returning to normal mode");
+  Bridge.RestrictedScopes=true;MpScopeFire.Tick();Runtime.ViewingScope=null;Runtime.ViewingStation=false;MpScopeFire.Tick();Check(!HiddenLayout.Active&&nativeButton.transform.parent==ui.transform,"leaving scopes restores original control hierarchy");
+  Runtime.MpScopeFeuer=false;Runtime.ViewingStation=true;Runtime.Viewport=ViewportMode.Hidden;NativePresentation.Refresh(ui);Check(HiddenLayout.Active&&ui.IsOpened,"solo Hidden Reports retains normal player-opened Feuer-only layout");MpScopeFire.Release();NativePresentation.Restore();
+  foreach(var method in h.Attempts)Check(method.DeclaringType==typeof(PinguUboatMultiplayer.MpStations)||method.DeclaringType==typeof(UBOAT.Game.UI.Periscope.TorpedoLaunchersUI),"adapter hook never targets native physical TDC/tube fire levers: "+method.Name);
+  Console.WriteLine("PASS: "+count+" MP scope Feuer assertions (actual adapter, layout and presentation; independent MP/native fixtures, no live network).");return count;
  }
 }

@@ -121,6 +121,7 @@ public static class Checks
         var previousProtocol=(byte[])payload.Clone();previousProtocol[3]=(byte)'2';Bad(()=>Roundtrip(previousProtocol),"TRC2 snapshot refused by new companion");
         foreach(float bad in new[]{float.NaN,float.PositiveInfinity,0f,.5f,.75f,14.1f}){var d=new Preparation{Depth=bad};Check(!d.Valid(),"invalid launch depth "+bad);}
         foreach(float depth in new[]{1f,1.25f,4f,14f}){var d=new Preparation{Depth=depth,DepthOverride=true};Check(d.Valid(),"valid launch depth "+depth);state.Tubes[0].Settings=d;var q=Roundtrip(Wire.Encode(state));Check(q.Tubes[0].Settings.Depth==depth&&q.Tubes[0].Settings.DepthOverride,"depth wire roundtrip "+depth);}
+        state.MpScopeFeuer=true;Check(Roundtrip(Wire.Encode(state)).MpScopeFeuer,"MP Feuer host opt-in travels in snapshot");state.MpScopeFeuer=false;Check(!Roundtrip(Wire.Encode(state)).MpScopeFeuer,"MP Feuer opt-out travels in snapshot");
         state.Access=RoomAccess.AllEditable;state.Viewport=ViewportMode.Hidden;var modes=Roundtrip(Wire.Encode(state));Check(modes.Access==RoomAccess.AllEditable&&modes.Viewport==ViewportMode.Hidden,"host UI modes roundtrip");
         state.Access=(RoomAccess)3;Bad(()=>Roundtrip(Wire.Encode(state)),"invalid room mode rejected");state.Access=RoomAccess.CurrentCompartment;
         state.Viewport=(ViewportMode)3;Bad(()=>Roundtrip(Wire.Encode(state)),"invalid viewport mode rejected");
