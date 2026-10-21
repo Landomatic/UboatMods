@@ -11,7 +11,14 @@ namespace Landomatic.TorpedoRoom
     {
         static MethodInfo setString,setBool,save,refresh;
         static FieldInfo settingsPane;
-        static bool checkedTypes,pending;
+        static bool checkedTypes,pending,clearCleanup;
+        // Dusty's ExternalRows persists every bool, then ExternalMods.ApplyStoredValues
+        // calls its setter again at startup. A one-shot action must not replay it.
+        internal static bool RestoringSettings
+        {
+            get {var frames=new System.Diagnostics.StackTrace(false).GetFrames();if(frames!=null)foreach(var frame in frames){var m=frame.GetMethod();if(m!=null&&m.Name=="ApplyStoredValues"&&m.DeclaringType!=null&&m.DeclaringType.FullName=="DustysCommunityPatch.Core.ExternalMods")return true;}return false;}
+        }
+        internal static void ResetCleanupFlag(){clearCleanup=true;}
         static void Find()
         {
             if(checkedTypes)return;checkedTypes=true;
@@ -34,6 +41,11 @@ namespace Landomatic.TorpedoRoom
         }
         internal static void Tick()
         {
+            if(clearCleanup){
+                clearCleanup=false;Find();
+                try{if(setBool!=null){setBool.Invoke(null,new object[]{"Torpedo_Room.removeRecords",false});if(save!=null)save.Invoke(null,null);}}
+                catch(Exception e){Debug.LogWarning("[TorpedoRoom] Cleanup checkbox reset: "+e.Message);}
+            }
             if(!pending)return;pending=false;
             try{
                 if(refresh==null)return;

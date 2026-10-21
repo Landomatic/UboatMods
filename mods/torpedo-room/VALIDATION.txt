@@ -1,6 +1,9 @@
-0.1.25-beta TEST BUILD VALIDATION
+0.1.26-beta TEST BUILD VALIDATION
 Full supplied UBOAT/Unity/Harmony reference compilation passed.
-No new offline runtime tests run; inherited .24 checks have not been re-run against this draft.
-Cleanup-result overlay not tested in Unity or multiplayer. Player/source ZIPs built; archive integrity verified.
-Owner .24 test: cleanup log reported completion; subsequent disabled-mod log loaded the boat without TorpedoRoom initialization or missing-type deserialization errors. This validates that tested save, not every possible save. Raw logs not committed.
-Remaining: live overlay sizing, cursor/button input, duplicate-status cleanup, failures and host/client handling; queued navigation, Feuer layout and depth-reference investigation remain unresolved.
+352 targeted offline assertions passed: 316 existing stock/depth/viewing/MP/outline/tooltip/badge assertions plus 36 new cleanup/navigation/ordnance checks invoking actual MenuIntegration, CleanupFeedback and RoomExit with independently authored doubles.
+New checks cover restored-callback identification, next-update persistence reset without touching other settings/repeated writes, confirmation versus Cancel/OK, completion lifecycle, original exit-button identity/listener/interactable state, transform restoration, and full interface/input handoff before native ordnance opens without reopening on return.
+Updated badge assertions check exact Tube Depth ≤ 18m / Tube Depth ≤ 50m wording.
+Source inspection: supplied Dusty ExternalRows bool adapter calls safeSet then persists v; ExternalMods.ApplyStoredValues calls saved setting setters. Native BasicManualModeUI owns leaveStationButton and OnLeaveStation invokes the existing controller exit path.
+No live .26 Unity rendering, tooltip/input, station exit, save cleanup or multiplayer test. Offline doubles do not validate the game's actual event system. No claim that aft physical inner-door/flood mismatch after reload is fixed.
+Owner .24 cleanup and disabled-mod load were successful on one tested save.
+Launch rules unchanged. Feuer clipping retune and physical-door investigation remain queued.

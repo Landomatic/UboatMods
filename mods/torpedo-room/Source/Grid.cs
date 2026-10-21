@@ -31,7 +31,7 @@ namespace Landomatic.TorpedoRoom
         GameObject gridRoot,gridPanel,editor,programRow,programFields,tubeViewport,dockBackdrop,clickBlocker;
         internal static bool RoomEditorOpen {get{return Instance!=null&&Instance.open&&Config.Interface&&Active&&!Loading&&CurrentGroup!=null;}}
         Text banner,notice,selectionLabel,policyLabel,pistolLabel,programLabel,turnLabel,pinLabel,closeLabel,applyLabel,applyState;
-        Button pistolButton,programButton,turnButton,pinButton,applyButton;
+        Button pistolButton,programButton,turnButton,pinButton,applyButton,ordnanceButton;
         InputField distanceInput,angleInput,depthInput,speedInput;
         Text angleLabel,runLabel;
         PreparationDial depthDial,runDial,headingDial,speedDial;
@@ -50,14 +50,17 @@ namespace Landomatic.TorpedoRoom
         static readonly Color Brass=new Color(.86f,.74f,.46f),Paper=new Color(.91f,.91f,.83f),Dark=new Color(.08f,.13f,.14f,.98f);
         void UpdateGrid()
         {
-            bool takeover=Config.Interface&&Active&&!Loading&&Ship!=null&&CurrentGroup!=null;
+            if(OrdnanceOpen){if(roomTakeover||open||CurrentGroup!=null)DismissRoom();return;}
+            bool pressed=Shortcut.Pressed(true);
+            bool atStation=Config.Interface&&Active&&!Loading&&Ship!=null&&CurrentGroup!=null;
+            if(atStation&&roomDismissed&&pressed)roomDismissed=false;
+            bool takeover=atStation&&!roomDismissed;
             if(takeover!=roomTakeover||Time.unscaledTime>=nextRoomMask){roomTakeover=takeover;nextRoomMask=Time.unscaledTime+.2f;if(takeover)NativeSkin.Capture();NativePresentation.Room(takeover);}
             if(!takeover){NativeSkin.RestoreStations();CloseGrid();if(gridRoot!=null)gridRoot.SetActive(false);return;}
-            bool pressed=Shortcut.Pressed(true);
             if(!gridReady&&!TryBuildGrid(pressed))return;
             if(!gridRoot.activeSelf)gridRoot.SetActive(true);
             UiScale.Match(roomCanvas,roomScaler);
-            NativeSkin.RoomStations(gridRoot.transform);
+            NativeSkin.RoomStations(gridRoot.transform);NativeSkin.RoomExit(gridRoot.transform);
             if(open&&gridGroup!=CurrentGroup)CloseGrid();
             if(pressed){if(open)CloseGrid();else TryOpenGrid();}
             if(open&&Input.GetKeyDown(KeyCode.Escape))CloseGrid();
@@ -124,6 +127,7 @@ namespace Landomatic.TorpedoRoom
             gridPanel.SetActive(expanded);
             if(clickBlocker!=null)clickBlocker.SetActive(expanded);
             dockBackdrop.SetActive(!expanded);
+            if(ordnanceButton!=null)ordnanceButton.gameObject.SetActive(!expanded);
             var rect=(RectTransform)tubeViewport.transform;
             rect.SetParent(expanded?gridPanel.transform:gridRoot.transform,false);
             rect.localScale=expanded?Vector3.one:new Vector3(1.1f,1.1f,1);
@@ -193,7 +197,7 @@ namespace Landomatic.TorpedoRoom
         void RenderGrid()
         {
             RefreshSelectedWeapon();
-            closeLabel.text="Close · "+Shortcut.Display;notice.text=Notice;var speedWarning=TdcSpeed.Warning();if(speedWarning.Length>0)notice.text=speedWarning;
+            closeLabel.text="Back · "+Shortcut.Display;notice.text=Notice;var speedWarning=TdcSpeed.Warning();if(speedWarning.Length>0)notice.text=speedWarning;
             foreach(var dial in dialVisuals)NativeSkin.SizeDial(dial);
             var tubes=Ship.TorpedoLaunchers;
             var visible=new List<int>();for(int i=0;i<tubes.Length;i++)if(tubes[i]!=null&&(Access!=RoomAccess.CurrentCompartment||tubes[i].Group==CurrentGroup))visible.Add(i);
@@ -289,11 +293,14 @@ namespace Landomatic.TorpedoRoom
             var dr=dock.rectTransform;dr.anchorMin=dr.anchorMax=dr.pivot=new Vector2(.5f,0);dr.anchoredPosition=new Vector2(0,28);dr.sizeDelta=new Vector2(930,252);dr.localScale=new Vector3(1.1f,1.1f,1);
             banner=GridLabel(gridRoot.transform,"Hint","",0,0,950,30,13);var br=(RectTransform)banner.transform;br.anchorMin=br.anchorMax=new Vector2(.5f,0);br.pivot=new Vector2(.5f,0);br.anchoredPosition=new Vector2(0,10);
             banner.alignment=TextAnchor.MiddleCenter;
+            Text ordnanceLabel;
+            ordnanceButton=GridButton(gridRoot.transform,"Manage Ordnance","Manage Ordnance",0,0,210,42,OpenOrdnance,out ordnanceLabel);ordnanceLabel.fontSize=17;
+            var ordnanceRect=(RectTransform)ordnanceButton.transform;ordnanceRect.anchorMin=ordnanceRect.anchorMax=ordnanceRect.pivot=Vector2.zero;ordnanceRect.anchoredPosition=new Vector2(16,16);
             var bg=GridPanel(gridRoot.transform,"Preparation",new Color(.035f,.05f,.045f,.94f));gridPanel=bg.gameObject;
             var rect=bg.rectTransform;rect.anchorMin=rect.anchorMax=new Vector2(.5f,.5f);rect.pivot=new Vector2(.5f,.5f);rect.anchoredPosition=Vector2.zero;rect.sizeDelta=new Vector2(950,604);rect.localScale=new Vector3(1.1f,1.1f,1);
             if(NativeSkin.Board!=null){bg.sprite=NativeSkin.Board;bg.color=new Color(1,1,1,.94f);bg.type=Image.Type.Sliced;}
             GridLabel(rect,"Title","TORPEDO ROOM",16,8,600,28,18).color=Brass;
-            Text unused;GridButton(rect,"Close","",760,8,174,26,CloseGrid,out closeLabel);
+            Text unused;GridButton(rect,"Back","Back",760,8,174,26,CloseGrid,out closeLabel);
             var viewport=GridPanel(rect,"Tube viewport",Color.clear);Place(viewport.rectTransform,16,46,918,240);viewport.gameObject.AddComponent<RectMask2D>();
             tubeViewport=viewport.gameObject;
             cardsContent=(RectTransform)new GameObject("Tube graphics",typeof(RectTransform)).transform;cardsContent.SetParent(viewport.transform,false);Place(cardsContent,0,0,918,236);

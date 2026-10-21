@@ -45,7 +45,7 @@ namespace Landomatic.TorpedoRoom
                 Bridge.Install(harmony);
                 StockUi.Install(harmony);
                 ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.25-beta loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                Debug.Log("[TorpedoRoom] 0.1.26-beta loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");
@@ -124,6 +124,18 @@ namespace Landomatic.TorpedoRoom
             return -1;
         }
         internal static void Say(string text){Notice=text;Debug.Log("[TorpedoRoom] "+text);}
+        internal static void RequestCleanup()
+        {
+            MenuIntegration.ResetCleanupFlag();
+            if(MenuIntegration.RestoringSettings){Debug.Log("[TorpedoRoom] Ignored restored uninstall checkbox; cleanup requires confirmation.");return;}
+            if(Bridge.IsRemote){CleanupFeedback.Show("Cleanup unavailable","Only the host can remove saved preparation records.");return;}
+            if(Loading||Ship==null){CleanupFeedback.Show("Cleanup unavailable","Load your game and wait for saving or loading to finish, then try again.");return;}
+            var boat=Ship;string epoch=Epoch;
+            CleanupFeedback.Confirm("Remove preparation records?","This removes this save's per-torpedo preparation records and disables preparation. It does not uninstall the mod or save the game.\n\nAfter cleanup, save to a NEW slot before exiting and disabling Torpedo Room in the launcher. Keep the original save.",()=>{
+                if(!ReferenceEquals(boat,Ship)||epoch!=Epoch||Loading){CleanupFeedback.Show("Cleanup cancelled","The loaded game changed. Open cleanup again from the game you want to clean.");return;}
+                RemoveRecords();
+            });
+        }
         internal static void RemoveRecords()
         {
             if(Bridge.IsRemote){CleanupFeedback.Show("Cleanup unavailable", "Only the host can remove saved preparation records.");return;}
@@ -174,7 +186,7 @@ namespace Landomatic.TorpedoRoom
             try {
                 Bridge.Tick();MpScopeFire.Tick();MenuIntegration.Tick();DepthControl.RestoreSteps();SpeedControl.RestoreBounds();
                 var ship=Ship;
-                if(ship!=lastShip){NativePresentation.Room(false);roomTakeover=false;nextRoomMask=0;lastShip=ship;pending.Clear();Epoch=Guid.NewGuid().ToString("N");ResetGrid();Bridge.ResetWorld();LaunchAuthority.Clear();TdcSpeed.Reset();}
+                if(ship!=lastShip){roomDismissed=false;NativePresentation.Room(false);roomTakeover=false;nextRoomMask=0;lastShip=ship;pending.Clear();Epoch=Guid.NewGuid().ToString("N");ResetGrid();Bridge.ResetWorld();LaunchAuthority.Clear();TdcSpeed.Reset();}
                 if(Loading||ship==null){NativeSkin.RestoreStations();NativePresentation.Room(false);roomTakeover=false;CloseGrid();if(gridRoot!=null)gridRoot.SetActive(false);LaunchAuthority.Clear();if(ship==null)TdcSpeed.Reset();return;}
                 UpdateGrid();
                 if(Time.unscaledTime<nextScan)return;nextScan=Time.unscaledTime+0.2f;

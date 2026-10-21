@@ -1,0 +1,1 @@
+Run actual MenuIntegration.cs, CleanupFeedback.cs RoomExit.cs and RoomOrdnance.cs against Fixture.cs using the Roslyn/coreclr offline runner. Fixtures emulate Dusty restoration/persistence and Unity UI only; no live rendering/event-system or save test. 36 assertions. Supplied third-party source is inspected locally but not copied into this archive.

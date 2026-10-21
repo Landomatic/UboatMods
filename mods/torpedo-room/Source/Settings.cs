@@ -53,11 +53,11 @@ namespace Landomatic.TorpedoRoom
         public static void Save()
         {
             string tmp=PathName+".tmp";
-            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.25-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
+            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.26-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
                 +"# UNINSTALL: clean saved preparation records BEFORE disabling the launcher mod.\n"
                 +"# 1. Keep Torpedo Room enabled in the launcher and load your saved game.\n"
                 +"# 2. Dusty's settings > Other Mods > Torpedo Room:\n"
-                +"#    click Remove preparation records before uninstalling.\n"
+                +"#    click Remove preparation records before uninstalling, then confirm.\n"
                 +"# 3. Check the completion/error message. The one-shot checkbox returns to OFF.\n"
                 +"#    Older builds confirm completion in output_log.txt:\n"
                 +"#    Preparation disabled and records removed.\n"
@@ -130,7 +130,7 @@ namespace Landomatic.TorpedoRoom
                 Bool("speedSync","Bidirectional torpedo / TDC speed sync","Host rule, independent of report visibility. ON: applied tube speeds update the computer and TDC speed inputs update tube preparations. OFF: keep independent settings and player mistakes. Never blocks firing.",()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.SpeedSync:Config.SpeedSync,v=>Config.SpeedSync=v,true),
                 Bool("allowStraightRun","Allow straight running for FAT/LUT","Host rule. Allows a per-torpedo Straight / Pattern choice. Stored pattern settings are retained. This is a gameplay bypass, not a simulated historical pin; no failure mechanic is added.",
                     ()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.AllowLockout:Config.AllowLockout,v=>Config.AllowLockout=v,true),
-                new object[]{"bool","removeRecords","Remove preparation records before uninstalling","One-shot host/single-player cleanup. Shows a completion or error message with the number of records removed. Checkbox always returns to OFF. After successful cleanup, save to a NEW slot before exiting and disabling the mod in the launcher.",new Func<object>(()=>false),new Action<object>(v=>{if(Convert.ToBoolean(v))Runtime.RemoveRecords();})},
+                new object[]{"bool","removeRecords","Remove preparation records before uninstalling","One-shot host/single-player cleanup. Requires confirmation, then shows completion or error with the number of records removed. Restored checkbox values never perform cleanup. Checkbox always returns to OFF. After successful cleanup, save to a NEW slot before exiting and disabling the mod in the launcher.",new Func<object>(()=>false),new Action<object>(v=>{if(Convert.ToBoolean(v))Runtime.RequestCleanup();})},
                 Bool("dry","Require dry tube for pistol preparation","Host rule. Drain first; flooding, unloading or leaving the station cancels pending work. Does not animate withdrawal. AZ/MZ is otherwise unrestricted.",()=>EffectivePolicy==PistolPolicy.DryTubePreparation,v=>{if(v)Config.Policy=PistolPolicy.DryTubePreparation;else if(Config.Policy==PistolPolicy.DryTubePreparation)Config.Policy=PistolPolicy.Free;},true),
                     new object[]{"float","delay","Pistol preparation time (game seconds)","Default 30 game seconds. Used only with dry-tube preparation; 0 is instant. FAT/LUT has no delay.",
                     new Func<object>(()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.Delay:Config.Delay),new Action<object>(v=>{

@@ -1,6 +1,6 @@
-0.1.25 TEST BUILD: supplied-reference compilation passed; cleanup feedback awaits in-game testing.
+0.1.26 TEST BUILD: supplied-reference compilation passed; cleanup feedback awaits in-game testing.
 
-TORPEDO ROOM -- 0.1.25 BETA
+TORPEDO ROOM -- 0.1.26 BETA
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
@@ -139,3 +139,13 @@ and native/Happy Torpedo Time hover. Hidden Reports still hides per-tube info.
 This reports the viewing-interface rule; physical tube/TDC levers stay native.
 
 Uninstall cleanup: while your game is loaded, use Remove preparation records before uninstalling in Dusty's Torpedo Room settings. A dismissible result reports completion, record count or failure. OFF is the action's resting state, not proof of completion. After success, save to a NEW slot, exit, disable the mod in the launcher and restart to test that save. Keep the original save; never disable the launcher mod before cleanup and saving.
+
+0.1.26 CHANGES
+The original native Leave position button and its tooltip are retained at the
+lower right in the initial room display and Prep. Prep's Back returns to the
+initial room display and releases its modal input blockade.
+Cleanup requires an explicit confirmation before records are removed. Restored
+Dusty checkbox values are ignored and the persisted action flag resets to OFF.
+Per-tube depth warnings read Tube Depth ≤ 18m / Tube Depth ≤ 50m for T5.
+Launch depth checks and all physical tube/firing behavior are unchanged.
+Manage Ordnance opens native compartment storage from the lower-left initial-display button. It fully closes our interface before opening storage. Closing storage does not reopen Torpedo Room; press T at the tube station to reopen.

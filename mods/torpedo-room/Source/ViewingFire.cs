@@ -31,7 +31,7 @@ namespace Landomatic.TorpedoRoom
         internal static bool DeepPermission(float depth,int floodedSelected,bool allT5)
         {return Preparation.Finite(depth)&&depth>18&&depth<=50&&floodedSelected>0&&allT5;}
         internal static string TubeDepthWarning(float boatDepth,string equipmentKey)
-        {return Preparation.Finite(boatDepth)&&boatDepth>(IsT5(equipmentKey)?50:18)?(IsT5(equipmentKey)?"Launch limit: 50 m":"Launch limit: 18 m"):"";}
+        {return Preparation.Finite(boatDepth)&&boatDepth>(IsT5(equipmentKey)?50:18)?(IsT5(equipmentKey)?"Tube Depth ≤ 50m":"Tube Depth ≤ 18m"):"";}
         static bool HasSelected(out bool allT5)
         {
             allT5=true;bool any=false;var ship=Runtime.Ship;

@@ -1,3 +1,12 @@
+0.1.26-beta — Navigation and uninstall action safety
+- Add lower-left Manage Ordnance button in the initial display, opening native current-compartment storage after fully dismissing this interface. Closing storage does not reopen Torpedo Room; press T at the tubes to reopen.
+- Retain the original native Leave position button, tooltip, listener and interactable state at the room overlay's lower right; restore its original transform on exit/load/disable.
+- Label Prep return action Back, returning to the initial room display.
+- Ignore Dusty's ApplyStoredValues replay for the one-shot cleanup checkbox. Clear its stored Boolean on the following update, after Dusty's wrapper persists the callback value.
+- Require confirmation before cleanup; Cancel changes no records. Confirm rechecks host, loading and loaded-world identity.
+- Use Tube Depth ≤ 18m and Tube Depth ≤ 50m for T5 warnings; no depth-rule changes.
+- Physical aft inner-door/flood mismatch after reload remains unconfirmed; no physical-state manipulation added.
+
 0.1.25-beta — Uninstall cleanup feedback
 - Include uninstall instructions in generated config comments and root UNINSTALL.txt. Existing configs update on their next normal settings save; no migration.
 - Show a persistent, dismissible completion/error overlay with removed-record count and separate-save instructions, including when preparation is disabled.

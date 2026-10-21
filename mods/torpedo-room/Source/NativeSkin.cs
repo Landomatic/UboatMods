@@ -55,6 +55,7 @@ namespace Landomatic.TorpedoRoom
         }
         internal static void RestoreStations()
         {
+            RestoreExit();
             if(stationBar!=null){
                 stationBar.SetParent(stationParent,false);stationBar.anchorMin=stationMin;stationBar.anchorMax=stationMax;stationBar.pivot=stationPivot;
                 stationBar.anchoredPosition=stationPosition;stationBar.sizeDelta=stationSize;

@@ -160,3 +160,15 @@ This build has no new live verification; log/user evidence of firing relates to
 - Save new slot, exit, disable launcher mod, restart and load cleaned save.
 - Confirm config comments on next normal settings save; no migration.
 - Next player package must include root UNINSTALL.txt.
+
+0.1.26 REQUIRED LIVE CHECKS
+- Old Dusty removeRecords=True value at startup: no cleanup popup or action; persisted flag becomes False.
+- In loaded game, click cleanup: confirmation only; Cancel preserves records/preparation.
+- Confirm: completion count/instructions; save new slot and test with launcher mod disabled.
+- Change/load world while confirmation is open: reject stale confirmation.
+- Native Leave position arrow/tooltip visible lower right in initial and Prep displays; normal exit behavior and MP permissions retained.
+- Back returns from Prep without leaving the station; mouse/input restored.
+- Load/disable/station change restores native exit-button transform and avoids duplicates.
+- Exact Tube Depth ≤ 18m / 50m warnings, with existing show/clear thresholds.
+
+- Initial display Manage Ordnance lower-left opens native current-compartment storage. Our grid/editor and input ownership close before inventory opens. Closing inventory does not reopen our UI; T at a tube station explicitly reopens it. Repeat with native inventory opened by other means.

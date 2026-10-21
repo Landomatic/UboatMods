@@ -8,8 +8,9 @@ cleanup has completed and you have saved the cleaned game.
 
 1. Keep Torpedo Room enabled in the launcher. Load your saved game.
 2. Open Dusty's Community Patch settings > Other Mods > Torpedo Room.
-3. Click "Remove preparation records before uninstalling".
-   This one-shot action removes preparation records and disables preparation.
+3. Click "Remove preparation records before uninstalling", then confirm
+   "Remove records". Cancel leaves preparation and records unchanged.
+   Confirmation removes preparation records and disables preparation.
    The checkbox returns to OFF; OFF alone is not proof of completion.
    Check the on-screen completion/error message. In older versions without
    that message, output_log.txt records:

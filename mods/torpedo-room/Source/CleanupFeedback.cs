@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Landomatic. See LICENSE and NOTICE.txt.
 // Source/history: https://github.com/Landomatic/UboatMods
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,9 +11,11 @@ namespace Landomatic.TorpedoRoom
     internal static class CleanupFeedback
     {
         static GameObject root;
-        internal static void Show(string title,string message)
+        internal static void Show(string title,string message){Build(title,message,null);}
+        internal static void Confirm(string title,string message,Action confirm){Build(title,message,confirm);}
+        static void Build(string title,string message,Action confirm)
         {
-            if(root!=null)Object.Destroy(root);
+            if(root!=null)UnityEngine.Object.Destroy(root);
             root=new GameObject("TorpedoRoom.CleanupResult",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));
             root.transform.SetParent(Runtime.Instance.transform,false);
             var canvas=root.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=32760;
@@ -22,9 +25,19 @@ namespace Landomatic.TorpedoRoom
             var panel=Box(shade,"Result",new Color(.08f,.09f,.10f,1));panel.anchorMin=new Vector2(.18f,.17f);panel.anchorMax=new Vector2(.82f,.83f);panel.offsetMin=panel.offsetMax=Vector2.zero;
             Label(panel,"Title",title,new Vector2(.05f,.82f),new Vector2(.95f,.96f),28);
             Label(panel,"Message",message,new Vector2(.05f,.22f),new Vector2(.95f,.80f),22);
-            var button=Box(panel,"OK",new Color(.30f,.25f,.14f,1));button.anchorMin=new Vector2(.36f,.04f);button.anchorMax=new Vector2(.64f,.17f);button.offsetMin=button.offsetMax=Vector2.zero;
-            var b=button.gameObject.AddComponent<Button>();b.targetGraphic=button.GetComponent<Image>();b.onClick.AddListener(()=>{Object.Destroy(root);root=null;});
-            var text=Label(button,"Label","OK",Vector2.zero,Vector2.one,24);text.alignment=TextAlignmentOptions.Center;
+            if(confirm==null)AddButton(panel,"OK",.36f,.64f,()=>{});
+            else {
+                AddButton(panel,"Cancel",.08f,.44f,()=>{});
+                AddButton(panel,"Remove records",.56f,.92f,confirm);
+            }
+
+        }
+        static void AddButton(Transform parent,string title,float left,float right,Action action)
+        {
+            var button=Box(parent,title,new Color(.30f,.25f,.14f,1));button.anchorMin=new Vector2(left,.04f);button.anchorMax=new Vector2(right,.17f);button.offsetMin=button.offsetMax=Vector2.zero;
+            var b=button.gameObject.AddComponent<Button>();b.targetGraphic=button.GetComponent<Image>();
+            b.onClick.AddListener(()=>{var old=root;root=null;if(old!=null){old.SetActive(false);UnityEngine.Object.Destroy(old);}action();});
+            var text=Label(button,"Label",title,Vector2.zero,Vector2.one,24);text.alignment=TextAlignmentOptions.Center;
         }
         static RectTransform Box(Transform parent,string name,Color color)
         {

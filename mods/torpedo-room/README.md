@@ -1,4 +1,4 @@
-0.1.25 TEST BUILD: supplied-reference compilation passed; cleanup feedback awaits in-game testing.
+0.1.26 TEST BUILD: supplied-reference compilation passed; cleanup feedback awaits in-game testing.
 
 # Torpedo Room — Beta 0.1.25
 
@@ -6,7 +6,7 @@ By **Landomatic** · Copyright (c) 2026 Landomatic · [CC BY-NC 4.0](LICENSE)
 
 Local torpedo preparations for first-person and multiplayer station-restricted play.
 
-[Download the clean 0.1.25 player ZIP](../../packages/torpedo-room/0.1.25-beta/TorpedoRoom_v0.1.25-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
+[Download the clean 0.1.25 player ZIP](../../packages/torpedo-room/0.1.26-beta/TorpedoRoom_v0.1.26-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
 
 ## Features
 
@@ -61,7 +61,7 @@ All peers need **.24/TRC9**. The adapter targets supplied MP **1.11.5**. There i
 
 Full supplied-reference compilation and **316 targeted offline assertions passed** for .24: 85 stock/depth, 99 viewing fire/layout, 50 MP display, 35 UI affordance and 32 Feuer tooltip and 15 individual tube report checks. Other prior suites were not re-run. **No new live game/network test was run.** The owner reported .20 periscope firing successful in Read-only and Hidden Reports after fire-control selection/flooding; aft and TDC/bridge firing remain pending. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
 
-The clean player ZIP contains 28 source files and five player/manifest/license files. The [source archive](../../packages/torpedo-room/0.1.25-beta/TorpedoRoom_v0.1.25-beta_source-archive.zip) contains tests and development records. No game assemblies, downloaded upstream source or private diagnostics are bundled. Existing .18 release and prior packages remain unchanged; no release/tag/Workshop publication. Retain assigned Workshop ID/preview when updating the publishing folder.
+The clean player ZIP contains 28 source files and five player/manifest/license files. The [source archive](../../packages/torpedo-room/0.1.26-beta/TorpedoRoom_v0.1.26-beta_source-archive.zip) contains tests and development records. No game assemblies, downloaded upstream source or private diagnostics are bundled. Existing .18 release and prior packages remain unchanged; no release/tag/Workshop publication. Retain assigned Workshop ID/preview when updating the publishing folder.
 
 ## Credits
 
@@ -76,3 +76,13 @@ gain comments on the next normal settings save; no automatic migration is added.
 The .22 owner logs record a Tube V launch audit verified=True but also the whole-panel lockout and half-full flood graphic. This .24 build retains the fix for the depth overlay lockout; the flood graphic issue remains under investigation. No live .24 result is claimed.
 
 Uninstall cleanup: while your game is loaded, use Remove preparation records before uninstalling in Dusty's Torpedo Room settings. A dismissible result reports completion, record count or failure. OFF is the action's resting state, not proof of completion. After success, save to a NEW slot, exit, disable the mod in the launcher and restart to test that save. Keep the original save; never disable the launcher mod before cleanup and saving.
+
+0.1.26 CHANGES
+The original native Leave position button and its tooltip are retained at the
+lower right in the initial room display and Prep. Prep's Back returns to the
+initial room display and releases its modal input blockade.
+Cleanup requires an explicit confirmation before records are removed. Restored
+Dusty checkbox values are ignored and the persisted action flag resets to OFF.
+Per-tube depth warnings read Tube Depth ≤ 18m / Tube Depth ≤ 50m for T5.
+Launch depth checks and all physical tube/firing behavior are unchanged.
+Manage Ordnance opens native compartment storage from the lower-left initial-display button. It fully closes our interface before opening storage. Closing storage does not reopen Torpedo Room; press T at the tube station to reopen.
