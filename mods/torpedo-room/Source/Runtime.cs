@@ -45,7 +45,7 @@ namespace Landomatic.TorpedoRoom
                 Bridge.Install(harmony);
                 StockUi.Install(harmony);
                 ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.21-beta loaded. Feuer-only Hidden Reports; T5 viewing depth exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                Debug.Log("[TorpedoRoom] 0.1.22-beta loaded. Feuer-only Hidden Reports; T5 viewing depth exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");
@@ -288,3 +288,4 @@ namespace Landomatic.TorpedoRoom
         void OnDestroy(){MpScopeFire.Release();NativeSkin.RestoreStations();CloseGrid();NativePresentation.Room(false);NativePresentation.Restore();DepthControl.RestoreSteps(true);SpeedControl.RestoreBounds(true);if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);if(Instance==this)Instance=null;}
     }
 }
+

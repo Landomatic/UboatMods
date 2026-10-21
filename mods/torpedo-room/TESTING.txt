@@ -1,3 +1,20 @@
+0.1.22-beta -- priority live test (NOT RUN here)
+1. Install .22 completely and restart. Check startup log says 0.1.22-beta.
+2. At 30–45 m boat depth, select/flood aft T5 and confirm viewing Feuer available
+   when normal readiness/solution/air permits. Keep the other checked tube dry.
+3. Flood that selected non-T5: deep mixed selection should be blocked. Drain it
+   fully: aft T5 should recover without unchecking tubes or reopening the panel.
+4. Repeat drain/reflood and change selection between firing and confirmation;
+   a newly flooded marked non-T5 must block confirmation. All dry: no shot.
+5. Repeat in Hidden Reports, Read-only and Synchronized. Verify only intended
+   flooded selected tubes fire. No arbitrary tube selection or fallback.
+6. Check no-T5 selection, exactly 50 m, above 50 m, shallow mixed salvos, ordinary
+   readiness/air/station restrictions and direct tube/TDC firing unchanged.
+7. Check .21 higher Feuer at current UI scale. This build keeps its 96-unit
+   position; the reported occlusion came from .20 (28 units). MP all peers .22.
+
+Retained .21 MP regression checklist follows (not live-tested here):
+
 0.1.21-beta -- new live checks (NOT RUN here)
 1. All players install .21/TRC9. In host Torpedo Room settings enable MP: Show
    Feuer when scope tubes are restricted. Keep MP TUBES PANEL AT THE SCOPES OFF.
@@ -88,3 +105,4 @@ Prior .19 regression checklist (retain applicable cases):
 8. Player ZIP must exclude Tests, UPDATE.json, developer docs and workshop drafts.
 This build has no new live verification; log/user evidence of firing relates to
 .18. Cancellation was not traced in that log. Larger mod-stack faults are separate.
+

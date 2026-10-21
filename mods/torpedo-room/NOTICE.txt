@@ -1,4 +1,4 @@
-Torpedo Room 0.1.21 BETA -- Landomatic
+Torpedo Room 0.1.22 BETA -- Landomatic
 Copyright (c) 2026 Landomatic. License: LICENSE (CC BY-NC 4.0).
 Source/history: https://github.com/Landomatic/UboatMods
 Project: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
@@ -51,3 +51,4 @@ No upstream source or game assets are copied into this package. This option
 permits a masked native Feuer-only panel under MP's scope-panel restriction;
 it does not remove MP station access checks, replace host fire dispatch or
 change physical TDC/tube lever code. Native confirmation/readiness remains.
+

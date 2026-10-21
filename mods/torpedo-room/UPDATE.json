@@ -1,27 +1,27 @@
 {
   "schema_version": 1,
   "project": "Torpedo Room",
-  "version": "0.1.21-beta",
-  "prepared_at_utc": "2026-10-21T02:09:20+00:00",
+  "version": "0.1.22-beta",
+  "prepared_at_utc": "2026-10-21T09:07:25+00:00",
   "changes": [
-    "Add default-OFF host MP-only Feuer toggle tied to effective MP scope restriction; auto-display original masked native button at permitted scopes/UZO independently of reports; retain native MP icon hiding/fire dispatch; scoped close cleanup; raise Feuer to 96 canvas units; TRC9 host flag. Clarify config-file comments and Dusty menu help for host setup, solo behavior and peer version requirements; no gameplay/protocol change in this help revision."
+    "Fix T5 viewing-depth exception to count only marked flooded tubes with weapons, matching native candidate counting. Draining a selected non-T5 releases its depth veto; flooding it restores restriction. Recheck confirmation. Preserve marks, native readiness and physical levers; retain .21 raised Feuer and MP host toggle, TRC9."
   ],
   "validation": {
     "compile": "passed",
     "offline": "passed",
     "in_game": "not-run",
     "notes": [
-      "Configuration-help revision: configuration/provider suite re-run (65 checks) and full supplied-game reference compilation passed; unchanged suites retain 864 total offline assertions, including 50 actual MP display-adapter/layout checks and rollback after optional patch failure. Native UI and supplied MP 1.11.5 source paths inspected; no new live rendering, firing or network test. Copyright/license/credits preserved."
+      "Full supplied UBOAT/Unity/Harmony reference compilation passed. 217 targeted offline assertions passed: 85 stock/depth, 82 viewing fire/layout, 50 MP scope display. Other prior suites not re-run. Supplied native readiness/firing IL inspected; no live .22 rendering/firing/network test. Existing copyright/license/credits retained."
     ]
   },
   "known_issues": [
-    "New MP host/client, join/leave, scope/UZO target/station transitions and higher Feuer placement need live testing. Prior .20 periscope Read-only/Hidden firing was reported successful; aft/TDC/bridge tests remain pending. All peers require .21/TRC9; supplied MP 1.11.5 supported. No new release/tag/Workshop publication; retain assigned Workshop ID/preview."
+    "Live T5 mixed-selection drain/reflood recovery and exact fired indices need testing. Higher Feuer and MP option retained from .21; supplied new user log was .20, so neither placement nor MP changes were validated there. No new release/tag/Workshop upload. All peers should use .22/TRC9."
   ],
   "files": [
     {
       "path": "CHANGELOG.txt",
-      "bytes": 22701,
-      "sha256": "47e76a9215e91050b1c4df327f12afe752494f9dca3f90f03517c9334b2ff415"
+      "bytes": 23880,
+      "sha256": "a646c9b852ed591aca54f9ff5cca34047508f4ca5842650e893dd14cc6d6a09b"
     },
     {
       "path": "Docs/History/NOTICE-through-0.1.18.txt",
@@ -40,33 +40,33 @@
     },
     {
       "path": "Manifest.json",
-      "bytes": 446,
-      "sha256": "64fd5d7a92ed208e41f4d9f90a0bbbefeb23be51cda40645e473476123098d06"
+      "bytes": 447,
+      "sha256": "ff17203c8fb09aa2881e6a38e347cc7ded5c02bf8c65ba03eb7546b4e0b8f9d5"
     },
     {
       "path": "NOTICE.txt",
-      "bytes": 3049,
-      "sha256": "493b3e7c2e6d1d19183ba0f3961620b683bc7f41a8275cd09b9e1da814a5cfa0"
+      "bytes": 3050,
+      "sha256": "0af7983b895fa0809ffc38f0452361f915923a7bf5f6cf5f93aca864526b7bbe"
     },
     {
       "path": "PUBLISHING.txt",
-      "bytes": 601,
-      "sha256": "dc3089b598a34d4894e96912d20159a035a2e227d32e606f5221cd92933be9c8"
+      "bytes": 602,
+      "sha256": "99cdf3c6372c37f8fe2284ff518709b7b995143e862d667e739f0a9e8e18ffd8"
     },
     {
       "path": "README.md",
-      "bytes": 5283,
-      "sha256": "e517922012c68f8875c547c4aee4bdfc5a18017af0481b2dab4b11f80690bb51"
+      "bytes": 5849,
+      "sha256": "d28039cac58de2639402a49d75b734d3e44bc5e64900a2d02b4b35ebc5e2a38a"
     },
     {
       "path": "README.txt",
-      "bytes": 6259,
-      "sha256": "dcb1bac54cfacb715902a48c9439e558209966a466b2c5ec372e5bcd0830a333"
+      "bytes": 6509,
+      "sha256": "f47fe6180ed06aadc50e33e627ee10c393a3b8886053ec8e836bc79a97c845ab"
     },
     {
       "path": "ROADMAP.txt",
-      "bytes": 622,
-      "sha256": "216e51d8f0f5d26aaf71ec5fa7999ff7b54ebb128b45942acea247ae78dcb11a"
+      "bytes": 760,
+      "sha256": "add6c058aedace3c459cd2de4ed934553a2acaa2c537f92867244a8b3a99afd2"
     },
     {
       "path": "Source/Bridge.cs",
@@ -135,13 +135,13 @@
     },
     {
       "path": "Source/Runtime.cs",
-      "bytes": 22188,
-      "sha256": "e0873f0f1c6709638cd81636be9bb227b626f450da99eed66f50e8f6d10ad851"
+      "bytes": 22189,
+      "sha256": "47b381226da68d31bec29baf25b524b73b250502bf86a1320a245e5a142a1df4"
     },
     {
       "path": "Source/Settings.cs",
-      "bytes": 15519,
-      "sha256": "56ade7cfea8bd30ecfab8b8ea3c84044d5c2b85aee3837e31a293a380f22118c"
+      "bytes": 15520,
+      "sha256": "d49faef4739c549e46ecc6eecf6cb324fae037aad4522344b4796be65bb4e107"
     },
     {
       "path": "Source/Shortcut.cs",
@@ -190,13 +190,13 @@
     },
     {
       "path": "Source/ViewingFire.cs",
-      "bytes": 6290,
-      "sha256": "96cf41b5e1df0afb9ff57429929049aac24987b0fd0b6c597ffe7b77f1d5c1e0"
+      "bytes": 6614,
+      "sha256": "daddcc335d4eddbcec120c617c26f42133a78293c0a74f97b242ecc65ab17ee7"
     },
     {
       "path": "TESTING.txt",
-      "bytes": 6788,
-      "sha256": "1e35df79fa0c22ed9202012969190306187c36348d786f994c09c874c25234c4"
+      "bytes": 7929,
+      "sha256": "36190cedfbe88823378b5444015b5223a8bfcf97be2c9eb461eabdba091a6603"
     },
     {
       "path": "Tests/BridgeFixture.cs",
@@ -235,8 +235,8 @@
     },
     {
       "path": "Tests/README.txt",
-      "bytes": 390,
-      "sha256": "dd5c7469f73fb0821ae2a9adbbfc6acd6cf67a4629b26ed1cc54cc9a2912656c"
+      "bytes": 236,
+      "sha256": "405b2568b358e305905f9ddf553c845fc5fcae00ae4ffbbd426eccde58297487"
     },
     {
       "path": "Tests/Speed/InfoFixture.cs",
@@ -250,8 +250,8 @@
     },
     {
       "path": "Tests/StockUi/StockUiFixture.cs",
-      "bytes": 50144,
-      "sha256": "d6f881eccbeed2357c52e50b63668d866ff46b7696af715eb72d46d0b76167be"
+      "bytes": 51556,
+      "sha256": "6a8dba383a8b8cce717b2ea0a110d7c4b172aa4d4b642c3063d0259d33c02b35"
     },
     {
       "path": "Tests/Tdc/TdcFixture.cs",
@@ -265,20 +265,20 @@
     },
     {
       "path": "VALIDATION.txt",
-      "bytes": 3809,
-      "sha256": "a31cd2d0f212e7f9657c0379d009b7dc4d3ac26a96dac5d927387097f4bfb4fa"
+      "bytes": 5061,
+      "sha256": "ffda44a7d5c7e2e9bc6901653a4a09e574c496a81a6e0bad94829e150246b12e"
     },
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
-      "bytes": 2982,
-      "sha256": "fb144562fac0eb8ef6fab97a622617c5a9af318cd5f0260a942c0e890bd47e61"
+      "bytes": 3246,
+      "sha256": "e975696725ca19249a16feb356751f8181c3d3326a9af1bfac06457a8a29d189"
     }
   ],
   "artifacts": [
     {
-      "name": "TorpedoRoom_v0.1.21-beta.zip",
-      "bytes": 73947,
-      "sha256": "25ab8f40f6d6a59fc0d9f7160cc2568624a88980b7b715335ba9229cdaf37bec"
+      "name": "TorpedoRoom_v0.1.22-beta.zip",
+      "bytes": 73806,
+      "sha256": "ecb493e6e1015258e6deece36277d8a6c39862c1c2e781f2a8943a3f0b2d3112"
     }
   ]
 }

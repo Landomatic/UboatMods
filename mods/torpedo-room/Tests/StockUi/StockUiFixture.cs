@@ -295,7 +295,12 @@ public static class ViewingChecks {
   ship.Depth=50.01f;Frame(ui);Check(ui.firingBlockade.activeSelf&&!button.interactable&&!(bool)Call("BeforeFire",ui),"exception ends above 50 m");
   ship.Depth=30;ship.Boxes.Selected=2;Frame(ui);Check(ui.firingBlockade.activeSelf&&!button.interactable&&!(bool)Call("BeforeFire",ui),"ordinary torpedo keeps native depth restriction");
   ship.Boxes.Selected=99;Frame(ui);Check(!(bool)Call("BeforeFire",ui),"mixed selected salvo cannot borrow T5 exception");
-  b.IsFlooded=false;Frame(ui);Check(!(bool)Call("BeforeFire",ui),"selected dry non-T5 cannot be flooded into a deep mixed salvo");
+  b.IsFlooded=false;Frame(ui);Check(button.interactable&&!ui.firingBlockade.activeSelf&&(bool)Call("BeforeFire",ui),"draining marked non-T5 restores deep T5 Feuer without deselection");
+  b.IsFlooded=true;Check(!(bool)Call("BeforeFire",ui),"confirmation rejects newly flooded non-T5 before another display frame");
+  Frame(ui);Check(!button.interactable&&ui.firingBlockade.activeSelf,"reflooding marked non-T5 reinstates deep restriction");
+  b.IsFlooded=false;Frame(ui);Check(button.interactable&&(bool)Call("BeforeFire",ui),"second drain recovers without closing the panel");
+  a.IsFlooded=false;Frame(ui);Check(!button.interactable&&!(bool)Call("BeforeFire",ui),"all dry selection cannot borrow deep T5 exception");
+  a.IsFlooded=true;Frame(ui);Check(button.interactable&&(bool)Call("BeforeFire",ui),"reflooded T5 recovers with other selected tube still dry");
   ship.Boxes.Selected=1;Frame(ui);ship.Boxes.Selected=2;Check(!(bool)Call("BeforeFire",ui),"native confirmation rechecks current box selection");
   ship.Boxes.Selected=1;Frame(ui);ship.Depth=5;Frame(ui);Check(!ui.firingBlockade.activeSelf&&button.interactable,"return to shallow depth cannot restore a stale deep mask");
   // Both other policies retain native checkbox selection and native callbacks.
@@ -308,6 +313,12 @@ public static class ViewingChecks {
    button.interactable=false;Check((bool)Call("BeforeFire",ui),"ordinary native callbacks unchanged in "+mode);
   }
   Runtime.Viewport=ViewportMode.ReadOnly;ship.Depth=30;a.IsMarkedForLaunch=true;b.IsMarkedForLaunch=false;Frame(ui);Check(!ui.firingBlockade.activeSelf,"T5 UI depth exception also available in read-only mode");
+  foreach(var mode in new[]{ViewportMode.ReadOnly,ViewportMode.Synchronized}){
+   Runtime.Viewport=mode;a.IsMarkedForLaunch=b.IsMarkedForLaunch=true;b.IsFlooded=true;Frame(ui);
+   Check(ui.firingBlockade.activeSelf&&!(bool)Call("BeforeFire",ui),"flooded mixed selection blocked at depth in "+mode);
+   b.IsFlooded=false;Frame(ui);Check(!ui.firingBlockade.activeSelf&&(bool)Call("BeforeFire",ui)&&a.IsMarkedForLaunch&&b.IsMarkedForLaunch,"drain restores deep T5 without rewriting native marks in "+mode);
+   a.IsFlooded=false;Frame(ui);Check(ui.firingBlockade.activeSelf&&!(bool)Call("BeforeFire",ui),"no flooded candidates has no deep exception in "+mode);a.IsFlooded=true;
+  }
   Runtime.Active=false;Frame(ui);Check(ui.firingBlockade.activeSelf&&!HiddenLayout.Active,"disable restores depth blocker and original UI");Runtime.Active=true;
   Runtime.Viewport=ViewportMode.Hidden;ship.Depth=5;Frame(ui);ui.fireConfirmationPopup.SetActive(true);Call("Closed",ui);Check(!HiddenLayout.Active&&button.transform.parent==originalParent.transform&&ui.fireConfirmationPopup.activeSelf,"closing restores live button/popup without altering native active state");ui.fireConfirmationPopup.SetActive(false);
   Frame(ui);Runtime.Loading=true;Frame(ui);Check(!HiddenLayout.Active,"loading restores detached controls");Runtime.Loading=false;
@@ -359,3 +370,4 @@ public static class MpScopeChecks {
   Console.WriteLine("PASS: "+count+" MP scope Feuer assertions (actual adapter, layout and presentation; independent MP/native fixtures, no live network).");return count;
  }
 }
+

@@ -1,10 +1,10 @@
-# Torpedo Room — Beta 0.1.21
+# Torpedo Room — Beta 0.1.22
 
 By **Landomatic** · Copyright (c) 2026 Landomatic · [CC BY-NC 4.0](LICENSE)
 
 Local torpedo preparations for first-person and multiplayer station-restricted play.
 
-[Download the clean 0.1.21 player ZIP](../../packages/torpedo-room/0.1.21-beta/TorpedoRoom_v0.1.21-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
+[Download the clean 0.1.22 player ZIP](../../packages/torpedo-room/0.1.22-beta/TorpedoRoom_v0.1.22-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
 
 ## Features
 
@@ -31,17 +31,21 @@ Optional Dusty's Community Patch provides the settings menu. Standalone settings
 
 Solo play does not require multiplayer or Community Patch. The supplied multiplayer adapter targets Uboats: Coop Multiplayer **1.11.5 / protocol 54**. All shared-boat players must use this same build (**TRC9**).
 
-## 0.1.21 changes and validation
+## 0.1.22 changes and validation
+
+The T5 viewing-depth exception now checks only marked, flooded tubes containing weapons, matching native launch-candidate counting. A dry/empty checked tube cannot keep a T5 blocked. Flooding a selected non-T5 blocks a deep mixed selection; draining it restores eligibility without deselecting it. Confirmation rechecks live state. Native marks, flooding controls, physical levers and other readiness checks remain unchanged.
+
+Retained from .21:
 
 A separate host opt-in, **MP: Show Feuer when scope tubes are restricted**, defaults OFF. With another synchronized shared-boat player aboard and MP's **TUBES PANEL AT THE SCOPES** OFF, permitted periscopes/UZO automatically show only the original Feuer button and native confirmation. The disabled launcher icon is not needed. This option is independent of Synchronized/Read-only/Hidden Reports, interface presets and speed sync; solo behavior is unchanged. Standalone key: `mpScopeFeuer=True`.
 
 MP's icon disabling stays in effect. The adapter exempts only its UI opening gate and panel closing in two known MP UI cleanup callbacks. Native station entry, firing readiness/confirmation and MP dispatch stay in use; physical TDC/tube lever code is unchanged. Genuine native close is respected; re-enter the scope to resume. Automatically opened panels close when the condition ends; player-opened panels are retained. Feuer is raised above the bottom icons.
 
-All peers need **.21/TRC9**. The adapter targets supplied MP **1.11.5**. There is no config migration, new dependency or custom fire packet. Prior running-depth settings remain 1–14 m in quarter-metre steps, with the separate all-T5 viewing exception through 50 m boat depth.
+All peers need **.22/TRC9**. The adapter targets supplied MP **1.11.5**. There is no config migration, new dependency or custom fire packet. Prior running-depth settings remain 1–14 m in quarter-metre steps, with the separate all-T5 viewing exception through 50 m boat depth.
 
-Full supplied-reference compilation and **864 offline assertions passed**. **No new live game/network test was run.** The owner reported .20 periscope firing successful in Read-only and Hidden Reports after fire-control selection/flooding; aft and TDC/bridge firing remain pending. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
+Full supplied-reference compilation and **217 targeted offline assertions passed** for .22: 85 stock/depth, 82 viewing fire/layout and 50 MP display checks. Other prior suites were not re-run. **No new live game/network test was run.** The owner reported .20 periscope firing successful in Read-only and Hidden Reports after fire-control selection/flooding; aft and TDC/bridge firing remain pending. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
 
-The clean player ZIP contains 25 source files and five player/manifest/license files. The [source archive](../../packages/torpedo-room/0.1.21-beta/TorpedoRoom_v0.1.21-beta_source-archive.zip) contains tests and development records. No game assemblies, downloaded upstream source or private diagnostics are bundled. Existing .18 release and prior packages remain unchanged; no release/tag/Workshop publication. Retain assigned Workshop ID/preview when updating the publishing folder.
+The clean player ZIP contains 25 source files and five player/manifest/license files. The [source archive](../../packages/torpedo-room/0.1.22-beta/TorpedoRoom_v0.1.22-beta_source-archive.zip) contains tests and development records. No game assemblies, downloaded upstream source or private diagnostics are bundled. Existing .18 release and prior packages remain unchanged; no release/tag/Workshop publication. Retain assigned Workshop ID/preview when updating the publishing folder.
 
 ## Credits
 
@@ -49,5 +53,6 @@ Existing [license](LICENSE) and [upstream notices](NOTICE.txt) are retained. Mul
 
 
 Configuration-help revision: generated config and Dusty menu explain both host
-settings, default OFF, solo behavior and .21/TRC9 requirement. Existing configs
+settings, default OFF, solo behavior and .22/TRC9 requirement. Existing configs
 gain comments on the next normal settings save; no automatic migration is added.
+

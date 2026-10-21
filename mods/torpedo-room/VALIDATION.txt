@@ -1,3 +1,21 @@
+0.1.22-beta -- full supplied-game-reference compilation PASSED
+217 targeted assertions PASSED: 85 native UI/depth, 82 viewing fire/layout,
+50 MP scope Feuer. Actual mod classes compiled with independent Unity/native/MP
+fixtures. Other prior suites were not re-run; no claim of a fresh full-suite run.
+Native supplied TorpedoLaunchersUI.GetLauncherStats/Update/DoFire IL inspected:
+native launch candidate count uses marked + flooded + weapon, not dry check marks;
+Update recomputes readiness independently of the 18 m overlay. New tests exercise
+mixed flooded restriction, drain recovery, reflood restriction, repeated recovery,
+all-dry denial, T5 reflood and state changes at confirmation in all report modes.
+Full source compiled against supplied UBOAT/Unity/Harmony assemblies.
+No live .22 firing, Unity rendering, host/client or network test was run here.
+User's supplied log identifies .20, so it does not validate .21 higher Feuer/MP
+option. It reports the mixed-selection/drain failure; no relevant exception appears.
+Copyright/license and upstream credits retained. No config migration, new
+protocol/dependency, release/tag or Workshop publication. TRC9 retained.
+
+Earlier .21 validation record (historical; not a new .22 full-suite result):
+
 0.1.21-beta -- compilation passed; offline passed; new live/MP test NOT RUN
 864 assertions: 278 model/protocol, 40 MP adapter, 32 shortcut, 65 config/provider,
 85 stock/depth, 71 viewing fire/layout, 50 MP scope Feuer, 24 launch authority,
@@ -54,3 +72,4 @@ Configuration-help revision: only Settings.cs explanatory strings and related
 documentation/package hashes changed. Configuration/provider checks re-run and
 full supplied-reference compilation passed; 864 total offline assertions remain.
 No new gameplay or protocol logic; no automatic config migration/rewrite on load.
+

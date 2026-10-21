@@ -1,3 +1,19 @@
+0.1.22-beta -- recover deep T5 viewing fire after draining a mixed selection
+- Count only marked, flooded tubes with weapons for the 18–50 m T5 viewing
+  exception, matching native launch-candidate counting. A dry/empty marked tube
+  no longer keeps the blocker active. Recheck live state at native confirmation.
+- A selected flooded non-T5 still blocks a deep mixed selection; draining it
+  restores T5 eligibility without rewriting native marks or reopening the panel.
+- No change to native flooding, compressed air, solution/readiness, physical
+  tube/TDC levers, gyro relays, salvo timing or MP transport. No blanket depth bypass.
+- Retain .21 higher Feuer position (96 native canvas units), independent MP
+  restricted-scope host toggle and config/Dusty help. Protocol remains TRC9;
+  all shared-boat players should install .22 for consistent behavior.
+- Full supplied-reference compilation and 217 targeted offline checks passed;
+  new recovery tests cover Hidden/Read-only/Synchronized modes and confirmation
+  changes. No live .22 firing/rendering/network test here. Other suites not re-run.
+- Existing copyright, license, attribution and previous archives retained.
+
 0.1.21-beta -- optional MP-only Feuer at restricted scopes/UZO
 - Configuration-help revision: include the host setup/default/solo interaction
   above mpScopeFeuer in generated config and expand Dusty menu descriptions.
@@ -315,3 +331,4 @@ Copyright (c) 2026 Landomatic. License/third-party notices unchanged.
  - Companion protocol TRC2 adds pin flags and host availability; mixed 0.1.0
    and 0.1.1 companion sessions cannot exchange preparation edits. Update all.
  - Compilation and 211 offline assertions passed; no gameplay test performed.
+

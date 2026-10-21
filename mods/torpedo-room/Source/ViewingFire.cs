@@ -34,9 +34,13 @@ namespace Landomatic.TorpedoRoom
         {
             allT5=true;bool any=false;var ship=Runtime.Ship;
             if(ship==null||ship.TorpedoLaunchers==null){allT5=false;return false;}
-            foreach(var tube in ship.TorpedoLaunchers)if(tube!=null&&tube.IsMarkedForLaunch){
-                if(tube.IsFlooded&&tube.Torpedo!=null)any=true;
-                if(tube.Torpedo==null||!IsT5(tube.Torpedo.Data==null?null:tube.Torpedo.Data.Name))allT5=false;
+            // Check the live flooded launch candidates, not every remembered check mark.
+            // A dry/empty marked tube cannot launch; draining an ordinary weapon
+            // must release its depth veto without changing the native selection.
+            // Flooding it again reinstates the veto at Update and confirmation.
+            foreach(var tube in ship.TorpedoLaunchers)if(tube!=null&&tube.IsMarkedForLaunch&&tube.IsFlooded&&tube.Torpedo!=null){
+                any=true;
+                if(!IsT5(tube.Torpedo.Data==null?null:tube.Torpedo.Data.Name))allT5=false;
             }
             return any;
         }
@@ -69,7 +73,7 @@ namespace Landomatic.TorpedoRoom
             var button=Button(__instance);
             if(button!=null&&Hidden&&(!mapped||!selected||Runtime.Ship.Depth>18&&!deep))button.interactable=false;
             NativePresentation.Refresh(__instance);
-            HiddenLayout.Reason=!mapped?"Fire-control selection is unavailable.":!selected?"Select and flood the intended tubes using the native controls.":Runtime.Ship.Depth>18&&!deep?"Viewing-station firing is blocked at this depth. Only an all-T5 selection is permitted down to 50 m.":button!=null&&!button.interactable?"Native firing requirements are not met.":"Fire the flooded tubes selected at the fire-control boxes.";
+            HiddenLayout.Reason=!mapped?"Fire-control selection is unavailable.":!selected?"Select and flood the intended tubes using the native controls.":Runtime.Ship.Depth>18&&!deep?"Viewing-station firing is blocked at this depth. Only flooded T5 launch candidates are permitted down to 50 m.":button!=null&&!button.interactable?"Native firing requirements are not met.":"Fire the flooded tubes selected at the fire-control boxes.";
         }
         static bool BeforeFire(TorpedoLaunchersUI __instance)
         {
@@ -88,3 +92,4 @@ namespace Landomatic.TorpedoRoom
         {if(MpScopeFire.KeepPanel(__instance))return;HiddenLayout.Closed(__instance);if(depthOwner==__instance)RestoreDepthMask();}
     }
 }
+
