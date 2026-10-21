@@ -1,27 +1,27 @@
 {
   "schema_version": 1,
   "project": "Torpedo Room",
-  "version": "0.1.26-beta",
-  "prepared_at_utc": "2026-10-21T23:03:41+00:00",
+  "version": "0.1.27-beta",
+  "prepared_at_utc": "2026-10-21T23:32:32+00:00",
   "changes": [
-    "Preserve native Leave position/tooltip; Prep Back; Manage Ordnance full-close/native-storage handoff without auto-reopen; suppress restored cleanup action and reset its saved flag, add explicit confirmation; exact Tube Depth ≤ 18m / 50m wording with unchanged depth rules."
+    "Recover room display on fresh station entry/fore-aft changes after ordnance, preserve native compartment mask during handoff, place Manage Ordnance in room footer, ASCII Tube Depth <= labels. Retain .26 exit/Back and cleanup safety; no depth or physical-state changes."
   ],
   "validation": {
     "compile": "passed",
     "offline": "passed",
     "in_game": "not-run",
     "notes": [
-      "Full supplied UBOAT/Unity/Harmony reference compilation passed; 352 targeted offline assertions passed: 316 existing and 36 cleanup/navigation/ordnance. ZIP/source/CRCs verified. No live .26 run. Owner verified .24 cleanup/removal on one save."
+      "Full supplied UBOAT/Unity/Harmony reference compilation passed; 365 targeted offline assertions passed: 316 existing and 49 cleanup/navigation/ordnance/handoff. ZIP/source/CRCs verified. No live .27 run. Owner .26 log confirms restored cleanup suppression without a TorpedoRoom exception. Owner verified .24 cleanup/removal on one save."
     ]
   },
   "known_issues": [
-    "Native exit tooltip/input, ordnance station handoff and cleanup need live testing. Aft physical inner-door/flood mismatch remains undiagnosed; no physical-state fix claimed. Feuer clipping retune remains queued. No config migration or config-only cleanup command; no depth-rule changes."
+    "Native layout/input, ordnance station handoff/re-entry and cleanup need live testing. Aft physical inner-door/flood mismatch remains undiagnosed; no physical-state fix claimed. Feuer clipping retune remains queued. No config migration or config-only cleanup command; no depth-rule changes."
   ],
   "files": [
     {
       "path": "CHANGELOG.txt",
-      "bytes": 28370,
-      "sha256": "1226d7cb5770cab863c309e9e4f25896ccec646776a1988fb6d614b9f3e2bd3d"
+      "bytes": 29113,
+      "sha256": "b016b6fd02eb2320eec8c5caa84ebd42ed5782bbebd590cd20e818042bae640f"
     },
     {
       "path": "Docs/History/NOTICE-through-0.1.18.txt",
@@ -41,7 +41,7 @@
     {
       "path": "Manifest.json",
       "bytes": 455,
-      "sha256": "71c2a33015ea96f39a6772d76e6a70dde2160fa891f9caf0be5a81951a3be6a0"
+      "sha256": "37a53d5dfb9b7976feaa2c38d6f3ced7b52ea26cec31b45270afb2ff57c4dfd0"
     },
     {
       "path": "NOTICE.txt",
@@ -55,18 +55,18 @@
     },
     {
       "path": "README.md",
-      "bytes": 8966,
-      "sha256": "cf26f3f155e353c92adc34c038f7e02d79c9e7aae4b2358d13ab53a2c7c18001"
+      "bytes": 9528,
+      "sha256": "189c8801f7b36ce6395766ee3814f3cbdc62762353dc4f6fb07df3bbadfac992"
     },
     {
       "path": "README.txt",
-      "bytes": 9927,
-      "sha256": "0b5fc7e27dcadcd139af9f48440d874b740c918e9bb600566e67a96389acb381"
+      "bytes": 10489,
+      "sha256": "a2f6c8382fac979b47afd7cfaad04ca02d468d3529ff98f718eba1ed17e241de"
     },
     {
       "path": "ROADMAP.txt",
-      "bytes": 2613,
-      "sha256": "6758c470c90aed706415c5f59b1f05140873b34c4848e317f900df4d2ec9544e"
+      "bytes": 2957,
+      "sha256": "263e5d160a48af59d19913ec125f27760d39837584ab95b14fd90222cdfe78a5"
     },
     {
       "path": "Source/Bridge.cs",
@@ -100,8 +100,8 @@
     },
     {
       "path": "Source/Grid.cs",
-      "bytes": 35266,
-      "sha256": "26441ecbf99756e4854ffad45383920eb0a26ec1794ba517e16d6348b306d10b"
+      "bytes": 35644,
+      "sha256": "7f6c06cba462f08c16d9be8de284d5eb3889d66a84fc6b23737ac41b152104bb"
     },
     {
       "path": "Source/HiddenLayout.cs",
@@ -159,19 +159,24 @@
       "sha256": "1fcf18ed9f85c401148d784fd467acf85ec80494d18ed80fb1b7cb47ba9451a3"
     },
     {
+      "path": "Source/RoomHandoff.cs",
+      "bytes": 1529,
+      "sha256": "dcdbc0c93b54256c1b093877eabc50cb9100c2a966816749c56f92238d83c8f8"
+    },
+    {
       "path": "Source/RoomOrdnance.cs",
-      "bytes": 1497,
-      "sha256": "2037d4031b86eb483d904f945a66698633ed5d9a3e398e4ad888280ec65ffbfe"
+      "bytes": 1760,
+      "sha256": "313acb77d5a4f28eaef2278aaab94422cd0937162b0f320e501898a2ede2dc4e"
     },
     {
       "path": "Source/Runtime.cs",
       "bytes": 24429,
-      "sha256": "0b51505249b6dca3022a6803fcd65fb361c0a011f1ca16922cf6777e0ba1e83f"
+      "sha256": "ff98f191486be868340978900e29cfaaefcd5e76697ed173c6b67d40bf6a2107"
     },
     {
       "path": "Source/Settings.cs",
       "bytes": 17188,
-      "sha256": "0b637635b6a62032b2c67db3b9757d921bbe2dbc4426a4db8e23b7be20fb8a8b"
+      "sha256": "56cf97788b129bb26413e20acbcffe08900d3137d8fd773ebec95bfd575db102"
     },
     {
       "path": "Source/Shortcut.cs",
@@ -220,13 +225,13 @@
     },
     {
       "path": "Source/ViewingFire.cs",
-      "bytes": 7232,
-      "sha256": "d7fb5a891df0b878b2fafd6fa0eb5c90a75e04d2821dbe31e671fdbdee2caab0"
+      "bytes": 7230,
+      "sha256": "e83de0473abad1256499090d913cfe4ae385aa5d3aed3c57efcb3cabb525484a"
     },
     {
       "path": "TESTING.txt",
-      "bytes": 12708,
-      "sha256": "bc777e65dc93ee0185e6ac49f5d86610e9a7eee67be4a6a08867099c3b17f686"
+      "bytes": 13284,
+      "sha256": "42a8c20152544a26b61c194c228d7cfc71713cd6b10c0be25223d110ce59f62a"
     },
     {
       "path": "Tests/BridgeFixture.cs",
@@ -265,13 +270,13 @@
     },
     {
       "path": "Tests/NavigationCleanup/Fixture.cs",
-      "bytes": 13014,
-      "sha256": "b20686cc8a926b7f6add8a4a9fcb3097f1e6ec69b5ca31748b524999a0ebaea5"
+      "bytes": 14699,
+      "sha256": "e3efcab21bcd38db630d61984e38773a827681fc2dfac7e9b773230a2f84df4f"
     },
     {
       "path": "Tests/NavigationCleanup/README.txt",
-      "bytes": 351,
-      "sha256": "03f354d301a146729302a95a60c75965d0d76f984f6176a3c3c73955e2ef994f"
+      "bytes": 367,
+      "sha256": "4fa4b43097481ebc3b0943fc399ffbf60f13ae029492f9d6e9f857b3b19338ee"
     },
     {
       "path": "Tests/README.txt",
@@ -290,8 +295,8 @@
     },
     {
       "path": "Tests/StockUi/BadgeWarningFixture.cs",
-      "bytes": 3383,
-      "sha256": "980242e5230fe95bf61a7c88d4bc449541642b024aae781ac47e544fbacba242"
+      "bytes": 3376,
+      "sha256": "a35e83519aaec47b1da2b0d55940124c98596253386826a27962e4692c901cdb"
     },
     {
       "path": "Tests/StockUi/StockUiFixture.cs",
@@ -325,8 +330,8 @@
     },
     {
       "path": "VALIDATION.txt",
-      "bytes": 1458,
-      "sha256": "f717aa44197a6cc8d676a74e63e6d5e946ca70543629a64fc616df23e96922b5"
+      "bytes": 1361,
+      "sha256": "215ddc4b04f92b9b508b0539c0bcbd804dcc7fbb8eb8c849921b6f06ffc1aecd"
     },
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
@@ -336,9 +341,9 @@
   ],
   "artifacts": [
     {
-      "name": "TorpedoRoom_v0.1.26-beta.zip",
-      "bytes": 85792,
-      "sha256": "688d3067604585103f6b17aa3846fb3e895d5f7ab7e7c710bd6799e30c5d7d94"
+      "name": "TorpedoRoom_v0.1.27-beta.zip",
+      "bytes": 87157,
+      "sha256": "4e63409ad1f21645850f22192c3539f698d33ccdafdca8aa79e10e599aa4e8e2"
     }
   ]
 }

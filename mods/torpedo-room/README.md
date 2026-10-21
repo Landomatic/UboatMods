@@ -1,4 +1,4 @@
-0.1.26 TEST BUILD: supplied-reference compilation passed; cleanup feedback awaits in-game testing.
+0.1.27 TEST BUILD: supplied-reference compilation passed; cleanup feedback awaits in-game testing.
 
 # Torpedo Room — Beta 0.1.25
 
@@ -83,6 +83,14 @@ lower right in the initial room display and Prep. Prep's Back returns to the
 initial room display and releases its modal input blockade.
 Cleanup requires an explicit confirmation before records are removed. Restored
 Dusty checkbox values are ignored and the persisted action flag resets to OFF.
-Per-tube depth warnings read Tube Depth ≤ 18m / Tube Depth ≤ 50m for T5.
+Per-tube depth warnings read Tube Depth <= 18m / Tube Depth <= 50m for T5.
 Launch depth checks and all physical tube/firing behavior are unchanged.
-Manage Ordnance opens native compartment storage from the lower-left initial-display button. It fully closes our interface before opening storage. Closing storage does not reopen Torpedo Room; press T at the tube station to reopen.
+Manage Ordnance opens native compartment storage from the lower-left initial-display button. It fully closes our interface before opening storage. Closing storage leaves Torpedo Room closed at the same station. Press T, leave and re-enter the station, or switch fore/aft stations to restore the initial display.
+
+0.1.27 CHANGES
+Manage Ordnance sits in the room display footer rather than at the screen edge.
+The vanilla compartment panel remains hidden throughout the ordnance handoff.
+Closing ordnance leaves the room UI closed at the same station. A fresh entry
+or fore/aft station change restores the initial display; T also reopens it.
+Depth notices use ASCII Tube Depth <= 18m / Tube Depth <= 50m for font support.
+Launch depth rules, firing and physical door/flooding states are unchanged.

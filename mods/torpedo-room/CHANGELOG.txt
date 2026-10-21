@@ -1,3 +1,10 @@
+0.1.27-beta — Ordnance return and display recovery
+- Move Manage Ordnance into the initial room display footer; raise tube cards and extend backing to leave a separate button row.
+- Preserve the vanilla compartment panel mask while opening/using ordnance and while dismissed at the same tube station. Close only our interactive overlay/input, not its replacement mask.
+- Restore initial room display on fresh station entry or fore/aft station changes; T explicitly reopens too. Closing inventory alone does not reopen Prep.
+- Absorb incidental controller changes caused by returning from inventory, avoiding an automatic popup.
+- Replace unsupported depth-label glyph with ASCII Tube Depth <= 18m / Tube Depth <= 50m. No depth-rule change.
+
 0.1.26-beta — Navigation and uninstall action safety
 - Add lower-left Manage Ordnance button in the initial display, opening native current-compartment storage after fully dismissing this interface. Closing storage does not reopen Torpedo Room; press T at the tubes to reopen.
 - Retain the original native Leave position button, tooltip, listener and interactable state at the room overlay's lower right; restore its original transform on exit/load/disable.

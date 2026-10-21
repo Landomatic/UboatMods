@@ -172,3 +172,12 @@ This build has no new live verification; log/user evidence of firing relates to
 - Exact Tube Depth ≤ 18m / 50m warnings, with existing show/clear thresholds.
 
 - Initial display Manage Ordnance lower-left opens native current-compartment storage. Our grid/editor and input ownership close before inventory opens. Closing inventory does not reopen our UI; T at a tube station explicitly reopens it. Repeat with native inventory opened by other means.
+
+0.1.27 SUPERSEDING RETURN CHECKS
+- Manage Ordnance in room footer, with separate button row and no tube/card overlap.
+- Opening ordnance fully closes Prep/input; vanilla tube panel stays hidden.
+- Closing ordnance at same station does not auto-open Prep or reveal vanilla panel.
+- T explicitly reopens; fore-to-aft and aft-to-fore changes restore initial UI.
+- Leave then re-enter the same station restores initial UI.
+- Inventory incidental camera/controller changes do not reopen the overlay.
+- Exact ASCII Tube Depth <= 18m / <= 50m labels; launch restrictions unchanged.

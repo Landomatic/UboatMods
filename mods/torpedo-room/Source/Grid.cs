@@ -50,12 +50,17 @@ namespace Landomatic.TorpedoRoom
         static readonly Color Brass=new Color(.86f,.74f,.46f),Paper=new Color(.91f,.91f,.83f),Dark=new Color(.08f,.13f,.14f,.98f);
         void UpdateGrid()
         {
-            if(OrdnanceOpen){if(roomTakeover||open||CurrentGroup!=null)DismissRoom();return;}
+            var group=CurrentGroup;
+            if(OrdnanceOpen){
+                if(!roomHandoff.Dismissed&&(roomTakeover||open||group!=null))DismissRoom();
+                roomHandoff.CanShow(group,RoomStationToken,true,false);
+                if(roomHandoff.Dismissed&&Config.Interface&&Active&&Time.unscaledTime>=nextRoomMask){nextRoomMask=Time.unscaledTime+.2f;NativeSkin.Capture();NativePresentation.Room(true);}
+                return;
+            }
             bool pressed=Shortcut.Pressed(true);
-            bool atStation=Config.Interface&&Active&&!Loading&&Ship!=null&&CurrentGroup!=null;
-            if(atStation&&roomDismissed&&pressed)roomDismissed=false;
-            bool takeover=atStation&&!roomDismissed;
-            if(takeover!=roomTakeover||Time.unscaledTime>=nextRoomMask){roomTakeover=takeover;nextRoomMask=Time.unscaledTime+.2f;if(takeover)NativeSkin.Capture();NativePresentation.Room(takeover);}
+            bool atStation=Config.Interface&&Active&&!Loading&&Ship!=null&&group!=null;
+            bool takeover=roomHandoff.CanShow(atStation?group:null,RoomStationToken,false,atStation&&pressed)&&atStation;
+            if(takeover!=roomTakeover||Time.unscaledTime>=nextRoomMask){roomTakeover=takeover;nextRoomMask=Time.unscaledTime+.2f;if(atStation)NativeSkin.Capture();NativePresentation.Room(atStation);}
             if(!takeover){NativeSkin.RestoreStations();CloseGrid();if(gridRoot!=null)gridRoot.SetActive(false);return;}
             if(!gridReady&&!TryBuildGrid(pressed))return;
             if(!gridRoot.activeSelf)gridRoot.SetActive(true);
@@ -132,7 +137,7 @@ namespace Landomatic.TorpedoRoom
             rect.SetParent(expanded?gridPanel.transform:gridRoot.transform,false);
             rect.localScale=expanded?Vector3.one:new Vector3(1.1f,1.1f,1);
             if(expanded)Place(rect,16,46,918,240);
-            else {rect.anchorMin=rect.anchorMax=rect.pivot=new Vector2(.5f,0);rect.anchoredPosition=new Vector2(0,34);rect.sizeDelta=new Vector2(918,240);}
+            else {rect.anchorMin=rect.anchorMax=rect.pivot=new Vector2(.5f,0);rect.anchoredPosition=new Vector2(0,84);rect.sizeDelta=new Vector2(918,240);}
             tubeViewport.SetActive(true);
         }
         void ChooseTube(int index)
@@ -290,12 +295,12 @@ namespace Landomatic.TorpedoRoom
             var shield=GridPanel(gridRoot.transform,"Modal input shield",Color.clear);clickBlocker=shield.gameObject;
             var sr=shield.rectTransform;sr.anchorMin=Vector2.zero;sr.anchorMax=Vector2.one;sr.offsetMin=sr.offsetMax=Vector2.zero;clickBlocker.SetActive(false);
             var dock=GridPanel(gridRoot.transform,"Dock backing",new Color(.035f,.05f,.045f,.88f));dockBackdrop=dock.gameObject;dock.raycastTarget=false;
-            var dr=dock.rectTransform;dr.anchorMin=dr.anchorMax=dr.pivot=new Vector2(.5f,0);dr.anchoredPosition=new Vector2(0,28);dr.sizeDelta=new Vector2(930,252);dr.localScale=new Vector3(1.1f,1.1f,1);
+            var dr=dock.rectTransform;dr.anchorMin=dr.anchorMax=dr.pivot=new Vector2(.5f,0);dr.anchoredPosition=new Vector2(0,28);dr.sizeDelta=new Vector2(930,300);dr.localScale=new Vector3(1.1f,1.1f,1);
             banner=GridLabel(gridRoot.transform,"Hint","",0,0,950,30,13);var br=(RectTransform)banner.transform;br.anchorMin=br.anchorMax=new Vector2(.5f,0);br.pivot=new Vector2(.5f,0);br.anchoredPosition=new Vector2(0,10);
             banner.alignment=TextAnchor.MiddleCenter;
             Text ordnanceLabel;
-            ordnanceButton=GridButton(gridRoot.transform,"Manage Ordnance","Manage Ordnance",0,0,210,42,OpenOrdnance,out ordnanceLabel);ordnanceLabel.fontSize=17;
-            var ordnanceRect=(RectTransform)ordnanceButton.transform;ordnanceRect.anchorMin=ordnanceRect.anchorMax=ordnanceRect.pivot=Vector2.zero;ordnanceRect.anchoredPosition=new Vector2(16,16);
+            ordnanceButton=GridButton(gridRoot.transform,"Manage Ordnance","Manage Ordnance",0,0,210,34,OpenOrdnance,out ordnanceLabel);ordnanceLabel.fontSize=17;
+            var ordnanceRect=(RectTransform)ordnanceButton.transform;ordnanceRect.anchorMin=ordnanceRect.anchorMax=new Vector2(.5f,0);ordnanceRect.pivot=Vector2.zero;ordnanceRect.anchoredPosition=new Vector2(-495,38);
             var bg=GridPanel(gridRoot.transform,"Preparation",new Color(.035f,.05f,.045f,.94f));gridPanel=bg.gameObject;
             var rect=bg.rectTransform;rect.anchorMin=rect.anchorMax=new Vector2(.5f,.5f);rect.pivot=new Vector2(.5f,.5f);rect.anchoredPosition=Vector2.zero;rect.sizeDelta=new Vector2(950,604);rect.localScale=new Vector3(1.1f,1.1f,1);
             if(NativeSkin.Board!=null){bg.sprite=NativeSkin.Board;bg.color=new Color(1,1,1,.94f);bg.type=Image.Type.Sliced;}

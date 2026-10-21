@@ -14,3 +14,5 @@ Implemented native Leave position relocation/restore, Prep Back label, exact Tub
 Still queued: Manage Ordnance and complete room-interface closure/exclusivity when opened; Feuer layout retune. Aft physical inner-door/flood discrepancy needs a screenshot/session log to diagnose. No depth-rule change requested.
 
 .26 scope update: Manage Ordnance lower-left button and full-close/exclusive handoff are now implemented and offline-tested. Closing native storage does not reopen the room interface. Press T at a tube station to reopen. Earlier queued ordnance notes are superseded.
+
+.27 status: fixes .26 ordnance dismissal latch across station visits, keeps vanilla panel mask during handoff, moves Manage Ordnance into the initial footer, uses ASCII <= depth labels. These supersede earlier notes requiring T as the only reopening path. Live confirmation pending; physical aft-door discrepancy and Feuer layout remain open.
