@@ -47,3 +47,7 @@ The clean player ZIP contains 25 source files and five player/manifest/license f
 
 Existing [license](LICENSE) and [upstream notices](NOTICE.txt) are retained. Multiplayer compatibility credit: **Pingu565, Kugler and Dusty**. Thanks to Dusty for the optional settings interface. UBOAT, Unity, Harmony and third-party assets remain their respective owners' work. No game assemblies/assets, upstream mod sources, raw private logs or saves are distributed here.
 
+
+Configuration-help revision: generated config and Dusty menu explain both host
+settings, default OFF, solo behavior and .21/TRC9 requirement. Existing configs
+gain comments on the next normal settings save; no automatic migration is added.

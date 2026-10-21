@@ -1,4 +1,7 @@
 0.1.21-beta -- optional MP-only Feuer at restricted scopes/UZO
+- Configuration-help revision: include the host setup/default/solo interaction
+  above mpScopeFeuer in generated config and expand Dusty menu descriptions.
+  No gameplay or protocol change; existing configs gain comments on normal save.
 - Add host opt-in MP: Show Feuer when scope tubes are restricted (OFF default),
   independent of report visibility, interface presets and TDC speed sync.
 - Activate only when MP 1.11.5 reports its effective scope-panel restriction:

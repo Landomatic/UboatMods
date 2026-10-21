@@ -93,3 +93,7 @@ periscope firing in Read-only and Hidden Reports after fire-control selection
 and compartment flooding. Aft and TDC/bridge firing remain pending. Test the new
 host option with both host/client, join/leave, all report modes, target lock
 changes and station switches. Larger-stack compatibility remains ongoing.
+
+Configuration-help revision: generated config and Dusty menu explain both host
+settings, default OFF, solo behavior and .21/TRC9 requirement. Existing configs
+gain comments on the next normal settings save; no automatic migration is added.

@@ -49,3 +49,8 @@ Clean player ZIP: 25 Source files + five player/manifest/license files only.
 Source archive retains Tests/history/docs/hashes, with no reference DLLs,
 downloaded upstream source, private logs, saves or live configs. Copyright,
 license terms and existing credits unchanged.
+
+Configuration-help revision: only Settings.cs explanatory strings and related
+documentation/package hashes changed. Configuration/provider checks re-run and
+full supplied-reference compilation passed; 864 total offline assertions remain.
+No new gameplay or protocol logic; no automatic config migration/rewrite on load.
