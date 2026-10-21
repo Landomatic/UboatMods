@@ -1,10 +1,12 @@
-# Torpedo Room — Beta 0.1.24
+DRAFT 0.1.25 SOURCE: compiled only; no .25 player package or live test yet.
+
+# Torpedo Room — Beta 0.1.25
 
 By **Landomatic** · Copyright (c) 2026 Landomatic · [CC BY-NC 4.0](LICENSE)
 
 Local torpedo preparations for first-person and multiplayer station-restricted play.
 
-[Download the clean 0.1.24 player ZIP](../../packages/torpedo-room/0.1.24-beta/TorpedoRoom_v0.1.24-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
+[Download the clean 0.1.25 player ZIP](../../packages/torpedo-room/0.1.25-beta/TorpedoRoom_v0.1.25-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
 
 ## Features
 
@@ -31,7 +33,7 @@ Optional Dusty's Community Patch provides the settings menu. Standalone settings
 
 Solo play does not require multiplayer or Community Patch. The supplied multiplayer adapter targets Uboats: Coop Multiplayer **1.11.5 / protocol 54**. All shared-boat players must use this same build (**TRC9**).
 
-## 0.1.24 changes and validation
+## 0.1.25 changes and validation
 
 Hovering depth-restricted Feuer now explains: **Too deep** This works in Synchronized, Read-only, Hidden Reports and optional MP-only Feuer. The message updates during hover when depth/selection changes, without enabling firing. Hidden Reports retains its other selection/readiness hints.
 
@@ -59,7 +61,7 @@ All peers need **.24/TRC9**. The adapter targets supplied MP **1.11.5**. There i
 
 Full supplied-reference compilation and **316 targeted offline assertions passed** for .24: 85 stock/depth, 99 viewing fire/layout, 50 MP display, 35 UI affordance and 32 Feuer tooltip and 15 individual tube report checks. Other prior suites were not re-run. **No new live game/network test was run.** The owner reported .20 periscope firing successful in Read-only and Hidden Reports after fire-control selection/flooding; aft and TDC/bridge firing remain pending. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
 
-The clean player ZIP contains 28 source files and five player/manifest/license files. The [source archive](../../packages/torpedo-room/0.1.24-beta/TorpedoRoom_v0.1.24-beta_source-archive.zip) contains tests and development records. No game assemblies, downloaded upstream source or private diagnostics are bundled. Existing .18 release and prior packages remain unchanged; no release/tag/Workshop publication. Retain assigned Workshop ID/preview when updating the publishing folder.
+The clean player ZIP contains 28 source files and five player/manifest/license files. The [source archive](../../packages/torpedo-room/0.1.25-beta/TorpedoRoom_v0.1.25-beta_source-archive.zip) contains tests and development records. No game assemblies, downloaded upstream source or private diagnostics are bundled. Existing .18 release and prior packages remain unchanged; no release/tag/Workshop publication. Retain assigned Workshop ID/preview when updating the publishing folder.
 
 ## Credits
 
@@ -72,3 +74,5 @@ gain comments on the next normal settings save; no automatic migration is added.
 
 
 The .22 owner logs record a Tube V launch audit verified=True but also the whole-panel lockout and half-full flood graphic. This .24 build retains the fix for the depth overlay lockout; the flood graphic issue remains under investigation. No live .24 result is claimed.
+
+Uninstall cleanup: while your game is loaded, use Remove preparation records before uninstalling in Dusty's Torpedo Room settings. A dismissible result reports completion, record count or failure. OFF is the action's resting state, not proof of completion. After success, save to a NEW slot, exit, disable the mod in the launcher and restart to test that save. Keep the original save; never disable the launcher mod before cleanup and saving.

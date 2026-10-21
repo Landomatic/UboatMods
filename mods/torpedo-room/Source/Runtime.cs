@@ -45,7 +45,7 @@ namespace Landomatic.TorpedoRoom
                 Bridge.Install(harmony);
                 StockUi.Install(harmony);
                 ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.24-beta loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                Debug.Log("[TorpedoRoom] 0.1.25-beta loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");
@@ -126,12 +126,22 @@ namespace Landomatic.TorpedoRoom
         internal static void Say(string text){Notice=text;Debug.Log("[TorpedoRoom] "+text);}
         internal static void RemoveRecords()
         {
-            if(Bridge.IsRemote){Say("Only the host can remove saved preparation records.");return;}
-            Config.Enabled=false;pending.Clear();
-            foreach(var item in Resources.FindObjectsOfTypeAll<StoredTorpedo>()){
-                var status=Status(item,false);if(status!=null)item.RemoveStatus(status);
+            if(Bridge.IsRemote){CleanupFeedback.Show("Cleanup unavailable", "Only the host can remove saved preparation records.");return;}
+            if(Loading || Ship==null){CleanupFeedback.Show("Cleanup unavailable", "Load your game and wait for saving or loading to finish, then try again.");return;}
+            int removed=0;
+            try {
+                Config.Enabled=false;pending.Clear();
+                foreach(var item in Resources.FindObjectsOfTypeAll<StoredTorpedo>()){
+                    PreparationStatus status;
+                    while((status=Status(item,false))!=null){item.RemoveStatus(status);removed++;}
+                }
+                Config.Save();MenuIntegration.Publish();
+                string message="Removed "+removed+" preparation record(s). Preparation is now disabled.\n\nSave your game to a NEW slot before exiting. Then disable Torpedo Room in the launcher and restart. Keep your original save.\n\nThe cleanup checkbox returns to OFF. This action does not save the game for you.";
+                Say(message);CleanupFeedback.Show("Cleanup complete",message);
+            } catch(Exception e){
+                string message="Cleanup could not finish. Removed "+removed+" record(s) before the error. Keep Torpedo Room enabled in the launcher. Do not use this save for uninstalling.\n\n"+e.Message;
+                Say(message);Debug.LogException(e);CleanupFeedback.Show("Cleanup failed",message);
             }
-            Say("Preparation disabled and records removed. Save separately before uninstalling this test mod.");
         }
         internal static bool MarkedHasProgram()
         {var ship=Ship;if(ship==null||ship.TorpedoLaunchers==null)return false;foreach(var tube in ship.TorpedoLaunchers)if(tube!=null&&tube.IsMarkedForLaunch){var missile=Missile(tube.Torpedo);if(missile!=null&&missile.ProgramType!=Torpedo.TorpedoProgramType.None)return true;}return false;}

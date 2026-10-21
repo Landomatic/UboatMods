@@ -1,3 +1,9 @@
+0.1.25-beta — Uninstall cleanup feedback
+- Include uninstall instructions in generated config comments and root UNINSTALL.txt. Existing configs update on their next normal settings save; no migration.
+- Show a persistent, dismissible completion/error overlay with removed-record count and separate-save instructions, including when preparation is disabled.
+- Reject cleanup during save/load, without a loaded boat, or on MP clients. Remove duplicate preparation records too.
+- Cleanup no longer uses the generic settings rollback handler; failures report partial removal and advise keeping the launcher mod enabled.
+
 0.1.24-beta -- brief Feuer and individual tube-depth explanations
 - Wording revision: Feuer hover says Too deep; tube warning says Launch limit:
   18 m (50 m for T5), shown only above that weapon limit and cleared within it.

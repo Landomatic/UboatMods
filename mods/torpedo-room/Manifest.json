@@ -1,6 +1,6 @@
 {
   "name": "Torpedo Room",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "description": "Torpedo Room Beta: optional host-controlled Feuer-only access at MP-restricted scopes/UZO, per-tube preparations and configurable reports. Source: https://github.com/Landomatic/UboatMods",
   "author": "Landomatic",
   "supportedGameVersions": [

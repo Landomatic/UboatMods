@@ -1,4 +1,6 @@
-TORPEDO ROOM -- 0.1.24 BETA
+DRAFT 0.1.25 SOURCE: compiled only; no .25 player package or live test yet.
+
+TORPEDO ROOM -- 0.1.25 BETA
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
@@ -135,3 +137,5 @@ when boat depth exceeds its viewing-interface limit (18 m; T5 through 50 m).
 Updates even if that tube is dry or unchecked; preserves the existing report
 and native/Happy Torpedo Time hover. Hidden Reports still hides per-tube info.
 This reports the viewing-interface rule; physical tube/TDC levers stay native.
+
+Uninstall cleanup: while your game is loaded, use Remove preparation records before uninstalling in Dusty's Torpedo Room settings. A dismissible result reports completion, record count or failure. OFF is the action's resting state, not proof of completion. After success, save to a NEW slot, exit, disable the mod in the launcher and restart to test that save. Keep the original save; never disable the launcher mod before cleanup and saving.

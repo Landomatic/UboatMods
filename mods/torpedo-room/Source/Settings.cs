@@ -53,7 +53,24 @@ namespace Landomatic.TorpedoRoom
         public static void Save()
         {
             string tmp=PathName+".tmp";
-            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.24-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
+            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.25-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
+                +"# UNINSTALL: clean saved preparation records BEFORE disabling the launcher mod.\n"
+                +"# 1. Keep Torpedo Room enabled in the launcher and load your saved game.\n"
+                +"# 2. Dusty's settings > Other Mods > Torpedo Room:\n"
+                +"#    click Remove preparation records before uninstalling.\n"
+                +"# 3. Check the completion/error message. The one-shot checkbox returns to OFF.\n"
+                +"#    Older builds confirm completion in output_log.txt:\n"
+                +"#    Preparation disabled and records removed.\n"
+                +"# 4. Leave preparation disabled. Save normally to a NEW slot; keep the original.\n"
+                +"#    Cleanup does not save the game for you.\n"
+                +"# 5. Exit completely, disable Torpedo Room in the launcher, restart and test\n"
+                +"#    the cleaned save. In multiplayer, the host performs cleanup and saving.\n"
+                +"# enabled=False and deleting this file DO NOT remove saved records.\n"
+                +"# No config-only cleanup command exists; Dusty's menu is required for cleanup.\n"
+                +"# If necessary, enable Dusty's Community Patch temporarily for cleanup.\n"
+                +"# If a save fails with the mod disabled, re-enable it, restart and clean first.\n"
+                +"# Full instructions: UNINSTALL.txt in the Torpedo Room mod folder.\n"
+                +"#\n"
                 +"# MP-only Feuer display: host opt-in, OFF by default.\n"
                 +"# Host: set MP's TUBES PANEL AT THE SCOPES to OFF (scope_tubes=false),\n"
                 +"# then enable mpScopeFeuer below. With another synchronized shared-boat\n"
@@ -113,7 +130,7 @@ namespace Landomatic.TorpedoRoom
                 Bool("speedSync","Bidirectional torpedo / TDC speed sync","Host rule, independent of report visibility. ON: applied tube speeds update the computer and TDC speed inputs update tube preparations. OFF: keep independent settings and player mistakes. Never blocks firing.",()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.SpeedSync:Config.SpeedSync,v=>Config.SpeedSync=v,true),
                 Bool("allowStraightRun","Allow straight running for FAT/LUT","Host rule. Allows a per-torpedo Straight / Pattern choice. Stored pattern settings are retained. This is a gameplay bypass, not a simulated historical pin; no failure mechanic is added.",
                     ()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.AllowLockout:Config.AllowLockout,v=>Config.AllowLockout=v,true),
-                Bool("removeRecords","Remove preparation records before uninstalling","One-shot host/single-player cleanup. Disables this mod and removes its records from torpedoes. Then save to a separate slot before uninstalling. Checkbox returns to OFF.",()=>false,v=>{if(v)Runtime.RemoveRecords();},true),
+                new object[]{"bool","removeRecords","Remove preparation records before uninstalling","One-shot host/single-player cleanup. Shows a completion or error message with the number of records removed. Checkbox always returns to OFF. After successful cleanup, save to a NEW slot before exiting and disabling the mod in the launcher.",new Func<object>(()=>false),new Action<object>(v=>{if(Convert.ToBoolean(v))Runtime.RemoveRecords();})},
                 Bool("dry","Require dry tube for pistol preparation","Host rule. Drain first; flooding, unloading or leaving the station cancels pending work. Does not animate withdrawal. AZ/MZ is otherwise unrestricted.",()=>EffectivePolicy==PistolPolicy.DryTubePreparation,v=>{if(v)Config.Policy=PistolPolicy.DryTubePreparation;else if(Config.Policy==PistolPolicy.DryTubePreparation)Config.Policy=PistolPolicy.Free;},true),
                     new object[]{"float","delay","Pistol preparation time (game seconds)","Default 30 game seconds. Used only with dry-tube preparation; 0 is instant. FAT/LUT has no delay.",
                     new Func<object>(()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.Delay:Config.Delay),new Action<object>(v=>{

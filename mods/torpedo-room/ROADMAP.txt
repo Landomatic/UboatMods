@@ -1,2 +1,8 @@
-0.1.24 ready for live test: depth-disabled Feuer hover explanation in all report modes; retains .23 outline and T5 UI recovery.
+0.1.25 ready for live test: depth-disabled Feuer hover explanation in all report modes; retains .23 outline and T5 UI recovery.
 Queued: Manage Ordnance lower left, Leave Station lower right, Prep Back control, exclusive native ordnance display; multi-tube Prep editing; native flood graphic investigation.
+
+Next package must include root UNINSTALL.txt (in addition to LICENSE/NOTICE/README/CHANGELOG), and Source/Settings.cs config comments. Prepared in .25 draft; not yet delivered or game-tested.
+
+ Dismissible completion/failure message with removed-record count, preparation disabled status and new-save-before-launcher-disable instructions. Checkbox remains a one-shot action resting at OFF. Draft implementation in patch025 compiles against supplied references; not packaged, published or game-tested. Owner testing existing .24 cleanup first.
+
+Confirmed vanilla reference 20261021144636_1.jpg: restore native lower-right Leave position control and its hover tooltip at torpedo stations. Preserve native exit behavior. Owner reports clean uninstall after preparation-record cleanup; disabled-session log has no TorpedoRoom load or missing-type deserialization errors. Current enabled=False config alone does not remove saved preparation records; no config-only cleanup exists yet.

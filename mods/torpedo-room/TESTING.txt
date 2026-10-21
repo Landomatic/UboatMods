@@ -150,3 +150,13 @@ Prior .19 regression checklist (retain applicable cases):
 This build has no new live verification; log/user evidence of firing relates to
 .18. Cancellation was not traced in that log. Larger mod-stack faults are separate.
 
+
+.25 draft cleanup feedback checks to perform:
+- Loaded solo/host: cleanup shows count and new-save instructions; checkbox remains OFF.
+- Message stays visible after preparation is disabled and dismisses via OK.
+- Repeated cleanup reports zero records without re-enabling preparation.
+- Main menu/loading/saving/client cleanup is refused with visible explanation.
+- Failure reports partial removal and advises keeping launcher mod enabled.
+- Save new slot, exit, disable launcher mod, restart and load cleaned save.
+- Confirm config comments on next normal settings save; no migration.
+- Next player package must include root UNINSTALL.txt.

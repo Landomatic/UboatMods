@@ -1,27 +1,27 @@
 {
   "schema_version": 1,
   "project": "Torpedo Room",
-  "version": "0.1.24-beta",
-  "prepared_at_utc": "2026-10-21T20:21:28+00:00",
+  "version": "0.1.25-beta-draft",
+  "prepared_at_utc": "2026-10-21T22:15:53+00:00",
   "changes": [
-    "Add Too deep hover on depth-restricted native Feuer in all report modes, including Hidden/MP Feuer. Update while hovered; preserve other Hidden readiness hints. Append Launch limit: 18 m / 50 m for T5 to existing per-tube depth/FAT/LUT reports using individual viewing limits, without replacing vanilla/HTT hover; keep reports hidden under Hidden Reports. No firing-rule change; retain .23 features, TRC9 and Workshop item 3823181610."
+    "Draft cleanup completion/error overlay with removed-record count, host/load guards and separate-save instructions; generated config uninstall comments and root UNINSTALL.txt; record queued navigation and cleanup test findings. No player package or release."
   ],
   "validation": {
     "compile": "passed",
-    "offline": "passed",
+    "offline": "not-run",
     "in_game": "not-run",
     "notes": [
-      "Full supplied UBOAT/Unity/Harmony reference compilation passed. 316 targeted offline assertions passed: 85 stock/depth, 99 viewing fire/layout, 50 MP display, 35 UI affordance, 32 Feuer tooltip, 15 individual tube reports. Actual classes with independent fixtures; other prior suites not re-run. No live .24 event-system/rendering/firing/network test. Copyright/license/credits retained."
+      "Full supplied-reference compilation passed. Owner verified .24 cleanup and subsequent boat load with mod disabled; .25 overlay not live-tested. Existing .24 package archives remain unchanged."
     ]
   },
   "known_issues": [
-    "Live disabled-button hover, badge text sizing/clipping, UI scale, firing and MP host/client regressions need testing. Native half-full flood graphic remains under investigation, not claimed fixed. Queued ordnance, Leave Station, Prep Back and exclusivity controls are not implemented here. No config migration, new protocol, new release/tag or Workshop upload."
+    "Navigation restoration, Feuer layout and depth-reference investigation remain queued. No config-only uninstall command. No .25 ZIP generated."
   ],
   "files": [
     {
       "path": "CHANGELOG.txt",
-      "bytes": 26715,
-      "sha256": "d7215737ddd1bccc89e129296fb51fcfa5ecd1e9ea3589cf0552204d56c4f6ff"
+      "bytes": 27334,
+      "sha256": "b49fa737247b8e5ebcc95db4c2b1cdc8f9841b803b09c303ed2ce9f2772f9852"
     },
     {
       "path": "Docs/History/NOTICE-through-0.1.18.txt",
@@ -41,7 +41,7 @@
     {
       "path": "Manifest.json",
       "bytes": 455,
-      "sha256": "4930bc8f029edb28d33a98cfd96f9f1d6d64e589aa4281b5eb7d7c85ff3d5730"
+      "sha256": "0d0a9069d38e3b884e9af09432b5a2fc121f447cb8e4d28238ebf9e67ba6b4ab"
     },
     {
       "path": "NOTICE.txt",
@@ -55,23 +55,28 @@
     },
     {
       "path": "README.md",
-      "bytes": 7651,
-      "sha256": "780ca721775830e4cc711747f6e93df3dd2c56beb8a60d63a7e30cc24d159a6f"
+      "bytes": 8172,
+      "sha256": "7528f55fc2c21934c2adcc6343a3b0bc6c15193415f0d1879b0dc6421eda6945"
     },
     {
       "path": "README.txt",
-      "bytes": 8612,
-      "sha256": "df42df76182709e5aa3d8df0769581e3002a5cfcb3032abd2c3a811325c9d156"
+      "bytes": 9133,
+      "sha256": "eaaa28e2ebfba4f242eae482d6a96e7e4cf6c1e85b12a18bbdaf6adc7d219bc7"
     },
     {
       "path": "ROADMAP.txt",
-      "bytes": 306,
-      "sha256": "7484eea1249381b4c930715409ce76e864ba03bec1098de8285b5a99253912b4"
+      "bytes": 1287,
+      "sha256": "4435565ddfc57a7804014326fbbdd698ac2cbbabc78a3869969b21f95a8ca485"
     },
     {
       "path": "Source/Bridge.cs",
       "bytes": 14246,
       "sha256": "e5a183c9817edaebe6d0db28e8b2c230757b6d54dd540c440f2638b00be07238"
+    },
+    {
+      "path": "Source/CleanupFeedback.cs",
+      "bytes": 2968,
+      "sha256": "02aba311e26bf1dca617dec4cad60dac5e4dab905072c8ab000c48317ac14c9a"
     },
     {
       "path": "Source/DepthControl.cs",
@@ -150,13 +155,13 @@
     },
     {
       "path": "Source/Runtime.cs",
-      "bytes": 22205,
-      "sha256": "8ec2710f9dc6465fd2a2d3346810a39f42664c84803e2fbbba2e31368c401b05"
+      "bytes": 23217,
+      "sha256": "c7b6b4f12ac07090f70f713a577e06e83ed08a7d78f190d1ed944592b1505cc0"
     },
     {
       "path": "Source/Settings.cs",
-      "bytes": 15520,
-      "sha256": "3a926c0505cd48e51c8feb954ed7e224df06cf51d9626d92e4b777545b0e747e"
+      "bytes": 17107,
+      "sha256": "8171cc1a711666f4199f0b7b69f504f3d9bffae56545ec89dc9bb4b491b9f23b"
     },
     {
       "path": "Source/Shortcut.cs",
@@ -210,8 +215,8 @@
     },
     {
       "path": "TESTING.txt",
-      "bytes": 10997,
-      "sha256": "35b68719d22c3c37f6f1c94b7069eda3b6daa2c67cda80da36362011c2c6b65c"
+      "bytes": 11638,
+      "sha256": "b13161f99090bf9f069e379d3e6fe8e24de6d97fab77e1bd17be38f27084778d"
     },
     {
       "path": "Tests/BridgeFixture.cs",
@@ -294,9 +299,14 @@
       "sha256": "8a3563a6d2a2b374820b5e54786ef6ebb5af33c2481a65de9ea462a7d5d9874b"
     },
     {
+      "path": "UNINSTALL.txt",
+      "bytes": 1947,
+      "sha256": "6cd9075522524ebda9eec3a439a66c7dc7c6fc4b61bb51637b0fe0966c4b3e23"
+    },
+    {
       "path": "VALIDATION.txt",
-      "bytes": 8634,
-      "sha256": "402833f945d3e86ed51998e477a7c07c46873c22ebcd1834f08ac451ea7d4c14"
+      "bytes": 729,
+      "sha256": "ec5d4734396470770d643b8ee37af8660b2372f0132c9be266b743b91638f061"
     },
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
@@ -304,11 +314,5 @@
       "sha256": "a8b0ff2188611483a330d6c1d821a546c150e9f8dc273695a478442452fc15b0"
     }
   ],
-  "artifacts": [
-    {
-      "name": "TorpedoRoom_v0.1.24-beta.zip",
-      "bytes": 78767,
-      "sha256": "a3145a1b30d7aa4732ac370aaea9f21f93dd3d12d2317cbbdaa8b28cd0f8c472"
-    }
-  ]
+  "artifacts": []
 }
