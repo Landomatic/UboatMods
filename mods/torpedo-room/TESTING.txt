@@ -1,3 +1,90 @@
+0.1.22-beta -- priority live test (NOT RUN here)
+1. Install .22 completely and restart. Check startup log says 0.1.22-beta.
+2. At 30–45 m boat depth, select/flood aft T5 and confirm viewing Feuer available
+   when normal readiness/solution/air permits. Keep the other checked tube dry.
+3. Flood that selected non-T5: deep mixed selection should be blocked. Drain it
+   fully: aft T5 should recover without unchecking tubes or reopening the panel.
+4. Repeat drain/reflood and change selection between firing and confirmation;
+   a newly flooded marked non-T5 must block confirmation. All dry: no shot.
+5. Repeat in Hidden Reports, Read-only and Synchronized. Verify only intended
+   flooded selected tubes fire. No arbitrary tube selection or fallback.
+6. Check no-T5 selection, exactly 50 m, above 50 m, shallow mixed salvos, ordinary
+   readiness/air/station restrictions and direct tube/TDC firing unchanged.
+7. Check .21 higher Feuer at current UI scale. This build keeps its 96-unit
+   position; the reported occlusion came from .20 (28 units). MP all peers .22.
+
+Retained .21 MP regression checklist follows (not live-tested here):
+
+0.1.21-beta -- new live checks (NOT RUN here)
+1. All players install .21/TRC9. In host Torpedo Room settings enable MP: Show
+   Feuer when scope tubes are restricted. Keep MP TUBES PANEL AT THE SCOPES OFF.
+   Default of our separate toggle is OFF. It does not change report presets.
+2. Solo/no other shared-boat peer: no automatic Feuer; normal click-to-open
+   Hidden Reports and Read-only/Synchronized behavior remains. Own-boat-only
+   peers must not trigger the feature. MP panel ON must not trigger it either.
+3. Join a shared boat and synchronize. At each permitted scope/UZO, Feuer alone
+   should appear without using the disabled launcher icon. No tube/control or
+   background flash on first opening. Repeat with host report mode Synchronized,
+   Read-only and Hidden: this separate option should behave identically there.
+4. Both host and client: selected flooded tubes at fire-control boxes, then fire
+   from Feuer. Verify exact selected/fired indices, native order/timing, existing
+   gyro/manual targeting and unsynchronized-gyro confirmation. No fallback tube.
+   Check invalid/missing selection, dry/empty/busy tubes, mixed speeds, T5 depth
+   exception and all normal compressed-air/depth/station requirements.
+5. Another player joins/leaves, host switches option OFF/ON, MP panel restriction
+   OFF/ON, change scope/UZO/TDC/tube/FPP stations, reconnect, load, disable master.
+   No orphaned control/popup; normal hierarchy and report policy restored. A panel
+   opened by the player before the condition is retained when it ends.
+6. Genuine native close (escape/dialog/lost aim) should be respected; re-enter
+   the scope to resume. Exercise lock/unlock/target changes and native UI dialogs.
+   Confirm no repeated reopening or unexpected target/spread/source changes.
+7. MP role/station restrictions remain. Check TDC and direct tube physical levers
+   unchanged, including manual firing independent of fire-control-box selection.
+8. Check higher Feuer at default/min/max UI scale and bottom icons, including solo
+   Hidden Reports. No No Spoilers restoration/patch is introduced.
+
+Prior .20 acceptance/regression list follows. Owner reports .20 periscope firing
+successful in Read-only and Hidden Reports, with correct fire-control selection
+and compartment flooding. Aft and TDC/bridge tests remain pending, not inferred.
+
+0.1.20-beta -- live acceptance checklist (NOT RUN here)
+All peers must install this same .20 build; TRC8 format remains unchanged.
+1. Hidden Reports in solo and shared-boat host/client: only Feuer remains in the
+   native launch panel. No rings, tube numbers/marks, spread, depth, speed, gyro
+   labels or background. Preserve native station shortcuts. Hover Feuer for hint.
+   Check default/min/max game UI scale, both fullscreen/windowed if used.
+2. Switch Hidden/Read-only/Synchronized repeatedly at all available scopes, UZO
+   and TDC viewing panel; close/reopen, leave station, disable, load/save and
+   change hull. Exact native controls return; no floating button/popup/hint,
+   invisible clickable controls or duplicated firing listener remains.
+3. Hidden fire linking: ready bow and stern simultaneously, select one receiver
+   and tube/salvo at native boxes. Leave stale opposite marks before switching
+   mode. Verify only intended flooded tubes fire. Cover dry/empty/busy tubes,
+   no selection, one/many ready, each supported native salvo preset, opposite
+   receiver, live selector changes and repeated presses during an active salvo.
+   Native order/timing and gyro/spread must remain. Record selected/fired indices.
+4. Keep native gyro-unsynchronized confirmation: cancel and confirm; change
+   selector/depth before confirming and verify the final eligible selection.
+   Never auto-confirm. Native station permissions and compressed air still apply.
+5. Read-only/Synchronized retain native checkbox/dispersion/firing behavior.
+   Physical TDC lever and direct fore/aft tube levers stay native in ALL three
+   modes. Direct tube levers still fire that flooded tube independently of box
+   selection and TDC operator. Mixed speed/TDC mismatch does not add a mod hold.
+6. Running depth: room and native controls accept 1, 1.25, 1.5 ... 14 m; reject
+   .5/.75 and >14 typed edits. Recheck apply, native display, actual launched
+   TargetDepth, host/client snapshot and save/reload. Existing out-of-range
+   weapon records clamp when the host reads them; no user config is migrated.
+7. T5 and stock prototype: flooded selected T5 viewing fire at 18, just above18,
+   30 and exactly50 m boat depth. Above50, ordinary weapons, mixed selected set,
+   selected dry non-T5 and unrecognized type names keep native viewing block.
+   Test fresh controls and native confirmation after live selector changes.
+   Weapon running depth stays <=14 m. Physical levers are unchanged, including
+   the engine's existing ability to launch directly at greater boat depth.
+8. Check host/client firing and cancellation, role/station restrictions, MP's
+   native fire dispatch and reconnects. No new MP bypass or custom fire packet.
+   Only native supplied-code paths/offline fixtures have been checked so far.
+
+Prior .19 regression checklist (retain applicable cases):
 0.1.19-beta -- focused live checks
 1. Replace Source, restart; verify 0.1.19-beta and TRC8. All MP peers same build.
 2. Open Tube 1 editor, alter a draft, unload/reload or replace the torpedo. New
@@ -18,3 +105,4 @@
 8. Player ZIP must exclude Tests, UPDATE.json, developer docs and workshop drafts.
 This build has no new live verification; log/user evidence of firing relates to
 .18. Cancellation was not traced in that log. Larger mod-stack faults are separate.
+

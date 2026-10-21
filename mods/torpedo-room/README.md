@@ -1,15 +1,15 @@
-# Torpedo Room — Beta 0.1.19
+# Torpedo Room — Beta 0.1.22
 
 By **Landomatic** · Copyright (c) 2026 Landomatic · [CC BY-NC 4.0](LICENSE)
 
 Local torpedo preparations for first-person and multiplayer station-restricted play.
 
-[Download the clean 0.1.19 player ZIP](../../packages/torpedo-room/0.1.19-beta/TorpedoRoom_v0.1.19-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
+[Download the clean 0.1.22 player ZIP](../../packages/torpedo-room/0.1.22-beta/TorpedoRoom_v0.1.22-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
 
 ## Features
 
 - Per-tube depth, supported speed, game-selectable AZ/MZ, and FAT/LUT programming.
-- Full-circle LUT heading and depth in 0.25 m steps from 0.5 to 14 m.
+- Full-circle LUT heading and depth in 0.25 m steps from 1 to 14 m.
 - Native torpedo artwork, game UI scaling, larger dials and a prominent Apply button.
 - Current compartment only, read-only opposite tubes, or all tubes editable.
 - Synchronized, read-only or hidden viewing-station reports.
@@ -29,18 +29,30 @@ Physical flooding, draining and firing controls remain in use. The mod adds no m
 
 Optional Dusty's Community Patch provides the settings menu. Standalone settings use `TorpedoRoomConfig.txt` in UBOAT's persistent-data folder (`AppData/LocalLow/Deep Water Studio/UBOAT` on Windows). No configuration migration is performed.
 
-Solo play does not require multiplayer or Community Patch. The supplied multiplayer adapter targets Uboats: Coop Multiplayer **1.11.5 / protocol 54**. All shared-boat players must use this same build (**TRC8**).
+Solo play does not require multiplayer or Community Patch. The supplied multiplayer adapter targets Uboats: Coop Multiplayer **1.11.5 / protocol 54**. All shared-boat players must use this same build (**TRC9**).
 
-## 0.1.19 changes and validation
+## 0.1.22 changes and validation
 
-Remove the loaded-pistol lock; rebind the editor when a tube's weapon/preparation identity changes, preserve same-weapon drafts through temporary busy states, refresh native icons on state changes and clear empty-tube artwork. Busy/read-only controls now show a specific reason. Diagnostic state entries log transitions only. No native task, tube state or firing permission is forced.
+The T5 viewing-depth exception now checks only marked, flooded tubes containing weapons, matching native launch-candidate counting. A dry/empty checked tube cannot keep a T5 blocked. Flooding a selected non-T5 blocks a deep mixed selection; draining it restores eligibility without deselecting it. Confirmation rechecks live state. Native marks, flooding controls, physical levers and other readiness checks remain unchanged.
 
-The player ZIP contains 22 runtime source files and five player/manifest/license files. Tests, development markdown, publication drafts and historical notes stay in the [separate source archive](../../packages/torpedo-room/0.1.19-beta/TorpedoRoom_v0.1.19-beta_source-archive.zip). The player and source ZIPs are byte-for-byte the delivered .19 packages.
+Retained from .21:
 
-Full compilation against supplied game references and **723 offline assertions passed**. Live verification of this revision remains pending. The earlier .18 user test reported successful TDC, UZO and direct-tube firing; other periscopes and TDC speed-button cycles remain pending. A cancelled-maintenance explanation for transient read-only/artwork behavior was not established by the log. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
+A separate host opt-in, **MP: Show Feuer when scope tubes are restricted**, defaults OFF. With another synchronized shared-boat player aboard and MP's **TUBES PANEL AT THE SCOPES** OFF, permitted periscopes/UZO automatically show only the original Feuer button and native confirmation. The disabled launcher icon is not needed. This option is independent of Synchronized/Read-only/Hidden Reports, interface presets and speed sync; solo behavior is unchanged. Standalone key: `mpScopeFeuer=True`.
 
-The initial .18 GitHub release and its assets remain unchanged. This .19 update archives source and packages; it does not create a new release/tag or upload to Workshop. When updating the existing Workshop item, retain its assigned `steamFileId` and preview; its ID has not been supplied, so the generic manifest keeps `0`.
+MP's icon disabling stays in effect. The adapter exempts only its UI opening gate and panel closing in two known MP UI cleanup callbacks. Native station entry, firing readiness/confirmation and MP dispatch stay in use; physical TDC/tube lever code is unchanged. Genuine native close is respected; re-enter the scope to resume. Automatically opened panels close when the condition ends; player-opened panels are retained. Feuer is raised above the bottom icons.
+
+All peers need **.22/TRC9**. The adapter targets supplied MP **1.11.5**. There is no config migration, new dependency or custom fire packet. Prior running-depth settings remain 1–14 m in quarter-metre steps, with the separate all-T5 viewing exception through 50 m boat depth.
+
+Full supplied-reference compilation and **217 targeted offline assertions passed** for .22: 85 stock/depth, 82 viewing fire/layout and 50 MP display checks. Other prior suites were not re-run. **No new live game/network test was run.** The owner reported .20 periscope firing successful in Read-only and Hidden Reports after fire-control selection/flooding; aft and TDC/bridge firing remain pending. See [TESTING.txt](TESTING.txt) and [VALIDATION.txt](VALIDATION.txt).
+
+The clean player ZIP contains 25 source files and five player/manifest/license files. The [source archive](../../packages/torpedo-room/0.1.22-beta/TorpedoRoom_v0.1.22-beta_source-archive.zip) contains tests and development records. No game assemblies, downloaded upstream source or private diagnostics are bundled. Existing .18 release and prior packages remain unchanged; no release/tag/Workshop publication. Retain assigned Workshop ID/preview when updating the publishing folder.
 
 ## Credits
 
 Existing [license](LICENSE) and [upstream notices](NOTICE.txt) are retained. Multiplayer compatibility credit: **Pingu565, Kugler and Dusty**. Thanks to Dusty for the optional settings interface. UBOAT, Unity, Harmony and third-party assets remain their respective owners' work. No game assemblies/assets, upstream mod sources, raw private logs or saves are distributed here.
+
+
+Configuration-help revision: generated config and Dusty menu explain both host
+settings, default OFF, solo behavior and .22/TRC9 requirement. Existing configs
+gain comments on the next normal settings save; no automatic migration is added.
+

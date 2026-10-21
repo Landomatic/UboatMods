@@ -1,8 +1,10 @@
-0.1.19-beta publication preparation
+0.1.22-beta publication preparation
 Player ZIP: Source, Manifest.json, README.txt, CHANGELOG.txt, LICENSE, NOTICE.txt.
 Use only that player ZIP for Workshop, not the separate source archive.
-Retain the already assigned Workshop steamFileId/preview in the publishing folder;
-the supplied generic manifest uses 0 because the existing item ID was not supplied.
+Manifest steamFileId is 3823181610, the existing Torpedo Room Workshop item:
+https://steamcommunity.com/sharedfiles/filedetails/?id=3823181610
+Keep this ID and retain the existing preview in the publishing folder.
 Do not create another Workshop item accidentally. Record live test results as partial
 until focused tests pass. This patch preparation does not publish a new release.
 Keep the existing .18 GitHub Beta and its exact original package unchanged.
+

@@ -31,7 +31,7 @@ namespace Landomatic.TorpedoRoom
             Guid id;
             return Guid.TryParseExact(Id, "N", out id) && Revision >= 0 && Pistol >= 0 && Pistol <= 1
                 && Finite(Speed)&&Speed>=0&&Speed<=100&&(!SpeedOverride||Speed>0)
-                && Finite(Depth) && Depth >= .5f && Depth <= 14 && InitialPistol >= 0 && InitialPistol <= 1 && Finite(Distance) && Distance >= 500 && Distance <= 15000
+                && Finite(Depth) && Depth >= 1 && Depth <= 14 && InitialPistol >= 0 && InitialPistol <= 1 && Finite(Distance) && Distance >= 500 && Distance <= 15000
                 && Finite(Angle) && Angle >= 0 && Angle < 360;
         }
         public static bool Finite(float v) { return !float.IsNaN(v) && !float.IsInfinity(v); }
@@ -130,6 +130,7 @@ namespace Landomatic.TorpedoRoom
         public float Delay;
         public bool AllowLockout=true;
         public bool SpeedSync=true;
+        public bool MpScopeFeuer;
         public RoomAccess Access;
         public ViewportMode Viewport=ViewportMode.ReadOnly;
         public string Notice = "";
@@ -140,7 +141,7 @@ namespace Landomatic.TorpedoRoom
     public static class Wire
     {
         public const byte Hello = 1, State = 2, Edit = 3, Viewport = 4;
-        const int Magic = 0x38435254;
+        const int Magic = 0x39435254;
         public static byte[] Pack(byte operation, Action<BinaryWriter> body)
         {
             using (var stream = new MemoryStream())
@@ -168,14 +169,14 @@ namespace Landomatic.TorpedoRoom
         public static byte[] Encode(Snapshot s)
         {
             return Pack(State, w => {
-                w.Write(s.Epoch); w.Write(s.Enabled); w.Write((byte)s.Policy); w.Write(s.Delay); w.Write(s.AllowLockout);w.Write(s.SpeedSync); w.Write((byte)s.Access); w.Write((byte)s.Viewport); w.Write(s.Notice ?? ""); w.Write(s.SolutionSpeed);w.Write(s.SpeedTube);
+                w.Write(s.Epoch); w.Write(s.Enabled); w.Write((byte)s.Policy); w.Write(s.Delay); w.Write(s.AllowLockout);w.Write(s.SpeedSync);w.Write(s.MpScopeFeuer); w.Write((byte)s.Access); w.Write((byte)s.Viewport); w.Write(s.Notice ?? ""); w.Write(s.SolutionSpeed);w.Write(s.SpeedTube);
                 w.Write((byte)s.Tubes.Length);
                 foreach (var t in s.Tubes) { w.Write((byte)t.Index); w.Write(t.Type);w.Write((byte)t.State);w.Write(t.Flooded);w.Write(t.Flooding); Write(w, t.Settings); }
             });
         }
         public static Snapshot Decode(BinaryReader r)
         {
-            var s = new Snapshot { Epoch = r.ReadString(), Enabled = r.ReadBoolean(), Policy = (PistolPolicy)r.ReadByte(), Delay = r.ReadSingle(), AllowLockout=r.ReadBoolean(),SpeedSync=r.ReadBoolean(), Access=(RoomAccess)r.ReadByte(), Viewport=(ViewportMode)r.ReadByte(), Notice = r.ReadString(),SolutionSpeed=r.ReadSingle(),SpeedTube=r.ReadInt32() };
+            var s = new Snapshot { Epoch = r.ReadString(), Enabled = r.ReadBoolean(), Policy = (PistolPolicy)r.ReadByte(), Delay = r.ReadSingle(), AllowLockout=r.ReadBoolean(),SpeedSync=r.ReadBoolean(),MpScopeFeuer=r.ReadBoolean(), Access=(RoomAccess)r.ReadByte(), Viewport=(ViewportMode)r.ReadByte(), Notice = r.ReadString(),SolutionSpeed=r.ReadSingle(),SpeedTube=r.ReadInt32() };
             Guid epoch;
             if (!Guid.TryParseExact(s.Epoch, "N", out epoch) || (int)s.Access>2 || (int)s.Viewport>2 || ((int)s.Policy!=0&&(int)s.Policy!=3) || !Preparation.Finite(s.Delay) || s.Delay < 0 || s.Delay > 120 || s.Notice.Length > 512 || !Preparation.Finite(s.SolutionSpeed) || s.SolutionSpeed<0 || s.SolutionSpeed>100 || s.SpeedTube< -1 || s.SpeedTube>15)
                 throw new FormatException("Invalid host settings.");

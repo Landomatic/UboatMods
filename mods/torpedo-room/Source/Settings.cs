@@ -11,6 +11,7 @@ namespace Landomatic.TorpedoRoom
     {
         public static bool Enabled = true, Interface = true, Overview;
         public static bool AllowLockout=true,PerformanceTrace=true,SpeedSync=true;
+        public static bool MpScopeFeuer; // opt-in host rule; independent of viewport reports
         public static int Preset=2;
         public static RoomAccess Access;
         public static ViewportMode Viewport=ViewportMode.ReadOnly;
@@ -26,6 +27,7 @@ namespace Landomatic.TorpedoRoom
                 foreach (string line in File.ReadAllLines(PathName)) {
                     var kv=line.Split('='); if(kv.Length!=2)continue;
                     bool b; int n; float f;KeyCode key;
+                    if(kv[0]=="mpScopeFeuer"&&bool.TryParse(kv[1],out b))MpScopeFeuer=b;
                     if(kv[0]=="speedSync"&&bool.TryParse(kv[1],out b))SpeedSync=b;
                     if(kv[0]=="enabled" && bool.TryParse(kv[1],out b))Enabled=b;
                     if(kv[0]=="interface" && bool.TryParse(kv[1],out b))Interface=b;
@@ -51,7 +53,17 @@ namespace Landomatic.TorpedoRoom
         public static void Save()
         {
             string tmp=PathName+".tmp";
-            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.19-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
+            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.22-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
+                +"# MP-only Feuer display: host opt-in, OFF by default.\n"
+                +"# Host: set MP's TUBES PANEL AT THE SCOPES to OFF (scope_tubes=false),\n"
+                +"# then enable mpScopeFeuer below. With another synchronized shared-boat\n"
+                +"# player aboard, permitted scopes/UZO automatically show Feuer alone.\n"
+                +"# Independent of viewportDisplay, interfacePreset and speedSync.\n"
+                +"# No effect in solo, with no other crew player, or when MP permits its panel.\n"
+                +"# Normal solo Hidden Reports still requires opening the torpedo panel.\n"
+                +"# Native fire-control selection, flooding/readiness and MP station permissions remain.\n"
+                +"# All players need Torpedo Room .22/TRC9; adapter supports supplied MP 1.11.5.\n"
+                +"mpScopeFeuer="+MpScopeFeuer+"\n\n"
                 +"speedSync="+SpeedSync+"\nenabled="+Enabled+"\ninterface="+Interface+"\ninterfacePreset="+Preset+"\nroomAccess="+(int)Access+"\nviewportDisplay="+(int)Viewport+"\npistolPolicy="+(int)Policy+"\npreparationSeconds="+Delay.ToString(CultureInfo.InvariantCulture)
                 +"\nperformanceTrace="+PerformanceTrace+"\nshortcutKey="+ShortcutKey+"\nshortcutCtrl="+ShortcutCtrl+"\nshortcutAlt="+ShortcutAlt+"\nshortcutShift="+ShortcutShift+"\nallowStraightRun="+AllowLockout+"\n");
             if(File.Exists(PathName))File.Replace(tmp,PathName,null);else File.Move(tmp,PathName);
@@ -92,11 +104,12 @@ namespace Landomatic.TorpedoRoom
                 Bool("shortcutAlt","Shortcut requires Alt","Local shortcut modifier. Either left or right Alt works.",()=>Config.ShortcutAlt,v=>Config.ShortcutAlt=v,false),
                 Bool("shortcutShift","Shortcut requires Shift","Local shortcut modifier. Ctrl/Shift must match; Alt may be held for the game cursor when not required by the shortcut.",()=>Config.ShortcutShift,v=>Config.ShortcutShift=v,false),
                 Bool("performanceTrace","Diagnostic timing log (every 10 seconds)","Local test-build logging: Torpedo Room update time, longest frame and process-wide garbage collections. GC/frame figures include other mods; they do not prove the cause of a stutter.",()=>Config.PerformanceTrace,v=>Config.PerformanceTrace=v,false),
-                Choice("preset","Interface preset","Host rule. Casual: all tubes editable, synchronized viewport, unrestricted AZ/MZ. Hardcore: current compartment only, hidden viewport reports, unrestricted AZ/MZ. Custom preserves individual choices. Speed synchronization is independent and unchanged by presets. No firing or role permissions are changed.",
+                Choice("preset","Interface preset","Host rule. Casual: all tubes editable, synchronized viewport, unrestricted AZ/MZ. Hardcore: current compartment only, hidden viewport reports, unrestricted AZ/MZ. Custom preserves individual choices. Speed synchronization and the optional MP-only Feuer toggle are independent and unchanged by presets. No firing or role permissions are changed.",
                     ()=>Bridge.IsRemote?(EffectiveAccess==RoomAccess.AllEditable&&EffectiveViewport==ViewportMode.Synchronized&&EffectivePolicy==PistolPolicy.Free?0:EffectiveAccess==RoomAccess.CurrentCompartment&&EffectiveViewport==ViewportMode.Hidden&&EffectivePolicy==PistolPolicy.Free?1:2):Config.Preset,
                     v=>{Config.Preset=v;if(v<2){Config.Access=v==0?RoomAccess.AllEditable:RoomAccess.CurrentCompartment;Config.Viewport=v==0?ViewportMode.Synchronized:ViewportMode.Hidden;Config.Policy=PistolPolicy.Free;Config.AllowLockout=true;}},new[]{"Casual","Hardcore","Custom"}),
                 Choice("roomAccess","Tube access from torpedo rooms","Host rule. Applies to programming controls; physical flooding and firing remain unchanged.",()=> (int)EffectiveAccess,v=>Config.Access=(RoomAccess)v,new[]{"Current compartment only","Opposite tubes read-only","All tubes editable"}),
-                Choice("viewportDisplay","Scope / UZO / TDC torpedo display","Host rule. Synchronized: edits in either interface update marked tubes. Read-only: show settings and status. Hidden: suppress torpedo reports, retaining permitted firing. MP station permissions still apply.",()=> (int)EffectiveViewport,v=>Config.Viewport=(ViewportMode)v,new[]{"Synchronized controls","Read-only reports","Hidden reports"}),
+                Choice("viewportDisplay","Scope / UZO / TDC torpedo display","Host rule. Synchronized: edits in either interface update marked tubes. Read-only: show settings/status. Hidden: open the torpedo panel to see Feuer alone. The separate MP-only Feuer option can show Feuer automatically when MP restricts scope tubes, regardless of this choice. MP station permissions still apply.",()=> (int)EffectiveViewport,v=>Config.Viewport=(ViewportMode)v,new[]{"Synchronized controls","Read-only reports","Hidden reports"}),
+                Bool("mpScopeFeuer","MP: Show Feuer when scope tubes are restricted","Host opt-in, OFF by default. Set MP's TUBES PANEL AT THE SCOPES to OFF, then turn this ON. With another synchronized shared-boat player aboard, permitted scopes/UZO automatically show Feuer alone without clicking the disabled torpedo icon. Independent of report visibility, presets and speed sync. No effect in solo or unrestricted MP; solo Hidden Reports still uses the normal panel opener. Native fire-control selection, flooding/readiness and MP station permissions remain. All players need .22/TRC9; supports supplied MP 1.11.5.",()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.MpScopeFeuer:Config.MpScopeFeuer,v=>Config.MpScopeFeuer=v,true),
                 Bool("speedSync","Bidirectional torpedo / TDC speed sync","Host rule, independent of report visibility. ON: applied tube speeds update the computer and TDC speed inputs update tube preparations. OFF: keep independent settings and player mistakes. Never blocks firing.",()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.SpeedSync:Config.SpeedSync,v=>Config.SpeedSync=v,true),
                 Bool("allowStraightRun","Allow straight running for FAT/LUT","Host rule. Allows a per-torpedo Straight / Pattern choice. Stored pattern settings are retained. This is a gameplay bypass, not a simulated historical pin; no failure mechanic is added.",
                     ()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.AllowLockout:Config.AllowLockout,v=>Config.AllowLockout=v,true),
@@ -115,8 +128,9 @@ namespace Landomatic.TorpedoRoom
         {
             Config.Interface=true;Config.Overview=false;Config.PerformanceTrace=true;
             Config.ShortcutKey=KeyCode.T;Config.ShortcutCtrl=Config.ShortcutAlt=false;Config.ShortcutShift=false;
-            if(!Bridge.IsRemote){Config.Preset=2;Config.Enabled=true;Config.SpeedSync=true;Config.Policy=PistolPolicy.Free;Config.Delay=30;Config.AllowLockout=true;Config.Access=RoomAccess.CurrentCompartment;Config.Viewport=ViewportMode.ReadOnly;}
+            if(!Bridge.IsRemote){Config.Preset=2;Config.Enabled=true;Config.MpScopeFeuer=false;Config.SpeedSync=true;Config.Policy=PistolPolicy.Free;Config.Delay=30;Config.AllowLockout=true;Config.Access=RoomAccess.CurrentCompartment;Config.Viewport=ViewportMode.ReadOnly;}
             Config.Save();
         }
     }
 }
+

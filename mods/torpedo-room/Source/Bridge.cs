@@ -56,6 +56,7 @@ namespace Landomatic.TorpedoRoom
         { var m=Method(t,method);return m==null?null:m.Invoke(null,args); }
         public static int Role {get{return session==null?0:Convert.ToInt32(Prop(session,"Role"));}}
         public static bool IsRemote {get{return Role>=2 && Convert.ToBoolean(Prop(T("MpMode"),"SharedBoat")??false);}}
+        public static bool RestrictedScopes {get{return installed&&Convert.ToBoolean(Prop(T("MpStations"),"TubesHiddenAtScopes")??false);}}
         public static bool Synced {get{return installed&&Last!=null&&Time.unscaledTime-lastState<8;}}
         public static void Install(Harmony h){harmony=h;TryInstall();}
         static void TryInstall()
@@ -70,6 +71,7 @@ namespace Landomatic.TorpedoRoom
             if(host==null||client==null)return;
             harmony.Patch(host,new HarmonyMethod(typeof(Bridge),"HostPacket"));
             harmony.Patch(client,new HarmonyMethod(typeof(Bridge),"ClientPacket"));
+            MpScopeFire.Install(harmony,T("MpStations"));
             installed=true;Status="Multiplayer adapter 1.11.5 ready";
             Debug.Log("[TorpedoRoom] Version-gated multiplayer adapter installed; no upstream files changed.");
         }

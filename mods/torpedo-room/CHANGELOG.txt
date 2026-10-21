@@ -1,3 +1,61 @@
+0.1.22-beta -- recover deep T5 viewing fire after draining a mixed selection
+- Publishing metadata revision: set steamFileId to existing Workshop item
+  3823181610 in Manifest.json and both ZIPs. Gameplay/source unchanged.
+- Count only marked, flooded tubes with weapons for the 18–50 m T5 viewing
+  exception, matching native launch-candidate counting. A dry/empty marked tube
+  no longer keeps the blocker active. Recheck live state at native confirmation.
+- A selected flooded non-T5 still blocks a deep mixed selection; draining it
+  restores T5 eligibility without rewriting native marks or reopening the panel.
+- No change to native flooding, compressed air, solution/readiness, physical
+  tube/TDC levers, gyro relays, salvo timing or MP transport. No blanket depth bypass.
+- Retain .21 higher Feuer position (96 native canvas units), independent MP
+  restricted-scope host toggle and config/Dusty help. Protocol remains TRC9;
+  all shared-boat players should install .22 for consistent behavior.
+- Full supplied-reference compilation and 217 targeted offline checks passed;
+  new recovery tests cover Hidden/Read-only/Synchronized modes and confirmation
+  changes. No live .22 firing/rendering/network test here. Other suites not re-run.
+- Existing copyright, license, attribution and previous archives retained.
+
+0.1.21-beta -- optional MP-only Feuer at restricted scopes/UZO
+- Configuration-help revision: include the host setup/default/solo interaction
+  above mpScopeFeuer in generated config and expand Dusty menu descriptions.
+  No gameplay or protocol change; existing configs gain comments on normal save.
+- Add host opt-in MP: Show Feuer when scope tubes are restricted (OFF default),
+  independent of report visibility, interface presets and TDC speed sync.
+- Activate only when MP 1.11.5 reports its effective scope-panel restriction:
+  another shared-boat player aboard and TUBES PANEL AT THE SCOPES OFF. Automatically
+  open the native masked panel at permitted scopes/UZO; display only the original
+  Feuer and normal confirmation, without using the disabled torpedo icon.
+- Keep MP's icon disabling. Exempt only the opted-in panel-opening check and the
+  two known MP UI cleanup callbacks (suppress repeated close logs). Genuine native close remains permitted.
+  Suppress hidden UI source/spread/program writes during forced Feuer-only mode,
+  including deferred native Start. Preserve native firing/transport/station paths.
+- Restore normal behavior when host toggle/restriction/station ends. Do not
+  repeatedly open a live panel or enable during an active salvo. Start disabled
+  until native readiness runs. Roll back partially installed optional hooks.
+- Raise Feuer from 28 to 96 native canvas units above the bottom edge.
+- TRC9 carries the separate host toggle; every shared-boat player must update.
+  Full supplied-reference compilation and 864 offline checks pass. New live MP
+  validation pending. Preserve Landomatic copyright, license and upstream credits.
+
+0.1.20-beta -- Feuer-only reports and T5 viewing-interface depth exception
+- Hidden Reports hides the entire native launch panel, moving the original
+  Feuer button, confirmation popup and any nested station navigation outside
+  the mask. Restore the exact authored hierarchy/layout on policy changes,
+  station exit, closing, loading and disable. Add a hover-only firing hint.
+- In Hidden Reports only, use native fire-control tube/salvo mapping before UI
+  readiness and Feuer/confirmation. No stale-mark or first-ready fallback;
+  do not remap during an active salvo. Keep native ordering, timing, targeting,
+  readiness and MP transport. Physical TDC and tube lever paths stay native.
+- Restrict running-depth settings to 1–14 m, retaining 0.25 m steps and typed
+  entry/native synchronization. Clamp old out-of-range weapon records when
+  read on the host; no user config migration or rewrite is added.
+- Lift only the viewing-panel boat-depth blocker for an all-T5 selected set,
+  including stock prototype, through 50 m boat depth. Ordinary/mixed/unknown
+  types keep the normal blocker. No change to engine launches or guidance.
+- Preserve copyright, license and compatibility credits. Full supplied-reference
+  compilation and offline checks pass; live game/MP verification pending.
+
 0.1.19-beta -- tube state recovery and clean player packaging
 - Remove locked-on-load pistol mode and enforcement. Free and optional timed dry
   tube remain; retired saved values are unrestricted without config migration.
@@ -275,3 +333,4 @@ Copyright (c) 2026 Landomatic. License/third-party notices unchanged.
  - Companion protocol TRC2 adds pin flags and host availability; mixed 0.1.0
    and 0.1.1 companion sessions cannot exchange preparation edits. Update all.
  - Compilation and 211 offline assertions passed; no gameplay test performed.
+

@@ -1,27 +1,27 @@
 {
   "schema_version": 1,
   "project": "Torpedo Room",
-  "version": "0.1.19-beta",
-  "prepared_at_utc": "2026-10-20T07:59:58+00:00",
+  "version": "0.1.22-beta",
+  "prepared_at_utc": "2026-10-21T09:44:40+00:00",
   "changes": [
-    "Remove loaded-pistol lock; recover selected weapon/record identity and native icons after tube transitions; expose busy reasons and transition-only diagnostics; separate clean player package from development archive."
+    "Fix T5 viewing-depth exception to count only marked flooded tubes with weapons, matching native candidate counting. Draining a selected non-T5 releases its depth veto; flooding it restores restriction. Recheck confirmation. Preserve marks, native readiness and physical levers; retain .21 raised Feuer and MP host toggle, TRC9. Publishing metadata revision: set Manifest steamFileId 3823181610 for the existing Workshop listing; no gameplay source changes."
   ],
   "validation": {
     "compile": "passed",
     "offline": "passed",
-    "in_game": "not-run",
+    "in_game": "partial",
     "notes": [
-      "Full supplied-game reference compilation and 723 offline assertions pass. License terms/copyright preserved, repository references refreshed. No native tube readiness, firing permissions or targeting changes. Prior .18 live results are partial and not validation of this new code."
+      "Full supplied UBOAT/Unity/Harmony reference compilation passed. 217 targeted offline assertions passed: 85 stock/depth, 82 viewing fire/layout, 50 MP scope display. Other prior suites not re-run. Metadata revision: C# Source byte-identical to tested .22 snapshot; both ZIP manifests verified as Workshop ID 3823181610. Latest owner .22 log records Tube V launch verified=True; live result partial with unresolved whole-panel lockout/refresh issues. Existing copyright/license/credits retained."
     ]
   },
   "known_issues": [
-    "Cancelled maintenance was not traced/reproduced; state recovery requires live retest. Remaining periscopes/TDC click tests pending. TRC8: all peers update. Existing Workshop ID was not supplied; retain assigned ID in publishing manifest."
+    "Owner reports unchecking T5 at depth locks entire viewing panel and prevents rechecking until drain/reflood; flooded non-T5 also blocks whole panel; delayed refresh/half-full graphic remains. This metadata update does not fix gameplay. MP and shallow recovery remain unverified. No new release/tag/Workshop upload. All peers should use .22/TRC9."
   ],
   "files": [
     {
       "path": "CHANGELOG.txt",
-      "bytes": 19734,
-      "sha256": "32d22e542a59f205f5aeef4089459c59fd715eb6aa3ec2b4926976f865b103d4"
+      "bytes": 24026,
+      "sha256": "f93bdbf5d648d17bb4153b0bb98ec60cc572e6a1489d1b65ae2ecc64a6973e0d"
     },
     {
       "path": "Docs/History/NOTICE-through-0.1.18.txt",
@@ -40,38 +40,43 @@
     },
     {
       "path": "Manifest.json",
-      "bytes": 429,
-      "sha256": "7233a52cc56524bcb22d772f680f3412b62d06238e317e42fb9185051afcd622"
+      "bytes": 455,
+      "sha256": "a996c5f65bf8b203b2ec99d135b9a30e5d1c17a1f9b589adea9cc745e097fa47"
     },
     {
       "path": "NOTICE.txt",
-      "bytes": 2502,
-      "sha256": "bf413ef8281e2ab2d76024497e845b5cfe353c8f9fce1170cdd718a5bf792950"
+      "bytes": 3050,
+      "sha256": "0af7983b895fa0809ffc38f0452361f915923a7bf5f6cf5f93aca864526b7bbe"
     },
     {
       "path": "PUBLISHING.txt",
-      "bytes": 601,
-      "sha256": "a572f98aab08dd5057045fb81cf71df03620af6814d05472dea5e2c13599800b"
+      "bytes": 649,
+      "sha256": "5c4ecfe9f9ea339cb30a369911e8d0a3fc94d7547da2318461ee99c5f45dfdc8"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5849,
+      "sha256": "d28039cac58de2639402a49d75b734d3e44bc5e64900a2d02b4b35ebc5e2a38a"
     },
     {
       "path": "README.txt",
-      "bytes": 3429,
-      "sha256": "6fd9467832966766821f6c36a3f738eb3d504da4477638612814e71f65ed4f14"
+      "bytes": 6560,
+      "sha256": "319ef78504a3733a6626fcefdfd51194ce793fb887f7c0c491e937514dad0d82"
     },
     {
       "path": "ROADMAP.txt",
-      "bytes": 472,
-      "sha256": "6c8fe27f89fb13876c8736a009b6c25793810ccb85ac6ba921a419d87605e8e9"
+      "bytes": 760,
+      "sha256": "add6c058aedace3c459cd2de4ed934553a2acaa2c537f92867244a8b3a99afd2"
     },
     {
       "path": "Source/Bridge.cs",
-      "bytes": 14048,
-      "sha256": "bc99b92b03805ec3f3cf48578d30d52f16325ff6bbc3f202b8faee124c79ae72"
+      "bytes": 14246,
+      "sha256": "e5a183c9817edaebe6d0db28e8b2c230757b6d54dd540c440f2638b00be07238"
     },
     {
       "path": "Source/DepthControl.cs",
-      "bytes": 6229,
-      "sha256": "75f37fa5ac0d4194abdd8c9ecb3fef61d230616254f977c6cb94ce415b55d758"
+      "bytes": 6312,
+      "sha256": "0fa3108654cdfdc00f341b8221e897a4059fc85abe78acafaeaeb3b9cb27c19d"
     },
     {
       "path": "Source/DialControl.cs",
@@ -80,8 +85,13 @@
     },
     {
       "path": "Source/Grid.cs",
-      "bytes": 34152,
-      "sha256": "f6064fc5e35ff68a5f9a376fa76ea3b5eaa6778edaa7b7ada039f2d894fe60f0"
+      "bytes": 34144,
+      "sha256": "374cfe7a50ac949ee86db5a5f32eff54cb5d8fc3fb4ce0c6b8917b57b16dac31"
+    },
+    {
+      "path": "Source/HiddenLayout.cs",
+      "bytes": 5846,
+      "sha256": "2847a5fad5c8770dff93ce5b581bc2009afc3dde776e6fe225d34edb22614ea0"
     },
     {
       "path": "Source/InstrumentFace.cs",
@@ -95,13 +105,18 @@
     },
     {
       "path": "Source/MenuIntegration.cs",
-      "bytes": 2938,
-      "sha256": "08affa77e4729ba9c262d15a126e06a191e4f8290d3b74a7dfb1dd8d86586022"
+      "bytes": 2959,
+      "sha256": "321528a33b0cb223df0082cbd5d59ecbfb61386111723859dabd7de7054e6f7a"
     },
     {
       "path": "Source/Model.cs",
-      "bytes": 13191,
-      "sha256": "2ef5c9a5763a7c4760fe0446ff7ac6448f21f0675e88733a58745110fc9a6639"
+      "bytes": 13276,
+      "sha256": "97b1e471c17f9553bc9e0d24d0b2ad6e4b3421406392ced28e6e5d92d2d55331"
+    },
+    {
+      "path": "Source/MpScopeFire.cs",
+      "bytes": 6205,
+      "sha256": "fdaf62cbc2e62eb50a06f612a6e22dbdc7739c3f1eac408d0c0b9022965f6bfa"
     },
     {
       "path": "Source/NativeClick.cs",
@@ -110,8 +125,8 @@
     },
     {
       "path": "Source/NativePresentation.cs",
-      "bytes": 6114,
-      "sha256": "56d7317a3a730c98b29090f47ff8b54048a705d1a018952ef225d43236c2fead"
+      "bytes": 6487,
+      "sha256": "140cbb80a77a5e2d628bcbc0dc07c724040d50eea9be35465f05315a1ee37a32"
     },
     {
       "path": "Source/NativeSkin.cs",
@@ -120,13 +135,13 @@
     },
     {
       "path": "Source/Runtime.cs",
-      "bytes": 21224,
-      "sha256": "3aa54c1dce7aae2c4845ea3ca2659c9fa071ac60ff83eefda86b55e5e8c1f66a"
+      "bytes": 22189,
+      "sha256": "47b381226da68d31bec29baf25b524b73b250502bf86a1320a245e5a142a1df4"
     },
     {
       "path": "Source/Settings.cs",
-      "bytes": 13540,
-      "sha256": "6a046022ef7f888a34de0b679a8851c6cc320a02330a31176a33aaf1b7538702"
+      "bytes": 15520,
+      "sha256": "d49faef4739c549e46ecc6eecf6cb324fae037aad4522344b4796be65bb4e107"
     },
     {
       "path": "Source/Shortcut.cs",
@@ -174,24 +189,29 @@
       "sha256": "f90257943bb9ed0655f41fdde8fe4d890840d3640b07eb029ea89ce821501ca6"
     },
     {
+      "path": "Source/ViewingFire.cs",
+      "bytes": 6614,
+      "sha256": "daddcc335d4eddbcec120c617c26f42133a78293c0a74f97b242ecc65ab17ee7"
+    },
+    {
       "path": "TESTING.txt",
-      "bytes": 1582,
-      "sha256": "a62a1100a9f3df9f428d4ce3d9232b658dfca2899d95c7529033a59f4ad9b64a"
+      "bytes": 7929,
+      "sha256": "36190cedfbe88823378b5444015b5223a8bfcf97be2c9eb461eabdba091a6603"
     },
     {
       "path": "Tests/BridgeFixture.cs",
-      "bytes": 13904,
-      "sha256": "b6cc96d4d29915dfe89a0605104ab99d08e5536c9b3bfbe1a10d8cecdca17c2c"
+      "bytes": 14268,
+      "sha256": "97418ba95d6e3f58c2b135fcddb3e007c48433ae16fd2b2349a38e9ccaabcec2"
     },
     {
       "path": "Tests/Checks.cs",
-      "bytes": 20688,
-      "sha256": "2f06cb72c93bdcc61536fd65e488e33f6857e05a3f7d279ea0ddf6f7b94cf10a"
+      "bytes": 20943,
+      "sha256": "8f6a8545242984776e30bfcebe20a7fb688a59533506785e8b3c4ce7840b35c6"
     },
     {
       "path": "Tests/Config/ConfigFixture.cs",
-      "bytes": 11863,
-      "sha256": "6da0cdb365146db2cad0a1179da939d34be68d8c9f07fe5e8bf644cb4f0ce0f2"
+      "bytes": 12650,
+      "sha256": "01ad8b80569893620d63125be9a566556bbb2ae039f8b854dadec189eca2b58d"
     },
     {
       "path": "Tests/Dial/DialFixture.cs",
@@ -215,8 +235,8 @@
     },
     {
       "path": "Tests/README.txt",
-      "bytes": 390,
-      "sha256": "dd5c7469f73fb0821ae2a9adbbfc6acd6cf67a4629b26ed1cc54cc9a2912656c"
+      "bytes": 236,
+      "sha256": "405b2568b358e305905f9ddf553c845fc5fcae00ae4ffbbd426eccde58297487"
     },
     {
       "path": "Tests/Speed/InfoFixture.cs",
@@ -230,8 +250,8 @@
     },
     {
       "path": "Tests/StockUi/StockUiFixture.cs",
-      "bytes": 28608,
-      "sha256": "01ca6d040c86b70156be3ed27f3c8330c976f6444ddc0c63f184449e7f667186"
+      "bytes": 51556,
+      "sha256": "6a8dba383a8b8cce717b2ea0a110d7c4b172aa4d4b642c3063d0259d33c02b35"
     },
     {
       "path": "Tests/Tdc/TdcFixture.cs",
@@ -245,14 +265,20 @@
     },
     {
       "path": "VALIDATION.txt",
-      "bytes": 2270,
-      "sha256": "ca220eb572de8575d54f821785104ba9a4684ddcbde933124fed67a82eff575c"
+      "bytes": 5750,
+      "sha256": "5c7a9ae29fc88cb2703fd243e21175abb2bf346a2586db89357915a80b3e19fc"
     },
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
-      "bytes": 1779,
-      "sha256": "b389296ee0dec6e7ffa0a7f9925c55dc7fea96d0ad21395aed8164aacddaaf5d"
+      "bytes": 3246,
+      "sha256": "e975696725ca19249a16feb356751f8181c3d3326a9af1bfac06457a8a29d189"
     }
   ],
-  "artifacts": []
+  "artifacts": [
+    {
+      "name": "TorpedoRoom_v0.1.22-beta.zip",
+      "bytes": 73931,
+      "sha256": "0679dd3d71186bd4fe922206c979dee107d7799d85b3b32cabeb616514c4b411"
+    }
+  ]
 }

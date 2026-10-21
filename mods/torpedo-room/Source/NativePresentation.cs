@@ -31,12 +31,13 @@ namespace Landomatic.TorpedoRoom
         static GameObject ObjectOf(object value){var go=value as GameObject;if(go!=null)return go;var c=value as Component;return c==null?null:c.gameObject;}
         static void Set(GameObject go,bool hide,bool read=false)
         {if(go==null)return;Mask m;if(!hide&&!read){if(masks.TryGetValue(go,out m)){m.Set(false,false);masks.Remove(go);}return;}if(!masks.TryGetValue(go,out m))masks[go]=m=new Mask(go);m.Set(hide,read);}
-        internal static void Restore(){foreach(var entry in masks)entry.Value.Set(false,false);masks.Clear();}
+        internal static void Restore(){HiddenLayout.Restore();foreach(var entry in masks)entry.Value.Set(false,false);masks.Clear();}
         internal static void Room(bool hide)
         {
             roomTakeover=hide;
             var ui=Runtime.Get<GameUI>();var panel=ui==null?null:ui.CurrentTorpedoLaunchersUI;if(panel!=null)Panel(panel);
-            if(owner!=null)Set(owner.gameObject,hide);
+            if(!Runtime.Active||Runtime.Loading||!Runtime.ViewingStation)HiddenLayout.Restore();
+            if(owner!=null)Set(owner.gameObject,hide||HiddenLayout.Active);
             Set(NativeSkin.ManualRoot,hide);
         }
         static bool iconApiChecked,iconApiFailed;
@@ -66,9 +67,11 @@ namespace Landomatic.TorpedoRoom
         }
         internal static void Refresh(TorpedoLaunchersUI panel)
         {
-            Panel(panel);bool viewing=Runtime.ViewingStation&&Runtime.Active&&!Runtime.Loading;
-            bool hidden=viewing&&Runtime.Viewport==ViewportMode.Hidden;
-            bool read=viewing&&Runtime.Viewport!=ViewportMode.Synchronized;
+            if(panel==null)return;Panel(panel);bool viewing=Runtime.ViewingStation&&Runtime.Active&&!Runtime.Loading;
+            bool hidden=viewing&&(Runtime.Viewport==ViewportMode.Hidden||MpScopeFire.Active);
+            bool read=viewing&&(Runtime.Viewport!=ViewportMode.Synchronized||MpScopeFire.Active);
+            HiddenLayout.Apply(panel,hidden&&!roomTakeover&&panel.IsOpened);
+            Set(panel.gameObject,roomTakeover||HiddenLayout.Active||MpScopeFire.Active);
             foreach(var field in Reports)if(field!=null)Set(ObjectOf(field.GetValue(panel)),hidden,read);
             if(panel.Launchers!=null)foreach(var tube in panel.Launchers)if(tube!=null){
                 Set(tube.gameObject,hidden); // read-only reports still permit stock tube selection/firing.

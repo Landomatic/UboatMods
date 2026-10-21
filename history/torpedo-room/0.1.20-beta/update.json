@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "project": "Torpedo Room",
+  "version": "0.1.20-beta",
+  "prepared_at_utc": "2026-10-20T20:40:47+00:00",
+  "changes": [
+    "Feuer-only Hidden Reports with native fire-control selection; 1\u201314 m quarter-step running depth; T5-only viewing-interface boat-depth exception through 50 m; preserve physical lever and native MP paths."
+  ],
+  "validation": {
+    "compile": "passed",
+    "offline": "passed",
+    "in_game": "not-run",
+    "notes": [
+      "Full supplied-reference compilation and 802 offline assertions pass. Actual mod classes plus independent native/Unity fixtures. Native UI/fire-control/salvo/lever IL and supplied MP dispatch inspected. Screenshot inspected; not redistributed. No live rendering, launch or network test. License/copyright/upstream credits preserved."
+    ]
+  },
+  "known_issues": [
+    "Live Hidden Reports layout at game UI scales, fire-control hull mapping, native confirmations, T5 defensive viewing fire and host/client behavior need testing. Prior periscope/TDC speed-cycle and broader mod-stack cases remain pending. Same .20 build on all peers; TRC8 format unchanged. Preserve assigned Workshop ID/preview; generic manifest uses 0."
+  ],
+  "files": [
+    {
+      "path": "CHANGELOG.txt",
+      "bytes": 21029,
+      "sha256": "125ff1e2abe63fdf817c0db0913b3efd0c2ed822c61d841d615f6125d199d170"
+    },
+    {
+      "path": "Docs/History/NOTICE-through-0.1.18.txt",
+      "bytes": 4502,
+      "sha256": "dea10cf6dceed56a7f43f650b87fc6492bcd99bf0fa2a22c72eafd93297675a8"
+    },
+    {
+      "path": "Docs/History/README-through-0.1.18.txt",
+      "bytes": 26763,
+      "sha256": "872b20be76ec857b3f7703a0da16972f77fdf3174efa27438bac5df6a2bc79f7"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1087,
+      "sha256": "ff2f1f4200ef2a9b75870b4d0ca87b91fad4c1dc1e63dd37046f1e5da251c036"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 441,
+      "sha256": "014376d7338511513c4c99e7f815b8517262f326dc7ab6fbc022400965043912"
+    },
+    {
+      "path": "NOTICE.txt",
+      "bytes": 2567,
+      "sha256": "6a173198f82ed137803baa99b53c1280828bb45dd493f3e31875fb1defdd830a"
+    },
+    {
+      "path": "PUBLISHING.txt",
+      "bytes": 601,
+      "sha256": "9e088ea29d760a0a039a6daea0b007b798468c44927437ada5b94eab47f137b4"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4923,
+      "sha256": "4e74eb8be9fbe3798e287435b814089fa5494522532fcca196e14dc72cd0b828"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 4593,
+      "sha256": "b8710117cc9e195547ae716d65a75520987ae580f99f97894a90107bd84f6c62"
+    },
+    {
+      "path": "ROADMAP.txt",
+      "bytes": 621,
+      "sha256": "f5f6659e4ace2c82c0c79a6e0d93348266befe9f216a52c94351808e0839361e"
+    },
+    {
+      "path": "Source/Bridge.cs",
+      "bytes": 14048,
+      "sha256": "bc99b92b03805ec3f3cf48578d30d52f16325ff6bbc3f202b8faee124c79ae72"
+    },
+    {
+      "path": "Source/DepthControl.cs",
+      "bytes": 6312,
+      "sha256": "0fa3108654cdfdc00f341b8221e897a4059fc85abe78acafaeaeb3b9cb27c19d"
+    },
+    {
+      "path": "Source/DialControl.cs",
+      "bytes": 2587,
+      "sha256": "46fee9fe1a3f8e54acfa71c5da003906ecbc564d75242d3d58197d498f9d10ad"
+    },
+    {
+      "path": "Source/Grid.cs",
+      "bytes": 34144,
+      "sha256": "374cfe7a50ac949ee86db5a5f32eff54cb5d8fc3fb4ce0c6b8917b57b16dac31"
+    },
+    {
+      "path": "Source/HiddenLayout.cs",
+      "bytes": 5846,
+      "sha256": "cedfd56b0751f024e4eb6a08c2c5603bf4370927c6758c31d26797827172f066"
+    },
+    {
+      "path": "Source/InstrumentFace.cs",
+      "bytes": 1192,
+      "sha256": "67c179ba80cdc2f8252d7741eb834263412cc5184a1d56a406e54a6568933417"
+    },
+    {
+      "path": "Source/LaunchAuthority.cs",
+      "bytes": 7557,
+      "sha256": "5cadaa461603772590e222290bdddc14c4f1c8b71c041093ab1c1aa36c5f5c73"
+    },
+    {
+      "path": "Source/MenuIntegration.cs",
+      "bytes": 2938,
+      "sha256": "08affa77e4729ba9c262d15a126e06a191e4f8290d3b74a7dfb1dd8d86586022"
+    },
+    {
+      "path": "Source/Model.cs",
+      "bytes": 13189,
+      "sha256": "7b7fc36eb18d5007bbb59b4b8bf1c3afe4339d119368c531a4eba3bd38e4194b"
+    },
+    {
+      "path": "Source/NativeClick.cs",
+      "bytes": 1526,
+      "sha256": "33ad8692d50bb09085854cf5dc749dae3dc271873110411be7bbc882e71c08aa"
+    },
+    {
+      "path": "Source/NativePresentation.cs",
+      "bytes": 6423,
+      "sha256": "4a438688bc47b95d23f0ae2517bea8c7c33a746d7f9460d5235cf5c2a356e459"
+    },
+    {
+      "path": "Source/NativeSkin.cs",
+      "bytes": 16889,
+      "sha256": "a291b0b67167b50d3e59bffec7b181483d097ed59a136eddda1441548f367d00"
+    },
+    {
+      "path": "Source/Runtime.cs",
+      "bytes": 21408,
+      "sha256": "855ce933de36541a647043fb29ce778b05236636f080cff83277d0861d16feb5"
+    },
+    {
+      "path": "Source/Settings.cs",
+      "bytes": 13540,
+      "sha256": "68b4cb236ba41fb5d5ba6f877e3907a92a5a3e2a5e9fd8444778d51b9f925691"
+    },
+    {
+      "path": "Source/Shortcut.cs",
+      "bytes": 1949,
+      "sha256": "5e0156ba5f519f94455d21585bc68535d508c77ef9ccf607f0a65f735adebf1d"
+    },
+    {
+      "path": "Source/SpeedControl.cs",
+      "bytes": 7558,
+      "sha256": "864815bf502dcb73a072efc8c4c2e31dea85c6ee31167e6247478ceb7536bbdf"
+    },
+    {
+      "path": "Source/SpeedUnits.cs",
+      "bytes": 1042,
+      "sha256": "6440c10ed9f9c88c66f99c3c2e2f1bf7a18f34a0ee03f51e5c2b5201677a3f9a"
+    },
+    {
+      "path": "Source/StockUi.cs",
+      "bytes": 17860,
+      "sha256": "3d207d4ae486d5ddf59753dff42e59786bb107407888876ebb2a3f820e3192c5"
+    },
+    {
+      "path": "Source/TdcSpeed.cs",
+      "bytes": 9214,
+      "sha256": "a4a19e61647075c5b219a4c77ca0e9754b7fad1469124e5c1a2ad62ff02c2296"
+    },
+    {
+      "path": "Source/TorpedoHover.cs",
+      "bytes": 2457,
+      "sha256": "30d6e9ff31b5c2e8a00125e43eed67cd7875df40bcc9d1dc72c7ba9e64d71ec2"
+    },
+    {
+      "path": "Source/TorpedoInfo.cs",
+      "bytes": 1352,
+      "sha256": "ea745d76c9e6101d0a3e384d5ed2ed68f12bb22e43d68544fa6466a7277d5f3e"
+    },
+    {
+      "path": "Source/TubeUiState.cs",
+      "bytes": 1425,
+      "sha256": "235160a41707e04ef22bc9c0763da6e2ffe2b0c234a1eca1067f2c5c72497ce9"
+    },
+    {
+      "path": "Source/UiScale.cs",
+      "bytes": 3461,
+      "sha256": "f90257943bb9ed0655f41fdde8fe4d890840d3640b07eb029ea89ce821501ca6"
+    },
+    {
+      "path": "Source/ViewingFire.cs",
+      "bytes": 6073,
+      "sha256": "90dab9fce9886e49b66e7c920c70f0497584ddf70f4af7f58ef11502e8a9d223"
+    },
+    {
+      "path": "TESTING.txt",
+      "bytes": 4443,
+      "sha256": "e19332fd8629f4695497ca0abc6f77c5b54b0ac8b8c3893fa99f83c56fc1b1ef"
+    },
+    {
+      "path": "Tests/BridgeFixture.cs",
+      "bytes": 13904,
+      "sha256": "b6cc96d4d29915dfe89a0605104ab99d08e5536c9b3bfbe1a10d8cecdca17c2c"
+    },
+    {
+      "path": "Tests/Checks.cs",
+      "bytes": 20702,
+      "sha256": "72a47f7bf1bff3d8738352c02afad9230de4a0289b44a5d86e2ea7a71aec430d"
+    },
+    {
+      "path": "Tests/Config/ConfigFixture.cs",
+      "bytes": 11863,
+      "sha256": "6da0cdb365146db2cad0a1179da939d34be68d8c9f07fe5e8bf644cb4f0ce0f2"
+    },
+    {
+      "path": "Tests/Dial/DialFixture.cs",
+      "bytes": 9799,
+      "sha256": "c1e3172b725667fd7c48a0bfb3148d0a1bd4debfc6a463a79f0f37aa5be11e65"
+    },
+    {
+      "path": "Tests/Launch/LaunchFixture.cs",
+      "bytes": 9110,
+      "sha256": "c1f4e2022f9e536a29ef37145a19bf7e8d4bc5f8d1ff7e130075a6bfbfec7d09"
+    },
+    {
+      "path": "Tests/NativeClick/NativeClickFixture.cs",
+      "bytes": 3962,
+      "sha256": "21cf95080edb4eef7cd5902070b3c97b5d1058e9e94ad08ea520915593327331"
+    },
+    {
+      "path": "Tests/NativeSkin/NativeSkinFixture.cs",
+      "bytes": 21588,
+      "sha256": "b2e21caaafc5d8087967dd0f340a6b8dd48238acee375090b4d1099b81ebcfde"
+    },
+    {
+      "path": "Tests/README.txt",
+      "bytes": 390,
+      "sha256": "dd5c7469f73fb0821ae2a9adbbfc6acd6cf67a4629b26ed1cc54cc9a2912656c"
+    },
+    {
+      "path": "Tests/Speed/InfoFixture.cs",
+      "bytes": 1458,
+      "sha256": "5d0b861ee2126a7e0f5fe276f4f7a70c35734e716795526e529aeaa811d48067"
+    },
+    {
+      "path": "Tests/Speed/SpeedFixture.cs",
+      "bytes": 15363,
+      "sha256": "4542cc2035dface91d8a8094b9479a12c72b27bad9c249521ce7d34229fe0f98"
+    },
+    {
+      "path": "Tests/StockUi/StockUiFixture.cs",
+      "bytes": 41780,
+      "sha256": "02c950629f10dd7436b5c6f68c04e60c63b5df40a25dfe9ed7f58ad023aed81a"
+    },
+    {
+      "path": "Tests/Tdc/TdcFixture.cs",
+      "bytes": 8103,
+      "sha256": "cc9cbfed8daa66dfd8306ed522179956ae51d1b0a2c0c334d30420f535b13eec"
+    },
+    {
+      "path": "Tests/TubeUiFixture.cs",
+      "bytes": 2408,
+      "sha256": "8a3563a6d2a2b374820b5e54786ef6ebb5af33c2481a65de9ea462a7d5d9874b"
+    },
+    {
+      "path": "VALIDATION.txt",
+      "bytes": 3987,
+      "sha256": "41ab5482d1cd69b2c8a53d7a53326dfa67041467e1c29a5426cd7c66a3605cb3"
+    },
+    {
+      "path": "WORKSHOP_DESCRIPTION.txt",
+      "bytes": 2369,
+      "sha256": "043aa4b26648dab828c4bef5119939788cbd3727929c865f5188a020a5472f1b"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "TorpedoRoom_v0.1.20-beta.zip",
+      "bytes": 69767,
+      "sha256": "a108ce9b4d10a77d6f91862b800aa1b8025feb3e12e04d2254dc7e7ead249e97"
+    },
+    {
+      "name": "TorpedoRoom_v0.1.20-beta_source-archive.zip",
+      "bytes": 152003,
+      "sha256": "50bf1e8faae8c451f79ac51146235915248a8a6fb743d187ff5fd1e4572f3865"
+    }
+  ]
+}

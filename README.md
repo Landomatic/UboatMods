@@ -6,7 +6,7 @@ Source, version history, and test records for Landomatic's UBOAT mods.
 
 [Initial 0.1.18 Beta release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Source and instructions](mods/torpedo-room) · [Install ZIP](packages/torpedo-room/0.1.18-beta/TorpedoRoom_v0.1.18-test.zip)
 
-Latest source/package archive: [0.1.19 Beta player ZIP](packages/torpedo-room/0.1.19-beta/TorpedoRoom_v0.1.19-beta.zip). Compilation and 723 offline checks passed; live state-recovery testing remains pending. All multiplayer peers need the same TRC8 build. The initial .18 release is retained separately.
+Latest source/package archive: [0.1.22 Beta test player ZIP](packages/torpedo-room/0.1.22-beta/TorpedoRoom_v0.1.22-beta.zip). Full supplied-reference compilation and 217 targeted offline checks passed. Fixes T5 viewing-fire recovery after draining a checked non-T5; live .22 firing/rendering and optional MP-only Feuer validation remain pending. Other prior suites were not re-run. All multiplayer peers need the same TRC9 build. The initial .18 release is retained separately.
 
 ## Repository layout
 
@@ -52,3 +52,6 @@ These are recovered source snapshots, including experimental and diagnostic buil
 | [Type IXC40 280m - UBE Compatibility](contributions/type-ixc40-280m-ube-compatibility) | `1.0` | Compatibility contribution |
 
 Hydrophone Surface Noise Fix is the earlier name of Nimm Bitte Platz. The original stock Nose Down, Proper Ballast, Seakeeping, Dusty's bundle, UBE, and other downloaded reference mods are not bundled here.
+
+
+

@@ -1,6 +1,11 @@
-0.1.19 implemented for testing: remove loaded-pistol lock; stale weapon/draft
-recovery; state-triggered icon refresh/empty clear; specific read-only reasons;
-transition-only diagnostics; clean player packaging. No config migration.
-Pending live validation: TESTING.txt. Remaining periscope/TDC speed-cycle tests.
+0.1.22 ready for live testing: T5 drain/reflood selection recovery, retaining .21 MP Feuer and raised position. No live .22 tests here.
+
+0.1.22 ready for testing: host-controlled MP restricted-scope Feuer-only display,
+independent of solo/global report modes; higher Feuer placement. TRC9, all peers
+update. New MP behavior not live-tested. .20 periscope Read-only/Hidden firing
+reported successful; aft and TDC/bridge tests pending. See TESTING.txt.
+No Spoilers 2.0.1 source inspected: hides periscope target info, not a direct
+launcher-opener patch. MP 1.11.5 scope_tubes=false is the confirmed panel gate.
 Future: modifier multi-tube selection and mixed-salvo program retain/straight choice.
-Larger-stack loading/crash interactions remain a separate investigation.
+Broader mod-stack loading/crash investigations remain separate.
+

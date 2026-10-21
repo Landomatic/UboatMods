@@ -1,7 +1,7 @@
 {
   "name": "Torpedo Room",
-  "version": "0.1.19",
-  "description": "Torpedo Room Beta: per-tube preparation controls, configurable station reports and independent TDC speed synchronization. Source: https://github.com/Landomatic/UboatMods",
+  "version": "0.1.22",
+  "description": "Torpedo Room Beta: optional host-controlled Feuer-only access at MP-restricted scopes/UZO, per-tube preparations and configurable reports. Source: https://github.com/Landomatic/UboatMods",
   "author": "Landomatic",
   "supportedGameVersions": [
     "2026.1"
@@ -11,5 +11,5 @@
     "Reflection",
     "IO"
   ],
-  "steamFileId": 0
+  "steamFileId": 3823181610
 }
