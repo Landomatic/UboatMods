@@ -1,4 +1,4 @@
-DRAFT 0.1.25 SOURCE: compiled only; no .25 player package or live test yet.
+0.1.25 TEST BUILD: supplied-reference compilation passed; cleanup feedback awaits in-game testing.
 
 # Torpedo Room — Beta 0.1.25
 

@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
   "project": "Torpedo Room",
-  "version": "0.1.25-beta-draft",
-  "prepared_at_utc": "2026-10-21T22:15:53+00:00",
+  "version": "0.1.25-beta",
+  "prepared_at_utc": "2026-10-21T22:20:28+00:00",
   "changes": [
-    "Draft cleanup completion/error overlay with removed-record count, host/load guards and separate-save instructions; generated config uninstall comments and root UNINSTALL.txt; record queued navigation and cleanup test findings. No player package or release."
+    "Add uninstall cleanup completion/error overlay and count, load/host guards, config comments and root UNINSTALL.txt. No station navigation or depth-rule changes."
   ],
   "validation": {
     "compile": "passed",
     "offline": "not-run",
     "in_game": "not-run",
     "notes": [
-      "Full supplied-reference compilation passed. Owner verified .24 cleanup and subsequent boat load with mod disabled; .25 overlay not live-tested. Existing .24 package archives remain unchanged."
+      "Full supplied UBOAT/Unity/Harmony reference compilation passed. ZIP contents/source and CRCs verified. No new offline or live overlay tests. Owner verified cleanup/removal with .24 on one save."
     ]
   },
   "known_issues": [
-    "Navigation restoration, Feuer layout and depth-reference investigation remain queued. No config-only uninstall command. No .25 ZIP generated."
+    "Cleanup overlay needs live sizing/input and host/client testing. Navigation restoration, Feuer layout and depth-reference investigation remain queued. No config-only cleanup command or migration."
   ],
   "files": [
     {
@@ -55,13 +55,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 8172,
-      "sha256": "7528f55fc2c21934c2adcc6343a3b0bc6c15193415f0d1879b0dc6421eda6945"
+      "bytes": 8195,
+      "sha256": "11de1e1b05ba784134da404cf1a3c5c4130e39f00a16eec84344af9eb6eebb1d"
     },
     {
       "path": "README.txt",
-      "bytes": 9133,
-      "sha256": "eaaa28e2ebfba4f242eae482d6a96e7e4cf6c1e85b12a18bbdaf6adc7d219bc7"
+      "bytes": 9156,
+      "sha256": "51e0e30327ffb02e85311fe9b6ad84deb990c9c033cbdf730f5aeb0a28fdb7c9"
     },
     {
       "path": "ROADMAP.txt",
@@ -305,8 +305,8 @@
     },
     {
       "path": "VALIDATION.txt",
-      "bytes": 729,
-      "sha256": "ec5d4734396470770d643b8ee37af8660b2372f0132c9be266b743b91638f061"
+      "bytes": 756,
+      "sha256": "69b88221b53c59c23fe19b2e8910d51eb485bcbee84bef386bb557bc28407d76"
     },
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
@@ -314,5 +314,11 @@
       "sha256": "a8b0ff2188611483a330d6c1d821a546c150e9f8dc273695a478442452fc15b0"
     }
   ],
-  "artifacts": []
+  "artifacts": [
+    {
+      "name": "TorpedoRoom_v0.1.25-beta.zip",
+      "bytes": 81811,
+      "sha256": "c627d6124c2a9e71a6ea8f84aeb3ddc7772e0c20a08d180140124ae809d111b5"
+    }
+  ]
 }

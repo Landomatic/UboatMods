@@ -1,6 +1,6 @@
-0.1.25-beta DRAFT SOURCE VALIDATION
+0.1.25-beta TEST BUILD VALIDATION
 Full supplied UBOAT/Unity/Harmony reference compilation passed.
 No new offline runtime tests run; inherited .24 checks have not been re-run against this draft.
-Cleanup-result overlay not tested in Unity or multiplayer. No .25 player ZIP built.
+Cleanup-result overlay not tested in Unity or multiplayer. Player/source ZIPs built; archive integrity verified.
 Owner .24 test: cleanup log reported completion; subsequent disabled-mod log loaded the boat without TorpedoRoom initialization or missing-type deserialization errors. This validates that tested save, not every possible save. Raw logs not committed.
 Remaining: live overlay sizing, cursor/button input, duplicate-status cleanup, failures and host/client handling; queued navigation, Feuer layout and depth-reference investigation remain unresolved.
