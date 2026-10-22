@@ -81,7 +81,7 @@ namespace Landomatic.TorpedoRoom
             FireHint.Refresh(button,DepthHint(Runtime.Ship.Depth,deep,Hidden?HiddenLayout.Reason:"",any&&allT5));
         }
         internal static string DepthHint(float depth,bool permitted,string fallback,bool allSelectedT5=false)
-        {return depth>18&&!permitted?(allSelectedT5?"Tube Depth <= 50m":"Tube Depth <= 18m"):fallback;}
+        {return depth>18&&!permitted?(allSelectedT5?"Too Deep to Fire! Ascend to minimum Tube depth: 50m":"Too Deep to Fire! Ascend to minimum Tube depth: 18m"):fallback;}
         static bool BeforeFire(TorpedoLaunchersUI __instance)
         {
             if(!Enabled)return true;

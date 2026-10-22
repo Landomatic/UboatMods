@@ -29,13 +29,13 @@ public static class TooltipChecks
             Frame(ui);var hint=Field<GameObject>("hint");var label=Field<TextMeshProUGUI>("text");var hover=Field<TorpedoHover>("hover");
             Check(hint!=null&&!hint.activeSelf,"tooltip only shows on hover in "+mode);
             Check(!ui.fireButton.interactable&&!ui.firingBlockade.activeSelf,"depth still gates Feuer without covering panel in "+mode);
-            hover.Enter();Check(hint.activeSelf&&label.text=="Tube Depth <= 18m","disabled Feuer depth explanation appears in "+mode);
+            hover.Enter();Check(hint.activeSelf&&label.text=="Too Deep to Fire! Ascend to minimum Tube depth: 18m","disabled Feuer depth explanation appears in "+mode);
             Check(!hint.GetComponent<Image>().raycastTarget&&!label.raycastTarget,"tooltip cannot intercept button or other controls in "+mode);
             Check(!ui.fireButton.interactable,"hover never enables restricted fire in "+mode);
             ordinary.IsMarkedForLaunch=false;Runtime.Ship.Boxes.Selected=1;Frame(ui);
-            Check(ui.fireButton.interactable&&!label.text.Contains("Tube Depth <="),"valid T5 selection immediately clears depth explanation in "+mode);
-            Runtime.Ship.Depth=51;Frame(ui);Check(hint.activeSelf&&label.text=="Tube Depth <= 50m","crossing depth limit updates while pointer remains over button in "+mode);
-            Runtime.Ship.Depth=5;Frame(ui);Check(ui.fireButton.interactable&&!label.text.Contains("Tube Depth <="),"ascending clears stale depth restriction while hovered in "+mode);
+            Check(ui.fireButton.interactable&&!label.text.Contains("Too Deep to Fire!"),"valid T5 selection immediately clears depth explanation in "+mode);
+            Runtime.Ship.Depth=51;Frame(ui);Check(hint.activeSelf&&label.text=="Too Deep to Fire! Ascend to minimum Tube depth: 50m","crossing depth limit updates while pointer remains over button in "+mode);
+            Runtime.Ship.Depth=5;Frame(ui);Check(ui.fireButton.interactable&&!label.text.Contains("Too Deep to Fire!"),"ascending clears stale depth restriction while hovered in "+mode);
             if(mode!=ViewportMode.Hidden)Check(!hint.activeSelf,"ordinary vanilla mode has no misleading ready-depth tooltip in "+mode);
             hover.Exit();Check(!hint.activeSelf,"pointer exit hides explanation in "+mode);
             Runtime.Ship.Depth=51;Frame(ui);hover.Enter();FireHint.Close(ui.fireButton);Check(Field<GameObject>("hint")==null&&!hint.activeSelf,"panel close clears tooltip in "+mode);

@@ -189,3 +189,13 @@ This build has no new live verification; log/user evidence of firing relates to
 - Save/load/world change while inventory is open: no stale return callback/input blockade.
 - Feuer hover in Sync/Read-only/Hidden: mixed/ordinary selected flooded tubes show Tube Depth <= 18m; T5-only shows <= 50m, clearing when permitted.
 - Save, exit to menu and quit. Capture crash report/dump if the exit crash recurs; not claimed fixed.
+
+.29 PRIMARY LIVE TESTS (supersede .28 unbound-inventory expectations)
+1. Use an engineer at the tube station. Manage Ordnance -> load a stored torpedo. Verify native Load versus Load and maintain choices appear. Test each from separate save loads; log should name the chosen order.
+2. Confirm an order: inventory closes, native progress/animation starts and continues to completion without delayed kick, cancellation or invisible station occupation.
+3. Maintain an already loaded torpedo: inventory closes after native dispatch; native work continues normally.
+4. Escape/Close inventory without an order: initial room display returns, station remains usable.
+5. Periscope officer -> native left station icons: record which character the game selects if the tube station is occupied versus empty. Native role eligibility must remain, no forced engineer assignment.
+6. Repeat in MP with native permissions. This test build needs live MP validation.
+7. Feuer hover in Sync/Read-only/Hidden: exact Too Deep to Fire! Ascend to minimum Tube depth: 18m, or 50m for T5-only readied candidates.
+8. Save/load and exit; preserve a native crash report if the unresolved exit crash recurs.

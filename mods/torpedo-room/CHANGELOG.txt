@@ -1,3 +1,10 @@
+0.1.29-beta — Operator-bound ordnance and native task handoff
+- Restore operator-bound native inventory using the character chosen by the native station view, preserving the native load / load-and-maintain confirmation options.
+- Scope a last-priority StartAction prefix to native LoadTorpedoesAction/WarmUpTorpedoAction issued by our owned inventory actor at the same tube station. It hands the manual camera to FPP with stopCurrentAction=false and lets the original native action run unchanged; no crew action is started or cancelled by the prefix.
+- Close maintenance inventory in LateUpdate rather than clear widgets during StorageUI.Update. Command completion yields to the native task/camera; Escape without an order still returns to our initial display.
+- Log the native selected task as Load torpedo / Load and maintain / Maintain torpedo. If the optional dispatch hook cannot install, Manage Ordnance reports unavailable instead of using the broken shortcut.
+- Exact Feuer depth hover: Too Deep to Fire! Ascend to minimum Tube depth: 18m (50m for T5-only readied candidates) in all three report modes. No launch-depth or per-tube printed-label change.
+
 0.1.28-beta — Native ordnance dispatch and Escape return
 - Match native OpenTorpedoStorageOnTubeAction Generic-mode inventory opening: no bound character, preserving native crew dispatch for maintenance/loading instead of replacing the station operator action.
 - Subscribe to native inventory Closed; return to initial Torpedo Room screen without T. Guard the closing Escape against also exiting the station; release after close frames and key release. Detach callbacks/release guard on load/world change.

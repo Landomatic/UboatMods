@@ -53,7 +53,7 @@ namespace Landomatic.TorpedoRoom
         public static void Save()
         {
             string tmp=PathName+".tmp";
-            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.28-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
+            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.29-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
                 +"# UNINSTALL: clean saved preparation records BEFORE disabling the launcher mod.\n"
                 +"# 1. Keep Torpedo Room enabled in the launcher and load your saved game.\n"
                 +"# 2. Dusty's settings > Other Mods > Torpedo Room:\n"

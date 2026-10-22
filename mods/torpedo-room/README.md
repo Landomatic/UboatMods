@@ -1,4 +1,4 @@
-0.1.28 TEST BUILD: supplied-reference compilation passed; cleanup feedback awaits in-game testing.
+0.1.29 TEST BUILD: compiled and offline-tested; native loading/camera behavior needs live testing.
 
 # Torpedo Room — Beta 0.1.25
 
@@ -35,7 +35,7 @@ Solo play does not require multiplayer or Community Patch. The supplied multipla
 
 ## 0.1.25 changes and validation
 
-Hovering depth-restricted Feuer now explains: **Too deep** This works in Synchronized, Read-only, Hidden Reports and optional MP-only Feuer. The message updates during hover when depth/selection changes, without enabling firing. Hidden Reports retains its other selection/readiness hints.
+Hovering depth-restricted Feuer now explains: **Too Deep to Fire! Ascend to minimum Tube depth: 18m** (50m for a T5-only readied selection) This works in Synchronized, Read-only, Hidden Reports and optional MP-only Feuer. The message updates during hover when depth/selection changes, without enabling firing. Hidden Reports retains its other selection/readiness hints.
 
 Individual loaded-tube depth/FAT/LUT reports also append **Launch limit: 18 m (50 m for T5)** when boat depth exceeds that weapon's viewing limit (18 m normally; T5 through 50 m). This does not replace native/HTT hovers and remains hidden under Hidden Reports. Physical levers remain native.
 
@@ -77,32 +77,24 @@ The .22 owner logs record a Tube V launch audit verified=True but also the whole
 
 Uninstall cleanup: while your game is loaded, use Remove preparation records before uninstalling in Dusty's Torpedo Room settings. A dismissible result reports completion, record count or failure. OFF is the action's resting state, not proof of completion. After success, save to a NEW slot, exit, disable the mod in the launcher and restart to test that save. Keep the original save; never disable the launcher mod before cleanup and saving.
 
-0.1.26 CHANGES
-The original native Leave position button and its tooltip are retained at the
-lower right in the initial room display and Prep. Prep's Back returns to the
-initial room display and releases its modal input blockade.
-Cleanup requires an explicit confirmation before records are removed. Restored
-Dusty checkbox values are ignored and the persisted action flag resets to OFF.
-Per-tube depth warnings read Tube Depth <= 18m / Tube Depth <= 50m for T5.
-Launch depth checks and all physical tube/firing behavior are unchanged.
-Manage Ordnance opens native compartment storage from the lower-left initial-display button. It fully closes our interface before opening storage. Closing storage returns to the initial Torpedo Room display if still at the tube station.
+CURRENT .29 TEST: ORDNANCE
+Manage Ordnance opens the native inventory bound to the character currently
+selected by the native station view. This preserves native Load / Load and
+maintain choices. The game still determines job eligibility and dispatch.
+On a native loading or maintenance order, only the manual camera is released:
+SetFPPController uses stopCurrentAction=false before the original order runs.
+The mod neither starts nor cancels the crew action in its order hook. Native
+task animations and progress remain the game's responsibility. Inventory
+closes after dispatch; maintenance closes in LateUpdate to avoid clearing
+widgets in the middle of StorageUI.Update. Escape without an order still
+returns to our initial station display. Native/MP eligibility remains intact.
+The log distinguishes Load torpedo, Load and maintain, and Maintain torpedo.
 
-0.1.27 CHANGES
-Manage Ordnance sits in the room display footer rather than at the screen edge.
-The vanilla compartment panel remains hidden throughout the ordnance handoff.
-Closing ordnance returns to the initial room display if still at the station.
-Depth notices use ASCII Tube Depth <= 18m / Tube Depth <= 50m for font support.
-Launch depth rules, firing and physical door/flooding states are unchanged.
+FEUER HOVER
+Too Deep to Fire! Ascend to minimum Tube depth: 18m
+Use 50m for T5-only selected flooded launch candidates. Mixed ordinary/T5 uses
+18m. Applies to Synchronized, Read-only and Hidden reports. Other readiness
+hints, per-tube printed labels and actual launch restrictions are unchanged.
 
-0.1.28 CHANGES
-Manage Ordnance opens inventory with no bound character, matching the native
-Generic-station path so maintenance/loading use native crew dispatch rather
-than forcing those jobs directly onto the station operator.
-Closing inventory (including Escape) returns to the initial room display. A
-brief close-frame input guard prevents Escape also leaving the station.
-Feuer depth hover in Synchronized, Read-only and Hidden Reports shows
-Tube Depth <= 18m, or Tube Depth <= 50m for a T5-only flooded launch selection.
-Mixed selections use the ordinary 18m limit; other readiness hints remain.
-Per-tube printed labels and launch-depth restrictions are unchanged.
-Exit crash reported on .27 remains undiagnosed. Quit-time UI work is skipped
-as a precaution; this is not a confirmed crash fix.
+Later viewport single-tube/checked-tube dial editing remains queued. Exit crash,
+physical aft-door/flood mismatch and Feuer clipping remain unresolved.
