@@ -1,3 +1,11 @@
+0.1.30-beta-diag -- Inventory diagnostics and requested UI adjustments
+- Enlarge initial Manage Ordnance from 210x34 to 280x48 UI units, with larger text.
+- Raise Hidden Reports / optional MP Feuer beside its native icon; raise fallback from 144 to 176 UI units and constrain the docked top edge.
+- Replace unready firing hint with: Ready, Select and Flood launch-tubes via Torpedo Room and Fire Control Boxes to fire.
+- Add temporary observational ORD-DIAG hooks for inventory binding, confirmation, native task dispatch/stages/stop/completion, actor cancellation and camera transitions. Log actor identity and position, current action and inventory/camera state. Up to 300 lines / 90 seconds per station inventory open; state samples at most twice per second.
+- No change to .29 ordnance dispatch, camera handoff or crew eligibility. Quick-swap task interruption and empty queued tasks remain unresolved; this build gathers evidence.
+- No torpedo physics, dud checks, depth limits, config migration or protocol changes.
+
 0.1.29-beta — Operator-bound ordnance and native task handoff
 - Restore operator-bound native inventory using the character chosen by the native station view, preserving the native load / load-and-maintain confirmation options.
 - Scope a last-priority StartAction prefix to native LoadTorpedoesAction/WarmUpTorpedoAction issued by our owned inventory actor at the same tube station. It hands the manual camera to FPP with stopCurrentAction=false and lets the original native action run unchanged; no crew action is started or cancelled by the prefix.

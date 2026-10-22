@@ -1,6 +1,6 @@
-0.1.29 TEST BUILD: compiled and offline-tested; native loading/camera behavior needs live testing.
+0.1.30 DIAGNOSTIC TEST BUILD: inventory interruption remains unresolved. See Docs/ORDNANCE-DIAGNOSTICS.txt.
 
-TORPEDO ROOM -- 0.1.29 BETA
+TORPEDO ROOM -- 0.1.30 BETA DIAGNOSTIC
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.

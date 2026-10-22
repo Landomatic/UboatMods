@@ -300,7 +300,7 @@ namespace Landomatic.TorpedoRoom
             banner=GridLabel(gridRoot.transform,"Hint","",0,0,950,30,13);var br=(RectTransform)banner.transform;br.anchorMin=br.anchorMax=new Vector2(.5f,0);br.pivot=new Vector2(.5f,0);br.anchoredPosition=new Vector2(0,10);
             banner.alignment=TextAnchor.MiddleCenter;
             Text ordnanceLabel;
-            ordnanceButton=GridButton(gridRoot.transform,"Manage Ordnance","Manage Ordnance",0,0,210,34,OpenOrdnance,out ordnanceLabel);ordnanceLabel.fontSize=17;
+            ordnanceButton=GridButton(gridRoot.transform,"Manage Ordnance","Manage Ordnance",0,0,280,48,OpenOrdnance,out ordnanceLabel);ordnanceLabel.fontSize=20;
             var ordnanceRect=(RectTransform)ordnanceButton.transform;ordnanceRect.anchorMin=ordnanceRect.anchorMax=new Vector2(.5f,0);ordnanceRect.pivot=Vector2.zero;ordnanceRect.anchoredPosition=new Vector2(-495,38);
             var bg=GridPanel(gridRoot.transform,"Preparation",new Color(.035f,.05f,.045f,.94f));gridPanel=bg.gameObject;
             var rect=bg.rectTransform;rect.anchorMin=rect.anchorMax=new Vector2(.5f,.5f);rect.pivot=new Vector2(.5f,.5f);rect.anchoredPosition=Vector2.zero;rect.sizeDelta=new Vector2(950,604);rect.localScale=new Vector3(1.1f,1.1f,1);

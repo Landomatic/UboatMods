@@ -1,12 +1,12 @@
-0.1.29 TEST BUILD: compiled and offline-tested; native loading/camera behavior needs live testing.
+0.1.30 DIAGNOSTIC TEST BUILD: inventory interruption remains unresolved. See Docs/ORDNANCE-DIAGNOSTICS.txt.
 
-# Torpedo Room — Beta 0.1.25
+# Torpedo Room — Beta 0.1.30 Diagnostic
 
 By **Landomatic** · Copyright (c) 2026 Landomatic · [CC BY-NC 4.0](LICENSE)
 
 Local torpedo preparations for first-person and multiplayer station-restricted play.
 
-[Download the clean 0.1.25 player ZIP](../../packages/torpedo-room/0.1.26-beta/TorpedoRoom_v0.1.26-beta.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
+[Download the .30 diagnostic player ZIP](../../packages/torpedo-room/0.1.30-beta-diag/TorpedoRoom_v0.1.30-beta-diag.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
 
 ## Features
 

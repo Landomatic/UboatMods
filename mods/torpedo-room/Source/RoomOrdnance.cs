@@ -64,7 +64,9 @@ namespace Landomatic.TorpedoRoom
             // task/animation/maintenance choices. Never CancelOrders here.
             ordnanceWorkStarting=closeOrdnanceAfterOrder=true;
             try {
+                OrdnanceDiagnostics.Mark("MOD handoff before SetFPPController stopCurrentAction=false");
                 camera.SetFPPController(actor,CameraTransitionType.Instant,false,0);
+                OrdnanceDiagnostics.Mark("MOD handoff after SetFPPController");
                 string order="Maintain torpedo";
                 if(action is LoadTorpedoesAction){var field=AccessTools.Field(typeof(LoadTorpedoesAction),"warmTorpedo");order=field==null?"Load torpedo (native maintenance choice)":(bool)field.GetValue(action)?"Load and maintain":"Load torpedo";}
                 Say("Native ordnance order: "+order+". Camera handed to the native task.");

@@ -1,3 +1,25 @@
+Torpedo Room 0.1.30-beta-diag -- ORDNANCE DIAGNOSTICS
+By Landomatic. Copyright (c) 2026 Landomatic. See LICENSE and NOTICE.txt.
+Source/history: https://github.com/Landomatic/UboatMods
+
+Replace the old Source folder completely and restart. No extra diagnostic mod or config switch is needed. Do not uninstall/clean preparation records merely to update. Test on a separate save.
+
+Logging is automatic when storage opens from a tube station. Search output_log.txt for [TorpedoRoom][ORD-DIAG]. Each open starts a numbered 90-second window, capped at 300 lines. Native and mod-button paths are observed. Changed state is sampled at most twice per second. Async StartAction RETURN means the call returned its task, not that the task finished. Not-exposed occupancy is reported explicitly; a camera-selected character is not assumed to physically occupy the tube station. Ordinary crew work outside the diagnostic window is not traced.
+
+Test at 1x, one order per attempt, without clicking or moving after confirmation:
+1. From the same starting save, quick-swap an engineer from TDC to tubes. Use our Manage Ordnance; choose Load and maintain. Wait 15 seconds. Record actor and result.
+2. Reload the starting save and walk that engineer to the same tubes; repeat.
+3. Repeat the failing quick-swap route with the officer if needed.
+4. Separately open inventory through the tube's own action and drag a torpedo into an empty tube. Wait 15 seconds; record whether it creates a queued task and which crewman claims it.
+5. Optional: try right-click loading and report what was clicked. This build does not add right-click behavior.
+6. Verify engineer maintenance of an already loaded torpedo still works; inventory Escape without an order still returns to the initial display.
+
+Send the session output_log.txt and the order of attempts, with a short video if practical. Preserve the log before another launch replaces it. The log includes crew names and positions; it is not uploaded by the mod.
+
+This is observation, not a claimed fix. Native eligibility, task selection, camera handoff and order arguments are unchanged from .29. Diagnostics do not wait for tasks, assign crew, teleport characters, cancel orders or replace return values. Hook failures are reported individually. Remove the diagnostic build by replacing it with a subsequent normal Torpedo Room build, not by disabling the mod without normal save cleanup.
+
+HISTORICAL CHECKLISTS BELOW (older versions; latest instructions above take precedence)
+
 0.1.24-beta -- hover test (NOT RUN in game here)
 1. Install .24, restart; verify log says 0.1.24-beta and Workshop ID 3823181610.
 2. Synchronized and Read-only, at 45 m: select/flood a non-T5 or mixed selection.

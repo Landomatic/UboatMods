@@ -1,10 +1,5 @@
-0.1.24-beta publication preparation
-Player ZIP: Source, Manifest.json, README.txt, CHANGELOG.txt, LICENSE, NOTICE.txt.
-Use only that player ZIP for Workshop, not the separate source archive.
-Manifest steamFileId is 3823181610, the existing Torpedo Room Workshop item:
-https://steamcommunity.com/sharedfiles/filedetails/?id=3823181610
-Keep this ID and retain the existing preview in the publishing folder.
-Do not create another Workshop item accidentally. Record live test results as partial
-until focused tests pass. This patch preparation does not publish a new release.
-Keep the existing .18 GitHub Beta and its exact original package unchanged.
-
+0.1.30-beta-diag -- TEST DISTRIBUTION ONLY
+Player ZIP: Source, Manifest.json, README.txt, CHANGELOG.txt, LICENSE, NOTICE.txt, UNINSTALL.txt and Docs/ORDNANCE-DIAGNOSTICS.txt.
+Keep Workshop identity 3823181610. Preserve the existing publishing preview.
+Diagnostic beta: no Workshop upload, release, tag or merge is requested here. Existing .18 release remains unchanged. Source/history retained on draft PR #17.
+Quick-swap ordnance interruption and empty queued tasks remain unresolved. Obtain live test results before considering a normal release.

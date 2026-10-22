@@ -76,7 +76,7 @@ namespace Landomatic.TorpedoRoom
             var button=Button(__instance);
             if(button!=null&&((Hidden&&(!mapped||!selected))||Runtime.Ship.Depth>18&&!deep))button.interactable=false;
             NativePresentation.Refresh(__instance);
-            HiddenLayout.Reason=!mapped?"Fire-control selection is unavailable.":!selected?"Select and flood the intended tubes using the native controls.":Runtime.Ship.Depth>18&&!deep?"Viewing-station firing is blocked at this depth. Only flooded T5 launch candidates are permitted down to 50 m.":button!=null&&!button.interactable?"Native firing requirements are not met.":"Fire the flooded tubes selected at the fire-control boxes.";
+            HiddenLayout.Reason=!mapped?"Fire-control selection is unavailable.":!selected?"Ready, Select and Flood launch-tubes via Torpedo Room and Fire Control Boxes to fire.":Runtime.Ship.Depth>18&&!deep?"Viewing-station firing is blocked at this depth. Only flooded T5 launch candidates are permitted down to 50 m.":button!=null&&!button.interactable?"Native firing requirements are not met.":"Fire the flooded tubes selected at the fire-control boxes.";
             bool allT5;bool any=HasSelected(out allT5);
             FireHint.Refresh(button,DepthHint(Runtime.Ship.Depth,deep,Hidden?HiddenLayout.Reason:"",any&&allT5));
         }

@@ -1,26 +1,7 @@
-0.1.25 ready for live test: depth-disabled Feuer hover explanation in all report modes; retains .23 outline and T5 UI recovery.
-Queued: Manage Ordnance lower left, Leave Station lower right, Prep Back control, exclusive native ordnance display; multi-tube Prep editing; native flood graphic investigation.
-
-Next package must include root UNINSTALL.txt (in addition to LICENSE/NOTICE/README/CHANGELOG), and Source/Settings.cs config comments. Prepared in .25 draft; not yet delivered or game-tested.
-
- Dismissible completion/failure message with removed-record count, preparation disabled status and new-save-before-launcher-disable instructions. Checkbox remains a one-shot action resting at OFF. Draft implementation in patch025 compiles against supplied references; not packaged, published or game-tested. Owner testing existing .24 cleanup first.
-
-Confirmed vanilla reference 20261021144636_1.jpg: restore native lower-right Leave position control and its hover tooltip at torpedo stations. Preserve native exit behavior. Owner reports clean uninstall after preparation-record cleanup; disabled-session log has no TorpedoRoom load or missing-type deserialization errors. Current enabled=False config alone does not remove saved preparation records; no config-only cleanup exists yet.
-
-Next patch correction (supersedes prior height wording): per-tube restriction text must be "Tube Depth ≤ 18m" or "Tube Depth ≤ 50m" for T5, retaining existing depth gating/clear behavior and unchanged launch rules. Include missing native Leave position with tooltip and explicit Prep Back to initial display. Investigate owner report of aft physical inner door remaining open while flooded after reload; require session screenshot/log before claiming a fix. Also resolve cleanup action replay at startup and add explicit pre-cleanup confirmation.
-
-0.1.26 IMPLEMENTATION STATUS (supersedes earlier queued notes):
-Implemented native Leave position relocation/restore, Prep Back label, exact Tube Depth ≤ 18m / 50m wording, restored-cleanup suppression/flag reset and pre-cleanup confirmation. Compiled/offline-tested only.
-Still queued: Manage Ordnance and complete room-interface closure/exclusivity when opened; Feuer layout retune. Aft physical inner-door/flood discrepancy needs a screenshot/session log to diagnose. No depth-rule change requested.
-
-.26 scope update: Manage Ordnance lower-left button and full-close/exclusive handoff are now implemented and offline-tested. Closing native storage does not reopen the room interface. Press T at a tube station to reopen. Earlier queued ordnance notes are superseded.
-
-.27 status: fixes .26 ordnance dismissal latch across station visits, keeps vanilla panel mask during handoff, moves Manage Ordnance into the initial footer, uses ASCII <= depth labels. These supersede earlier notes requiring T as the only reopening path. Live confirmation pending; physical aft-door discrepancy and Feuer layout remain open.
-
-Later request: viewport vanilla-interface per-tube / checked-tube preparation dials. Offer a single selected tube or current native checkmarked tube set; preserve unselected tube settings instead of global depth edits. Account for native shared values/TDC behavior, mixed weapon speed/program capabilities, report permissions and multiplayer synchronization. Checkmarked selection is distinct from flooding/readiness. This is future scope, not part of .28 ordnance/depth-tooltip fixes.
-
-.28 current behavior supersedes .27 dismissal notes: closing ordnance returns directly to initial Torpedo Room UI at the current station, with a close-frame Escape guard. Inventory uses native unbound-character Generic dispatch; no crew action is forcibly cancelled. The exit crash remains undiagnosed; quit-time UI mutations are skipped as a precaution only. Future checked-tube viewport dial editing remains queued.
-
-Next-patch Feuer hover wording (supersedes .28 brief hover): "Too Deep to Fire! Ascend to minimum Tube depth 18m"; use 50m for a T5-only readied launch set. Apply across Synchronized, Read-only and Hidden reports, including the shared MP Feuer path. Use the actual native selected/readied launch candidates; mixed ordinary/T5 uses 18m. Keep actual depth restrictions and per-tube printed labels unchanged. Queued only; existing .28 package is unchanged.
-
-.29 supersedes .28 unbound ordnance approach: operator-bound inventory preserves native confirmation; scoped native action prefix releases only manual camera with stopCurrentAction=false before native job, and defers maintenance inventory close until LateUpdate. No custom loading/progress animation and no new role assignment. Exact requested Feuer hover includes colon: Too Deep to Fire! Ascend to minimum Tube depth: 18m / 50m. All require live testing. Future per-tube/checked-tube viewport dials remain queued.
+Torpedo Room -- remaining work after .30 diagnostic preparation
+- Diagnose quick-swap officer/engineer loading camera interruption and unclaimed/empty tasks from native station inventory. .30 only observes, preserving .29 behavior.
+- Verify native right-click inventory transfer behavior.
+- Live-check larger Manage Ordnance and raised Feuer at multiple game UI scales; keep fire tooltip on screen.
+- Later: viewport dials apply to a single/checked subset instead of all tubes; Ctrl/Alt multi-tube Prep selection remains separate and unimplemented.
+- Investigate reported physical aft door/flood mismatch and exit crash with relevant evidence. No confirmed fixes.
+- Quarter-metre running-depth steps remain; no evidence of a half-metre dependency in native dud checks. Revisit reported pre-impact dip if reproduced with diagnostic evidence.

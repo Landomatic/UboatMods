@@ -1,5 +1,5 @@
-0.1.29-beta TEST BUILD VALIDATION
-Full supplied UBOAT/Unity/Harmony reference compilation passed.
-391 targeted offline assertions passed: 316 stock/depth/viewing/MP/outline/tooltip/badge and 75 cleanup/navigation/ordnance/handoff checks. Actual helper checks cover optional hook failure/removal, bound actor, ownership/station/action scoping, stopCurrentAction=false, no prefix task start/cancel, native maintenance flag reporting, deferred inventory close, work-versus-Escape return, and previous handoff/cleanup cases. Exact new Feuer strings verified across Synchronized/Read-only/Hidden with mixed and T5-only selections.
-Native IL confirmed: view switcher prefers a target station interacting character, otherwise retains current Generic character; it only changes camera/controller. Bound StorageUI offers carry/load confirmation; null-character path immediately ProceedWithCarryOrder(false), queues globally and keeps inventory open. Bound path starts the character action and closes. MainCamera.SetFPPController third argument is stopCurrentAction; the handoff passes false with Instant transition. Native task/action code owns subsequent progress/stage animations.
-No live .29 Unity AI, task completion, camera/animation, actual event timing, save/load/exit or multiplayer test. Offline doubles do not prove full game behavior. Exit crash remains undiagnosed; no new crash-fix claim. Physical aft inner-door/flood mismatch and Feuer clipping remain unresolved.
+0.1.30-beta-diag VALIDATION
+Full supplied UBOAT/Unity/Harmony compilation: passed.
+391 existing offline assertions: passed, including the revised raised fallback expectation. These tests exercise prior native UI/depth/viewing/MP/cleanup/handoff helpers, not the new observational hooks inside Unity.
+Diagnostic hook installation, runtime event order and visual placement require live testing. No live .30 run. No fix claimed for quick-swap animation cancellation or empty global tasks.
+No changes to torpedo physics, dud logic, native eligibility, launch-depth policy, config format or TRC9 protocol. Existing exit crash and aft physical door/flood discrepancy remain undiagnosed.

@@ -47,7 +47,7 @@ namespace Landomatic.TorpedoRoom
             }
             var parent=fire.parent as RectTransform;
             if(icon==null||parent==null){
-                if(parent!=null){fire.anchorMin=fire.anchorMax=fire.pivot=new Vector2(.5f,0);fire.anchoredPosition=new Vector2(0,144);}
+                if(parent!=null){fire.anchorMin=fire.anchorMax=fire.pivot=new Vector2(.5f,0);fire.anchoredPosition=new Vector2(0,176);}
                 return;
             }
             obstacles.Clear();var popup=Popup==null?null:Popup.GetValue(panel) as GameObject;
@@ -60,7 +60,10 @@ namespace Landomatic.TorpedoRoom
             var box=Beside(a,f.Right-f.Left,f.Top-f.Bottom,gap,p,obstacles);
             // Keep the live button outside the hidden panel and disabled toggle's
             // hierarchy; follow its world rectangle instead of copying a pixel offset.
-            fire.pivot=new Vector2(0,.5f);fire.localPosition=new Vector3(box.Left,(box.Top+box.Bottom)/2,0);fire.SetAsLastSibling();
+            float centreY=(box.Top+box.Bottom)/2+Math.Max(24,(a.Top-a.Bottom)*.35f);
+            float halfHeight=(box.Top-box.Bottom)/2;
+            if(p.Top-p.Bottom>=halfHeight*2)centreY=Math.Min(centreY,p.Top-halfHeight-8);
+            fire.pivot=new Vector2(0,.5f);fire.localPosition=new Vector3(box.Left,centreY,0);fire.SetAsLastSibling();
         }
     }
 }

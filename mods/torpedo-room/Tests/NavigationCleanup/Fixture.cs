@@ -116,3 +116,5 @@ public static class NavigationCleanupChecks {
   return count+" assertions passed";
  }
 }
+
+namespace Landomatic.TorpedoRoom {internal static class OrdnanceDiagnostics {internal static void Mark(string s){}}}
