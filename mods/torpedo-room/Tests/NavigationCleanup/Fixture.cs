@@ -16,7 +16,9 @@ namespace UnityEngine {
  public struct Color {public Color(float r,float g,float b,float a){}public static Color white{get{return new Color(1,1,1,1);}}}
  public class Canvas:Component {public RenderMode renderMode;public int sortingOrder;}
  public enum RenderMode {ScreenSpaceOverlay}
- public static class Time {public static float unscaledTime;}
+ public static class Time {public static float unscaledTime;public static int frameCount;}
+ public enum KeyCode {Escape}
+ public static class Input {public static bool EscapeHeld;public static bool GetKey(KeyCode key){return EscapeHeld;}}
  public static class Resources {public static T[] FindObjectsOfTypeAll<T>(){var list=new List<T>();foreach(var go in GameObject.All){var c=go.GetComponent<T>();if(c!=null)list.Add(c);}return list.ToArray();}}
  public static class Debug {public static void LogWarning(object o){}}
 }
@@ -31,16 +33,17 @@ namespace UnityEngine.UI {
 }
 namespace TMPro {public enum TextAlignmentOptions {Center}public class TextMeshProUGUI:UnityEngine.Component {public string text;public float fontSize;public UnityEngine.Color color;public bool enableWordWrapping,richText,raycastTarget;public TextAlignmentOptions alignment;}}
 namespace UBOAT.Game.UI {public class BasicManualModeUI:UnityEngine.MonoBehaviour {public UnityEngine.UI.Button leaveStationButton;}}
+namespace UBOAT.Game.Core.Input {public class GameInput {public System.Collections.Generic.HashSet<object> Blockades=new System.Collections.Generic.HashSet<object>();public void AddBlockade(object o){Blockades.Add(o);}public void RemoveBlockade(object o){Blockades.Remove(o);}}}
 namespace UBOAT.Game.Scene.Items {public class TorpedoLauncherGroup {public object TorpedoStorage=new object();}}
 namespace UBOAT.Game.Scene.Camera {public class Generic {public object Character=new object();public object ExternalController=new object();}public class MainCamera {public static MainCamera Instance=new MainCamera();public Generic GenericController=new Generic();}}
-namespace UBOAT.Game.UI.Storage {public enum StorageUIMode {Auto}public class StorageUI {public bool IsOpened;public int Opens;public object Character,Storage;public Action BeforeOpen;public void Open(object c,object s,StorageUIMode mode,object a,object b,object d,bool e){if(BeforeOpen!=null)BeforeOpen();Character=c;Storage=s;Opens++;IsOpened=true;}}}
+namespace UBOAT.Game.UI.Storage {public enum StorageUIMode {Auto}public class StorageUI {public event Action Closed;public void Close(){IsOpened=false;if(Closed!=null)Closed();}public bool IsOpened;public int Opens;public object Character,Storage;public Action BeforeOpen;public void Open(object c,object s,StorageUIMode mode,object a,object b,object d,bool e){if(BeforeOpen!=null)BeforeOpen();Character=c;Storage=s;Opens++;IsOpened=true;}}}
 namespace Landomatic.TorpedoRoom {
  internal static partial class NativeSkin {internal static void RestoreStations(){RoomExit(null);}}
  internal static class NativePresentation {public static bool Hidden=true;internal static void Room(bool v){Hidden=v;}}
  internal static class UiScale {internal static UnityEngine.Vector3 Between(UnityEngine.Transform a,UnityEngine.Transform b){return new UnityEngine.Vector3(2,2,1);}internal static void SetScale(UnityEngine.RectTransform r,UnityEngine.Vector3 v){r.localScale=v;}}
  internal static class Config {public static bool Interface=true;}
  internal static class Bridge {public static bool IsRemote;}
- public sealed partial class Runtime {public static UBOAT.Game.UI.Storage.StorageUI Storage;public static T Get<T>() where T:class{return Storage as T;}public static UBOAT.Game.Scene.Items.TorpedoLauncherGroup CurrentGroup;public static bool Loading;public static bool Active=true;internal bool roomTakeover=true;internal UnityEngine.GameObject gridRoot=new UnityEngine.GameObject("room canvas");internal int Closed;void CloseGrid(){Closed++;}internal void TestOpen(){OpenOrdnance();}internal bool Dismissed{get{return roomHandoff.Dismissed;}}public static Runtime Instance=new Runtime();public UnityEngine.Transform transform=new UnityEngine.GameObject("runtime").transform;public static void Say(string s){}}
+ public sealed partial class Runtime {public static UBOAT.Game.UI.Storage.StorageUI Storage;public static object Ship=new object();public static UBOAT.Game.Core.Input.GameInput Inputs=new UBOAT.Game.Core.Input.GameInput();public static T Get<T>() where T:class{return Storage as T??Inputs as T;}internal float nextRoomMask,nextGridRender;internal void TestTick(){TickOrdnanceReturn();}internal void TestCancel(){CancelOrdnanceHandoff();}internal bool InitialAvailable{get{return roomHandoff.CanShow(CurrentGroup,RoomStationToken,false,false);}}public static UBOAT.Game.Scene.Items.TorpedoLauncherGroup CurrentGroup;public static bool Loading;public static bool Active=true;internal bool roomTakeover=true;internal UnityEngine.GameObject gridRoot=new UnityEngine.GameObject("room canvas");internal int Closed;void CloseGrid(){Closed++;}internal void TestOpen(){OpenOrdnance();}internal bool Dismissed{get{return roomHandoff.Dismissed;}}public static Runtime Instance=new Runtime();public UnityEngine.Transform transform=new UnityEngine.GameObject("runtime").transform;public static void Say(string s){}}
  public static class CommunityPatchSettings {public static object[] GetSettings(){return new object[0];}}
 }
 namespace DustysCommunityPatch.Core {
@@ -73,9 +76,17 @@ public static class NavigationCleanupChecks {
   Landomatic.TorpedoRoom.NativeSkin.RoomExit(null);Check(rect.parent==originalParent,"exit parent restored");Check(rect.anchorMin.x==.2f&&rect.anchorMax.y==.9f,"anchors restored");Check(rect.pivot.x==.1f&&rect.anchoredPosition.y==40,"pivot position restored");Check(rect.localScale.x==1.5f&&rect.localRotation.w==.7f,"scale rotation restored");Check(rect.Sibling==7,"sibling restored");
   var room=new Landomatic.TorpedoRoom.Runtime();var inventory=new UBOAT.Game.UI.Storage.StorageUI();Landomatic.TorpedoRoom.Runtime.Storage=inventory;Landomatic.TorpedoRoom.Runtime.CurrentGroup=new UBOAT.Game.Scene.Items.TorpedoLauncherGroup();
   inventory.BeforeOpen=()=>{Check(room.Closed==1,"Prep/input close before ordnance open");Check(!room.gridRoot.activeSelf,"room overlay gone before ordnance open");Check(Landomatic.TorpedoRoom.NativePresentation.Hidden,"native torpedo panel stays masked during inventory handoff");};
-  room.TestOpen();Check(inventory.Opens==1&&inventory.IsOpened,"native inventory opens");Check(room.Dismissed&&!room.roomTakeover,"handoff latches full room dismissal");Check(inventory.Storage==Landomatic.TorpedoRoom.Runtime.CurrentGroup.TorpedoStorage,"current compartment storage passed");Check(inventory.Character==UBOAT.Game.Scene.Camera.MainCamera.Instance.GenericController.Character,"current native character passed");
-  inventory.IsOpened=false;Check(room.Dismissed&&!room.gridRoot.activeSelf,"inventory close does not reopen room");
+  room.TestOpen();Check(inventory.Opens==1&&inventory.IsOpened,"native inventory opens");Check(room.Dismissed&&!room.roomTakeover,"handoff latches full room dismissal");Check(inventory.Storage==Landomatic.TorpedoRoom.Runtime.CurrentGroup.TorpedoStorage,"current compartment storage passed");Check(inventory.Character==null,"native Generic inventory uses no operator; jobs use crew dispatch");
+  inventory.Close();Check(!room.Dismissed&&room.InitialAvailable,"inventory close returns to initial station display");
+  Check(Landomatic.TorpedoRoom.Runtime.Inputs.Blockades.Count==1,"inventory close guards Escape before camera can consume it");
+  room.TestTick();Check(Landomatic.TorpedoRoom.Runtime.Inputs.Blockades.Count==1,"guard survives closing frame");
+  UnityEngine.Time.frameCount=1;room.TestTick();Check(Landomatic.TorpedoRoom.Runtime.Inputs.Blockades.Count==1,"guard survives next update order");
+  UnityEngine.Time.frameCount=2;UnityEngine.Input.EscapeHeld=true;room.TestTick();Check(Landomatic.TorpedoRoom.Runtime.Inputs.Blockades.Count==1,"held Escape does not exit station");
+  UnityEngine.Input.EscapeHeld=false;room.TestTick();Check(Landomatic.TorpedoRoom.Runtime.Inputs.Blockades.Count==0,"guard releases after close and key release");
   Landomatic.TorpedoRoom.Runtime.Loading=true;room.TestOpen();Check(inventory.Opens==1,"loading blocks new ordnance request");Landomatic.TorpedoRoom.Runtime.Loading=false;
+  inventory.BeforeOpen=null;room.TestOpen();Landomatic.TorpedoRoom.Runtime.Ship=new object();inventory.Close();Check(room.Dismissed,"closing inventory from a different world cannot reopen stale station");Check(Landomatic.TorpedoRoom.Runtime.Inputs.Blockades.Count==0,"world mismatch adds no return guard");
+  room.TestOpen();room.TestCancel();inventory.Close();Check(room.Dismissed,"load/teardown detaches inventory close callback");
+  room.TestOpen();inventory.Close();Check(Landomatic.TorpedoRoom.Runtime.Inputs.Blockades.Count==1,"second valid close installs guard");room.TestCancel();Check(Landomatic.TorpedoRoom.Runtime.Inputs.Blockades.Count==0,"load/teardown releases return guard");
   var state=new Landomatic.TorpedoRoom.RoomHandoff();var fore=new object();var aft=new object();var foreView=new object();var aftView=new object();
   Check(state.CanShow(fore,foreView,false,false),"initial station shows room");state.Dismiss(fore,foreView);
   Check(!state.CanShow(fore,foreView,true,false),"inventory excludes room");Check(!state.CanShow(null,null,true,true),"inventory rejects T and incidental camera exit");

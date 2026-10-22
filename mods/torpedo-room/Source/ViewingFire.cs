@@ -77,10 +77,11 @@ namespace Landomatic.TorpedoRoom
             if(button!=null&&((Hidden&&(!mapped||!selected))||Runtime.Ship.Depth>18&&!deep))button.interactable=false;
             NativePresentation.Refresh(__instance);
             HiddenLayout.Reason=!mapped?"Fire-control selection is unavailable.":!selected?"Select and flood the intended tubes using the native controls.":Runtime.Ship.Depth>18&&!deep?"Viewing-station firing is blocked at this depth. Only flooded T5 launch candidates are permitted down to 50 m.":button!=null&&!button.interactable?"Native firing requirements are not met.":"Fire the flooded tubes selected at the fire-control boxes.";
-            FireHint.Refresh(button,DepthHint(Runtime.Ship.Depth,deep,Hidden?HiddenLayout.Reason:""));
+            bool allT5;bool any=HasSelected(out allT5);
+            FireHint.Refresh(button,DepthHint(Runtime.Ship.Depth,deep,Hidden?HiddenLayout.Reason:"",any&&allT5));
         }
-        internal static string DepthHint(float depth,bool permitted,string fallback)
-        {return depth>18&&!permitted?"Too deep":fallback;}
+        internal static string DepthHint(float depth,bool permitted,string fallback,bool allSelectedT5=false)
+        {return depth>18&&!permitted?(allSelectedT5?"Tube Depth <= 50m":"Tube Depth <= 18m"):fallback;}
         static bool BeforeFire(TorpedoLaunchersUI __instance)
         {
             if(!Enabled)return true;

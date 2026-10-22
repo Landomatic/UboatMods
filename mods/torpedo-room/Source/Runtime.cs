@@ -45,7 +45,7 @@ namespace Landomatic.TorpedoRoom
                 Bridge.Install(harmony);
                 StockUi.Install(harmony);
                 ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.27-beta loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                Debug.Log("[TorpedoRoom] 0.1.28-beta loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");
@@ -182,12 +182,13 @@ namespace Landomatic.TorpedoRoom
         }
         void Update()
         {
+            if(quitting)return;
             double tickStart=Config.PerformanceTrace?Time.realtimeSinceStartupAsDouble:double.NaN;
             try {
-                Bridge.Tick();MpScopeFire.Tick();MenuIntegration.Tick();DepthControl.RestoreSteps();SpeedControl.RestoreBounds();
+                TickOrdnanceReturn();Bridge.Tick();MpScopeFire.Tick();MenuIntegration.Tick();DepthControl.RestoreSteps();SpeedControl.RestoreBounds();
                 var ship=Ship;
-                if(ship!=lastShip){roomHandoff.Reset();NativePresentation.Room(false);roomTakeover=false;nextRoomMask=0;lastShip=ship;pending.Clear();Epoch=Guid.NewGuid().ToString("N");ResetGrid();Bridge.ResetWorld();LaunchAuthority.Clear();TdcSpeed.Reset();}
-                if(Loading||ship==null){NativeSkin.RestoreStations();NativePresentation.Room(false);roomTakeover=false;CloseGrid();if(gridRoot!=null)gridRoot.SetActive(false);LaunchAuthority.Clear();if(ship==null)TdcSpeed.Reset();return;}
+                if(ship!=lastShip){CancelOrdnanceHandoff();roomHandoff.Reset();NativePresentation.Room(false);roomTakeover=false;nextRoomMask=0;lastShip=ship;pending.Clear();Epoch=Guid.NewGuid().ToString("N");ResetGrid();Bridge.ResetWorld();LaunchAuthority.Clear();TdcSpeed.Reset();}
+                if(Loading||ship==null){CancelOrdnanceHandoff();NativeSkin.RestoreStations();NativePresentation.Room(false);roomTakeover=false;CloseGrid();if(gridRoot!=null)gridRoot.SetActive(false);LaunchAuthority.Clear();if(ship==null)TdcSpeed.Reset();return;}
                 UpdateGrid();
                 if(Time.unscaledTime<nextScan)return;nextScan=Time.unscaledTime+0.2f;
                 LaunchAuthority.Tick();
@@ -307,7 +308,9 @@ namespace Landomatic.TorpedoRoom
         }
         internal static string Roman(int index)
         { string[] names={"I","II","III","IV","V","VI","VII","VIII"};return index>=0&&index<names.Length?names[index]:(index+1).ToString(); }
-        void OnDestroy(){MpScopeFire.Release();NativeSkin.RestoreStations();CloseGrid();NativePresentation.Room(false);NativePresentation.Restore();DepthControl.RestoreSteps(true);SpeedControl.RestoreBounds(true);if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);if(Instance==this)Instance=null;}
+        bool quitting;
+        void OnApplicationQuit(){quitting=true;}
+        void OnDestroy(){if(quitting){if(Instance==this)Instance=null;return;}CancelOrdnanceHandoff();MpScopeFire.Release();NativeSkin.RestoreStations();CloseGrid();NativePresentation.Room(false);NativePresentation.Restore();DepthControl.RestoreSteps(true);SpeedControl.RestoreBounds(true);if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);if(Instance==this)Instance=null;}
     }
 }
 

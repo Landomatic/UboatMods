@@ -52,6 +52,7 @@ namespace Landomatic.TorpedoRoom
         {
             var group=CurrentGroup;
             if(OrdnanceOpen){
+                if(roomTakeover||open||group!=null)ObserveOrdnance();
                 if(!roomHandoff.Dismissed&&(roomTakeover||open||group!=null))DismissRoom();
                 roomHandoff.CanShow(group,RoomStationToken,true,false);
                 if(roomHandoff.Dismissed&&Config.Interface&&Active&&Time.unscaledTime>=nextRoomMask){nextRoomMask=Time.unscaledTime+.2f;NativeSkin.Capture();NativePresentation.Room(true);}

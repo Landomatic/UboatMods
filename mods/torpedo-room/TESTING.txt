@@ -181,3 +181,11 @@ This build has no new live verification; log/user evidence of firing relates to
 - Leave then re-enter the same station restores initial UI.
 - Inventory incidental camera/controller changes do not reopen the overlay.
 - Exact ASCII Tube Depth <= 18m / <= 50m labels; launch restrictions unchanged.
+
+0.1.28 SUPERSEDING LIVE CHECKS
+- Open ordnance, Escape/Close: return to initial Torpedo Room display without T or station exit. Hold Escape briefly, release, then verify normal exit still works.
+- Start maintenance and tube loading: work follows native crew dispatch and continues without delayed camera kick/cancel/phantom station occupation. Test solo and MP.
+- Inventory opened via native interactions at a tube station also returns to initial screen.
+- Save/load/world change while inventory is open: no stale return callback/input blockade.
+- Feuer hover in Sync/Read-only/Hidden: mixed/ordinary selected flooded tubes show Tube Depth <= 18m; T5-only shows <= 50m, clearing when permitted.
+- Save, exit to menu and quit. Capture crash report/dump if the exit crash recurs; not claimed fixed.

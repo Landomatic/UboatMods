@@ -1,6 +1,6 @@
-0.1.27 TEST BUILD: supplied-reference compilation passed; cleanup feedback awaits in-game testing.
+0.1.28 TEST BUILD: supplied-reference compilation passed; cleanup feedback awaits in-game testing.
 
-TORPEDO ROOM -- 0.1.27 BETA
+TORPEDO ROOM -- 0.1.28 BETA
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
@@ -148,12 +148,24 @@ Cleanup requires an explicit confirmation before records are removed. Restored
 Dusty checkbox values are ignored and the persisted action flag resets to OFF.
 Per-tube depth warnings read Tube Depth <= 18m / Tube Depth <= 50m for T5.
 Launch depth checks and all physical tube/firing behavior are unchanged.
-Manage Ordnance opens native compartment storage from the lower-left initial-display button. It fully closes our interface before opening storage. Closing storage leaves Torpedo Room closed at the same station. Press T, leave and re-enter the station, or switch fore/aft stations to restore the initial display.
+Manage Ordnance opens native compartment storage from the lower-left initial-display button. It fully closes our interface before opening storage. Closing storage returns to the initial Torpedo Room display if still at the tube station.
 
 0.1.27 CHANGES
 Manage Ordnance sits in the room display footer rather than at the screen edge.
 The vanilla compartment panel remains hidden throughout the ordnance handoff.
-Closing ordnance leaves the room UI closed at the same station. A fresh entry
-or fore/aft station change restores the initial display; T also reopens it.
+Closing ordnance returns to the initial room display if still at the station.
 Depth notices use ASCII Tube Depth <= 18m / Tube Depth <= 50m for font support.
 Launch depth rules, firing and physical door/flooding states are unchanged.
+
+0.1.28 CHANGES
+Manage Ordnance opens inventory with no bound character, matching the native
+Generic-station path so maintenance/loading use native crew dispatch rather
+than forcing those jobs directly onto the station operator.
+Closing inventory (including Escape) returns to the initial room display. A
+brief close-frame input guard prevents Escape also leaving the station.
+Feuer depth hover in Synchronized, Read-only and Hidden Reports shows
+Tube Depth <= 18m, or Tube Depth <= 50m for a T5-only flooded launch selection.
+Mixed selections use the ordinary 18m limit; other readiness hints remain.
+Per-tube printed labels and launch-depth restrictions are unchanged.
+Exit crash reported on .27 remains undiagnosed. Quit-time UI work is skipped
+as a precaution; this is not a confirmed crash fix.

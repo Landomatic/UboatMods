@@ -1,3 +1,10 @@
+0.1.28-beta — Native ordnance dispatch and Escape return
+- Match native OpenTorpedoStorageOnTubeAction Generic-mode inventory opening: no bound character, preserving native crew dispatch for maintenance/loading instead of replacing the station operator action.
+- Subscribe to native inventory Closed; return to initial Torpedo Room screen without T. Guard the closing Escape against also exiting the station; release after close frames and key release. Detach callbacks/release guard on load/world change.
+- Feuer hover in Synchronized/Read-only/Hidden uses the selected launch set limit: Tube Depth <= 18m, or <= 50m for T5-only flooded candidates. Mixed ordinary/T5 uses 18m. Existing tube labels and launch rules unchanged.
+- Skip runtime/UI teardown mutations after OnApplicationQuit. Precaution only; reported exit crash remains unproven/unfixed.
+- Record later request for single-tube/checked-tube viewport dial editing; not implemented in this patch.
+
 0.1.27-beta — Ordnance return and display recovery
 - Move Manage Ordnance into the initial room display footer; raise tube cards and extend backing to leave a separate button row.
 - Preserve the vanilla compartment panel mask while opening/using ordnance and while dismissed at the same tube station. Close only our interactive overlay/input, not its replacement mask.
