@@ -74,11 +74,23 @@ namespace Landomatic.TorpedoRoom
         }
         static void AfterTube(Scope __state){Restore(__state);}
         static Exception FinishTube(Exception __exception,Scope __state){Restore(__state);return __exception;}
-        static bool BeforeOpen(object[] __args,out Scope __state)
-        {__state=Bind(__args);return true;}
+        static bool BeforeOpen(ref IPlayableCharacter __0,IItemStorage __1,out Scope __state)
+        {
+            // UBOAT's Harmony 2.2.2 may expose an argument snapshot to __args
+            // observers. Set the actual native parameter by reference, not only
+            // that snapshot; verify the stored inventory actor in the postfix.
+            object[] args={__0,__1};__state=Bind(args);
+            if(__state!=null)__0=__state.Actor;
+            return true;
+        }
         static void AfterOpen(StorageUI __instance,Scope __state)
         {
-            if(__state==null||!__instance.IsOpened||!object.ReferenceEquals(__instance.Character,__state.Actor)||Runtime.Instance==null)return;
+            if(__state==null||!__instance.IsOpened||Runtime.Instance==null)return;
+            if(!object.ReferenceEquals(__instance.Character,__state.Actor)){
+                OrdnanceDiagnostics.Mark("BIND FAILED: actual inventory actor differs; close before any crew order");
+                UnityEngine.Debug.LogWarning("[TorpedoRoom] Native tube inventory actor binding failed. Inventory closed; no global fallback allowed. Use Manage Ordnance.");
+                __instance.Close();return;
+            }
             Runtime.Instance.AdoptTubeOrdnance(__instance,__state.Actor,__state.Group,__state.Ship);
         }
     }

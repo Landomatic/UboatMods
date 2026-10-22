@@ -1,3 +1,9 @@
+0.1.33-beta-test -- Write the actual inventory actor parameter
+- Correct .32's binding prefix: write StorageUI.Open's IPlayableCharacter parameter by reference rather than relying on edits to Harmony's __args snapshot. Owner .32 log showed a changed diagnostic argument while actual inventoryActor stayed null and maintenance entered the global queue.
+- After opening, verify the inventory actually stored the intended actor. If it did not, log the mismatch and close inventory before a crew request can be made; do not silently permit global fallback.
+- Extend the offline fixture with matching IPlayableCharacter/IItemStorage signatures, by-ref prefix invocation followed by the inventory's actual Open method, stored-actor validation, and fail-closed mismatch checks. Native Harmony/Unity execution still needs a game test.
+- Preserve .31 request handoff, .32 exact scope/actor matching and native eligibility. No leader/engineer role override, no task delegation fallback and no physics/depth/config/TRC9 changes.
+
 0.1.32-beta-test -- Native tube inventory uses its station operator
 - Within the native OpenTorpedoStorageOnTubeAction.OnPreStart call at a current tube station, bind an otherwise unassigned StorageUI.Open to the same native camera operator used by our Manage Ordnance button. Match exact ship, tube group, storage and actor; retain existing assignments.
 - Adopt that inventory into the existing .31 exclusive UI / deferred station-release handoff before native tasks start. Load, load-and-maintain and eligible separate maintenance now have the same actor-bound path through either entry point.

@@ -1,23 +1,20 @@
-Torpedo Room 0.1.32-beta-test -- OPERATOR-BOUND TUBE INVENTORY
+Torpedo Room 0.1.33-beta-test -- ACTUAL INVENTORY ACTOR TEST
 By Landomatic. Copyright (c) 2026 Landomatic. See LICENSE and NOTICE.txt.
 Source/history: https://github.com/Landomatic/UboatMods
 
-INSTALL: replace the old Source folder completely and restart. No uninstall cleanup needed merely to update. Use a separate save. All MP peers should use the same test build.
+Replace the previous Source folder completely and restart. Updating does not require uninstall cleanup. Use a separate save. Keep MP peers on the same test build.
 
-CHANGE: At a tube station, the tube-door inventory entry now supplies the same camera-selected operator as our Manage Ordnance button, instead of native's null-character/global-queue path. This binding only applies inside that native tube action call, for its exact ship/group/storage. Normal FPP walk-up interactions and intentional global crew orders stay native. Native role eligibility and rejection are preserved; a leader is never substituted with an engineer and no automatic global fallback is added. Load-and-maintain does not grant permission for separate maintenance of a loaded torpedo.
+.32 owner log showed edited diagnostic Open arguments but inventoryActor=null. Maintenance therefore still entered a global queue. .33 writes the real IPlayableCharacter argument by reference and checks the actual stored inventory actor before adopting the .31 handoff. A mismatch closes the inventory rather than leave an unassigned request path available. Native roles, warnings and eligibility remain authoritative; no engineer is substituted for a rejected leader.
 
-The .31 handoff remains: retain the exact actor/activator/action and wait for continuous calm camera/interaction state for 0.5 seconds, resetting on camera changes, up to 8 seconds. Player task/actor/view changes, disabling the interface or world changes abort. Brief native save protection is released on completion of the handoff/abort/reset.
+At 1x:
+1. Quick-swap an engineer from TDC/scope to tubes. Use the individual tube's ordnance entry and request maintenance on an eligible loaded torpedo. Leave controls untouched. It should begin without manually leaving the station, deselecting, or rescuing the task.
+2. Compare our Manage Ordnance button.
+3. Try separate maintenance with an ineligible leader through tube entry. Preserve native rejection/warning with no job delegated to another crew member.
+4. After successful binding, check Load only / Load and maintain and Escape return.
+If any attempt fails, leave it unchanged for 15 seconds and send output_log.txt with the actor and attempt order. If inventory immediately closes, report that too; the BIND FAILED safeguard may have triggered.
 
-TEST at 1x, one attempt at a time from the same starting save:
-1. Quick-swap an ENGINEER from TDC/scope to the tube station. Open the tube's own ordnance interaction. Request maintenance on an eligible loaded torpedo. It should start without leaving/deselecting the engineer manually.
-2. Repeat through our Manage Ordnance button as the comparison.
-3. Quick-swap a LEADER and request separate maintenance through each entry. Preserve the native warning/rejection. Do not expect another engineer to pick it up automatically. Observe whether any global task appears; this is a regression check, not a claimed live pass.
-4. Through the tube entry, test Load only and Load and maintain with an eligible operator. Preserve the native choice/prompt.
-5. Close inventory with Escape without ordering work: initial room screen should return. Ordinary unrelated/global inventory behavior should remain native.
-If a request fails, wait 15 seconds without walking over, reissuing or rescuing the task. Send the session output_log and attempt order/actors. No additional diagnostic mod or setting is required.
+Diagnostics remain automatic: [TorpedoRoom][ORD-DIAG], 90 seconds / 300 lines per inventory opening, up to six camera caller stacks. Inspect STATE inventoryActor and BIND confirmation, not the argument snapshot alone: ENTER/RETURN Open arguments may reflect a snapshot used by another Harmony observer. DEFER reports waiting/submission/abort. Async StartAction RETURN is not task completion. No log uploads occur automatically; logs include crew names, positions and potentially stack paths.
 
-DIAGNOSTICS: look for startup 'Native tube inventory operator binding installed', ORD-DIAG BIND and DEFER lines, and native task starts/stops. The first ENTER StorageUI.Open diagnostic may still show character=null because it runs before the new binding prefix; RETURN and inventoryActor show the actual bound character. Each inventory opening starts a 90-second/300-line window; up to six camera caller stacks per session. Async StartAction RETURN is not task completion. Logs include crew names/positions and potentially stack paths; no automatic uploads.
+Compiled and independently offline-tested, but no live .33 run here. Real game Harmony/Unity/MP behavior, role rejection, native task animation and completion still require validation. A separate real-Harmony probe was attempted in the container's CoreCLR host and the process crashed; it supplies no integration pass. No probe binary or game DLL is included.
 
-No live .32 run here. Offline doubles do not prove native crew eligibility, Unity/Harmony/MP event timing, animation completion or save safety in-game. Prior exit crash/physical aft door mismatch remain unconfirmed. No torpedo physics, dud checks, depth policy, config migration or TRC9 changes.
-
-Last station still uses shared vanilla FAT/LUT values at launch, not a previously configured/fired torpedo. Optional Hidden Reports reference-tube preset and per-tube viewport dials remain queued only.
+No physics, dud logic, depth policy, migration, TRC9 or role-system changes. Optional reference-tube presets and per-tube viewport dials remain queued. Prior exit crash and physical aft door/flood mismatch remain undiagnosed. The supplied session also contained a rendering CullingResults exception; this build does not claim to fix it.

@@ -1,3 +1,5 @@
+.33 corrects actual by-reference inventory actor delivery and verifies stored actor; .32 did not complete binding in the owner game. Validate both tube/button paths and native leader rejection before further ordnance changes.
+
 .32 test implementation: scoped actor binding for native tube inventory; .31 deferred release retained. Validate leader rejection without crew fallback, engineer requests, both entry points and MP ownership.
 
 0.1.31 test implementation: shared station-release correction added for our bound inventory; requires live tests. Native unbound global-queue path remains unresolved.

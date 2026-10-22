@@ -1,27 +1,27 @@
 {
   "schema_version": 1,
   "project": "Torpedo Room",
-  "version": "0.1.32-beta-test",
-  "prepared_at_utc": "2026-10-22T17:40:05+00:00",
+  "version": "0.1.33-beta-test",
+  "prepared_at_utc": "2026-10-22T21:05:27+00:00",
   "changes": [
-    "Bind the otherwise unassigned native tube-action inventory to the existing camera operator, then adopt the .31 handoff. Scoped exact ship/group/storage/actor matching; preserve native eligibility and existing assignments. No leader-to-engineer substitution or automatic global fallback; unrelated/global inventories remain native."
+    "Correct native tube inventory binding with ref IPlayableCharacter argument delivery, verify actual stored inventory actor, and close inventory on mismatch before crew orders. Covers loading, load-and-maintain and separate maintenance. Preserve native eligibility and scoped handoff; no global fallback."
   ],
   "validation": {
     "compile": "passed",
-    "offline": "passed",
+    "offline": "failed",
     "in_game": "not-run",
     "notes": [
-      "Full supplied-reference compilation passed; 440 offline assertions passed (316 UI/depth/viewing/MP and 124 cleanup/navigation/handoff/binding). Actual helper tests cover identity, no substitution/fallback on simulated refusal, scoped matching, unrelated/prebound inventory, nested and exception cleanup, failed installation, and shared deferred dispatch. Native role eligibility/Unity/MP event timing require live validation. No live .32 run. ZIP CRC/source equality/Workshop ID verified."
+      "Supplied-reference compilation passed. 445 targeted offline assertions passed (316 UI/depth/viewing/MP + 129 cleanup/navigation/handoff/binding). New tests invoke actual typed prefix by reference and pass its result to interface-typed inventory Open, then verify stored actor and mismatch close. Overall offline status FAILED: separate real Harmony 2.2.2 probe under container CoreCLR 8 crashed with SIGSEGV; no actual Harmony integration pass is claimed. Probe is excluded. No live .33 run. ZIP CRC/source equality/Workshop ID verified."
     ]
   },
   "known_issues": [
-    "Both inventory paths and native engineer/leader rejection need live .32 validation. No new role logic; native permissions remain authoritative. Existing .31 deferred handoff retained. Prior exit crash and aft physical door/flood discrepancy undiagnosed. Reference-tube preset, multi-tube Prep and per-tube viewport dials queued. No physics/depth/config migration/TRC9 change, merge, release or Workshop upload."
+    "Real game Harmony/Unity/MP and native role eligibility need live validation; .32 owner log showed actual inventoryActor=null despite edited diagnostic arguments. .33 typed ref fix unverified in-game. Separate host probe failure preserved in validation status. Prior exit crash, physical aft door mismatch and supplied-log rendering CullingResults exception not fixed. No physics/depth/config/TRC9 changes or release/merge/Workshop upload."
   ],
   "files": [
     {
       "path": "CHANGELOG.txt",
-      "bytes": 34905,
-      "sha256": "56c391e9cac958624f0355be9fc572cb3aa8aad211a7aab5cb011ccfd8a369d5"
+      "bytes": 35924,
+      "sha256": "04b554f3590c5cd003402e84abb83e299e08c99c179eefa1de1d8277415dd015"
     },
     {
       "path": "Docs/History/NOTICE-through-0.1.18.txt",
@@ -35,8 +35,8 @@
     },
     {
       "path": "Docs/ORDNANCE-DIAGNOSTICS.txt",
-      "bytes": 3472,
-      "sha256": "d2cab25f8c419458e2875990c7d6be7d6b74e5be9f76e640f44ed0ebdcc85585"
+      "bytes": 2774,
+      "sha256": "d13365ade42ee24315e116e80674c4b267007129380f0a9f75e3cfc451f55aa7"
     },
     {
       "path": "LICENSE",
@@ -46,32 +46,32 @@
     {
       "path": "Manifest.json",
       "bytes": 455,
-      "sha256": "077571b58a8116913f451159631f4e3d6bb8f80fee0b5a82a9eca337e6c5a79a"
+      "sha256": "e45242914d3580ff8321f127647c11e6faf361f7d9bf0cafb7c9819f9431ad2d"
     },
     {
       "path": "NOTICE.txt",
       "bytes": 3055,
-      "sha256": "8cd12974496861e865bbcba495a506d7774e487159604247b10535a9d8c331a9"
+      "sha256": "c249c2a2ea21f42722f9511338f135971fca923f320dda7c1fb37f1142b7e55c"
     },
     {
       "path": "PUBLISHING.txt",
-      "bytes": 512,
-      "sha256": "d19ab8cbdde35bb11eeb7058e271dae68b26d6438396b5bcceed530b9eeec1d0"
+      "bytes": 507,
+      "sha256": "7be67bc83b1ec07f9e757cbfac79ba9e53bdafd16aae83a89ca7529adef92bc1"
     },
     {
       "path": "README.md",
-      "bytes": 9653,
-      "sha256": "5700a5ed151a8681aab4825ed63a0bcd42d138530721cf35e1c02704f7cd48bc"
+      "bytes": 9648,
+      "sha256": "1ed6cee4ac0cb52ebf2d4bb77d46c8ad99467c99216b6bea9194517ffd21b580"
     },
     {
       "path": "README.txt",
-      "bytes": 10611,
-      "sha256": "6b5bde778226204c0bfe047609c48980059a4f5d6fe6488b22e371cfb64a6935"
+      "bytes": 10606,
+      "sha256": "0861ce0aaaf591ded509493e7e82542ed59486610931d9b0a8df5020ad140eac"
     },
     {
       "path": "ROADMAP.txt",
-      "bytes": 1399,
-      "sha256": "5693712dd5eb5694d3847ee9233dab20e84655ca9ee0c4fd727389803a12baea"
+      "bytes": 1626,
+      "sha256": "895b663b07af6f26c230e62ae624bee42bdb9eba56bc594d8f767416e8eaa328"
     },
     {
       "path": "Source/Bridge.cs",
@@ -191,7 +191,7 @@
     {
       "path": "Source/Runtime.cs",
       "bytes": 24945,
-      "sha256": "d2a380ceb9d23ffe38195c9fe71f844d1e48e5ceb7829249715381ea52a6b2cd"
+      "sha256": "24a340572991999ec15901ab16100a77fead62c0c78435e16dd564f617748cfb"
     },
     {
       "path": "Source/Settings.cs",
@@ -235,8 +235,8 @@
     },
     {
       "path": "Source/TubeOrdnanceBinding.cs",
-      "bytes": 6277,
-      "sha256": "5c7974310d422d54581d18bfe1f0370215940e7f326fb9a92616a9d0286d46af"
+      "bytes": 7015,
+      "sha256": "c2043c0ce76746f35528c2e0884d84d5ddf4f04f984cbfacafc715fc49834ddc"
     },
     {
       "path": "Source/TubeUiState.cs",
@@ -255,8 +255,8 @@
     },
     {
       "path": "TESTING.txt",
-      "bytes": 3472,
-      "sha256": "d2cab25f8c419458e2875990c7d6be7d6b74e5be9f76e640f44ed0ebdcc85585"
+      "bytes": 2774,
+      "sha256": "d13365ade42ee24315e116e80674c4b267007129380f0a9f75e3cfc451f55aa7"
     },
     {
       "path": "Tests/BridgeFixture.cs",
@@ -295,13 +295,13 @@
     },
     {
       "path": "Tests/NavigationCleanup/Fixture.cs",
-      "bytes": 34716,
-      "sha256": "556888e877902d316c676ea29f41a86cd762869cb21f1a95ed559ab7dc4d90ee"
+      "bytes": 36585,
+      "sha256": "db48d5d8e0db909b3caf3dda561b318d44639ec597a5bc515dce972ea842c296"
     },
     {
       "path": "Tests/NavigationCleanup/README.txt",
-      "bytes": 339,
-      "sha256": "78bea3bc4d646ff65eea3fc473057cf6da8b39f030a74c31ca4456ffaf7752c5"
+      "bytes": 607,
+      "sha256": "7e1781de445699cd4fb837115b8b05aa73af9961928d572e83a5358963ca7ca2"
     },
     {
       "path": "Tests/README.txt",
@@ -355,8 +355,8 @@
     },
     {
       "path": "VALIDATION.txt",
-      "bytes": 1129,
-      "sha256": "e2005f17447ddca1f0f8b413dc62b7b0c9a6079acfa1f542ffda438eeaa72809"
+      "bytes": 1196,
+      "sha256": "beb7224bada641f8b69e15a1643e9331acadf68c90a2e3fedbd6e55310ec1ac4"
     },
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
@@ -366,9 +366,9 @@
   ],
   "artifacts": [
     {
-      "name": "TorpedoRoom_v0.1.32-beta-test.zip",
-      "bytes": 101556,
-      "sha256": "0b21af1b5af39cbbcd653bb4445c0c8c508a08f94be0955ad7d1f86ad2e18a79"
+      "name": "TorpedoRoom_v0.1.33-beta-test.zip",
+      "bytes": 101911,
+      "sha256": "70e66565bf05f8a7107881a5f0c6d24b8b63af8c5f6cfa32e189973fea10b489"
     }
   ]
 }

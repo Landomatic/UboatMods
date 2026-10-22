@@ -45,7 +45,7 @@ namespace Landomatic.TorpedoRoom
                 Bridge.Install(harmony);
                 StockUi.Install(harmony);
                 ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);OrdnanceDispatch.Install(harmony);OrdnanceDiagnostics.Install(harmony);OrdnanceRelease.Install(harmony);TubeOrdnanceBinding.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.32-beta-test loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                Debug.Log("[TorpedoRoom] 0.1.33-beta-test loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");

@@ -1,1 +1,3 @@
 Compile actual MenuIntegration/CleanupFeedback/RoomExit/RoomOrdnance/RoomHandoff/OrdnanceDispatch/OrdnanceRelease/TubeOrdnanceBinding with Fixture.cs. Tests cover existing helpers and scoped native binding without simulating actual game eligibility. Final count in VALIDATION.txt. No live Unity/MP validation or native source distributed.
+
+.33 adds interface-typed native Open parameters, real by-ref prefix invocation, stored-actor and mismatch-close assertions. The fixture does not execute Unity/Mono Harmony wrappers. A standalone real-Harmony CoreCLR probe failed with process SIGSEGV and is excluded.

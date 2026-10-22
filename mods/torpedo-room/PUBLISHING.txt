@@ -1,4 +1,4 @@
-0.1.32-beta-test -- TEST DISTRIBUTION ONLY
-Retain Workshop ID 3823181610 and existing publishing preview. Preserve Landomatic copyright, CC BY-NC 4.0 license and upstream credits.
-Player ZIP includes Source, Manifest, README/CHANGELOG/LICENSE/NOTICE/UNINSTALL and diagnostic instructions. Source archive includes tests/validation separately. No raw logs, saves, game DLLs or upstream source included.
-Leave draft PR #17 open. No merge, tag, release or Workshop publication authorized by this test-build request.
+0.1.33-beta-test -- TEST DISTRIBUTION ONLY
+Preserve Workshop identity 3823181610, existing preview, Landomatic copyright/license/upstream credits.
+Player package contains Source, manifest, README/changelog/license/notices/uninstall instructions and diagnostics checklist. Source archive additionally contains original tests and validation. No private raw logs, saves, game assemblies or probe binaries.
+Leave draft PR #17 open. No release, merge, tag or Workshop publication authorized for this test build.
