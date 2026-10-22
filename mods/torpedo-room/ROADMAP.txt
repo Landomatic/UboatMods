@@ -1,3 +1,5 @@
+.32 test implementation: scoped actor binding for native tube inventory; .31 deferred release retained. Validate leader rejection without crew fallback, engineer requests, both entry points and MP ownership.
+
 0.1.31 test implementation: shared station-release correction added for our bound inventory; requires live tests. Native unbound global-queue path remains unresolved.
 Queued: optional Hidden Reports reference-tube FAT/LUT shared preset with visible inherited values, switching to vanilla shared source in other report modes. No implementation yet.
 

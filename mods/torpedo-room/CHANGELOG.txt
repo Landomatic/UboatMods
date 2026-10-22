@@ -1,3 +1,10 @@
+0.1.32-beta-test -- Native tube inventory uses its station operator
+- Within the native OpenTorpedoStorageOnTubeAction.OnPreStart call at a current tube station, bind an otherwise unassigned StorageUI.Open to the same native camera operator used by our Manage Ordnance button. Match exact ship, tube group, storage and actor; retain existing assignments.
+- Adopt that inventory into the existing .31 exclusive UI / deferred station-release handoff before native tasks start. Load, load-and-maintain and eligible separate maintenance now have the same actor-bound path through either entry point.
+- Preserve native eligibility, action menus, warnings and dispatch. Do not replace a leader with an engineer or send a rejected actor-bound request to the global queue. Intentional global crew orders, unrelated storages and ordinary FPP walk-up interactions remain native.
+- Restore scoped context on return/exception; guard nested unrelated calls. No upstream source files modified. Keep bounded diagnostics and .30 UI adjustments.
+- Test build only: native leader rejection, engineer behavior, both entry routes, MP ownership and real event timing still require in-game confirmation. Reference-tube preset, multi-tube Prep and per-tube viewport dials remain queued.
+
 0.1.31-beta-test -- Release old station before ordnance dispatch
 - Defer the exact native load/maintain request from our bound Manage Ordnance inventory until the previous station has released and FPP camera/interaction state is continuously stable for 0.5 seconds. Each same-actor FPP transition resets the stability timer. Maximum wait 8 seconds.
 - Native request is submitted once with the same actor, activator, action object and native maintenance choice. Native dispatch and MP authorization patches run again. No global cancellation suppression, eligibility override, teleport or task recreation is added.

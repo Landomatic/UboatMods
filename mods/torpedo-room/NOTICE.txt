@@ -1,4 +1,4 @@
-Torpedo Room 0.1.31 BETA TEST -- Landomatic
+Torpedo Room 0.1.32 BETA TEST -- Landomatic
 Copyright (c) 2026 Landomatic. License: LICENSE (CC BY-NC 4.0).
 Source/history: https://github.com/Landomatic/UboatMods
 Project: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room

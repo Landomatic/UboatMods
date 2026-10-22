@@ -1,12 +1,12 @@
-0.1.31 TEST BUILD: deferred station-release correction; live validation required. See Docs/ORDNANCE-DIAGNOSTICS.txt.
+0.1.32 TEST BUILD: native tube inventory operator binding plus deferred handoff; live eligibility validation required. See Docs/ORDNANCE-DIAGNOSTICS.txt.
 
-# Torpedo Room — Beta 0.1.31 Test
+# Torpedo Room — Beta 0.1.32 Test
 
 By **Landomatic** · Copyright (c) 2026 Landomatic · [CC BY-NC 4.0](LICENSE)
 
 Local torpedo preparations for first-person and multiplayer station-restricted play.
 
-[Download the .31 test player ZIP](../../packages/torpedo-room/0.1.31-beta-test/TorpedoRoom_v0.1.31-beta-test.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
+[Download the .32 test player ZIP](../../packages/torpedo-room/0.1.32-beta-test/TorpedoRoom_v0.1.32-beta-test.zip) · [Initial .18 release](https://github.com/Landomatic/UboatMods/releases/tag/torpedo-room-v0.1.18-beta) · [Testing checklist](TESTING.txt)
 
 ## Features
 

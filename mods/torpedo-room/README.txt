@@ -1,6 +1,6 @@
-0.1.31 TEST BUILD: deferred station-release correction; live validation required. See Docs/ORDNANCE-DIAGNOSTICS.txt.
+0.1.32 TEST BUILD: native tube inventory operator binding plus deferred handoff; live eligibility validation required. See Docs/ORDNANCE-DIAGNOSTICS.txt.
 
-TORPEDO ROOM -- 0.1.31 BETA TEST
+TORPEDO ROOM -- 0.1.32 BETA TEST
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
