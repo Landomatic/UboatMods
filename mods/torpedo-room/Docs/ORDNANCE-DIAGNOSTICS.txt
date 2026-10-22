@@ -1,22 +1,20 @@
-Torpedo Room 0.1.30-beta-diag -- ORDNANCE DIAGNOSTICS
+Torpedo Room 0.1.31-beta-test -- STATION RELEASE TEST
 By Landomatic. Copyright (c) 2026 Landomatic. See LICENSE and NOTICE.txt.
 Source/history: https://github.com/Landomatic/UboatMods
 
-Replace the old Source folder completely and restart. No extra diagnostic mod or config switch is needed. Do not uninstall/clean preparation records merely to update. Test on a separate save.
+Replace the previous Source folder completely and restart. Updating does not require uninstall cleanup. Use a separate save. Keep all peers on the same build if testing MP.
 
-Logging is automatic when storage opens from a tube station. Search output_log.txt for [TorpedoRoom][ORD-DIAG]. Each open starts a numbered 90-second window, capped at 300 lines. Native and mod-button paths are observed. Changed state is sampled at most twice per second. Async StartAction RETURN means the call returned its task, not that the task finished. Not-exposed occupancy is reported explicitly; a camera-selected character is not assumed to physically occupy the tube station. Ordinary crew work outside the diagnostic window is not traced.
+This test correction retains the native request selected through our Manage Ordnance button while the old station releases. It requires 0.5 seconds of continuous stable FPP camera/interaction state and stops waiting after 8 seconds. Native save protection briefly blocks saving during this handoff to avoid saving a partly dispatched carry order. It releases on dispatch, abort or world reset. Character/task/view changes abort instead of forcing the order through. No new crew eligibility is granted. No task animation is fabricated; the original native action is submitted once after release.
 
-Test at 1x, one order per attempt, without clicking or moving after confirmation:
-1. From the same starting save, quick-swap an engineer from TDC to tubes. Use our Manage Ordnance; choose Load and maintain. Wait 15 seconds. Record actor and result.
-2. Reload the starting save and walk that engineer to the same tubes; repeat.
-3. Repeat the failing quick-swap route with the officer if needed.
-4. Separately open inventory through the tube's own action and drag a torpedo into an empty tube. Wait 15 seconds; record whether it creates a queued task and which crewman claims it.
-5. Optional: try right-click loading and report what was clicked. This build does not add right-click behavior.
-6. Verify engineer maintenance of an already loaded torpedo still works; inventory Escape without an order still returns to the initial display.
+At 1x, use a fresh start from the same save for each attempt, quick-swapping from a scope or TDC:
+1. Our Manage Ordnance -> Load only.
+2. Our Manage Ordnance -> Load and maintain.
+3. Our Manage Ordnance -> maintenance of an already loaded torpedo, using an engineer.
+Leave controls untouched after confirmation. If it fails, wait 15 seconds; do not walk over or retry to rescue the task. Report attempt order and actor, and send this session's output_log.txt before restarting again. We already have manual success comparisons. A fourth test through the tube's own small inventory is optional; that unbound global-queue path is not corrected here.
 
-Send the session output_log.txt and the order of attempts, with a short video if practical. Preserve the log before another launch replaces it. The log includes crew names and positions; it is not uploaded by the mod.
+Search [TorpedoRoom][ORD-DIAG] for DEFER request, camera changes, settled submission or abort reason, plus native action start/stop. Each inventory open has a 90-second/300-line window and at most twice-per-second state samples. Up to six camera caller stacks are logged per session. Async StartAction RETURN is only return of its task, not task completion. Logs contain crew names/positions and may contain local stack paths; the mod does not upload them.
 
-This is observation, not a claimed fix. Native eligibility, task selection, camera handoff and order arguments are unchanged from .29. Diagnostics do not wait for tasks, assign crew, teleport characters, cancel orders or replace return values. Hook failures are reported individually. Remove the diagnostic build by replacing it with a subsequent normal Torpedo Room build, not by disabling the mod without normal save cleanup.
+The correction is compiled/offline tested but not live tested. Native global inventory empty tasks, right-click behavior, prior exit crash, physical aft door/flood mismatch and layout at every UI scale are unresolved. No torpedo physics, dud logic, launch depth, configuration migration or TRC9 changes.
 
-PROGRAM SOURCE REMINDER
-Source: Last station uses the live shared vanilla FAT/LUT program when launching. It copies neither the previously configured torpedo nor the previously fired one. A Per-tube reference torpedo does not set the shared program. Firing order alone should not change the shared program.
+PROGRAM SOURCE
+Last station still uses the current shared vanilla FAT/LUT settings at launch. It copies neither the previous configured torpedo nor the previous fired torpedo. The proposed optional reference-tube shared preset for Hidden Reports is queued only. Per-tube preparations remain independent.

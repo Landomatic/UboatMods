@@ -4,6 +4,7 @@ using System;
 using HarmonyLib;
 using UBOAT.Game.Scene.Characters;
 using UBOAT.Game.Scene.Characters.Actions;
+using Activator = UBOAT.Game.Scene.Characters.Activators.Activator;
 namespace Landomatic.TorpedoRoom
 {
     internal static class OrdnanceDispatch
@@ -22,11 +23,15 @@ namespace Landomatic.TorpedoRoom
                 UnityEngine.Debug.LogWarning("[TorpedoRoom] Native ordnance handoff unavailable: "+e.Message);
             }
         }
-        // Last priority: leave native/MP order dispatch and eligibility unchanged.
-        // Never start, replace, cancel or fabricate a crew action here.
-        static bool BeforeOrder(PlayableCharacter __instance,CharacterAction __1)
+        // Last priority: earlier native/MP authorization prefixes still run.
+        // Only our bound station inventory may defer an exact native request.
+        // StorageUI ignores the returned UniTask; replay traverses all native patches.
+        static bool BeforeOrder(PlayableCharacter __instance,Activator __0,CharacterAction __1)
         {
-            if(Available&&Runtime.Instance!=null)Runtime.Instance.PrepareOrdnanceOrder(__instance,__1);
+            if(Available&&Runtime.Instance!=null){
+                if(Runtime.Instance.DeferOrdnanceOrder(__instance,__0,__1))return false;
+                Runtime.Instance.PrepareOrdnanceOrder(__instance,__1);
+            }
             return true;
         }
     }

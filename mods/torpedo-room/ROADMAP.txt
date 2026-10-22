@@ -1,3 +1,6 @@
+0.1.31 test implementation: shared station-release correction added for our bound inventory; requires live tests. Native unbound global-queue path remains unresolved.
+Queued: optional Hidden Reports reference-tube FAT/LUT shared preset with visible inherited values, switching to vanilla shared source in other report modes. No implementation yet.
+
 Torpedo Room -- remaining work after .30 diagnostic preparation
 - Diagnose quick-swap officer/engineer loading camera interruption and unclaimed/empty tasks from native station inventory. .30 only observes, preserving .29 behavior.
 - Verify native right-click inventory transfer behavior.

@@ -1,5 +1,4 @@
-0.1.30-beta-diag -- TEST DISTRIBUTION ONLY
-Player ZIP: Source, Manifest.json, README.txt, CHANGELOG.txt, LICENSE, NOTICE.txt, UNINSTALL.txt and Docs/ORDNANCE-DIAGNOSTICS.txt.
-Keep Workshop identity 3823181610. Preserve the existing publishing preview.
-Diagnostic beta: no Workshop upload, release, tag or merge is requested here. Existing .18 release remains unchanged. Source/history retained on draft PR #17.
-Quick-swap ordnance interruption and empty queued tasks remain unresolved. Obtain live test results before considering a normal release.
+0.1.31-beta-test -- TEST DISTRIBUTION ONLY
+Preserve author Landomatic, existing copyright/license/upstream credits and Workshop identity 3823181610. Retain publishing preview. Do not create a new listing.
+Player ZIP includes Source, Manifest.json, README/CHANGELOG/LICENSE/NOTICE/UNINSTALL and diagnostic instructions. Source ZIP separately includes tests and validation record.
+Leave draft PR #17 open. No release, tag, merge or Workshop upload is requested. Obtain live test results before publishing normally.

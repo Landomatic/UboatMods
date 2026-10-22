@@ -1,3 +1,11 @@
+0.1.31-beta-test -- Release old station before ordnance dispatch
+- Defer the exact native load/maintain request from our bound Manage Ordnance inventory until the previous station has released and FPP camera/interaction state is continuously stable for 0.5 seconds. Each same-actor FPP transition resets the stability timer. Maximum wait 8 seconds.
+- Native request is submitted once with the same actor, activator, action object and native maintenance choice. Native dispatch and MP authorization patches run again. No global cancellation suppression, eligibility override, teleport or task recreation is added.
+- Abort the held request on another character/task, leaving the handoff view, timeout, disabling the interface or world change. Complete the never-started action only in the same live world to release its native order. Use a native save blockade during the short handoff and release it on dispatch/abort/reset.
+- Keep bounded ORD-DIAG logging and add up to six camera caller stacks per session to identify any remaining transition source. Async StartAction RETURN is not proof of task completion.
+- Retain .30 enlarged Manage Ordnance, raised Feuer, exact firing hint and all prior controls. No new reference-tube preset or multi-tube editor.
+- Test correction only: no live .31 run; native unbound inventory's empty queued tasks remain a separate unresolved path.
+
 0.1.30-beta-diag -- Inventory diagnostics and requested UI adjustments
 - Enlarge initial Manage Ordnance from 210x34 to 280x48 UI units, with larger text.
 - Raise Hidden Reports / optional MP Feuer beside its native icon; raise fallback from 144 to 176 UI units and constrain the docked top edge.

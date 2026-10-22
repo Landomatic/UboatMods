@@ -16,7 +16,7 @@ namespace Landomatic.TorpedoRoom
     // state are changed. A return from async StartAction is NOT task completion.
     internal static class OrdnanceDiagnostics
     {
-        static float until,nextSample;static int remaining,sequence;static string previous;
+        static float until,nextSample;static int remaining,sequence,cameraStacks;static string previous;
         static readonly HashSet<object> actors=new HashSet<object>();
         static readonly HashSet<object> actions=new HashSet<object>();
         static bool Window {get{return Time.unscaledTime<until&&remaining>0&&!Runtime.Loading;}}
@@ -74,6 +74,7 @@ namespace Landomatic.TorpedoRoom
             string detail="";var pars=method.GetParameters();
             for(int i=0;i<args.Length;i++)detail+=" "+(i<pars.Length?pars[i].Name:"arg"+i)+"="+Describe(args[i]);
             Log((after?"RETURN ":"ENTER ")+method.DeclaringType.Name+"."+method.Name+" instance="+Describe(instance)+detail);
+            if(!after&&instance is MainCamera&&method.Name=="SetFPPController"&&cameraStacks<6){cameraStacks++;Log("CAMERA CALLER "+Environment.StackTrace);}
             if(storage&&after)Snapshot("inventory");
         }
         internal static void Mark(string message)

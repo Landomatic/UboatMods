@@ -1,27 +1,27 @@
 {
   "schema_version": 1,
   "project": "Torpedo Room",
-  "version": "0.1.30-beta-diag",
-  "prepared_at_utc": "2026-10-22T06:57:33+00:00",
+  "version": "0.1.31-beta-test",
+  "prepared_at_utc": "2026-10-22T16:02:23+00:00",
   "changes": [
-    "Larger Manage Ordnance button, raised icon-linked Hidden Reports Feuer, requested firing hint and bounded observational ordnance actor/camera/task diagnostics. No dispatch or torpedo physics fix claimed."
+    "Defer the original bound-inventory ordnance request until old station/camera interaction settles; submit once with unchanged actor/activator/action and maintenance choice. Bounded wait, player-interruption aborts and temporary native save protection; retain .30 UI changes and diagnostics. Test correction, no live fix claim."
   ],
   "validation": {
     "compile": "passed",
     "offline": "passed",
     "in_game": "not-run",
     "notes": [
-      "Full supplied-reference compilation passed; 391 existing offline assertions passed (316 UI/depth/viewing/MP and 75 navigation/cleanup/handoff). New observational hooks compile but require actual Unity runtime validation. ZIP CRC and source equality verified."
+      "Full supplied-reference compilation passed; 412 offline assertions passed (316 UI/depth/viewing/MP and 96 navigation/cleanup/deferred-handoff). Same-request identity, calm-state resets, interaction wait, timeout/actor/task/world/interface aborts and native save blockade release checked against independent API doubles. No live .31 test. ZIP CRC/source equality/Workshop ID verified."
     ]
   },
   "known_issues": [
-    "Quick-swap animation interruption and native unclaimed/empty tasks remain unresolved. Diagnostic hook installation/event order and visual layout need live testing. Exit crash and physical aft door/flood mismatch undiagnosed. No release/merge/Workshop publication."
+    "Deferred-dispatch correction requires live validation; delayed native camera caller not definitively identified. Native unbound inventory/global queued tasks unchanged. Diagnostic hooks, native cleanup on abort, MP and UI placement require game tests. Exit crash and physical aft door/flood mismatch remain undiagnosed. Reference-tube preset and per-tube viewport dials queued only. No release/merge/Workshop upload."
   ],
   "files": [
     {
       "path": "CHANGELOG.txt",
-      "bytes": 32261,
-      "sha256": "9bb2c43627a742ab314d318083024119bb4c1722d3fbb44d6a3ce95da94c2eda"
+      "bytes": 33640,
+      "sha256": "87392eefa092b6d2540fd1d2ec56f3308ddc3075d7c50cd934fdf7acf2b24df1"
     },
     {
       "path": "Docs/History/NOTICE-through-0.1.18.txt",
@@ -35,8 +35,8 @@
     },
     {
       "path": "Docs/ORDNANCE-DIAGNOSTICS.txt",
-      "bytes": 2721,
-      "sha256": "2cfb922efb80c7d95774a2888e2a160802a9145112e20d4a1df8f14a46e017a5"
+      "bytes": 2671,
+      "sha256": "c4590308d3bbc7e79326358e12aa5e63220042453542c12d0c8b24603d31802c"
     },
     {
       "path": "LICENSE",
@@ -46,32 +46,32 @@
     {
       "path": "Manifest.json",
       "bytes": 455,
-      "sha256": "7b68279a8465a8689f912b3ef086840e910095879444510961354ac997fd9c1c"
+      "sha256": "136cfb0c4854b38e7f01eb319afcc0e1dc1770eaa67f3ce7dc66bb2cc698b165"
     },
     {
       "path": "NOTICE.txt",
-      "bytes": 3050,
-      "sha256": "d780ff374d15f16cc2c99becf2485ab27ef6607f53ed872405c46b86c4f4d14f"
+      "bytes": 3055,
+      "sha256": "8094597a49ff800f8cf4ebfc25a7a1f601c0a0c46511061fb42b211f775a6e72"
     },
     {
       "path": "PUBLISHING.txt",
-      "bytes": 548,
-      "sha256": "a395341207f0a73467852171671ebb3aacd3380a0641d50c5607eb8fe2845e7d"
+      "bytes": 513,
+      "sha256": "6029f26c1f0c56d3fa5c9287a1b4990e3b480654c0b50c89a5391ef1f130f30c"
     },
     {
       "path": "README.md",
-      "bytes": 9619,
-      "sha256": "7f690716409969db19f3cb796ba99a3490410f5d644ad7c498d788eb83419dfc"
+      "bytes": 9616,
+      "sha256": "63fb877e71163ed1476715c9405cd022511d4d0964c2225a966163b5054bf90a"
     },
     {
       "path": "README.txt",
-      "bytes": 10571,
-      "sha256": "08de132a2acbda6de815dfc55ee42a1216de63aa39a0dd0a80476cb4d189ac5a"
+      "bytes": 10574,
+      "sha256": "01a60f2debc6d48d645612aae216d3b2d7a9bdf2d1b4eda4f2ba48dfe9131103"
     },
     {
       "path": "ROADMAP.txt",
-      "bytes": 841,
-      "sha256": "e688e18f17741f4660cd591ee8aadfdda61978bd49c9d4de175a57c8b74446f7"
+      "bytes": 1190,
+      "sha256": "dcbba9121c0b6434fc66af4c99a47d01404aa33b8b02fdf5dd54a633f9f73438"
     },
     {
       "path": "Source/Bridge.cs",
@@ -155,13 +155,18 @@
     },
     {
       "path": "Source/OrdnanceDiagnostics.cs",
-      "bytes": 7411,
-      "sha256": "58fbdf5284436192a5c587b3b12e035a807b1b1a76080ef7dbda45f572f890a4"
+      "bytes": 7582,
+      "sha256": "987a853b5aa49259e9d7434561350e32fd7a19c0a81676fa220c65c52be09835"
     },
     {
       "path": "Source/OrdnanceDispatch.cs",
-      "bytes": 1506,
-      "sha256": "51eec962240b23513220dc12cadb8beca61e2733ec0bebbae20615fa19c6c514"
+      "bytes": 1797,
+      "sha256": "cf2ac4ebcbda746752a7184d2f075722b7c829df20a79745138c55fcaa9d473a"
+    },
+    {
+      "path": "Source/OrdnanceRelease.cs",
+      "bytes": 7816,
+      "sha256": "296e3d88cea57ef3f3fb6df13af9d9b0f3c4c26de9e25d2a36e251e9b5099c3d"
     },
     {
       "path": "Source/PrepSelection.cs",
@@ -180,13 +185,13 @@
     },
     {
       "path": "Source/RoomOrdnance.cs",
-      "bytes": 6606,
-      "sha256": "17d29e2c61ff58591acdc121f6bcda9000fcfe5e55b7744e5fd35dd24e3cbeba"
+      "bytes": 6824,
+      "sha256": "e492376ae7876fe73bb3a6432b83c9d826ef9bf51f388e5209302896cf4fdb33"
     },
     {
       "path": "Source/Runtime.cs",
-      "bytes": 24852,
-      "sha256": "8098ff3fe8ada3add44e96143bd0180d4a70b078688076a6c257426ec385a853"
+      "bytes": 24908,
+      "sha256": "b7b5770b8b38cdf0d8ba4d080fe3e69d8818af7bc08abcdfe2a24826b4a211be"
     },
     {
       "path": "Source/Settings.cs",
@@ -245,8 +250,8 @@
     },
     {
       "path": "TESTING.txt",
-      "bytes": 17763,
-      "sha256": "a4412651d325c2ef10848d5d94e309ea22e6d1e5f1d983901f0ea3c4de96766a"
+      "bytes": 2671,
+      "sha256": "c4590308d3bbc7e79326358e12aa5e63220042453542c12d0c8b24603d31802c"
     },
     {
       "path": "Tests/BridgeFixture.cs",
@@ -285,13 +290,13 @@
     },
     {
       "path": "Tests/NavigationCleanup/Fixture.cs",
-      "bytes": 21850,
-      "sha256": "5cae9de8164d7f1ead358528bf4cdbfcc8437a3aa9d37f18cc410fe641553d73"
+      "bytes": 26981,
+      "sha256": "ac6567028c2a3a884fed72d836ca0d1fcdefc580a29e72e3f2eabc3bb03e19d7"
     },
     {
       "path": "Tests/NavigationCleanup/README.txt",
-      "bytes": 734,
-      "sha256": "67c1123f122ce23689ba487dfc8264019e8707dc6b8f460451907468bf1273fd"
+      "bytes": 375,
+      "sha256": "9c02138597fbf560422c619e3d7a2eed37781b31563431c31e7cd5fd5c78aeab"
     },
     {
       "path": "Tests/README.txt",
@@ -345,8 +350,8 @@
     },
     {
       "path": "VALIDATION.txt",
-      "bytes": 681,
-      "sha256": "e928ee8274a29942327995ca331e95d5f2efae20122a79edca25ecdc426538e4"
+      "bytes": 865,
+      "sha256": "24c30155a32172d481e2f77baa29230b47a48c89e7abea017db1b4894d6ddef8"
     },
     {
       "path": "WORKSHOP_DESCRIPTION.txt",
@@ -356,9 +361,9 @@
   ],
   "artifacts": [
     {
-      "name": "TorpedoRoom_v0.1.30-beta-diag.zip",
-      "bytes": 95272,
-      "sha256": "a2217a83d4c16c85b1543a659b60a2efa8ef24519c3d9c87cb16410d6c5a5008"
+      "name": "TorpedoRoom_v0.1.31-beta-test.zip",
+      "bytes": 98630,
+      "sha256": "3a63a4814eb9130f0ba0059c92588a93121fcb2674cae8455c53a456ac587c55"
     }
   ]
 }

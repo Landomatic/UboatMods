@@ -1,5 +1,4 @@
-0.1.30-beta-diag VALIDATION
-Full supplied UBOAT/Unity/Harmony compilation: passed.
-391 existing offline assertions: passed, including the revised raised fallback expectation. These tests exercise prior native UI/depth/viewing/MP/cleanup/handoff helpers, not the new observational hooks inside Unity.
-Diagnostic hook installation, runtime event order and visual placement require live testing. No live .30 run. No fix claimed for quick-swap animation cancellation or empty global tasks.
-No changes to torpedo physics, dud logic, native eligibility, launch-depth policy, config format or TRC9 protocol. Existing exit crash and aft physical door/flood discrepancy remain undiagnosed.
+0.1.31-beta-test VALIDATION
+Full supplied UBOAT/Unity/Harmony reference compilation: passed.
+Offline checks: 412 assertions passed (316 existing UI/depth/viewing/MP and 96 cleanup/navigation/deferred-handoff). New fixtures exercise the actual deferred request and settling gate, native action identity/maintenance flag preservation, delayed camera reset, duplicate prevention, active interaction wait, abort on changed actor/task, timeout, save blockade release and world/interface reset. Native role/MP permissions and actual Unity timing require live tests.
+No live .31 run. Camera caller stacks retained to identify remaining transition sources; delayed transition caller is not yet definitively identified. This is a test correction for the observed sequencing failure, not a confirmed gameplay fix. The unbound native inventory/global queue path is unchanged.

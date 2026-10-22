@@ -51,10 +51,11 @@ namespace Landomatic.TorpedoRoom
         void CancelOrdnanceHandoff()
         {
             if(ordnanceOwner!=null)ordnanceOwner.Closed-=OnOrdnanceClosed;
-            ordnanceOwner=null;ordnanceShip=null;ordnanceActor=null;ordnanceGroup=null;ordnanceWorkStarting=closeOrdnanceAfterOrder=false;ReleaseOrdnanceReturn();
+            ordnanceOwner=null;ordnanceShip=null;ordnanceActor=null;ordnanceGroup=null;ordnanceWorkStarting=closeOrdnanceAfterOrder=false;CancelDeferredOrdnance("world or runtime reset",false);ReleaseOrdnanceReturn();
         }
         internal void PrepareOrdnanceOrder(PlayableCharacter actor,CharacterAction action)
         {
+            if(replayingOrdnance)return;
             if(Loading||!Active||!Config.Interface||ordnanceOwner==null||!ordnanceOwner.IsOpened||!object.ReferenceEquals(ordnanceShip,Ship)||!object.ReferenceEquals(actor,ordnanceActor))return;
             if(!(action is LoadTorpedoesAction)&&!(action is WarmUpTorpedoAction))return;
             var camera=MainCamera.Instance;
@@ -88,9 +89,10 @@ namespace Landomatic.TorpedoRoom
         }
         void OpenOrdnance()
         {
+            if(deferredOrdnance!=null){Say("Wait for the pending ordnance handoff.");return;}
             var group=CurrentGroup;var ui=Get<StorageUI>();var camera=MainCamera.Instance;
             var actor=camera==null||camera.GenericController==null?null:camera.GenericController.Character;
-            if(!OrdnanceDispatch.Available){CleanupFeedback.Show("Manage Ordnance unavailable","The native order handoff could not be installed. Use the game's normal ordnance interaction; see output_log.txt.");return;}
+            if(!OrdnanceDispatch.Available||!OrdnanceRelease.Available){CleanupFeedback.Show("Manage Ordnance unavailable","The native order handoff could not be installed. Use the game's normal ordnance interaction; see output_log.txt.");return;}
             if(group==null||group.TorpedoStorage==null||ui==null||actor==null||Loading){Say("Manage Ordnance is unavailable at this station.");return;}
             DismissRoom();
             try {
