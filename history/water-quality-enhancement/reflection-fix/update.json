@@ -1,0 +1,14 @@
+{
+  "project": "Water Quality Enhancement reflection compatibility fix",
+  "version": "1.0.0-reflection-fix",
+  "compile_status": "passed",
+  "game_status": "partial",
+  "source_change": "Explicit empty argument list selects Weather.RenderReflectionProbe(). No visual tuning changes.",
+  "artifact": {
+    "name": "WaterQuality_ReflectionFix.zip",
+    "bytes": 4769,
+    "sha256": "9173206091b6c6b03567e84be0fc179695782323a873faadf4c42b6557862a8e"
+  },
+  "attribution": "Original supplied manifest author: UBOAT Modder. Upstream ownership retained; no license supplied. Hosted compatibility fix by Landomatic.",
+  "game_validation": "Owner reports in-game test without reported errors. Visual effect and performance unconfirmed; follow-up installation log not supplied."
+}

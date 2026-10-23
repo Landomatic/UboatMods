@@ -1,0 +1,26 @@
+Water Quality Enhancement - Reflection Compatibility Fix
+
+Problem
+The reflection patch selected Weather.RenderReflectionProbe by name only.
+The game has two methods with that name, causing Harmony to report an
+"Ambiguous match" error and interrupt patch installation.
+
+Fix
+Explicitly target the no-argument RenderReflectionProbe method.
+Water-quality settings and visual tuning are unchanged.
+Compiled successfully against the supplied game assemblies; live testing pending.
+
+Installation
+1. Close UBOAT completely.
+2. Back up WaterQuality's existing Source/WaterQualityMod.cs.
+3. Replace it with the fixed WaterQualityMod.cs from WaterQuality_ReflectionFix.zip.
+   Keep the existing manifest, preview and other mod files.
+4. Restart UBOAT. Check output_log.txt: the RenderReflectionProbe ambiguous-match
+   error should no longer appear. Report any new error separately.
+
+Expected In-Game Results
+Without the fix, WaterQuality encounters a startup error during patch installation,
+leaving some enhancements unapplied. The fix allows its reflection patch to install:
+sharper environmental reflections, updated less frequently to limit rendering cost.
+The "Ambiguous match" startup error should disappear. Actual appearance and
+performance still need in-game verification.
