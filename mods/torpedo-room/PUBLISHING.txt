@@ -1,4 +1,6 @@
-0.1.33-beta-test -- TEST DISTRIBUTION ONLY
-Preserve Workshop identity 3823181610, existing preview, Landomatic copyright/license/upstream credits.
-Player package contains Source, manifest, README/changelog/license/notices/uninstall instructions and diagnostics checklist. Source archive additionally contains original tests and validation. No private raw logs, saves, game assemblies or probe binaries.
-Leave draft PR #17 open. No release, merge, tag or Workshop publication authorized for this test build.
+0.1.33 PUBLIC BETA TESTING
+Workshop ID 3823181610. Preserve your existing preview image when uploading.
+Player ZIP contains only runtime Source, Manifest.json, README.txt, CHANGELOG.txt,
+LICENSE, NOTICE.txt and UNINSTALL.txt. Source is required by UBOAT script loading.
+Developer docs and tests remain in GitHub/source archive. No raw logs/game DLLs.
+Original diagnostic .33 snapshot remains archived separately. No automatic Workshop upload.

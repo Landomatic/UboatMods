@@ -235,8 +235,7 @@ namespace Landomatic.TorpedoRoom
                 TubeUiState observed;if(!tubeUiStates.TryGetValue(i,out observed)){observed=new TubeUiState();tubeUiStates[i]=observed;}
                 bool stateChanged=observed.Observe((int)tube.CurrentState,s==null?null:s.Value.Id,item!=null,Stable(tube));
                 if(stateChanged)NativeSkin.RefreshTubeIcon(i);
-                if(stateChanged&&Config.PerformanceTrace)
-                    Debug.Log("[TorpedoRoom] TUBE STATE tube="+(i+1)+" state="+tube.CurrentState+" loaded="+(item!=null)+" stable="+Stable(tube)+" id="+(s==null?"none":s.Value.Id)+" editor="+(i==selected)+" awaiting="+awaiting);
+                
                 if(tubeVisuals[n]!=null){var v=tubeVisuals[n];v.Sync();bool closed=ProgramValues.DoorClosed(tube.IsFlooded,(int)tube.CurrentState);if(v.OpenCover!=null)v.OpenCover.enabled=!closed;if(v.ClosedCover!=null)v.ClosedCover.enabled=closed;}
                 var sprite=item==null?null:NativePresentation.SpriteFor(i)??NativeSkin.TubeSprite(i);if(tubeVisuals[n]!=null){var v=tubeVisuals[n];if(v.Icon!=null){v.Icon.enabled=item!=null&&sprite!=null;v.Icon.sprite=sprite;}}cardIcons[n].sprite=sprite;cardIcons[n].enabled=item!=null&&sprite!=null;
                 cardPistols[n].interactable=!awaiting&&s!=null&&RoomEditable(tube.Group)&&Stable(tube)&&(!Bridge.IsRemote||Bridge.Synced);

@@ -1,3 +1,9 @@
+0.1.33 public beta packaging
+- Remove temporary ordnance diagnostic hooks, performance collection/config option,
+  and verbose successful-launch traces. Preserve normal errors and program checks.
+- Owner reports .33 load/maintenance tests passed; LUT flooding/selection and
+  engineer return-path issues remain. No gameplay fixes included in this cleanup.
+
 0.1.33-beta-test -- Write the actual inventory actor parameter
 - Correct .32's binding prefix: write StorageUI.Open's IPlayableCharacter parameter by reference rather than relying on edits to Harmony's __args snapshot. Owner .32 log showed a changed diagnostic argument while actual inventoryActor stayed null and maintenance entered the global queue.
 - After opening, verify the inventory actually stored the intended actor. If it did not, log the mismatch and close inventory before a crew request can be made; do not silently permit global fallback.

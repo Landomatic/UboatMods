@@ -1,6 +1,5 @@
-0.1.33 TEST BUILD: typed native inventory actor binding with stored-actor verification; live validation required. See Docs/ORDNANCE-DIAGNOSTICS.txt.
 
-TORPEDO ROOM -- 0.1.33 BETA TEST
+TORPEDO ROOM -- 0.1.33 BETA
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
@@ -162,3 +161,8 @@ hints, per-tube printed labels and actual launch restrictions are unchanged.
 
 Later viewport single-tube/checked-tube dial editing remains queued. Exit crash,
 physical aft-door/flood mismatch and Feuer clipping remain unresolved.
+
+PUBLIC BETA .33: temporary ordnance observer hooks, performance sampler and
+verbose successful-launch traces removed. Normal errors/warnings remain.
+Known issues: LUT panel may flicker during flooding; mixed dry/flooded
+selection synchronization and an engineer return-path stall remain under investigation.

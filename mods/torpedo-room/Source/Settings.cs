@@ -10,7 +10,7 @@ namespace Landomatic.TorpedoRoom
     internal static class Config
     {
         public static bool Enabled = true, Interface = true, Overview;
-        public static bool AllowLockout=true,PerformanceTrace=true,SpeedSync=true;
+        public static bool AllowLockout=true,SpeedSync=true;
         public static bool MpScopeFeuer; // opt-in host rule; independent of viewport reports
         public static int Preset=2;
         public static RoomAccess Access;
@@ -31,7 +31,6 @@ namespace Landomatic.TorpedoRoom
                     if(kv[0]=="speedSync"&&bool.TryParse(kv[1],out b))SpeedSync=b;
                     if(kv[0]=="enabled" && bool.TryParse(kv[1],out b))Enabled=b;
                     if(kv[0]=="interface" && bool.TryParse(kv[1],out b))Interface=b;
-                    if(kv[0]=="performanceTrace"&&bool.TryParse(kv[1],out b))PerformanceTrace=b;
                     if(kv[0]=="overview" && bool.TryParse(kv[1],out b)){Overview=b;Access=b?RoomAccess.OppositeReadOnly:RoomAccess.CurrentCompartment;}
                     if(kv[0]=="interfacePreset"&&int.TryParse(kv[1],out n)&&n>=0&&n<=2)Preset=n;
                     if(kv[0]=="roomAccess"&&int.TryParse(kv[1],out n)&&n>=0&&n<=2)Access=(RoomAccess)n;
@@ -82,7 +81,7 @@ namespace Landomatic.TorpedoRoom
                 +"# All players need Torpedo Room .24/TRC9; adapter supports supplied MP 1.11.5.\n"
                 +"mpScopeFeuer="+MpScopeFeuer+"\n\n"
                 +"speedSync="+SpeedSync+"\nenabled="+Enabled+"\ninterface="+Interface+"\ninterfacePreset="+Preset+"\nroomAccess="+(int)Access+"\nviewportDisplay="+(int)Viewport+"\npistolPolicy="+(int)Policy+"\npreparationSeconds="+Delay.ToString(CultureInfo.InvariantCulture)
-                +"\nperformanceTrace="+PerformanceTrace+"\nshortcutKey="+ShortcutKey+"\nshortcutCtrl="+ShortcutCtrl+"\nshortcutAlt="+ShortcutAlt+"\nshortcutShift="+ShortcutShift+"\nallowStraightRun="+AllowLockout+"\n");
+                +"\nshortcutKey="+ShortcutKey+"\nshortcutCtrl="+ShortcutCtrl+"\nshortcutAlt="+ShortcutAlt+"\nshortcutShift="+ShortcutShift+"\nallowStraightRun="+AllowLockout+"\n");
             if(File.Exists(PathName))File.Replace(tmp,PathName,null);else File.Move(tmp,PathName);
         }
     }
@@ -120,7 +119,6 @@ namespace Landomatic.TorpedoRoom
                 Bool("shortcutCtrl","Shortcut requires Ctrl","Local shortcut modifier. Either left or right Ctrl works.",()=>Config.ShortcutCtrl,v=>Config.ShortcutCtrl=v,false),
                 Bool("shortcutAlt","Shortcut requires Alt","Local shortcut modifier. Either left or right Alt works.",()=>Config.ShortcutAlt,v=>Config.ShortcutAlt=v,false),
                 Bool("shortcutShift","Shortcut requires Shift","Local shortcut modifier. Ctrl/Shift must match; Alt may be held for the game cursor when not required by the shortcut.",()=>Config.ShortcutShift,v=>Config.ShortcutShift=v,false),
-                Bool("performanceTrace","Diagnostic timing log (every 10 seconds)","Local test-build logging: Torpedo Room update time, longest frame and process-wide garbage collections. GC/frame figures include other mods; they do not prove the cause of a stutter.",()=>Config.PerformanceTrace,v=>Config.PerformanceTrace=v,false),
                 Choice("preset","Interface preset","Host rule. Casual: all tubes editable, synchronized viewport, unrestricted AZ/MZ. Hardcore: current compartment only, hidden viewport reports, unrestricted AZ/MZ. Custom preserves individual choices. Speed synchronization and the optional MP-only Feuer toggle are independent and unchanged by presets. No firing or role permissions are changed.",
                     ()=>Bridge.IsRemote?(EffectiveAccess==RoomAccess.AllEditable&&EffectiveViewport==ViewportMode.Synchronized&&EffectivePolicy==PistolPolicy.Free?0:EffectiveAccess==RoomAccess.CurrentCompartment&&EffectiveViewport==ViewportMode.Hidden&&EffectivePolicy==PistolPolicy.Free?1:2):Config.Preset,
                     v=>{Config.Preset=v;if(v<2){Config.Access=v==0?RoomAccess.AllEditable:RoomAccess.CurrentCompartment;Config.Viewport=v==0?ViewportMode.Synchronized:ViewportMode.Hidden;Config.Policy=PistolPolicy.Free;Config.AllowLockout=true;}},new[]{"Casual","Hardcore","Custom"}),
@@ -143,7 +141,7 @@ namespace Landomatic.TorpedoRoom
         static PistolPolicy EffectivePolicy { get { return Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.Policy:Config.Policy; } }
         public static void ResetToDefaults()
         {
-            Config.Interface=true;Config.Overview=false;Config.PerformanceTrace=true;
+            Config.Interface=true;Config.Overview=false;
             Config.ShortcutKey=KeyCode.T;Config.ShortcutCtrl=Config.ShortcutAlt=false;Config.ShortcutShift=false;
             if(!Bridge.IsRemote){Config.Preset=2;Config.Enabled=true;Config.MpScopeFeuer=false;Config.SpeedSync=true;Config.Policy=PistolPolicy.Free;Config.Delay=30;Config.AllowLockout=true;Config.Access=RoomAccess.CurrentCompartment;Config.Viewport=ViewportMode.ReadOnly;}
             Config.Save();

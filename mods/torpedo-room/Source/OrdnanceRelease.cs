@@ -61,7 +61,7 @@ namespace Landomatic.TorpedoRoom
             if(!OrdnanceRelease.Available){Say("Ordnance handoff unavailable; use the native tube interaction.");return false;}
             deferredOrdnance=new DeferredOrdnance{Actor=actor,Activator=activator,Action=action,OldAction=actor.Action,Ship=Ship,Gate=new OrdnanceSettle(Time.unscaledTime)};
             ordnanceWorkStarting=closeOrdnanceAfterOrder=true;
-            OrdnanceDiagnostics.Mark("DEFER native request; release previous station before task starts");
+            
             try{
                 deferredOrdnance.Saves=Get<SavesManager>();
                 if(deferredOrdnance.Saves==null)throw new InvalidOperationException("save manager unavailable");
@@ -76,13 +76,13 @@ namespace Landomatic.TorpedoRoom
             if(pending==null)return;
             if(!object.ReferenceEquals(actor,pending.Actor)){CancelDeferredOrdnance("camera selected another character",true);return;}
             pending.Gate.Disturbed(Time.unscaledTime);
-            OrdnanceDiagnostics.Mark("DEFER camera changed; restart stability check");
+            
         }
         void CancelDeferredOrdnance(string reason,bool releaseOrder)
         {
             var pending=deferredOrdnance;deferredOrdnance=null;
             if(pending==null)return;
-            OrdnanceDiagnostics.Mark("DEFER aborted: "+reason);
+            
             if(pending.Saves!=null)pending.Saves.RemoveSaveBlockade(pending);
             // A native carry order may already reserve its storage slots. Complete
             // only this never-started action on a valid world to release its order.
@@ -105,7 +105,7 @@ namespace Landomatic.TorpedoRoom
             bool calm=camera.CurrentMode==CameraMode.FPP&&!camera.IsInTransition&&pending.Actor.IsImpersonated&&!pending.Actor.IsInteracting&&!pending.Actor.IsSwapping;
             if(!pending.Gate.Ready(Time.unscaledTime,calm))return;
             deferredOrdnance=null;replayingOrdnance=true;
-            try{OrdnanceDiagnostics.Mark("DEFER settled; submit original native ordnance request once");pending.Actor.StartAction(pending.Activator,pending.Action);Say("Native ordnance request submitted after station release.");}
+            try{pending.Actor.StartAction(pending.Activator,pending.Action);Say("Native ordnance request submitted after station release.");}
             catch(Exception e){Debug.LogWarning("[TorpedoRoom] Deferred ordnance dispatch: "+e);try{pending.Action.CompleteAction();}catch{}Say("Native ordnance dispatch failed; see output_log.txt.");}
             finally{replayingOrdnance=false;if(pending.Saves!=null)pending.Saves.RemoveSaveBlockade(pending);}
         }

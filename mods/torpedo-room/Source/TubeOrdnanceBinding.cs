@@ -87,7 +87,7 @@ namespace Landomatic.TorpedoRoom
         {
             if(__state==null||!__instance.IsOpened||Runtime.Instance==null)return;
             if(!object.ReferenceEquals(__instance.Character,__state.Actor)){
-                OrdnanceDiagnostics.Mark("BIND FAILED: actual inventory actor differs; close before any crew order");
+                
                 UnityEngine.Debug.LogWarning("[TorpedoRoom] Native tube inventory actor binding failed. Inventory closed; no global fallback allowed. Use Manage Ordnance.");
                 __instance.Close();return;
             }
@@ -102,7 +102,7 @@ namespace Landomatic.TorpedoRoom
             if(ordnanceOwner!=null)ordnanceOwner.Closed-=OnOrdnanceClosed;
             ordnanceOwner=null;
             DismissRoom();ObserveOrdnance();
-            OrdnanceDiagnostics.Mark("BIND native tube inventory to its camera operator; native eligibility retained; no global fallback");
+            
         }
     }
 }

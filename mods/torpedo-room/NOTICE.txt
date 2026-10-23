@@ -1,4 +1,4 @@
-Torpedo Room 0.1.33 BETA TEST -- Landomatic
+Torpedo Room 0.1.33 BETA -- Landomatic
 Copyright (c) 2026 Landomatic. License: LICENSE (CC BY-NC 4.0).
 Source/history: https://github.com/Landomatic/UboatMods
 Project: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
@@ -52,3 +52,8 @@ permits a masked native Feuer-only panel under MP's scope-panel restriction;
 it does not remove MP station access checks, replace host fire dispatch or
 change physical TDC/tube lever code. Native confirmation/readiness remains.
 
+
+PUBLIC BETA .33: temporary ordnance observer hooks, performance sampler and
+verbose successful-launch traces removed. Normal errors/warnings remain.
+Known issues: LUT panel may flicker during flooding; mixed dry/flooded
+selection synchronization and an engineer return-path stall remain under investigation.

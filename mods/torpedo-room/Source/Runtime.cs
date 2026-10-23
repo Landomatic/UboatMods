@@ -44,8 +44,8 @@ namespace Landomatic.TorpedoRoom
                 UnityEngine.Object.DontDestroyOnLoad(go);go.AddComponent<Runtime>();
                 Bridge.Install(harmony);
                 StockUi.Install(harmony);
-                ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);OrdnanceDispatch.Install(harmony);OrdnanceDiagnostics.Install(harmony);OrdnanceRelease.Install(harmony);TubeOrdnanceBinding.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.33-beta-test loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);OrdnanceDispatch.Install(harmony);OrdnanceRelease.Install(harmony);TubeOrdnanceBinding.Install(harmony);
+                Debug.Log("[TorpedoRoom] 0.1.33-beta loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");
@@ -166,24 +166,9 @@ namespace Landomatic.TorpedoRoom
             return ProgramValues.WaterLabel((int)tube.CurrentState,tube.IsFlooded,tube.FloodingProgress);
         }
         void Awake(){Instance=this;}
-        double perfTotal,perfMax;
-        int perfSamples,perfGc;
-        float perfNext,perfFrameMax;
-        void RecordTiming(double start)
-        {
-            if(double.IsNaN(start))return;
-            double elapsed=(Time.realtimeSinceStartupAsDouble-start)*1000d;perfTotal+=elapsed;if(elapsed>perfMax)perfMax=elapsed;perfSamples++;
-            perfFrameMax=Mathf.Max(perfFrameMax,Time.unscaledDeltaTime*1000);
-            if(Time.unscaledTime<perfNext)return;
-            if(perfNext>0){
-                Debug.Log("[TorpedoRoom] PERF "+(lastShip==null?"menu/no boat":"in game")+" samples="+perfSamples+" updateAvgMs="+(perfTotal/perfSamples).ToString("0.000")+" updateMaxMs="+perfMax.ToString("0.000")+" frameMaxMs="+perfFrameMax.ToString("0.0")+" processGC0="+(GC.CollectionCount(0)-perfGc));
-            }
-            perfNext=Time.unscaledTime+10;perfTotal=perfMax=0;perfSamples=0;perfFrameMax=0;perfGc=GC.CollectionCount(0);
-        }
         void Update()
         {
             if(quitting)return;
-            double tickStart=Config.PerformanceTrace?Time.realtimeSinceStartupAsDouble:double.NaN;
             try {
                 TickOrdnanceReturn();Bridge.Tick();MpScopeFire.Tick();MenuIntegration.Tick();DepthControl.RestoreSteps();SpeedControl.RestoreBounds();
                 var ship=Ship;
@@ -199,7 +184,7 @@ namespace Landomatic.TorpedoRoom
             } catch(Exception e){
                 CloseGrid();
                 if(Time.unscaledTime>=nextError){nextError=Time.unscaledTime+10;Debug.LogError("[TorpedoRoom] Runtime: "+e);}
-            } finally {RecordTiming(tickStart);}
+            }
         }
         internal static bool Request(int index,Preparation edit)
         {
@@ -308,7 +293,7 @@ namespace Landomatic.TorpedoRoom
         }
         internal static string Roman(int index)
         { string[] names={"I","II","III","IV","V","VI","VII","VIII"};return index>=0&&index<names.Length?names[index]:(index+1).ToString(); }
-        void LateUpdate(){if(!quitting){FinishOrdnanceOrderFrame();TickDeferredOrdnance();OrdnanceDiagnostics.Tick();}}
+        void LateUpdate(){if(!quitting){FinishOrdnanceOrderFrame();TickDeferredOrdnance();}}
         bool quitting;
         void OnApplicationQuit(){quitting=true;}
         void OnDestroy(){if(quitting){if(Instance==this)Instance=null;return;}CancelOrdnanceHandoff();MpScopeFire.Release();NativeSkin.RestoreStations();CloseGrid();NativePresentation.Room(false);NativePresentation.Restore();DepthControl.RestoreSteps(true);SpeedControl.RestoreBounds(true);if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);if(Instance==this)Instance=null;}

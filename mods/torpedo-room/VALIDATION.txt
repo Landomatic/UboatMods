@@ -1,4 +1,5 @@
-0.1.33-beta-test VALIDATION
-Supplied UBOAT/Unity/Harmony reference compilation passed. 445 targeted offline assertions passed (316 UI/depth/viewing/MP and 129 cleanup/navigation/handoff/binding). Overall offline validation recorded as failed because the separately attempted real-Harmony host probe crashed; do not interpret helper checks as Harmony integration validation.
-The actual typed prefix is invoked by reference in independent fixtures and its output is passed into matching interface-typed inventory Open. Tests assert the stored inventory actor and mismatch close, alongside prior identity/scope/eligibility-preservation checks. These tests do not execute the game's Harmony wrapper. A real Harmony 2.2.2 probe was attempted under container CoreCLR 8 and terminated with SIGSEGV; it cannot validate Unity/Mono integration. No real-Harmony integration pass is claimed.
-No live .33 run. Owner .32 log verifies failed actual binding (inventoryActor=null) despite edited diagnostic argument values; maintenance went to ActionQueue.Add and started after crew release. .33 changes typed argument delivery rather than crew/animation rules. Native crew eligibility remains a live game check.
+0.1.33 public beta cleanup
+Original diagnostic build: owner reports successful loading/maintenance tests.
+Known LUT flooding/selection and engineer return-path issues remain.
+Cleanup removes diagnostics only; requires live regression verification.
+Original offline Harmony host probe failed under CoreCLR; no live integration pass inferred from it.
