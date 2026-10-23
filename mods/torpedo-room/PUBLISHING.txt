@@ -1,4 +1,4 @@
-0.1.33 PUBLIC BETA TESTING
+0.1.33a PUBLIC BETA TESTING
 Workshop ID 3823181610. Preserve your existing preview image when uploading.
 Player ZIP contains only runtime Source, Manifest.json, README.txt, CHANGELOG.txt,
 LICENSE, NOTICE.txt and UNINSTALL.txt. Source is required by UBOAT script loading.

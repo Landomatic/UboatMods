@@ -1,5 +1,10 @@
-0.1.33 public beta cleanup
-Original diagnostic build: owner reports successful loading/maintenance tests.
-Known LUT flooding/selection and engineer return-path issues remain.
-Cleanup removes diagnostics only; requires live regression verification.
-Original offline Harmony host probe failed under CoreCLR; no live integration pass inferred from it.
+Torpedo Room 0.1.33a public beta
+Supplied game-reference compile passed.
+450 offline helper assertions passed (316 UI/viewing/MP; 134 navigation/cleanup).
+Restore-guard tests cover installation, nested restoration, exception preservation,
+failed-hook refusal and reset, plus existing confirmation/cancel and checkbox reset.
+Source has no System.Diagnostics, StackTrace, ordnance collector or performance sampler.
+Compiled assembly TypeRefs contain no StackTrace; remaining System.Diagnostics refs
+are compiler-generated debugger attributes/state. Live game cache acceptance and
+Dusty Harmony hook require owner verification; compile/helper checks are not live tests.
+Known LUT flooding/selection and engineer return-path issues remain unchanged.

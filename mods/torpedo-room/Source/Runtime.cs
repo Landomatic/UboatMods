@@ -36,6 +36,7 @@ namespace Landomatic.TorpedoRoom
             try {
                 Config.Load();
                 harmony=new Harmony("com.landomatic.torpedoroom");
+                MenuIntegration.Install(harmony);
                 LaunchAuthority.Install(harmony);
                 harmony.Patch(AccessTools.PropertySetter(typeof(Torpedo),"PistolSetting"),new HarmonyMethod(typeof(Runtime),"BeforePistol"));
                 // Capture identity/baseline on completed loading, without changing loading tasks.
@@ -45,7 +46,7 @@ namespace Landomatic.TorpedoRoom
                 Bridge.Install(harmony);
                 StockUi.Install(harmony);
                 ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);OrdnanceDispatch.Install(harmony);OrdnanceRelease.Install(harmony);TubeOrdnanceBinding.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.33-beta loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                Debug.Log("[TorpedoRoom] 0.1.33a-beta loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");
@@ -128,6 +129,7 @@ namespace Landomatic.TorpedoRoom
         {
             MenuIntegration.ResetCleanupFlag();
             if(MenuIntegration.RestoringSettings){Debug.Log("[TorpedoRoom] Ignored restored uninstall checkbox; cleanup requires confirmation.");return;}
+            if(!MenuIntegration.CleanupGuardAvailable){CleanupFeedback.Show("Cleanup unavailable","The Community Patch restore safeguard is unavailable. Keep Torpedo Room installed and report this error before removing the mod.");return;}
             if(Bridge.IsRemote){CleanupFeedback.Show("Cleanup unavailable","Only the host can remove saved preparation records.");return;}
             if(Loading||Ship==null){CleanupFeedback.Show("Cleanup unavailable","Load your game and wait for saving or loading to finish, then try again.");return;}
             var boat=Ship;string epoch=Epoch;

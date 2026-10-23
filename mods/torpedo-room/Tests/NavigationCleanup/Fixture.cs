@@ -62,7 +62,17 @@ public static class NavigationCleanupChecks {
  static UnityEngine.GameObject Latest(string n){for(int i=UnityEngine.GameObject.All.Count-1;i>=0;i--)if(UnityEngine.GameObject.All[i].name==n)return UnityEngine.GameObject.All[i];throw new Exception(n);}
  public static string Run(){
   Check(!Landomatic.TorpedoRoom.MenuIntegration.RestoringSettings,"normal request is not restoration");
-  Check(DustysCommunityPatch.Core.ExternalMods.ApplyStoredValues(),"Dusty startup restoration identified");
+  var guard=new HarmonyLib.Harmony();Landomatic.TorpedoRoom.MenuIntegration.Install(guard);
+  Check(Landomatic.TorpedoRoom.MenuIntegration.CleanupGuardAvailable&&guard.Installs==1,"restore guard installed");
+  var enter=typeof(Landomatic.TorpedoRoom.MenuIntegration).GetMethod("BeforeRestore",BindingFlags.Static|BindingFlags.NonPublic);
+  var leave=typeof(Landomatic.TorpedoRoom.MenuIntegration).GetMethod("RestoreFinally",BindingFlags.Static|BindingFlags.NonPublic);
+  object[] outer={0};enter.Invoke(null,outer);Check(Landomatic.TorpedoRoom.MenuIntegration.RestoringSettings,"restore bracket active");
+  object[] restoreInner={0};enter.Invoke(null,restoreInner);Check((int)restoreInner[0]==1,"nested restore saves depth");
+  var failure=new Exception("restore failure");Check(object.ReferenceEquals(leave.Invoke(null,new object[]{failure,restoreInner[0]}),failure),"exception preserved");
+  Check(Landomatic.TorpedoRoom.MenuIntegration.RestoringSettings,"nested finalizer retains outer bracket");
+  leave.Invoke(null,new object[]{null,outer[0]});
+  guard.Fail=true;Landomatic.TorpedoRoom.MenuIntegration.Install(guard);Check(!Landomatic.TorpedoRoom.MenuIntegration.CleanupGuardAvailable,"failed hook disables menu cleanup");
+  guard.Fail=false;Landomatic.TorpedoRoom.MenuIntegration.Install(guard);
   Check(!Landomatic.TorpedoRoom.MenuIntegration.RestoringSettings,"restoration does not latch");
   DustysCommunityPatch.Core.QolConfig.SetBool("Torpedo_Room.removeRecords",true);DustysCommunityPatch.Core.QolConfig.SetBool("OtherMod.enabled",true);
   Landomatic.TorpedoRoom.MenuIntegration.ResetCleanupFlag();Landomatic.TorpedoRoom.MenuIntegration.Tick();

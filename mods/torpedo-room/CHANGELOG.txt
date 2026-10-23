@@ -1,3 +1,9 @@
+0.1.33a — cache compatibility
+- Replace System.Diagnostics.StackTrace in the uninstall safeguard with a scoped
+  settings-restore prefix/finalizer. Keep confirmation, checkbox reset and host checks.
+- Refuse menu cleanup if the restore safeguard cannot be installed.
+- No temporary collectors; no LUT, depth or crew-navigation changes.
+
 0.1.33 public beta packaging
 - Remove temporary ordnance diagnostic hooks, performance collection/config option,
   and verbose successful-launch traces. Preserve normal errors and program checks.

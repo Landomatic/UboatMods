@@ -1,11 +1,11 @@
 {
   "project": "Torpedo Room",
-  "version": "0.1.33",
-  "package_revision": "0.1.33-workshop-beta",
-  "change": "Remove temporary ordnance diagnostic collector and hooks, performance sampler/config option, tube-state trace and verbose successful-launch logging; retain functional patches and warnings. Clean player package.",
+  "version": "0.1.33a",
+  "package_revision": "0.1.33a-workshop-beta",
+  "change": "Replace StackTrace-based uninstall restore detection with a scoped Dusty settings-restore prefix/finalizer; preserve confirmation and fail closed if guard unavailable. No gameplay changes.",
   "compile": "passed supplied game references",
-  "offline": "445 targeted helper assertions passed; original standalone Harmony/CoreCLR probe failure remains historical and is not an integration pass",
-  "game": "Owner reports diagnostic .33 loading/maintenance tests passed. This diagnostics removal requires live regression verification.",
+  "offline": "450 targeted helper assertions passed; original standalone Harmony/CoreCLR probe failure remains historical and is not an integration pass",
+  "game": "Original .33 handoff was owner tested. New .33a restore guard and cache acceptance require live verification.",
   "known_issues": [
     "LUT panel flicker while flooding",
     "Mixed flooded/dry selected tube synchronization",

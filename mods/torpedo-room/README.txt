@@ -1,5 +1,5 @@
 
-TORPEDO ROOM -- 0.1.33 BETA
+TORPEDO ROOM -- 0.1.33a BETA
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
@@ -166,3 +166,8 @@ PUBLIC BETA .33: temporary ordnance observer hooks, performance sampler and
 verbose successful-launch traces removed. Normal errors/warnings remain.
 Known issues: LUT panel may flicker during flooding; mixed dry/flooded
 selection synchronization and an engineer return-path stall remain under investigation.
+
+0.1.33a: replace uninstall-guard stack inspection with a scoped Community Patch
+settings-restore hook. Confirmation remains mandatory; nested restore and exception
+paths restore the guard. If the hook is unavailable, menu cleanup is refused safely.
+No config migration. No LUT, crew-pathfinding or depth changes.
