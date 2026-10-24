@@ -1,7 +1,7 @@
 {
-  "name": "Nimm Bitte Platz: Hydrophone Fix (Beta)",
-  "version": "1.3.2-beta-DIAG1",
-  "description": "Beta: fixes exterior surface wash persisting in the submerged hydrophone view. Tested on VII/B with starter GHG; other hulls and equipment await validation. So you don't have to stand up to work-around the issue",
+  "name": "Nimm Bitte Platz: Hydrophone Fix",
+  "version": "1.4.0",
+  "description": "Corrects lingering exterior wash in the submerged hydrophone view. Includes optional Dusty menu controls and configurable diagnostics. By Landomatic.",
   "author": "Landomatic",
   "supportedGameVersions": [
     "2026.1"

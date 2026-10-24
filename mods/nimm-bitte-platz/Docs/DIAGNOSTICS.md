@@ -1,27 +1,52 @@
-# Diagnostics for 1.3.2-beta-DIAG1
+# Settings and diagnostics — 1.4.0
 
-The output_log uses `[HydrophoneSurfaceNoiseFix][TAG]`, a UTC session ID, and elapsed real seconds.
-`START`, `CONFIG`, `READY`, `FAILED`, `ERROR`, and `STOP` are always recorded.
-`READY` is emitted only after the mod's patches install successfully.
-`STOP` is emitted once on normal application exit or diagnostics-host destruction;
-forced termination or a crash may prevent it. An observed STOP is not proof of
-all gameplay actions succeeding, and a missing STOP alone is not proof of failure.
+With Dusty's Community Patch, open **Other Mods → Nimm Bitte Platz**. Changes to
+the correction, logging level and Trace interval apply immediately and persist.
+Dusty is optional; no assembly reference to it is required.
 
-Config: `%USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\NimmBittePlatzDiagnostics.txt`
-The mod creates this file on first startup. Edit it and fully restart UBOAT.
+The config remains:
+`%USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\NimmBittePlatzDiagnostics.txt`
 
-| Setting | Behavior |
-|---|---|
-| `LogLevel = Info` | Lifecycle, effective config, key events and errors; default |
-| `LogLevel = Debug` | Info plus decisions and intermediate values |
-| `LogLevel = Trace` | Debug plus sampled telemetry |
-| `TraceIntervalSeconds = 2` | Real-time sample interval; clamped to 0.25-60 seconds |
+| Setting | Default | Behavior |
+| --- | --- | --- |
+| `Enabled` | `true` | Enable the hydrophone correction; lifecycle logging remains available when off |
+| `LogLevel` | `Info` | Lifecycle, config, station entry/exit, warnings and errors |
+| `LogLevel = Debug` | — | Info plus override acquisition/release decisions |
+| `LogLevel = Trace` | — | Debug plus sampled hydrophone guard, depth and listener state |
+| `TraceIntervalSeconds` | `2` | Real-time sample interval, clamped to 0.25–60 seconds; used only at Trace |
 
-Repeated errors with the same area and exception type print one full exception;
-STOP reports the total and repeat counts. Sampling is per tag, not every frame.
-Invalid settings are reported and retain a safe default or the last valid value.
-File writes are limited to this diagnostics config. No log file is duplicated:
-Unity routes the messages to the game's output_log. Both Reflection and IO
-permissions are declared because Harmony and the config reader need them.
+The file is created if missing and read once at startup. Existing DIAG1 files are
+accepted; a missing `Enabled` keeps the correction on. Existing Debug or Trace
+preferences are preserved. Choose **Info** or **Reset to defaults** for normal
+play. Invalid values are reported and retain the default or last valid value.
 
-Always attach the output_log from the same game session after quitting.
+Hand edits require a full game restart. Dusty also stores menu values in its own
+config; on its first panel scan it applies any values it already has for this
+mod. When using Dusty, change these settings through its menu so both copies stay
+in agreement. Unchanged setters do not rewrite the mod's file.
+
+The output log uses `[HydrophoneSurfaceNoiseFix][TAG]`, a UTC session ID and
+elapsed real seconds. `START` identifies version `1.4.0` and build `20261024.1`.
+`CONFIG` reports effective settings. `READY` appears only after patch installation
+succeeds. A failed installation attempts to roll back this mod's Harmony patches
+and reports whether that rollback succeeded; it never prints `READY`.
+
+`STATION-START` and `STATION-STOP` record station sessions. `ERROR` includes the
+first full exception for an area/type; subsequent repeats are counted. A failing
+station stops further correction attempts until a new station session begins.
+
+`STOP` reports counters once on normal application exit or lifecycle-host
+destruction. Shutdown releases an owned override where possible and clears the
+station references even if restoration throws. A crash or forced termination can
+prevent `STOP`; its absence alone does not prove a mod failure.
+
+There is no diagnostics `Update()` callback, file polling or scene-wide search
+on each frame. The existing station UpdateController hook still checks ownership
+while the station is active. Trace samples are throttled and constructed only
+when due. The mod writes settings only at initial creation or a changed menu
+setting; Unity sends messages to the game's existing output log.
+
+For a report, include the log from the same session after quitting, UBOAT version,
+hull, hydrophone equipment, depth, enabled mods and the view sequence that failed.
+Specify whether the symptom is persistent wash, a brief crackle, silence or FPP
+vibration. This correction targets persistent wash.

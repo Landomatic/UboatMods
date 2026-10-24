@@ -1,0 +1,37 @@
+[h1]Nimm Bitte Platz: Hydrophone Fix[/h1]
+By Landomatic | Version 1.4.0
+
+Corrects exterior surface wash that can linger after returning to the submerged
+hydrophone station. So you can stay seated and keep listening.
+
+The correction applies only while the submerged hydrophone station owns the
+audio listener. It releases its override on station exit, surfacing or loss of
+ownership. Detection ranges, contacts, crew controls and camera FOV are unchanged.
+
+[h2]Settings[/h2]
+With Dusty's Community Patch installed, open Other Mods → Nimm Bitte Platz for:
+[list]
+[*]Hydrophone correction on/off
+[*]Info, Debug or Trace logging
+[*]Trace sample interval (default: two seconds)
+[/list]
+Changes apply live and save. Dusty is optional. Without it, use
+NimmBittePlatzDiagnostics.txt in UBOAT's AppData folder and restart after edits.
+New configs default to Info. Existing DIAG settings are preserved; switch an old
+Trace config to Info for normal play.
+
+[h2]Installation and scope[/h2]
+Enable only one copy of the mod and allow Reflection and IO permissions.
+The original repair was reported clean on Type VIIB with starter GHG. Other hulls,
+equipment and mod combinations are not comprehensively validated. This is not a
+fix for separate FPP vibration or brief view-change crackle.
+
+[h2]Reports and source[/h2]
+Include the output log after quitting, game version, hull, hydrophone equipment,
+enabled mods and the exact sequence that causes the sound issue.
+Source and validation: https://github.com/Landomatic/UboatMods/tree/main/mods/nimm-bitte-platz
+
+Nimm Bitte Platz: Hydrophone Fix by Landomatic.
+CC BY-NC 4.0; retain the visible author credit and see the included LICENSE.
+https://creativecommons.org/licenses/by-nc/4.0/
+Thanks to Dusty for the optional external-mod settings menu.
