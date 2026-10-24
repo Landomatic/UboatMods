@@ -1,5 +1,5 @@
 
-TORPEDO ROOM -- 0.1.33a BETA
+TORPEDO ROOM -- 0.1.34 BETA
 By Landomatic. Copyright (c) 2026 Landomatic.
 Source: https://github.com/Landomatic/UboatMods/tree/main/mods/torpedo-room
 License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
@@ -7,7 +7,7 @@ License: CC BY-NC 4.0. See LICENSE and NOTICE.txt.
 INSTALL / UPDATE
 Extract TorpedoRoomControls into your local UBOAT mods folder, enable Torpedo Room
 in the launcher and fully restart. Replace the old Source folder completely.
-All shared-boat players need this same version (TRC9; older companions cannot exchange settings).
+All shared-boat players need this same version (TRCA; older companions cannot exchange settings).
 Do not mix .20 and .21 companions. Keep a separate save while testing Beta.
 Manifest targets the existing Torpedo Room Workshop item 3823181610:
 https://steamcommunity.com/sharedfiles/filedetails/?id=3823181610
@@ -57,7 +57,7 @@ station access or actual firing readiness. Both native torpedo icons remain
 restricted by MP; tube reports, selection, dispersion and preparations stay
 hidden. Firing uses native fire-control selection and the normal native button,
 confirmation and MP dispatch. Physical TDC and direct tube levers stay native.
-All players need .24/TRC9. The adapter targets supplied MP 1.11.5 only.
+All players need .34/TRCA. The adapter targets supplied MP 1.11.5 only.
 
 OFF, no other shared-boat player, or MP's scope panel allowed: normal display
 rules apply. Panels automatically opened by this option close when it ends;
@@ -108,7 +108,7 @@ host option with both host/client, join/leave, all report modes, target lock
 changes and station switches. Larger-stack compatibility remains ongoing.
 
 Configuration-help revision: generated config and Dusty menu explain both host
-settings, default OFF, solo behavior and .24/TRC9 requirement. Existing configs
+settings, default OFF, solo behavior and .34/TRCA requirement. Existing configs
 gain comments on the next normal settings save; no automatic migration is added.
 
 
@@ -171,3 +171,16 @@ selection synchronization and an engineer return-path stall remain under investi
 settings-restore hook. Confirmation remains mandatory; nested restore and exception
 paths restore the guard. If the hook is unavailable, menu cleanup is refused safely.
 No config migration. No LUT, crew-pathfinding or depth changes.
+
+0.1.34 TEST BUILD
+- Host-reported pistol preparation countdown. Apply remains unavailable during
+  preparation; Refresh reads confirmed state and cannot advance the host timer.
+- Restricted MP Feuer excludes binoculars and restores its native button parent
+  on map/station exit, including when MP conditions stop applying.
+- Hide and reject re-entry through the currently occupied tube-station banner;
+  physical tube, breech, valve and launch actions retain native behavior.
+- Three-tube initial overview moves right to clear the lower central breech.
+- FAT/LUT viewport rows and program edits include flooding/draining weapons.
+- All peers must install .34/TRCA. No config migration. Existing config retained.
+Pending: native pistol-change crew animation/status integration; MP inventory
+handoff cancellation; engineer return path. No new diagnostic collectors.

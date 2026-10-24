@@ -15,7 +15,7 @@ your physical levers still flood, drain and fire.
 [/list]
 Press [b]T[/b] at a tube station. Configure through optional Dusty's Community Patch
 or TorpedoRoomConfig.txt in UBOAT persistent data. Solo needs no multiplayer mod.
-All shared-boat players require the same build (0.1.24 / TRC9). Supplied MP
+All shared-boat players require the same build (0.1.24 / TRCA). Supplied MP
 integration targets Uboats: Coop Multiplayer 1.11.5 / protocol 54.
 Mixed speeds/TDC mismatches warn without mod-added firing holds; existing native
 readiness and MP permissions apply. FAT/LUT remains adjustable at sea.
@@ -43,7 +43,7 @@ The host can enable [b]MP: Show Feuer when scope tubes are restricted[/b] in Tor
 Room settings (OFF by default). With another shared-boat player aboard and MP's
 [b]TUBES PANEL AT THE SCOPES[/b] OFF, scopes/UZO automatically show Feuer alone.
 This is independent of solo/global report settings. Native selection, readiness,
-confirmation and MP firing transport remain. All players need .24/TRC9; adapter
+confirmation and MP firing transport remain. All players need .34/TRCA; adapter
 targets supplied MP 1.11.5. New live MP testing is pending. Feuer is also raised
 above the bottom icons. Copyright (c) 2026 Landomatic; existing license/credits.
 

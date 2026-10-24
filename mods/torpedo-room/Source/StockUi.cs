@@ -78,7 +78,7 @@ namespace Landomatic.TorpedoRoom
             if(Runtime.Loading||!Runtime.Active)return;
             var edits=new List<TubeSnapshot>();var tubes=ship.TorpedoLaunchers;if(tubes==null)return;
             for(int i=0;i<tubes.Length;i++){
-                var tube=tubes[i];if(tube==null||!tube.IsMarkedForLaunch||!tube.IsLoaded||!Runtime.Stable(tube))continue;
+                var tube=tubes[i];if(tube==null||!tube.IsMarkedForLaunch||!Runtime.ProgramEditable(tube))continue;
                 var torpedo=Runtime.Missile(tube.Torpedo);if(torpedo==null||torpedo.ProgramType==Torpedo.TorpedoProgramType.None)continue;
                 var status=Runtime.Status(tube.Torpedo,!Bridge.IsRemote);if(status==null)continue;
                 var edit=status.Value.Copy();
@@ -103,7 +103,7 @@ namespace Landomatic.TorpedoRoom
         {
             var result=new Selection();var ship=Runtime.Ship;if(ship==null||ship.TorpedoLaunchers==null)return result;
             foreach(var tube in ship.TorpedoLaunchers){
-                if(tube==null||!tube.IsMarkedForLaunch||!tube.IsLoaded)continue;
+                if(tube==null||!tube.IsMarkedForLaunch||!Runtime.ProgramEditable(tube))continue;
                 var missile=Runtime.Missile(tube.Torpedo);if(missile==null||missile.ProgramType==Torpedo.TorpedoProgramType.None)continue;
                 var status=Runtime.Status(tube.Torpedo,false);var p=status==null?null:status.Value;
                 if(p!=null&&Runtime.LockoutEnabled&&p.StraightRun){result.Straight++;continue;}
@@ -124,7 +124,7 @@ namespace Landomatic.TorpedoRoom
             var ship=Runtime.Ship;if(ship==null||ship.TorpedoLaunchers==null)return null;
             Preparation result=null;int count=0;
             foreach(var tube in ship.TorpedoLaunchers){
-                if(tube==null||!tube.IsMarkedForLaunch||!tube.IsLoaded)continue;
+                if(tube==null||!tube.IsMarkedForLaunch||!Runtime.ProgramEditable(tube))continue;
                 count++;var s=Runtime.Status(tube.Torpedo,false);result=s==null?null:s.Value;
             }
             return count==1?result:null;
@@ -169,7 +169,18 @@ namespace Landomatic.TorpedoRoom
             if(left!=null)left.SetIsOnWithoutNotify(!selection.MixedRight&&!selection.Values.Right);
             if(right!=null)right.SetIsOnWithoutNotify(!selection.MixedRight&&selection.Values.Right);
         }
-        static void SelectionValidated(TorpedoLaunchersUI __instance){Refresh(__instance);}
+        static void SelectionValidated(TorpedoLaunchersUI __instance)
+        {
+            Refresh(__instance);
+            if(!Runtime.Active||Runtime.Loading||__instance==null)return;
+            // Native counters exclude weapons during water transitions. Restore
+            // just visibility even while an input has keyboard focus.
+            var selected=SelectedProgram();
+            var panel=AccessTools.Field(typeof(TorpedoLaunchersUI),"programParameters").GetValue(__instance) as GameObject;
+            var angle=AngleField==null?null:AngleField.GetValue(__instance) as TMP_InputField;
+            if(panel!=null)panel.SetActive(selected.Count>0);
+            if(angle!=null&&angle.transform.parent!=null)angle.transform.parent.gameObject.SetActive(selected.HasLut);
+        }
         static Exception DisplayFinally(Exception __exception,DisplayState __state){Restore(__state);return __exception;}
         static readonly MethodInfo DisplayMethod=AccessTools.Method(typeof(TorpedoLaunchersUI),"SetProgramDisplayValues");
         static readonly FieldInfo DistanceField=AccessTools.Field(typeof(TorpedoLaunchersUI),"programDistance"),AngleField=AccessTools.Field(typeof(TorpedoLaunchersUI),"programAngle");

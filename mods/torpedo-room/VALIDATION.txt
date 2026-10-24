@@ -1,10 +1,13 @@
-Torpedo Room 0.1.33a public beta
-Supplied game-reference compile passed.
-450 offline helper assertions passed (316 UI/viewing/MP; 134 navigation/cleanup).
-Restore-guard tests cover installation, nested restoration, exception preservation,
-failed-hook refusal and reset, plus existing confirmation/cancel and checkbox reset.
-Source has no System.Diagnostics, StackTrace, ordnance collector or performance sampler.
-Compiled assembly TypeRefs contain no StackTrace; remaining System.Diagnostics refs
-are compiler-generated debugger attributes/state. Live game cache acceptance and
-Dusty Harmony hook require owner verification; compile/helper checks are not live tests.
-Known LUT flooding/selection and engineer return-path issues remain unchanged.
+TORPEDO ROOM 0.1.34 BETA TEST
+Full compilation against supplied game/Unity/Harmony reference assemblies: PASS.
+Offline targeted checks: 526 assertions PASS:
+  319 native UI/viewing/MP display/tooltip helpers (including binocular/map exit);
+  134 navigation/cleanup/ordnance handoff helpers;
+  73 preparation-progress protocol round-trip/rejection assertions.
+Fixtures are independent test doubles, not live Unity/network simulation.
+New world station Harmony hooks and IIA/IID placement: compiled, require live test.
+Host timer's original 30-game-second behavior was observed in supplied .33a MP
+log; .34 progress/UI implementation has not been tested in-game.
+No game assets, reference assemblies, raw logs, or trace collectors bundled.
+Known pending: MP inventory handoff cancellation; native pistol crew animation
+and task/status UI; engineer return path; aft breech visual-state report.

@@ -96,7 +96,7 @@ namespace Landomatic.TorpedoRoom
             if(!Active||!Config.Interface||pending.Actor==null){CancelDeferredOrdnance("interface disabled or character unavailable",true);return;}
             var camera=MainCamera.Instance;
             if(camera==null){CancelDeferredOrdnance("camera unavailable",true);return;}
-            if(Time.unscaledTime-pending.Gate.Started>.5f&&!camera.IsInTransition&&(camera.CurrentMode!=CameraMode.FPP||!pending.Actor.IsImpersonated)){CancelDeferredOrdnance("player left the handoff view",true);return;}
+            if(Time.unscaledTime-pending.Gate.Started>.5f&&!camera.IsInTransition&&(camera.CurrentMode!=CameraMode.FPP||!pending.Actor.IsImpersonated)){CancelDeferredOrdnance("handoff view unavailable (camera="+camera.CurrentMode+", impersonated="+pending.Actor.IsImpersonated+")",true);return;}
             if(pending.Gate.TimedOut(Time.unscaledTime)){CancelDeferredOrdnance("previous station did not settle",true);return;}
             var current=pending.Actor.Action;
             if(current!=null&&!object.ReferenceEquals(current,pending.OldAction)&&!(current is UseManuallyOperableDeviceAction)){

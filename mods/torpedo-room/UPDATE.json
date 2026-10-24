@@ -1,16 +1,1 @@
-{
-  "project": "Torpedo Room",
-  "version": "0.1.33a",
-  "package_revision": "0.1.33a-workshop-beta",
-  "change": "Replace StackTrace-based uninstall restore detection with a scoped Dusty settings-restore prefix/finalizer; preserve confirmation and fail closed if guard unavailable. No gameplay changes.",
-  "compile": "passed supplied game references",
-  "offline": "450 targeted helper assertions passed; original standalone Harmony/CoreCLR probe failure remains historical and is not an integration pass",
-  "game": "Original .33 handoff was owner tested. New .33a restore guard and cache acceptance require live verification.",
-  "known_issues": [
-    "LUT panel flicker while flooding",
-    "Mixed flooded/dry selected tube synchronization",
-    "Engineer return-path stall near galley"
-  ],
-  "workshop_id": 3823181610,
-  "artifacts": []
-}
+{"project":"Torpedo Room","version":"0.1.34","status":"beta-test","workshop_id":3823181610,"protocol":"TRCA","compile":"passed","offline_assertions":526,"game":"not-run","notes":"See VALIDATION.txt and TESTING.txt. No trace collectors or config migration."}

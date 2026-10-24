@@ -58,7 +58,7 @@ namespace Landomatic.TorpedoRoom
             RestoreExit();
             if(stationBar!=null){
                 stationBar.SetParent(stationParent,false);stationBar.anchorMin=stationMin;stationBar.anchorMax=stationMax;stationBar.pivot=stationPivot;
-                stationBar.anchoredPosition=stationPosition;stationBar.sizeDelta=stationSize;
+                stationBar.anchoredPosition=stationPosition;stationBar.sizeDelta=stationSize;stationBar.localScale=stationScale;stationBar.localRotation=stationRotation;
                 stationBar.SetSiblingIndex(stationSibling);
             }
             stationBar=null;stationParent=null;if(stationHolder!=null)UnityEngine.Object.Destroy(stationHolder.gameObject);stationHolder=null;nextStationSearch=0;

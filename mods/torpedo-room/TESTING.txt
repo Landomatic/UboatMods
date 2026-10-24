@@ -1,20 +1,24 @@
-Torpedo Room 0.1.33-beta-test -- ACTUAL INVENTORY ACTOR TEST
-By Landomatic. Copyright (c) 2026 Landomatic. See LICENSE and NOTICE.txt.
-Source/history: https://github.com/Landomatic/UboatMods
+TORPEDO ROOM .34 TEST
+Install: replace the old Source folder completely with this package's Source;
+replace Manifest.json and bundled text files. Preserve TorpedoRoomConfig.txt.
+Host and ALL joiners must use .34 (TRCA); restart game after installation.
 
-Replace the previous Source folder completely and restart. Updating does not require uninstall cleanup. Use a separate save. Keep MP peers on the same test build.
+1. MP: dry tube, 30 game-second pistol policy. Toggle AZ/MZ, Apply once.
+   Observe PREPARING PISTOL/countdown. Repeated Refresh must not apply early.
+   At completion confirmed icon and mode update without manual Refresh.
+   Flood or leave station mid-preparation: operation cancels, prior mode remains.
+2. Restricted MP Feuer: periscope/UZO -> map -> binoculars -> scope. Repeat
+   after last joiner leaves and after disabling the option. No detached Feuer
+   on map or binoculars. Normal solo/native behavior otherwise retained.
+3. IXA, IXC, IXC/40: initial overview hides native Torpedo tubes station banner.
+   Physical breech, inventory, feed valve and launch lever remain available.
+4. IIA/IID: initial overview and Manage Ordnance button sit to the right;
+   lower central tube III and opened door must remain reachable. T opens editor.
+5. Viewport: select dry and flooded LUT neighbors; vary distance/direction/angle
+   during flooding and draining. Values and heading row should remain stable.
+   Pistol changes still follow host dry/stable policy.
+6. Recheck maintenance/load via native tube and Manage Ordnance. MP handoff
+   cancellation remains unresolved; send host AND joiner logs if it repeats.
 
-.32 owner log showed edited diagnostic Open arguments but inventoryActor=null. Maintenance therefore still entered a global queue. .33 writes the real IPlayableCharacter argument by reference and checks the actual stored inventory actor before adopting the .31 handoff. A mismatch closes the inventory rather than leave an unassigned request path available. Native roles, warnings and eligibility remain authoritative; no engineer is substituted for a rejected leader.
-
-At 1x:
-1. Quick-swap an engineer from TDC/scope to tubes. Use the individual tube's ordnance entry and request maintenance on an eligible loaded torpedo. Leave controls untouched. It should begin without manually leaving the station, deselecting, or rescuing the task.
-2. Compare our Manage Ordnance button.
-3. Try separate maintenance with an ineligible leader through tube entry. Preserve native rejection/warning with no job delegated to another crew member.
-4. After successful binding, check Load only / Load and maintain and Escape return.
-If any attempt fails, leave it unchanged for 15 seconds and send output_log.txt with the actor and attempt order. If inventory immediately closes, report that too; the BIND FAILED safeguard may have triggered.
-
-Diagnostics remain automatic: [TorpedoRoom][ORD-DIAG], 90 seconds / 300 lines per inventory opening, up to six camera caller stacks. Inspect STATE inventoryActor and BIND confirmation, not the argument snapshot alone: ENTER/RETURN Open arguments may reflect a snapshot used by another Harmony observer. DEFER reports waiting/submission/abort. Async StartAction RETURN is not task completion. No log uploads occur automatically; logs include crew names, positions and potentially stack paths.
-
-Compiled and independently offline-tested, but no live .33 run here. Real game Harmony/Unity/MP behavior, role rejection, native task animation and completion still require validation. A separate real-Harmony probe was attempted in the container's CoreCLR host and the process crashed; it supplies no integration pass. No probe binary or game DLL is included.
-
-No physics, dud logic, depth policy, migration, TRC9 or role-system changes. Optional reference-tube presets and per-tube viewport dials remain queued. Prior exit crash and physical aft door/flood mismatch remain undiagnosed. The supplied session also contained a rendering CullingResults exception; this build does not claim to fix it.
+Not live-tested by the build environment. Native crew animation/status icons
+for pistol changes are not implemented in this version. No trace collectors.

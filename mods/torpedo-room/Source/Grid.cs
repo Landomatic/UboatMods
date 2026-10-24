@@ -29,6 +29,7 @@ namespace Landomatic.TorpedoRoom
         const string InputOwner="Landomatic.TorpedoRoom.Grid";
         Canvas roomCanvas;CanvasScaler roomScaler;
         GameObject gridRoot,gridPanel,editor,programRow,programFields,tubeViewport,dockBackdrop,clickBlocker;
+        internal static bool RoomOverviewActive {get{return Instance!=null&&Instance.roomTakeover&&Instance.gridRoot!=null&&Instance.gridRoot.activeSelf&&Config.Interface&&Active&&!Loading&&!Instance.OrdnanceOpen&&CurrentGroup!=null;}}
         internal static bool RoomEditorOpen {get{return Instance!=null&&Instance.open&&Config.Interface&&Active&&!Loading&&CurrentGroup!=null;}}
         Text banner,notice,selectionLabel,policyLabel,pistolLabel,programLabel,turnLabel,pinLabel,closeLabel,applyLabel,applyState;
         Button pistolButton,programButton,turnButton,pinButton,applyButton,ordnanceButton;
@@ -127,6 +128,7 @@ namespace Landomatic.TorpedoRoom
             if(gridReady)SetGridLayout(false);
             else if(gridRoot!=null)gridRoot.SetActive(false);
         }
+        bool CompactOverview {get{return Ship!=null&&Ship.TorpedoLaunchers!=null&&Ship.TorpedoLaunchers.Length==3;}}
         void SetGridLayout(bool expanded)
         {
             if(gridPanel==null||gridRoot==null||tubeViewport==null)return;
@@ -138,7 +140,10 @@ namespace Landomatic.TorpedoRoom
             rect.SetParent(expanded?gridPanel.transform:gridRoot.transform,false);
             rect.localScale=expanded?Vector3.one:new Vector3(1.1f,1.1f,1);
             if(expanded)Place(rect,16,46,918,240);
-            else {rect.anchorMin=rect.anchorMax=rect.pivot=new Vector2(.5f,0);rect.anchoredPosition=new Vector2(0,84);rect.sizeDelta=new Vector2(918,240);}
+            else {rect.anchorMin=rect.anchorMax=rect.pivot=new Vector2(CompactOverview?1:.5f,0);rect.anchoredPosition=new Vector2(CompactOverview?-24:0,84);rect.sizeDelta=new Vector2(CompactOverview?450:918,240);}
+            var backing=(RectTransform)dockBackdrop.transform;backing.anchorMin=backing.anchorMax=backing.pivot=new Vector2(CompactOverview?1:.5f,0);backing.anchoredPosition=new Vector2(CompactOverview?-18:0,28);backing.sizeDelta=new Vector2(CompactOverview?470:930,300);
+            if(ordnanceButton!=null){var o=(RectTransform)ordnanceButton.transform;o.anchorMin=o.anchorMax=o.pivot=new Vector2(CompactOverview?1:0.5f,0);o.anchoredPosition=new Vector2(CompactOverview?-42:-355,38);}
+            cardIndices.Clear();
             tubeViewport.SetActive(true);
         }
         void ChooseTube(int index)
@@ -198,7 +203,7 @@ namespace Landomatic.TorpedoRoom
             if(draft==null||Ship==null||selected<0||selected>=Ship.TorpedoLaunchers.Length)return false;
             var tube=Ship.TorpedoLaunchers[selected];if(tube==null)return false;
             var s=Status(tube.Torpedo,false);
-            return Active&&!awaiting&&s!=null&&s.Value.Id==draft.Id&&RoomEditable(tube.Group)&&Stable(tube)&&(!Bridge.IsRemote||Bridge.Synced);
+            return Active&&!awaiting&&PistolSeconds(selected)<=0&&s!=null&&s.Value.Id==draft.Id&&RoomEditable(tube.Group)&&Stable(tube)&&(!Bridge.IsRemote||Bridge.Synced);
         }
         void RenderGrid()
         {
@@ -213,10 +218,11 @@ namespace Landomatic.TorpedoRoom
                 HideTubeHover();
                 foreach(var b in cards){b.gameObject.SetActive(false);UnityEngine.Object.Destroy(b.gameObject);}
                 cards.Clear();cardPistols.Clear();cardPistolLabels.Clear();cardIcons.Clear();cardOutlines.Clear();tubeVisuals.Clear();cardLabels.Clear();cardIndices.Clear();cardIndices.AddRange(visible);
-                cardsContent.sizeDelta=new Vector2(Mathf.Max(918,visible.Count*150),236);
+                float rowWidth=!open&&CompactOverview?450:918;
+                cardsContent.sizeDelta=new Vector2(Mathf.Max(rowWidth,visible.Count*150),236);
                 for(int n=0;n<visible.Count;n++){
                     int index=visible[n];Text label;
-                    var b=GridButton(cardsContent,"Tube "+index,"",Mathf.Max(0,(918-visible.Count*150)/2)+n*150,0,144,236,()=>ChooseTube(index),out label);
+                    var b=GridButton(cardsContent,"Tube "+index,"",Mathf.Max(0,(rowWidth-visible.Count*150)/2)+n*150,0,144,236,()=>ChooseTube(index),out label);
                     label.alignment=TextAnchor.UpperCenter;label.fontSize=12;Place(label.rectTransform,2,156,140,80);
                     GridLabel(b.transform,"Tube number","TUBE "+(index+1),4,0,82,20,12).alignment=TextAnchor.MiddleCenter;
                     Text pistol;var switchPistol=GridButton(b.transform,"Pistol mode","",90,0,50,20,()=>{if(!open||selected!=index)ChooseTube(index);if(Editable()){draft.Pistol=1-draft.Pistol;DraftChanged();}},out pistol);
@@ -257,13 +263,14 @@ namespace Landomatic.TorpedoRoom
             if(draft==null){selectionLabel.text="Choose a loaded tube above. Empty tubes and mines have no preparation controls.";return;}
             if(selected<0||selected>=tubes.Length||tubes[selected]==null){draft=null;editor.SetActive(false);return;}
             var current=tubes[selected];var status=Status(current.Torpedo,false);var torpedo=Missile(current.Torpedo);
-            bool valid=status!=null&&status.Value.Id==draft.Id,editable=Editable();
+            float preparing=PistolSeconds(selected);
+            bool valid=status!=null&&status.Value.Id==draft.Id,editable=Editable()&&preparing<=0;
             selectionLabel.text="▼ TUBE "+(selected+1)+" · "+(current.Torpedo==null?"EMPTY":current.Torpedo.TypeName)+(!valid?" · Contents changed — select again":status.Value.Revision!=draft.Revision?" · Refresh required":"");
             editorAccess.interactable=editable;
             pistolLabel.text=draft.Pistol==0?"AZ · Contact":"MZ · Magnetic";
             policyLabel.text=TubeUiState.ReadOnlyReason(editable,awaiting,valid,Stable(current),RoomEditable(current.Group),!Bridge.IsRemote||Bridge.Synced,current.CurrentState.ToString());
-            applyLabel.text=awaiting?"WAITING FOR HOST":dirty?"APPLY CHANGES":"APPLY";
-            applyState.text=awaiting?"Awaiting confirmation":dirty?"Unapplied changes":"Settings applied";
+            applyLabel.text=preparing>0?"PREPARING PISTOL":awaiting?"WAITING FOR HOST":dirty?"APPLY CHANGES":"APPLY";
+            applyState.text=preparing>0?"Pistol preparation: "+Mathf.CeilToInt(preparing)+" game seconds remaining":awaiting?"Awaiting confirmation":dirty?"Unapplied changes":"Settings applied";
             applyButton.interactable=editable&&!awaiting;
             var applyImage=applyButton.targetGraphic as Image;
             if(applyImage!=null)applyImage.color=dirty?new Color(.7f,.5f,.16f,1):new Color(.25f,.35f,.32f,1);

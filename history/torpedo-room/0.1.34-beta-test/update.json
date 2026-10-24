@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "project": "Torpedo Room",
+  "version": "0.1.34-beta-test",
+  "prepared_at_utc": "2026-10-24T05:40:33+00:00",
+  "changes": [
+    "Host-reported pistol progress; restricted MP Feuer station cleanup; occupied tube-station prompt guard; three-tube overview clearance; FAT/LUT water-transition edits."
+  ],
+  "validation": {
+    "compile": "passed",
+    "offline": "passed",
+    "in_game": "not-run",
+    "notes": [
+      "526 offline helper/protocol assertions; fixtures are not live Unity or MP. New prompt hooks and layout compiled only."
+    ]
+  },
+  "known_issues": [
+    "MP inventory handoff cancellations remain unresolved; one-shot failure includes camera mode and impersonation.",
+    "Native pistol crew animation and task/status icons remain pending.",
+    "Engineer return path and aft breech visual report remain unverified."
+  ],
+  "files": [
+    {
+      "path": "CHANGELOG.txt",
+      "bytes": 37300,
+      "sha256": "33599e48a2c5f03f6ab44258312245ca630cb33edead99c740b9fff0a49113a9"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1087,
+      "sha256": "ff2f1f4200ef2a9b75870b4d0ca87b91fad4c1dc1e63dd37046f1e5da251c036"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 455,
+      "sha256": "fe8667f8e91528a3eb67e9d2b076797dc619bf0d1323f64df779b6aee9c0cc46"
+    },
+    {
+      "path": "NOTICE.txt",
+      "bytes": 3673,
+      "sha256": "0446a3cdc517ccdd815f323f404398db7b583d48eafbfcf60443183627ee4ee8"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 11941,
+      "sha256": "445e8e4176ea81b3143dfbace0cbabd709ebaa31e6f85a33c4ce7953cbbfd45d"
+    },
+    {
+      "path": "Source/Bridge.cs",
+      "bytes": 14246,
+      "sha256": "e5a183c9817edaebe6d0db28e8b2c230757b6d54dd540c440f2638b00be07238"
+    },
+    {
+      "path": "Source/CleanupFeedback.cs",
+      "bytes": 3640,
+      "sha256": "8f94eaa4200598a308d781b9ac5c8213d249f7f56dbf5760f0d88782680b3f72"
+    },
+    {
+      "path": "Source/DepthControl.cs",
+      "bytes": 6312,
+      "sha256": "0fa3108654cdfdc00f341b8221e897a4059fc85abe78acafaeaeb3b9cb27c19d"
+    },
+    {
+      "path": "Source/DialControl.cs",
+      "bytes": 2587,
+      "sha256": "46fee9fe1a3f8e54acfa71c5da003906ecbc564d75242d3d58197d498f9d10ad"
+    },
+    {
+      "path": "Source/FireDock.cs",
+      "bytes": 5017,
+      "sha256": "bbfc0f6eb90d5b656cbd3ea81e15e98946837781b1ed69e66a2d68d705d5280b"
+    },
+    {
+      "path": "Source/FireHint.cs",
+      "bytes": 2815,
+      "sha256": "da4bb3c34806607a7ba241669293c52651fd8622122f903bfa8ddd86be27bb8b"
+    },
+    {
+      "path": "Source/Grid.cs",
+      "bytes": 36662,
+      "sha256": "a1eac44a6e5f7ee33ba9521aba86afef26387c16785dd4444d418943263d41fa"
+    },
+    {
+      "path": "Source/HiddenLayout.cs",
+      "bytes": 4235,
+      "sha256": "a22fa37274e77456280dd3ce67644143b9e362e3168d03afea092950af6ed18d"
+    },
+    {
+      "path": "Source/InstrumentFace.cs",
+      "bytes": 1192,
+      "sha256": "67c179ba80cdc2f8252d7741eb834263412cc5184a1d56a406e54a6568933417"
+    },
+    {
+      "path": "Source/LaunchAuthority.cs",
+      "bytes": 6938,
+      "sha256": "6431756c54c1132296ae6cb907cca165b4b84ae81525ca0c55485c007782f9c1"
+    },
+    {
+      "path": "Source/MenuIntegration.cs",
+      "bytes": 5142,
+      "sha256": "2055041e8a7817aaaf71e2862863cffac599b54d1671347245409db11e77ae91"
+    },
+    {
+      "path": "Source/Model.cs",
+      "bytes": 13640,
+      "sha256": "2a39525b8f242dbcc296c05612d820b85c55b0922ea1fffeefe8e424ce613f6d"
+    },
+    {
+      "path": "Source/MpScopeFire.cs",
+      "bytes": 6275,
+      "sha256": "613410dde734a6b7df48ecb7f8f1554f74d250addcc1054aa31128f18ce47bb2"
+    },
+    {
+      "path": "Source/NativeClick.cs",
+      "bytes": 1526,
+      "sha256": "33ad8692d50bb09085854cf5dc749dae3dc271873110411be7bbc882e71c08aa"
+    },
+    {
+      "path": "Source/NativePresentation.cs",
+      "bytes": 6523,
+      "sha256": "3578147d28eee75090f3e9cd71ca75fbb0143f5b290cfaca30071f5176280ee2"
+    },
+    {
+      "path": "Source/NativeSkin.cs",
+      "bytes": 16992,
+      "sha256": "c55b62f4d719bdde3cf9305b803f4a94150c9a8c8ae6cc4fd96d88d9e6b0400a"
+    },
+    {
+      "path": "Source/OrdnanceDispatch.cs",
+      "bytes": 1797,
+      "sha256": "cf2ac4ebcbda746752a7184d2f075722b7c829df20a79745138c55fcaa9d473a"
+    },
+    {
+      "path": "Source/OrdnanceRelease.cs",
+      "bytes": 7584,
+      "sha256": "c06032c1025435328173e7533cb48eeab4c665452f50cd0ed517e2877d34e2ed"
+    },
+    {
+      "path": "Source/PrepSelection.cs",
+      "bytes": 1852,
+      "sha256": "65c54a75d97b2fb14506efe5ad2b4c6a1c2cd874ceffde69ddb686b28551a19f"
+    },
+    {
+      "path": "Source/RoomExit.cs",
+      "bytes": 3041,
+      "sha256": "1fcf18ed9f85c401148d784fd467acf85ec80494d18ed80fb1b7cb47ba9451a3"
+    },
+    {
+      "path": "Source/RoomHandoff.cs",
+      "bytes": 1529,
+      "sha256": "dcdbc0c93b54256c1b093877eabc50cb9100c2a966816749c56f92238d83c8f8"
+    },
+    {
+      "path": "Source/RoomOrdnance.cs",
+      "bytes": 6673,
+      "sha256": "948e99c34e33c67dcb261559e3c6f50d16b613c3e4808f65e40fee6b9519b325"
+    },
+    {
+      "path": "Source/RoomStationGuard.cs",
+      "bytes": 3561,
+      "sha256": "946b5c64ff54b880fc33f507da8c367e298d47a58c963970f414c57943007c94"
+    },
+    {
+      "path": "Source/Runtime.cs",
+      "bytes": 25464,
+      "sha256": "47475f1fab29a6643c35135db7be6f6aaf5068a5d7d0b341f3437377fc7a8ea5"
+    },
+    {
+      "path": "Source/Settings.cs",
+      "bytes": 16668,
+      "sha256": "a1976837eacc992533156bf2081e84d409520ab93491107086779ab33e5425b0"
+    },
+    {
+      "path": "Source/Shortcut.cs",
+      "bytes": 1949,
+      "sha256": "5e0156ba5f519f94455d21585bc68535d508c77ef9ccf607f0a65f735adebf1d"
+    },
+    {
+      "path": "Source/SpeedControl.cs",
+      "bytes": 7558,
+      "sha256": "864815bf502dcb73a072efc8c4c2e31dea85c6ee31167e6247478ceb7536bbdf"
+    },
+    {
+      "path": "Source/SpeedUnits.cs",
+      "bytes": 1042,
+      "sha256": "6440c10ed9f9c88c66f99c3c2e2f1bf7a18f34a0ee03f51e5c2b5201677a3f9a"
+    },
+    {
+      "path": "Source/StockUi.cs",
+      "bytes": 18930,
+      "sha256": "badeee8d9f3b5a3042fff90ad49578cbd23d1767a6db040d33a8e8b1f7d38135"
+    },
+    {
+      "path": "Source/TdcSpeed.cs",
+      "bytes": 9214,
+      "sha256": "a4a19e61647075c5b219a4c77ca0e9754b7fad1469124e5c1a2ad62ff02c2296"
+    },
+    {
+      "path": "Source/TorpedoHover.cs",
+      "bytes": 2457,
+      "sha256": "30d6e9ff31b5c2e8a00125e43eed67cd7875df40bcc9d1dc72c7ba9e64d71ec2"
+    },
+    {
+      "path": "Source/TorpedoInfo.cs",
+      "bytes": 1352,
+      "sha256": "ea745d76c9e6101d0a3e384d5ed2ed68f12bb22e43d68544fa6466a7277d5f3e"
+    },
+    {
+      "path": "Source/TubeOrdnanceBinding.cs",
+      "bytes": 6787,
+      "sha256": "8bc9bb9e5866f9558912b20788b84b8bfb884aaaa1bb515ab4107c26cfa06a51"
+    },
+    {
+      "path": "Source/TubeUiState.cs",
+      "bytes": 1425,
+      "sha256": "235160a41707e04ef22bc9c0763da6e2ffe2b0c234a1eca1067f2c5c72497ce9"
+    },
+    {
+      "path": "Source/UiScale.cs",
+      "bytes": 3461,
+      "sha256": "f90257943bb9ed0655f41fdde8fe4d890840d3640b07eb029ea89ce821501ca6"
+    },
+    {
+      "path": "Source/ViewingFire.cs",
+      "bytes": 7458,
+      "sha256": "cf570c29d0159b8d57b82ce3cb9dbe36a5c122f7aff43f210e87d11ea3091836"
+    },
+    {
+      "path": "TESTING.txt",
+      "bytes": 1621,
+      "sha256": "1274864c9470ad54486b889c41638759ae0435d183997842ec5cf680ed907bb1"
+    },
+    {
+      "path": "UNINSTALL.txt",
+      "bytes": 2022,
+      "sha256": "19fd400a0414444d520d7f60896822dd85aba2e1326070695101598130d898fe"
+    },
+    {
+      "path": "VALIDATION.txt",
+      "bytes": 891,
+      "sha256": "fcf21e9dff9d473cbfd88e43a86d6a15cab361456516df0e4cbd8c0839912bdb"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "TorpedoRoom_v0.1.34-beta-test.zip",
+      "bytes": 111232,
+      "sha256": "b058190a306ffd483f86d1d436a6d38ade697606b00bc24448d4761bb8479b8c"
+    },
+    {
+      "name": "TorpedoRoom_v0.1.34-beta-test_source.zip",
+      "bytes": 201820,
+      "sha256": "e695c0b02c6191c7177ed94440936476f12077e6be25029f96c2443c77682988"
+    }
+  ]
+}

@@ -89,9 +89,10 @@ namespace Landomatic.TorpedoRoom {
  internal static class Runtime {
   public static UBOAT.Game.UI.GameUI Ui;public static UBOAT.Game.UI.Periscope.PeriscopeUI ScopeUi;public static T Get<T>() where T:class{return Ui as T??ScopeUi as T;}
   public static int Applying;public static bool MpScopeFeuer,AimContext=true,LaunchBusy;public static object ViewingScope;
+  public static bool RestrictedFireStation {get{return ViewingScope!=null&&!Binocular;}}public static bool Binocular;
   public static bool RoomEditorOpen;public static object CurrentGroup;public static bool ViewingStation=true;public static ViewportMode Viewport=ViewportMode.ReadOnly;public static int IndexOf(Torpedo t){return 0;}
   public static PlayerShip Ship;public static bool Active=true,Loading,LockoutEnabled=true;public static int Accepted;
-  public static bool Stable(TorpedoLauncher t){return true;}
+  public static bool Stable(TorpedoLauncher t){return true;}public static bool ProgramEditable(TorpedoLauncher t){return t!=null&&t.Torpedo!=null;}
   public static Torpedo Missile(StoredTorpedo item){return item==null?null:item.Missile;}
   public static PreparationStatus Status(StoredTorpedo item,bool create){return item==null?null:item.Saved;}
   public static void AcceptViewport(TubeSnapshot[] edits,object peer){Accepted+=edits.Length;foreach(var row in edits){row.Settings.Revision++;Ship.TorpedoLaunchers[row.Index].Torpedo.Saved.Value=row.Settings;} }
@@ -379,7 +380,9 @@ public static class MpScopeChecks {
   // Return to normal click-to-open behavior; already-open panels are retained.
   ui.OpenProbe=null;ui.Open(true,0,1,false);Bridge.RestrictedScopes=true;MpScopeFire.Tick();int closes=ui.CloseCalls;Bridge.RestrictedScopes=false;MpScopeFire.Tick();Check(ui.IsOpened&&ui.CloseCalls==closes,"panel opened by the player is not closed on returning to normal mode");
   Bridge.RestrictedScopes=true;MpScopeFire.Tick();Runtime.ViewingScope=null;Runtime.ViewingStation=false;MpScopeFire.Tick();Check(!HiddenLayout.Active&&nativeButton.transform.parent==ui.transform,"leaving scopes restores original control hierarchy");
-  Runtime.MpScopeFeuer=false;Runtime.ViewingStation=true;Runtime.Viewport=ViewportMode.Hidden;NativePresentation.Refresh(ui);Check(HiddenLayout.Active&&ui.IsOpened,"solo Hidden Reports retains normal player-opened Feuer-only layout");MpScopeFire.Release();NativePresentation.Restore();
+  Runtime.MpScopeFeuer=false;Runtime.ViewingStation=true;Runtime.Viewport=ViewportMode.Hidden;ui.Open(true,0,1,false);NativePresentation.Refresh(ui);Check(HiddenLayout.Active&&ui.IsOpened,"solo Hidden Reports retains normal player-opened Feuer-only layout");MpScopeFire.Release();NativePresentation.Restore();
+  Runtime.ViewingScope=new object();Runtime.ViewingStation=true;Runtime.MpScopeFeuer=true;Bridge.RestrictedScopes=true;Runtime.Viewport=ViewportMode.ReadOnly;Runtime.Binocular=true;MpScopeFire.Tick();Check(!MpScopeFire.Active&&!HiddenLayout.Active,"binoculars never acquire the restricted MP control");Runtime.Binocular=false;
+  MpScopeFire.Tick();Check(MpScopeFire.Active&&ui.IsOpened,"real scope can acquire after binocular exit");Runtime.ViewingScope=null;Runtime.ViewingStation=false;MpScopeFire.Tick();Check(!HiddenLayout.Active&&!ui.IsOpened&&nativeButton.transform.parent==ui.transform,"map exit closes adapter panel and restores detached fire button");
   foreach(var method in h.Attempts)Check(method.DeclaringType==typeof(PinguUboatMultiplayer.MpStations)||method.DeclaringType==typeof(UBOAT.Game.UI.Periscope.TorpedoLaunchersUI),"adapter hook never targets native physical TDC/tube fire levers: "+method.Name);
   Console.WriteLine("PASS: "+count+" MP scope Feuer assertions (actual adapter, layout and presentation; independent MP/native fixtures, no live network).");return count;
  }

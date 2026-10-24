@@ -1,3 +1,14 @@
+0.1.34 BETA TEST
+Host-authoritative pistol progress in MP snapshots; Apply disabled while pending.
+Scope-only MP Feuer teardown restores detached controls on map/station exit;
+binoculars excluded from the mod's restricted MP feature.
+Current tube-station banner hidden and re-entry blocked during room takeover.
+Three-tube overview moved right, including its Manage Ordnance button.
+Viewport FAT/LUT program projection/edits survive flooding and draining.
+One-shot handoff failure now includes camera mode and impersonation state.
+TRCA protocol requires the same .34 version on host and all joiners.
+Native pistol crew animations/status icons remain pending, not simulated here.
+
 0.1.33a — cache compatibility
 - Replace System.Diagnostics.StackTrace in the uninstall safeguard with a scoped
   settings-restore prefix/finalizer. Keep confirmation, checkbox reset and host checks.
