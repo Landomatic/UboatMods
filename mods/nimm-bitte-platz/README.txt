@@ -1,41 +1,72 @@
-Nimm Bitte Platz: Hydrophone Fix -- 1.3.2-beta-DIAG1
-Author: Landomatic
+Nimm Bitte Platz: Hydrophone Fix -- 1.4.0
+Author: Landomatic | Build: 20261024.1 | Target: UBOAT 2026.1
 
-The submerged hydrophone correction and ownership/surface guards are retained
-from the supplied 1.3.1-beta. The listener's inside-boat flag is the only audio
-setting written. This does not alter detection ranges, contacts or crew controls.
+Corrects exterior surface wash that can persist in the submerged hydrophone
+view after returning from another camera view. The existing station, audio
+ownership and submerged guards remain in place. Only the audio listener's
+inside-boat flag is written; the game calculates normal depth-dependent sound.
 
-New diagnostics
-START, CONFIG and READY identify the loaded build. STATION-START and STATION-STOP
-record entry/exit. Debug records OVERRIDE-ACQUIRE/OVERRIDE-RELEASE and their reason.
-Trace samples guard conditions, deck depth, camera/audio ownership and listener
-flags. ERROR includes the first full exception; STOP summarizes counts at normal
-application exit. Shutdown also releases an owned listener flag if still live.
-The existing fail-closed behavior is retained for a failing station session.
+This update adds optional Dusty menu controls, keeps lifecycle diagnostics,
+and removes an unused diagnostics Update callback. It does not change detection
+ranges, contacts, crew controls, camera position or FOV. It does not target the
+separate multiplayer FPP vibration or brief view-change crackle.
 
-Install
-Fully exit UBOAT. Back up the current active folder outside active mod locations.
-Replace it with this package's nimm-bitte-platz-hydrophone-fix folder, using one
-enabled copy. Workshop ID 3810668782 is retained. Enable Reflection and IO.
-Confirm [HydrophoneSurfaceNoiseFix][START] build=1.3.2-beta-DIAG1 followed by [READY].
-No new career is required by the logging update.
+Install or update
+-----------------
+Fully exit UBOAT and back up your existing mod folder outside active mod paths.
+Replace the entire local folder with this ZIP's nimm-bitte-platz-hydrophone-fix
+folder under:
+%USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\Mods
 
-See Docs/DIAGNOSTICS.md for NimmBittePlatzDiagnostics.txt and logging levels.
-For a troublesome view-change sequence, set LogLevel = Trace, restart UBOAT,
-repeat the sequence and send the output_log from that session after quitting.
-Info is the normal default; there is no every-frame logging.
+Enable one copy in the launcher and grant Reflection and IO permissions. Disable
+the Workshop copy while testing the local copy. The existing Workshop identity
+3810668782 is retained. The mod adds no saved-game data.
 
-The original repair was reported clean on VIIB with starter GHG. Other hulls
-and hydrophone equipment remain beta validation items. The pre-existing short
-scratching/crackle also occurred with the mod disabled and is not targeted here.
-HISTORY/README-1.3.1-beta.txt preserves the earlier testing notes and credits.
-Source syntax and the native members/patch targets were checked here; this new
-package was not compiled or run in UBOAT. See Validation.json.
+Dusty's menu (optional)
+----------------------
+Open Dusty's settings panel, select Other Mods, then Nimm Bitte Platz.
+  Hydrophone correction: on/off; turning it off releases an owned audio override.
+  Logging level: Info (normal), Debug, or Trace.
+  Trace interval (seconds): 0.25-60; default 2.
+  Reset to defaults: correction on, Info, 2 seconds.
 
-Credits and license
-Nimm Bitte Platz: Hydrophone Fix by Landomatic
-https://steamcommunity.com/id/landomatic/myworkshopfiles/
-The supplied LICENSE is preserved unchanged: CC BY-NC 4.0 with its specified
-visible-credit requirement. Changes in this diagnostic build are listed above.
-https://creativecommons.org/licenses/by-nc/4.0/
-See Docs/GITHUB_LAYOUT.md for the suggested source repository layout.
+Changes apply live and save when changed. The correction toggle is the setting
+row; Dusty's provider heading may say "always on" because the settings provider
+itself stays loaded. Dusty is optional: the same settings work through the config.
+
+Existing DIAG settings
+----------------------
+Your NimmBittePlatzDiagnostics.txt remains in the normal UBOAT AppData folder.
+Existing settings are preserved, including an explicit Debug or Trace choice.
+Info is the default for a fresh config, not a forced reset of an old one. For
+normal play, choose Info or Reset to defaults in Dusty's menu.
+
+Without Dusty, edit the config and restart UBOAT. There is no config-file polling.
+If Dusty already has stored values for this mod, opening its panel applies those
+values; use the menu to change them. See Docs/DIAGNOSTICS.md for full details.
+
+Versioning and verification
+--------------------------
+Versions now use major.minor.patch. 1.4.0 follows the 1.3.2-beta-DIAG1 development
+package and the 1.3.1 Workshop version. Diagnostics are a setting, not a DIAG
+version suffix. The independent build ID identifies the exact source build.
+Look for [HydrophoneSurfaceNoiseFix][START] version=1.4.0 build=20261024.1 and a
+subsequent [READY]. START by itself does not prove successful patch installation.
+
+The original repair was reported clean on VIIB with starter GHG. This package
+still needs compilation by UBOAT and in-game menu/audio confirmation before
+Workshop upload. Other hulls, equipment and multiplayer combinations have not
+been comprehensively validated. See Validation.json and Docs/PUBLISHING.md.
+HISTORY/README-1.3.1-beta.txt preserves the earlier testing notes.
+
+Credits and source
+------------------
+Nimm Bitte Platz: Hydrophone Fix by Landomatic.
+Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=3810668782
+Author: https://steamcommunity.com/id/landomatic/myworkshopfiles/
+Source: https://github.com/Landomatic/UboatMods/tree/main/mods/nimm-bitte-platz
+History: https://github.com/Landomatic/UboatMods/tree/main/history/nimm-bitte-platz
+The existing LICENSE is preserved: CC BY-NC 4.0 and its visible-credit notice.
+License: https://creativecommons.org/licenses/by-nc/4.0/
+Dusty's Community Patch provides the optional external-mod settings menu.
+Dusty's code and game assemblies are not included in this package.

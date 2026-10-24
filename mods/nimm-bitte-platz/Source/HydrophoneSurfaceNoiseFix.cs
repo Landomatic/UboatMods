@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: CC-BY-NC-4.0
 // Copyright (c) 2026 Landomatic. See LICENSE and README.txt.
+// Source/history: https://github.com/Landomatic/UboatMods/tree/main/mods/nimm-bitte-platz
 using System;
 using HarmonyLib;
 using UnityEngine;
@@ -12,6 +13,12 @@ using UBOAT.Game.Scene.Entities;
 
 namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
 {
+    internal static class ModInfo
+    {
+        internal const string Version = "1.4.0";
+        internal const string Build = "20261024.1";
+    }
+
     [NonSerializedInGameState]
     public class HydrophoneSurfaceNoiseFixLoader : IUserMod
     {
@@ -25,15 +32,19 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
             try
             {
                 harmony.PatchAll(typeof(HydrophoneSurfaceNoiseFixLoader).Assembly);
-                patched = true;
                 ModDiagnostics.Shutdown = HydrophoneFixState.Shutdown;
-                ModDiagnostics.Event("READY", "build=" + ModDiagnostics.Build + " name=NimmBittePlatz stationHooks=3 listenerCorrection=True");
+                patched = true;
+                ModDiagnostics.Event("READY", "version=" + ModInfo.Version + " build=" + ModInfo.Build
+                    + " stationHooks=3 correctionEnabled=" + ModSettings.Enabled);
             }
             catch (Exception ex)
             {
-                harmony.UnpatchAll("Landomatic.HydrophoneSurfaceNoiseFix");
+                patched = false;
+                bool rolledBack = false;
+                try { harmony.UnpatchAll("Landomatic.HydrophoneSurfaceNoiseFix"); rolledBack = true; }
+                catch (Exception rollback) { ModDiagnostics.Error("installation-rollback", rollback); }
                 ModDiagnostics.Error("installation", ex);
-                ModDiagnostics.Event("FAILED", "station patches rolled back");
+                ModDiagnostics.Event("FAILED", "stationPatchRollback=" + rolledBack);
             }
         }
     }
@@ -80,6 +91,11 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
             if (!active || failed || !object.ReferenceEquals(instance, controller)) return;
             try
             {
+                if (!ModSettings.Enabled)
+                {
+                    ReleaseOverride("disabled in settings");
+                    return;
+                }
                 // The known game mode for an external station is Generic (16).
                 // Requiring the actual active controller and audio ownership avoids
                 // applying this to ordinary FPP, other stations, map, or exterior views.
@@ -163,15 +179,25 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
             try { ReleaseOverride("error"); } catch { ownsOverride = false; }
         }
 
+        internal static void SettingsChanged()
+        {
+            if (ModSettings.Enabled) return;
+            try { ReleaseOverride("disabled in settings"); }
+            catch (Exception ex) { Fail(ex); }
+        }
+
         internal static void Shutdown()
         {
-            ReleaseOverride("application shutdown");
-            active = false;
-            controller = null;
-            generic = null;
-            camera = null;
-            listener = null;
-            ship = null;
+            try { ReleaseOverride("application shutdown"); }
+            finally
+            {
+                active = false;
+                controller = null;
+                generic = null;
+                camera = null;
+                listener = null;
+                ship = null;
+            }
         }
     }
 

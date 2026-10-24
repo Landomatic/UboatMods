@@ -1,0 +1,14 @@
+Version 1.4.0
+
+- Added optional Dusty Other Mods menu controls for the hydrophone correction,
+  logging level and Trace interval. Settings apply live and persist.
+- Standardized version numbering; diagnostics are selected in settings rather
+  than identified by a DIAG version suffix.
+- Retained lifecycle and station diagnostics, sampled Trace output and repeated
+  error suppression. Removed an unused diagnostics frame callback.
+- Improved failure reporting and shutdown cleanup.
+- Preserved the submerged/station ownership guards, core audio repair, Workshop
+  identity and license. No camera/FOV or detection-range changes.
+
+Fresh settings default to correction on, Info and a two-second Trace interval.
+Existing DIAG preferences are kept; use Info for normal play.

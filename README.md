@@ -8,6 +8,15 @@ Source, version history, and test records for Landomatic's UBOAT mods.
 
 Latest source/package archive: [0.1.22 Beta test player ZIP](packages/torpedo-room/0.1.22-beta/TorpedoRoom_v0.1.22-beta.zip). Full supplied-reference compilation and 217 targeted offline checks passed. Fixes T5 viewing-fire recovery after draining a checked non-T5; live .22 firing/rendering and optional MP-only Feuer validation remain pending. Other prior suites were not re-run. All multiplayer peers need the same TRC9 build. The initial .18 release is retained separately.
 
+## Nimm Bitte Platz: Hydrophone Fix
+
+[1.4.0 source and instructions](mods/nimm-bitte-platz) · [Player ZIP](packages/nimm-bitte-platz/1.4.0/NimmBittePlatz_v1.4.0.zip)
+
+Adds optional Dusty Other Mods menu controls and uniform version numbering while
+retaining the existing hydrophone ownership/surface guards. Stub-reference C# 5
+compilation and 25 offline scenarios (68 assertions) passed. UBOAT compilation and
+in-game menu/audio validation remain pending; see the project's validation record.
+
 ## Repository layout
 
 - `mods/<mod-slug>/`: reviewed source, manifests, distributable defaults, documentation, and existing notices.

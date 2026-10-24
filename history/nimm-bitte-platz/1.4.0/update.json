@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "project": "nimm-bitte-platz",
+  "version": "1.4.0",
+  "prepared_at_utc": "2026-10-24T08:57:04+00:00",
+  "changes": [
+    "Add optional Dusty Other Mods controls for correction, logging level and Trace interval with live persistence.",
+    "Adopt major.minor.patch versioning with independent build 20261024.1; retain existing Workshop identity and credits.",
+    "Remove unused diagnostics frame callback; improve rollback reporting and shutdown reference cleanup while preserving correction guards.",
+    "Add publishing text, standalone configuration notes, test harness and player package."
+  ],
+  "validation": {
+    "compile": "not-run",
+    "offline": "passed",
+    "in_game": "not-run",
+    "notes": [
+      "Real game reference compilation was not run because game assemblies are unavailable. C# 5 compilation against explicit test doubles passed with warnings treated as errors.",
+      "GitHub Actions run 40079855707, job 120830951955, source aae8eef51ca9971ff9eddf25820561448d7a48e8: 25 scenarios and 68 assertions passed. Player source unchanged since this run.",
+      "ZIP CRC, exact package member bytes, version/build agreement, Workshop ID/permissions, source inventory, original license/preview bytes and exact guard expression passed local checks.",
+      "Menu provider contract checked against supplied Dusty Community Patch 0.38.1 source; no upstream implementation or game assemblies included."
+    ]
+  },
+  "known_issues": [
+    "UBOAT compilation and in-game menu/audio validation, including current Dusty UI, remain pending before Workshop upload.",
+    "Other hulls/equipment and multiplayer combinations remain unverified; separate FPP vibration and brief view-change crackle are outside this fix.",
+    "Existing DIAG Trace preference is retained. Use Info or Reset to defaults for normal play; stored Dusty menu values apply on first panel scan."
+  ],
+  "files": [
+    {
+      "path": ".github/workflows/nimm-bitte-platz-validation.yml",
+      "bytes": 797,
+      "sha256": "e9603c00aa0c113f573df2dfe9d85fbe80933896d2f31856ab3ee86e69216fa6"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4519,
+      "sha256": "5926586d4fa50296dd08e6cecb5c0bc7dd6227853776286609989b9d19aa2c38"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/.gitignore",
+      "bytes": 92,
+      "sha256": "86b8fc66caf546487460e744d95da56ad578dc0f84c00b384277efef6bb5d46d"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/ARCHIVE.md",
+      "bytes": 1068,
+      "sha256": "4d0441417fef9e3d52cd3fb5d43ccc3a9e9030c1ef74947bc6fcb55635f58a5c"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/CHANGELOG.md",
+      "bytes": 1633,
+      "sha256": "719adbf812b2569c0bae9f2a21b610caf96d826091128538e915434af49e2fd2"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Docs/DIAGNOSTICS.md",
+      "bytes": 3133,
+      "sha256": "e21cc5a4bdedeac3674193109b296c7ed561b19b53e67b1e07568dcde6ec604a"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Docs/Diagnostics.example.txt",
+      "bytes": 181,
+      "sha256": "79e48fd3c3152e86e16074efd5b2f9a161caeedc49d13614deb921973111b45b"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Docs/GITHUB_LAYOUT.md",
+      "bytes": 1254,
+      "sha256": "5ed9f198cc63eebea08199c9300b4138e9d4febfeb222c31e95734a822c11e6c"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Docs/PUBLISHING.md",
+      "bytes": 2061,
+      "sha256": "9e52174701c57b97274c3060e4d1eae8e4057beaaa28f347f9e5218b8e6c4a4c"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Docs/Workshop-ChangeNotes.txt",
+      "bytes": 771,
+      "sha256": "199fd0ad17fca9ceab46dcfa550010683ab404fa855a37a6e461f15ac0d8e14a"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Docs/Workshop-Description.txt",
+      "bytes": 1782,
+      "sha256": "71ff77a65aacc8d003bef74694f1392dac55856690572ffcdac9caa9461444f3"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/HISTORY/README-1.3.1-beta.txt",
+      "bytes": 3465,
+      "sha256": "f9ba679525f11089388809095e7d598c79682ccd67a82d3228e512b95fc48e16"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/LICENSE",
+      "bytes": 1840,
+      "sha256": "c238f0e9b94450b37c5e027223fd40a9276e50834176ed643fcf366f680e9088"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Manifest.json",
+      "bytes": 416,
+      "sha256": "9418d8f23d40d05554e8bd007202498871329a0db3b39ba22cda9e1389a6a4ae"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Preview.jpg",
+      "bytes": 581828,
+      "sha256": "abc2c9b36b8ab011549a9fde4fe7409dcb48e58a90f47af84c3ba905b30e3dfa"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/README.txt",
+      "bytes": 3885,
+      "sha256": "9cb3e4f89db747bd87ad7189a3d321938e596c4004b6ddc149c20bca919db839"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Source/CommunityPatchSettings.cs",
+      "bytes": 2578,
+      "sha256": "6d8e442bfd775abf06f935029d430dddae7898cf9fba27bc5c1bde7f8eaebe06"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Source/HydrophoneSurfaceNoiseFix.cs",
+      "bytes": 9396,
+      "sha256": "6ec70ffced1906064984e4c6c2c9bb416e92664d602d333a4d8d9eac239168e8"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Source/ModDiagnostics.cs",
+      "bytes": 4551,
+      "sha256": "5499e4c91728f7e4887f3072826b03866808c398f74821bf9979a5b62d68cb42"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Source/ModSettings.cs",
+      "bytes": 5582,
+      "sha256": "3a8796714fdba0abc3284fe0cdae7f539c7ab377fcec36e8c40e181a52661b41"
+    },
+    {
+      "path": "mods/nimm-bitte-platz/Validation.json",
+      "bytes": 1967,
+      "sha256": "88bd8e80834f408ec9a578cf1ffd34307369dd79c86706dd0e3859b13cae47a2"
+    },
+    {
+      "path": "tests/nimm-bitte-platz/GameStubs.cs",
+      "bytes": 4006,
+      "sha256": "77c41bec199d4bf4c10ad3f1665a48463ac537f7bab27ad64cf040a37d147df6"
+    },
+    {
+      "path": "tests/nimm-bitte-platz/NimmBittePlatz.OfflineTests.csproj",
+      "bytes": 464,
+      "sha256": "9513d80bb5bca7560536ae3cf661fd39ae2b6d6fb3a3c44c70f4895173786ee2"
+    },
+    {
+      "path": "tests/nimm-bitte-platz/Program.cs",
+      "bytes": 17127,
+      "sha256": "62b73b366597c6785f7e2d6c7a3e71ade4f4cfccc9dc4fa6b779289af3a0a1e8"
+    },
+    {
+      "path": "tests/nimm-bitte-platz/README.md",
+      "bytes": 885,
+      "sha256": "583cf37fe62532479799d1687617995c712fcab05202e97d3498126ad9a95896"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "NimmBittePlatz_v1.4.0.zip",
+      "bytes": 590314,
+      "sha256": "ca040955642db7c90bb587ec43d62fb729b2a96d5cc98a37ab429523430fe9c9"
+    }
+  ]
+}

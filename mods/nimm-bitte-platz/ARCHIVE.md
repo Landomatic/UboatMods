@@ -1,21 +1,19 @@
-# Nimm Bitte Platz: Hydrophone Fix — archive snapshot
+# Nimm Bitte Platz: Hydrophone Fix — source archive
 
-Snapshot identifier: `1.3.2-beta-DIAG1`.
-Role: Landomatic mod.
+Current version: `1.4.0`; build `20261024.1`. Author/publisher: Landomatic.
+Workshop ID: `3810668782`.
 
-## Status and provenance
+This update prepares the previous `1.3.2-beta-DIAG1` source for publication with
+uniform numbering and optional Dusty menu controls. Existing guards, preview,
+license and credits are preserved. The earlier source remains in Git history;
+its record remains at `history/nimm-bitte-platz/1.3.2-beta-DIAG1/update.json`.
 
-- Hydrophone Surface Noise Fix is this project's earlier name; test 1.3 and beta 1.3.1 are predecessors.
-- The earlier repair was reported clean on VIIB with starter GHG. The latest diagnostic package's compilation and gameplay are not newly verified.
-- Retain Workshop ID 3810668782.
-- Correct the superseded author alias in HISTORY/README-1.3.1-beta.txt to Landomatic, following the user's established author correction. Runtime source and LICENSE remain byte-identical to the delivered package.
+Current source/package fingerprints and validation notes are recorded in
+`history/nimm-bitte-platz/1.4.0/update.json`. Offline tests use explicit test doubles
+and do not establish game API or runtime compatibility. See Validation.json for
+results and Docs/PUBLISHING.md for the remaining game checks.
 
-## Known limitations
-
-- Other hulls and hydrophone equipment remain beta validation items.
-- The separate short view-change scratching/crackle is outside this repair.
-
-## Integrity record
-
-The corresponding `history/nimm-bitte-platz/1.3.2-beta-DIAG1/update.json` records file SHA-256 hashes and the delivered package fingerprint. Original packaging-time validation documents remain with the source.
-Any documentation edits made for archiving are listed in that record. Runtime source, manifests, data, existing licenses, and upstream notices are preserved.
+The original repair was reported clean on VIIB with starter GHG. Other hulls and
+equipment remain unverified. Separate view-change crackle and multiplayer FPP
+vibration are outside this correction. No Steam upload or GitHub Release is
+performed by archiving this source and player package.
