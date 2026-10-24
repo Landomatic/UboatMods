@@ -15,8 +15,8 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
 {
     internal static class ModInfo
     {
-        internal const string Version = "1.4.0";
-        internal const string Build = "20261024.1";
+        internal const string Version = "1.4.1";
+        internal const string Build = "20261024.2";
     }
 
     [NonSerializedInGameState]
@@ -35,7 +35,7 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
                 ModDiagnostics.Shutdown = HydrophoneFixState.Shutdown;
                 patched = true;
                 ModDiagnostics.Event("READY", "version=" + ModInfo.Version + " build=" + ModInfo.Build
-                    + " stationHooks=3 correctionEnabled=" + ModSettings.Enabled);
+                    + " stationHooks=3");
             }
             catch (Exception ex)
             {
@@ -91,11 +91,6 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
             if (!active || failed || !object.ReferenceEquals(instance, controller)) return;
             try
             {
-                if (!ModSettings.Enabled)
-                {
-                    ReleaseOverride("disabled in settings");
-                    return;
-                }
                 // The known game mode for an external station is Generic (16).
                 // Requiring the actual active controller and audio ownership avoids
                 // applying this to ordinary FPP, other stations, map, or exterior views.
@@ -177,13 +172,6 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
             failed = true;
             // Fail closed for this session rather than running a failing per-frame repair.
             try { ReleaseOverride("error"); } catch { ownsOverride = false; }
-        }
-
-        internal static void SettingsChanged()
-        {
-            if (ModSettings.Enabled) return;
-            try { ReleaseOverride("disabled in settings"); }
-            catch (Exception ex) { Fail(ex); }
         }
 
         internal static void Shutdown()

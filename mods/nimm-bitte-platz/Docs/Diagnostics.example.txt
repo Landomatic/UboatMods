@@ -1,5 +1,4 @@
 # Example only. Edit the generated AppData config and restart UBOAT,
 # or use Dusty's Other Mods menu for immediate changes.
-Enabled = true
 LogLevel = Info
 TraceIntervalSeconds = 2

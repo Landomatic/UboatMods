@@ -1,5 +1,5 @@
 [h1]Nimm Bitte Platz: Hydrophone Fix[/h1]
-By Landomatic | Version 1.4.0
+By Landomatic | Version 1.4.1
 
 Corrects exterior surface wash that can linger after returning to the submerged
 hydrophone station. So you can stay seated and keep listening.
@@ -11,11 +11,11 @@ ownership. Detection ranges, contacts, crew controls and camera FOV are unchange
 [h2]Settings[/h2]
 With Dusty's Community Patch installed, open Other Mods → Nimm Bitte Platz for:
 [list]
-[*]Hydrophone correction on/off
 [*]Info, Debug or Trace logging
 [*]Trace sample interval (default: two seconds)
 [/list]
-Changes apply live and save. Dusty is optional. Without it, use
+Logging changes apply live and save. Enable or disable the mod in the launcher.
+There is no separate correction switch. Dusty is optional. Without it, use
 NimmBittePlatzDiagnostics.txt in UBOAT's AppData folder and restart after edits.
 New configs default to Info. Existing DIAG settings are preserved; switch an old
 Trace config to Info for normal play.

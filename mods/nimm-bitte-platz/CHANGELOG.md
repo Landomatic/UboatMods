@@ -1,5 +1,14 @@
 # Changes
 
+## 1.4.1 — build 20261024.2
+
+- Remove the hydrophone correction on/off switch and its backing config setting.
+  The launcher controls mod activation; existing station/audio guards still apply.
+- Ignore retired Enabled/FixEnabled values from 1.4.0, including saved false values.
+- Keep Dusty controls for logging level, Trace interval and diagnostics reset.
+- Update instructions, publishing text and regression checks for this behavior.
+
+
 ## 1.4.0 — build 20261024.1
 
 - Add optional Dusty **Other Mods** menu controls for the hydrophone correction,

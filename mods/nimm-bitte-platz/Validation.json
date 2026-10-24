@@ -1,11 +1,11 @@
 {
-  "version": "1.4.0",
-  "build": "20261024.1",
+  "version": "1.4.1",
+  "build": "20261024.2",
   "target_game": "UBOAT 2026.1",
   "status": "Prepared for in-game validation before Workshop upload",
   "validation": {
     "stub_reference_compile": "passed: C# 5, .NET 8, explicit test doubles; warnings treated as errors",
-    "offline_behavior_tests": "passed: 25 scenarios, 68 assertions",
+    "offline_behavior_tests": "passed: 25 scenarios, 69 assertions",
     "real_game_reference_compile": "not-run; game assemblies unavailable",
     "in_game": "not-run"
   },
@@ -15,7 +15,8 @@
     "Dusty provider checked against supplied Community Patch 0.38.1 external-settings contract.",
     "Workshop ID 3810668782 and Reflection/IO permissions retained.",
     "Original LICENSE and Preview.jpg retained byte-for-byte.",
-    "Version/build agreement and four-file runtime source inventory checked."
+    "Version/build agreement and four-file runtime source inventory checked.",
+    "Correction activation setting removed; retired Enabled/FixEnabled values ignored."
   ],
   "limitations": [
     "Stub-reference tests cannot prove game API compatibility, actual Harmony installation, Unity object lifetime behavior, UI rendering or audio behavior.",
@@ -23,15 +24,15 @@
     "Other hulls/equipment and multiplayer combinations remain unverified."
   ],
   "sources": {
-    "Source/CommunityPatchSettings.cs": "6d8e442bfd775abf06f935029d430dddae7898cf9fba27bc5c1bde7f8eaebe06",
-    "Source/HydrophoneSurfaceNoiseFix.cs": "6ec70ffced1906064984e4c6c2c9bb416e92664d602d333a4d8d9eac239168e8",
+    "Source/CommunityPatchSettings.cs": "3493861383330dd708fadea15fffa81d18d5d4c4e8b17727470d45fea72ffab6",
+    "Source/HydrophoneSurfaceNoiseFix.cs": "3b3d808dccb62ebdf775320ce5a7672decbc8879ef559a10b1af8af9755972a5",
     "Source/ModDiagnostics.cs": "5499e4c91728f7e4887f3072826b03866808c398f74821bf9979a5b62d68cb42",
-    "Source/ModSettings.cs": "3a8796714fdba0abc3284fe0cdae7f539c7ab377fcec36e8c40e181a52661b41"
+    "Source/ModSettings.cs": "917f52500d68e437fe0dac12956eedd7f393f49bf2a571a3e206ba550e844e46"
   },
   "evidence": {
-    "source_commit": "aae8eef51ca9971ff9eddf25820561448d7a48e8",
-    "ci_run": "https://github.com/Landomatic/UboatMods/actions/runs/40079855707",
-    "ci_job_id": 120830951955,
+    "source_commit": "c086903ecf69736761988082eda83c23f9bde761",
+    "ci_run": "https://github.com/Landomatic/UboatMods/actions/runs/40080511365",
+    "ci_job_id": 120832889522,
     "note": "Player source is unchanged since this passing run."
   }
 }
