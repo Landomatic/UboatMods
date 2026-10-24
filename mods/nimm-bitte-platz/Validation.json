@@ -4,8 +4,8 @@
   "target_game": "UBOAT 2026.1",
   "status": "Prepared for in-game validation before Workshop upload",
   "validation": {
-    "stub_reference_compile": "pending updated CI",
-    "offline_behavior_tests": "pending updated CI",
+    "stub_reference_compile": "passed: C# 5, .NET 8, explicit test doubles; warnings treated as errors",
+    "offline_behavior_tests": "passed: 25 scenarios, 69 assertions",
     "real_game_reference_compile": "not-run; game assemblies unavailable",
     "in_game": "not-run"
   },
@@ -23,5 +23,16 @@
     "Dusty 0.39.2 menu rendering and current game behavior require in-game testing.",
     "Other hulls/equipment and multiplayer combinations remain unverified."
   ],
-  "sources": {}
+  "sources": {
+    "Source/CommunityPatchSettings.cs": "3493861383330dd708fadea15fffa81d18d5d4c4e8b17727470d45fea72ffab6",
+    "Source/HydrophoneSurfaceNoiseFix.cs": "3b3d808dccb62ebdf775320ce5a7672decbc8879ef559a10b1af8af9755972a5",
+    "Source/ModDiagnostics.cs": "5499e4c91728f7e4887f3072826b03866808c398f74821bf9979a5b62d68cb42",
+    "Source/ModSettings.cs": "917f52500d68e437fe0dac12956eedd7f393f49bf2a571a3e206ba550e844e46"
+  },
+  "evidence": {
+    "source_commit": "c086903ecf69736761988082eda83c23f9bde761",
+    "ci_run": "https://github.com/Landomatic/UboatMods/actions/runs/40080511365",
+    "ci_job_id": 120832889522,
+    "note": "Player source is unchanged since this passing run."
+  }
 }

@@ -14,8 +14,9 @@ Latest source/package archive: [0.1.22 Beta test player ZIP](packages/torpedo-ro
 
 Dusty's Other Mods menu exposes logging level and Trace interval; the launcher
 controls mod activation. Existing hydrophone ownership/surface guards remain.
-Updated offline checks are pending. UBOAT compilation and in-game menu/audio
-validation remain pending; see the project's validation record.
+Stub-reference C# 5 compilation and 25 offline scenarios (69 assertions) passed.
+UBOAT compilation and in-game menu/audio validation remain pending; see the
+project's validation record.
 
 ## Repository layout
 
