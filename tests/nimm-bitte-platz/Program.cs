@@ -46,6 +46,7 @@ internal static class Program
     {
         try { HydrophoneFixState.Shutdown(); } catch { }
         Set(typeof(ModSettings), "loaded", false);
+        Set(typeof(ModSettings), "enabled", true);
         Set(typeof(ModSettings), "level", DiagnosticLevel.Info);
         Set(typeof(ModSettings), "traceInterval", 2f);
         Set(typeof(ModDiagnostics), "begun", false);
@@ -95,8 +96,7 @@ internal static class Program
         {
             Run("fresh defaults and config", delegate
             {
-                Station s = new Station(); s.Start();
-                Check(s.Listener.IsInsideBoat, "loaded mod corrects the guarded station");
+                Check(ModSettings.Enabled, "correction defaults on");
                 Check(ModSettings.Level == DiagnosticLevel.Info, "Info default");
                 Check(ModSettings.TraceInterval == 2f, "two-second default");
                 Check(File.ReadAllText(ModSettings.ConfigPath).Contains("LogLevel = Info"), "default config written");
@@ -105,26 +105,44 @@ internal static class Program
             Run("legacy DIAG1 config", delegate
             {
                 File.WriteAllText(ModSettings.ConfigPath, "# old config\nLogLevel = Trace\nTraceIntervalSeconds = 5\n");
-                Station s = new Station(); s.Start();
-                Check(s.Listener.IsInsideBoat, "legacy diagnostics do not disable correction");
+                Check(ModSettings.Enabled, "missing Enabled retains correction");
                 Check(ModSettings.Level == DiagnosticLevel.Trace && ModSettings.TraceInterval == 5f, "explicit legacy diagnostics retained");
             });
             Run("invalid config and finite interval", delegate
             {
                 File.WriteAllText(ModSettings.ConfigPath, "Enabled = invalid\nLogLevel = 99\nTraceIntervalSeconds = NaN\nTraceIntervalSeconds = Infinity\n");
-                Check(ModSettings.Level == DiagnosticLevel.Info && ModSettings.TraceInterval == 2f, "invalid input retains defaults");
-                Check(Logged("[WARN]") == 3, "invalid diagnostics reported; retired Enabled ignored");
+                Check(ModSettings.Enabled && ModSettings.Level == DiagnosticLevel.Info && ModSettings.TraceInterval == 2f, "invalid input retains defaults");
+                Check(Logged("[WARN]") == 4, "invalid values reported");
             });
-            Run("retired disable config is ignored and interval clamps", delegate
+            Run("disabled config and interval clamp", delegate
             {
                 File.WriteAllText(ModSettings.ConfigPath, "Enabled = false\nLogLevel = debug\nTraceIntervalSeconds = 0\n");
                 Station s = new Station(); s.Start();
-                Check(s.Listener.IsInsideBoat, "old Enabled=false cannot disable the loaded mod");
+                Check(!s.Listener.IsInsideBoat, "disabled config prevents acquisition");
                 Check(ModSettings.Level == DiagnosticLevel.Debug && ModSettings.TraceInterval == 0.25f, "case and low bound supported");
                 ModSettings.SetTraceInterval(1000f);
                 Check(ModSettings.TraceInterval == 60f, "high bound clamped");
                 ModSettings.SetTraceInterval(float.NaN);
                 Check(ModSettings.TraceInterval == 60f, "nonfinite menu value ignored");
+            });
+            Run("menu settings cannot load a launcher-disabled mod", delegate
+            {
+                object[] rows = CommunityPatchSettings.GetSettings();
+                Action<object> toggle = (Action<object>)((object[])rows[0])[5];
+                toggle(false); toggle(true); CommunityPatchSettings.ResetToDefaults();
+                Check(Harmony.PatchCalls == 0, "menu cannot install Harmony patches");
+                Check(GameObject.Created == 0, "menu cannot create the loader lifecycle host");
+                Check(!(bool)Get(typeof(HydrophoneSurfaceNoiseFixLoader), "patched"), "settings cannot mark an unloaded mod ready");
+            });
+            Run("loaded mod honors a saved correction-off preference", delegate
+            {
+                ModSettings.SetEnabled(false);
+                new HydrophoneSurfaceNoiseFixLoader().OnLoaded();
+                Station s = new Station(); s.Start();
+                Check(Harmony.PatchCalls == 1 && Logged("[READY]") == 1, "launcher load installs the mod even with correction off");
+                Check(!s.Listener.IsInsideBoat, "correction stays off after loading");
+                ModSettings.SetEnabled(true); HydrophoneFixState.Maintain(s.Controller);
+                Check(s.Listener.IsInsideBoat, "menu enables correction in the loaded healthy session");
             });
             Run("Dusty provider contract and live controls", delegate
             {
@@ -132,33 +150,37 @@ internal static class Program
                 Check(provider.Name == "CommunityPatchSettings" && provider.IsPublic, "provider discoverable");
                 Check(CommunityPatchSettings.ModName == "Nimm Bitte Platz" && CommunityPatchSettings.Category == "Audio", "stable menu identity");
                 object[] rows = (object[])provider.GetMethod("GetSettings").Invoke(null, null);
-                Check(rows.Length == 2, "only the two diagnostic setting rows remain");
-                Check(provider.GetField("Enabled") == null, "no provider-level activation switch");
+                Check(rows.Length == 3, "three setting rows");
                 HashSet<string> keys = new HashSet<string>();
                 foreach (object item in rows)
                 {
                     object[] row = (object[])item;
                     Check(row.Length >= 6 && row[4] is Func<object> && row[5] is Action<object>, "row delegates match contract");
                     Check(keys.Add((string)row[1]) && ((string)row[1]).IndexOf('.') < 0, "unique simple keys");
-                    Check((string)row[1] != "FixEnabled" && (string)row[0] != "bool", "no correction toggle exposed");
                 }
                 Station s = new Station(); s.Start();
-                ((Action<object>)((object[])rows[0])[5])(2);
-                ((Action<object>)((object[])rows[1])[5])(3.25f);
+                ((Action<object>)((object[])rows[0])[5])(false);
+                Check(!s.Listener.IsInsideBoat && !ModSettings.Enabled, "menu disable releases immediately");
+                ((Action<object>)((object[])rows[0])[5])(true);
+                HydrophoneFixState.Maintain(s.Controller);
+                Check(s.Listener.IsInsideBoat, "reenable reacquires during same healthy session");
+                ((Action<object>)((object[])rows[1])[5])(2);
+                ((Action<object>)((object[])rows[2])[5])(3.25f);
                 Check(ModSettings.Level == DiagnosticLevel.Trace && ModSettings.TraceInterval == 3.25f, "menu changes live");
                 string config = File.ReadAllText(ModSettings.ConfigPath);
                 Check(config.Contains("LogLevel = Trace") && config.Contains("TraceIntervalSeconds = 3.25"), "menu changes persist");
-                Check(!config.Contains("Enabled"), "saved config has no activation setting");
+                ((Action<object>)((object[])rows[0])[5])(false);
                 CommunityPatchSettings.ResetToDefaults();
-                Check(ModSettings.Level == DiagnosticLevel.Info && ModSettings.TraceInterval == 2f, "reset restores diagnostic defaults");
-                Check(s.Listener.IsInsideBoat, "diagnostic changes and reset preserve the correction");
+                Check(ModSettings.Enabled && ModSettings.Level == DiagnosticLevel.Info && ModSettings.TraceInterval == 2f, "reset restores defaults");
+                HydrophoneFixState.Maintain(s.Controller);
+                Check(s.Listener.IsInsideBoat, "reset resumes correction in a loaded healthy session");
                 Check(!ModDiagnostics.SampleDue("HYDROPHONE"), "reset stops trace immediately");
             });
             Run("unchanged menu values do not rewrite config", delegate
             {
                 ModSettings.EnsureLoaded();
                 File.WriteAllText(ModSettings.ConfigPath, "# sentinel\nLogLevel = Info\n");
-                ModSettings.SetLevel(0); ModSettings.SetTraceInterval(2f);
+                ModSettings.SetEnabled(true); ModSettings.SetLevel(0); ModSettings.SetTraceInterval(2f);
                 Check(File.ReadAllText(ModSettings.ConfigPath).StartsWith("# sentinel"), "unchanged setters do not write");
             });
             Run("trace sampling and live transition to Info", delegate
@@ -212,12 +234,12 @@ internal static class Program
                 s.Start();
                 Check(s.Listener.IsInsideBoat, "fresh session can recover");
             });
-            Run("diagnostics remain live when saving fails", delegate
+            Run("disable still releases when saving fails", delegate
             {
                 Station s = new Station(); s.Start();
                 File.Delete(ModSettings.ConfigPath); Directory.CreateDirectory(ModSettings.ConfigPath);
-                ModSettings.SetLevel(2);
-                Check(ModSettings.Level == DiagnosticLevel.Trace && s.Listener.IsInsideBoat, "save failure does not revert live diagnostics or disable correction");
+                ModSettings.SetEnabled(false);
+                Check(!ModSettings.Enabled && !s.Listener.IsInsideBoat, "release precedes failed config save");
                 Check(Logged("area=config-save") == 1, "save failure reported");
             });
             Run("initialization and lifecycle are installed once", delegate
@@ -225,7 +247,7 @@ internal static class Program
                 HydrophoneSurfaceNoiseFixLoader loader = new HydrophoneSurfaceNoiseFixLoader();
                 loader.OnLoaded(); loader.OnLoaded();
                 Check(Harmony.PatchCalls == 1 && GameObject.Created == 1, "one patch installation and lifecycle host");
-                Check(Logged("[READY]") == 1 && Logged("version=1.4.1") == 2, "version and ready markers");
+                Check(Logged("[READY]") == 1 && Logged("version=1.4.2") == 2, "version and ready markers");
                 Check(typeof(DiagnosticsLifecycle).GetMethod("Update", BindingFlags.Instance | BindingFlags.NonPublic) == null, "no lifecycle frame callback");
             });
             Run("failed installation rolls back without READY", delegate
@@ -272,7 +294,7 @@ internal static class Program
                 Station s = new Station(); s.Start();
                 File.WriteAllText(ModSettings.ConfigPath, "Enabled = false\nLogLevel = Trace\n");
                 for (int i = 0; i < 1000; i++) HydrophoneFixState.Maintain(s.Controller);
-                Check(s.Listener.IsInsideBoat && ModSettings.Level == DiagnosticLevel.Info, "hand edits wait for restart and cannot disable correction");
+                Check(ModSettings.Enabled && ModSettings.Level == DiagnosticLevel.Info, "hand edits wait for restart");
                 Check(UnityEngine.Object.FindCalls == 0 && Logged("[HYDROPHONE]") == 0, "no scene search or trace output during Info updates");
             });
             Console.WriteLine("PASS: " + scenarios + " scenarios, " + checks + " assertions. Stub-reference compilation only; in-game validation remains required.");
