@@ -11,3 +11,5 @@ This is **stub-reference compilation and behavioral testing**, not compilation
 against the installed game. It does not validate Unity object lifetimes, real
 Harmony patch installation, Dusty's actual UI, audio playback or multiplayer.
 No game assemblies or third-party implementation source are included.
+
+Test source is by Landomatic under the existing project [LICENSE](../../mods/nimm-bitte-platz/LICENSE).

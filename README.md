@@ -13,7 +13,8 @@ Latest source/package archive: [0.1.22 Beta test player ZIP](packages/torpedo-ro
 [1.4.0 source and instructions](mods/nimm-bitte-platz) · [Player ZIP](packages/nimm-bitte-platz/1.4.0/NimmBittePlatz_v1.4.0.zip)
 
 Adds optional Dusty Other Mods menu controls and uniform version numbering while
-retaining the existing hydrophone ownership/surface guards. UBOAT compilation and
+retaining the existing hydrophone ownership/surface guards. Stub-reference C# 5
+compilation and 25 offline scenarios (68 assertions) passed. UBOAT compilation and
 in-game menu/audio validation remain pending; see the project's validation record.
 
 ## Repository layout
