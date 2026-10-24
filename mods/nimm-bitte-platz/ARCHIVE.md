@@ -1,16 +1,17 @@
 # Nimm Bitte Platz: Hydrophone Fix — source archive
 
-Current version: `1.4.1`; build `20261024.2`. Author/publisher: Landomatic.
+Current version: `1.4.2`; build `20261024.3`. Author/publisher: Landomatic.
 Workshop ID: `3810668782`.
 
 This update prepares the previous `1.3.2-beta-DIAG1` source for publication with
-uniform numbering and optional Dusty diagnostics controls. The 1.4.0 correction
-switch was removed at the author's request; launcher activation is authoritative. Existing guards, preview,
+uniform numbering and optional Dusty controls. The correction switch is restored
+after 1.4.1: the launcher controls loading, and Dusty controls the correction
+while loaded. The prior 1.4.0 and 1.4.1 archives remain preserved. Existing guards, preview,
 license and credits are preserved. The earlier source remains in Git history;
 its record remains at `history/nimm-bitte-platz/1.3.2-beta-DIAG1/update.json`.
 
 Current source/package fingerprints and validation notes are recorded in
-`history/nimm-bitte-platz/1.4.1/update.json`. Offline tests use explicit test doubles
+`history/nimm-bitte-platz/1.4.2/update.json`. Offline tests use explicit test doubles
 and do not establish game API or runtime compatibility. See Validation.json for
 results and Docs/PUBLISHING.md for the remaining game checks.
 

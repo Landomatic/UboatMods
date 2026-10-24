@@ -15,6 +15,7 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
     internal static class ModSettings
     {
         private static bool loaded;
+        private static bool enabled = true;
         private static DiagnosticLevel level = DiagnosticLevel.Info;
         private static float traceInterval = 2f;
 
@@ -22,11 +23,12 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
         {
             get { return Path.Combine(Application.persistentDataPath, "NimmBittePlatzDiagnostics.txt"); }
         }
+        internal static bool Enabled { get { EnsureLoaded(); return enabled; } }
         internal static DiagnosticLevel Level { get { EnsureLoaded(); return level; } }
         internal static float TraceInterval { get { EnsureLoaded(); return traceInterval; } }
         internal static string Summary
         {
-            get { return "level=" + Level + " traceInterval=" + ModDiagnostics.F(TraceInterval); }
+            get { return "correctionEnabled=" + Enabled + " level=" + Level + " traceInterval=" + ModDiagnostics.F(TraceInterval); }
         }
 
         internal static void EnsureLoaded()
@@ -44,9 +46,13 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
                     if (split < 0) continue;
                     string key = line.Substring(0, split).Trim();
                     string value = line.Substring(split + 1).Trim();
-                    // Legacy Enabled values are intentionally ignored. The launcher
-                    // controls activation; diagnostics cannot disable the correction.
-                    if (key.Equals("LogLevel", StringComparison.OrdinalIgnoreCase))
+                    if (key.Equals("Enabled", StringComparison.OrdinalIgnoreCase))
+                    {
+                        bool parsed;
+                        if (bool.TryParse(value, out parsed)) enabled = parsed;
+                        else ModDiagnostics.Warn("Invalid Enabled; keeping " + enabled);
+                    }
+                    else if (key.Equals("LogLevel", StringComparison.OrdinalIgnoreCase))
                     {
                         DiagnosticLevel parsed;
                         if (Enum.TryParse<DiagnosticLevel>(value, true, out parsed) && Enum.IsDefined(typeof(DiagnosticLevel), parsed)) level = parsed;
@@ -64,6 +70,17 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
             catch (Exception ex) { ModDiagnostics.Error("config-read", ex); }
         }
 
+        internal static void SetEnabled(bool value)
+        {
+            // A preference only: patch installation remains exclusively in OnLoaded().
+            EnsureLoaded();
+            if (enabled == value) return;
+            enabled = value;
+            // Release before persisting, so a disk problem cannot leave the correction on.
+            HydrophoneFixState.SettingsChanged();
+            Save();
+            ModDiagnostics.SettingsChanged();
+        }
         internal static void SetLevel(int value)
         {
             EnsureLoaded();
@@ -87,7 +104,8 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
         internal static void ResetToDefaults()
         {
             EnsureLoaded();
-            if (level == DiagnosticLevel.Info && traceInterval == 2f) return;
+            if (enabled && level == DiagnosticLevel.Info && traceInterval == 2f) return;
+            enabled = true;
             level = DiagnosticLevel.Info;
             traceInterval = 2f;
             Save();
@@ -101,6 +119,7 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
                     "# Nimm Bitte Platz: Hydrophone Fix settings.\n"
                     + "# Dusty's Other Mods menu applies and saves changes immediately.\n"
                     + "# Restart UBOAT after hand-editing this file.\n"
+                    + "Enabled = " + enabled.ToString().ToLowerInvariant() + "\n"
                     + "LogLevel = " + level + "\n"
                     + "TraceIntervalSeconds = " + traceInterval.ToString("0.###", CultureInfo.InvariantCulture) + "\n");
             }

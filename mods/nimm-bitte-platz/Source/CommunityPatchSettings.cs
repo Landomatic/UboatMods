@@ -17,12 +17,17 @@ namespace UBOAT.Mods.HydrophoneSurfaceNoiseFix
             get { return "Hydrophone Fix " + ModInfo.Version + " by Landomatic. Corrects lingering exterior wash in the submerged hydrophone view."; }
         }
 
-        // The launcher controls the mod itself; this provider exposes diagnostics only.
+        // A Bool row supplies an immediate setter. Dusty's optional top-level Enabled
+        // field has no callback, so it cannot release an owned audio flag immediately.
         public static object[] GetSettings()
         {
             ModSettings.EnsureLoaded();
             return new object[]
             {
+                new object[] { "bool", "FixEnabled", "Hydrophone correction",
+                    "While this mod is enabled in the launcher, correct submerged hydrophone ambience. Turning this off immediately releases the correction.",
+                    new Func<object>(delegate { return ModSettings.Enabled; }),
+                    new Action<object>(delegate (object value) { ModSettings.SetEnabled(Convert.ToBoolean(value)); }) },
                 new object[] { "choice", "LogLevel", "Logging level",
                     "Info: startup, shutdown and station events. Debug: correction decisions. Trace: sampled troubleshooting details.",
                     new Func<object>(delegate { return (int)ModSettings.Level; }),

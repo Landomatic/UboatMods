@@ -1,22 +1,29 @@
-# Settings and diagnostics — 1.4.1
+# Settings and diagnostics — 1.4.2
 
 With Dusty's Community Patch, open **Other Mods → Nimm Bitte Platz**. Changes to
-the logging level and Trace interval apply immediately and persist.
-Dusty is optional; no assembly reference to it is required.
+the correction, logging level and Trace interval apply immediately and persist.
+Dusty is optional; no assembly reference to it is required. The launcher must
+load the mod before it can install its correction hooks. The menu changes a
+preference only; it cannot load a mod disabled in the launcher.
+
+Fresh configs and 1.4.1 configs without Enabled default to correction On. A saved
+Enabled/FixEnabled preference from 1.4.0 is honored again in 1.4.2. Turning the
+correction off releases an owned audio override immediately; turning it on takes
+effect on the next healthy station update when the normal guards allow it.
 
 The config remains:
 `%USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\NimmBittePlatzDiagnostics.txt`
 
 | Setting | Default | Behavior |
 | --- | --- | --- |
+| `Enabled` | `true` | Enable the hydrophone correction; lifecycle logging remains available when off |
 | `LogLevel` | `Info` | Lifecycle, config, station entry/exit, warnings and errors |
 | `LogLevel = Debug` | — | Info plus override acquisition/release decisions |
 | `LogLevel = Trace` | — | Debug plus sampled hydrophone guard, depth and listener state |
 | `TraceIntervalSeconds` | `2` | Real-time sample interval, clamped to 0.25–60 seconds; used only at Trace |
 
 The file is created if missing and read once at startup. Existing DIAG1 files are
-accepted. The old 1.4.0 `Enabled` config and `FixEnabled` menu values are ignored;
-only the launcher controls whether the mod runs. Existing Debug or Trace
+accepted; a missing `Enabled` keeps the correction on. Existing Debug or Trace
 preferences are preserved. Choose **Info** or **Reset to defaults** for normal
 play. Invalid values are reported and retain the default or last valid value.
 
@@ -26,7 +33,7 @@ mod. When using Dusty, change these settings through its menu so both copies sta
 in agreement. Unchanged setters do not rewrite the mod's file.
 
 The output log uses `[HydrophoneSurfaceNoiseFix][TAG]`, a UTC session ID and
-elapsed real seconds. `START` identifies version `1.4.1` and build `20261024.2`.
+elapsed real seconds. `START` identifies version `1.4.2` and build `20261024.3`.
 `CONFIG` reports effective settings. `READY` appears only after patch installation
 succeeds. A failed installation attempts to roll back this mod's Harmony patches
 and reports whether that rollback succeeded; it never prints `READY`.
