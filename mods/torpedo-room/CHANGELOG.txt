@@ -1,3 +1,128 @@
+0.1.34 BETA TEST
+Host-authoritative pistol progress in MP snapshots; Apply disabled while pending.
+Scope-only MP Feuer teardown restores detached controls on map/station exit;
+binoculars excluded from the mod's restricted MP feature.
+Current tube-station banner hidden and re-entry blocked during room takeover.
+Three-tube overview moved right, including its Manage Ordnance button.
+Viewport FAT/LUT program projection/edits survive flooding and draining.
+One-shot handoff failure now includes camera mode and impersonation state.
+TRCA protocol requires the same .34 version on host and all joiners.
+Native pistol crew animations/status icons remain pending, not simulated here.
+
+0.1.33a — cache compatibility
+- Replace System.Diagnostics.StackTrace in the uninstall safeguard with a scoped
+  settings-restore prefix/finalizer. Keep confirmation, checkbox reset and host checks.
+- Refuse menu cleanup if the restore safeguard cannot be installed.
+- No temporary collectors; no LUT, depth or crew-navigation changes.
+
+0.1.33 public beta packaging
+- Remove temporary ordnance diagnostic hooks, performance collection/config option,
+  and verbose successful-launch traces. Preserve normal errors and program checks.
+- Owner reports .33 load/maintenance tests passed; LUT flooding/selection and
+  engineer return-path issues remain. No gameplay fixes included in this cleanup.
+
+0.1.33-beta-test -- Write the actual inventory actor parameter
+- Correct .32's binding prefix: write StorageUI.Open's IPlayableCharacter parameter by reference rather than relying on edits to Harmony's __args snapshot. Owner .32 log showed a changed diagnostic argument while actual inventoryActor stayed null and maintenance entered the global queue.
+- After opening, verify the inventory actually stored the intended actor. If it did not, log the mismatch and close inventory before a crew request can be made; do not silently permit global fallback.
+- Extend the offline fixture with matching IPlayableCharacter/IItemStorage signatures, by-ref prefix invocation followed by the inventory's actual Open method, stored-actor validation, and fail-closed mismatch checks. Native Harmony/Unity execution still needs a game test.
+- Preserve .31 request handoff, .32 exact scope/actor matching and native eligibility. No leader/engineer role override, no task delegation fallback and no physics/depth/config/TRC9 changes.
+
+0.1.32-beta-test -- Native tube inventory uses its station operator
+- Within the native OpenTorpedoStorageOnTubeAction.OnPreStart call at a current tube station, bind an otherwise unassigned StorageUI.Open to the same native camera operator used by our Manage Ordnance button. Match exact ship, tube group, storage and actor; retain existing assignments.
+- Adopt that inventory into the existing .31 exclusive UI / deferred station-release handoff before native tasks start. Load, load-and-maintain and eligible separate maintenance now have the same actor-bound path through either entry point.
+- Preserve native eligibility, action menus, warnings and dispatch. Do not replace a leader with an engineer or send a rejected actor-bound request to the global queue. Intentional global crew orders, unrelated storages and ordinary FPP walk-up interactions remain native.
+- Restore scoped context on return/exception; guard nested unrelated calls. No upstream source files modified. Keep bounded diagnostics and .30 UI adjustments.
+- Test build only: native leader rejection, engineer behavior, both entry routes, MP ownership and real event timing still require in-game confirmation. Reference-tube preset, multi-tube Prep and per-tube viewport dials remain queued.
+
+0.1.31-beta-test -- Release old station before ordnance dispatch
+- Defer the exact native load/maintain request from our bound Manage Ordnance inventory until the previous station has released and FPP camera/interaction state is continuously stable for 0.5 seconds. Each same-actor FPP transition resets the stability timer. Maximum wait 8 seconds.
+- Native request is submitted once with the same actor, activator, action object and native maintenance choice. Native dispatch and MP authorization patches run again. No global cancellation suppression, eligibility override, teleport or task recreation is added.
+- Abort the held request on another character/task, leaving the handoff view, timeout, disabling the interface or world change. Complete the never-started action only in the same live world to release its native order. Use a native save blockade during the short handoff and release it on dispatch/abort/reset.
+- Keep bounded ORD-DIAG logging and add up to six camera caller stacks per session to identify any remaining transition source. Async StartAction RETURN is not proof of task completion.
+- Retain .30 enlarged Manage Ordnance, raised Feuer, exact firing hint and all prior controls. No new reference-tube preset or multi-tube editor.
+- Test correction only: no live .31 run; native unbound inventory's empty queued tasks remain a separate unresolved path.
+
+0.1.30-beta-diag -- Inventory diagnostics and requested UI adjustments
+- Enlarge initial Manage Ordnance from 210x34 to 280x48 UI units, with larger text.
+- Raise Hidden Reports / optional MP Feuer beside its native icon; raise fallback from 144 to 176 UI units and constrain the docked top edge.
+- Replace unready firing hint with: Ready, Select and Flood launch-tubes via Torpedo Room and Fire Control Boxes to fire.
+- Add temporary observational ORD-DIAG hooks for inventory binding, confirmation, native task dispatch/stages/stop/completion, actor cancellation and camera transitions. Log actor identity and position, current action and inventory/camera state. Up to 300 lines / 90 seconds per station inventory open; state samples at most twice per second.
+- No change to .29 ordnance dispatch, camera handoff or crew eligibility. Quick-swap task interruption and empty queued tasks remain unresolved; this build gathers evidence.
+- No torpedo physics, dud checks, depth limits, config migration or protocol changes.
+
+0.1.29-beta — Operator-bound ordnance and native task handoff
+- Restore operator-bound native inventory using the character chosen by the native station view, preserving the native load / load-and-maintain confirmation options.
+- Scope a last-priority StartAction prefix to native LoadTorpedoesAction/WarmUpTorpedoAction issued by our owned inventory actor at the same tube station. It hands the manual camera to FPP with stopCurrentAction=false and lets the original native action run unchanged; no crew action is started or cancelled by the prefix.
+- Close maintenance inventory in LateUpdate rather than clear widgets during StorageUI.Update. Command completion yields to the native task/camera; Escape without an order still returns to our initial display.
+- Log the native selected task as Load torpedo / Load and maintain / Maintain torpedo. If the optional dispatch hook cannot install, Manage Ordnance reports unavailable instead of using the broken shortcut.
+- Exact Feuer depth hover: Too Deep to Fire! Ascend to minimum Tube depth: 18m (50m for T5-only readied candidates) in all three report modes. No launch-depth or per-tube printed-label change.
+
+0.1.28-beta — Native ordnance dispatch and Escape return
+- Match native OpenTorpedoStorageOnTubeAction Generic-mode inventory opening: no bound character, preserving native crew dispatch for maintenance/loading instead of replacing the station operator action.
+- Subscribe to native inventory Closed; return to initial Torpedo Room screen without T. Guard the closing Escape against also exiting the station; release after close frames and key release. Detach callbacks/release guard on load/world change.
+- Feuer hover in Synchronized/Read-only/Hidden uses the selected launch set limit: Tube Depth <= 18m, or <= 50m for T5-only flooded candidates. Mixed ordinary/T5 uses 18m. Existing tube labels and launch rules unchanged.
+- Skip runtime/UI teardown mutations after OnApplicationQuit. Precaution only; reported exit crash remains unproven/unfixed.
+- Record later request for single-tube/checked-tube viewport dial editing; not implemented in this patch.
+
+0.1.27-beta — Ordnance return and display recovery
+- Move Manage Ordnance into the initial room display footer; raise tube cards and extend backing to leave a separate button row.
+- Preserve the vanilla compartment panel mask while opening/using ordnance and while dismissed at the same tube station. Close only our interactive overlay/input, not its replacement mask.
+- Restore initial room display on fresh station entry or fore/aft station changes; T explicitly reopens too. Closing inventory alone does not reopen Prep.
+- Absorb incidental controller changes caused by returning from inventory, avoiding an automatic popup.
+- Replace unsupported depth-label glyph with ASCII Tube Depth <= 18m / Tube Depth <= 50m. No depth-rule change.
+
+0.1.26-beta — Navigation and uninstall action safety
+- Add lower-left Manage Ordnance button in the initial display, opening native current-compartment storage after fully dismissing this interface. Closing storage does not reopen Torpedo Room; press T at the tubes to reopen.
+- Retain the original native Leave position button, tooltip, listener and interactable state at the room overlay's lower right; restore its original transform on exit/load/disable.
+- Label Prep return action Back, returning to the initial room display.
+- Ignore Dusty's ApplyStoredValues replay for the one-shot cleanup checkbox. Clear its stored Boolean on the following update, after Dusty's wrapper persists the callback value.
+- Require confirmation before cleanup; Cancel changes no records. Confirm rechecks host, loading and loaded-world identity.
+- Use Tube Depth ≤ 18m and Tube Depth ≤ 50m for T5 warnings; no depth-rule changes.
+- Physical aft inner-door/flood mismatch after reload remains unconfirmed; no physical-state manipulation added.
+
+0.1.25-beta — Uninstall cleanup feedback
+- Include uninstall instructions in generated config comments and root UNINSTALL.txt. Existing configs update on their next normal settings save; no migration.
+- Show a persistent, dismissible completion/error overlay with removed-record count and separate-save instructions, including when preparation is disabled.
+- Reject cleanup during save/load, without a loaded boat, or on MP clients. Remove duplicate preparation records too.
+- Cleanup no longer uses the generic settings rollback handler; failures report partial removal and advise keeping the launcher mod enabled.
+
+0.1.24-beta -- brief Feuer and individual tube-depth explanations
+- Wording revision: Feuer hover says Too deep; tube warning says Launch limit:
+  18 m (50 m for T5), shown only above that weapon limit and cleared within it.
+- Add Too deep explanation on the disabled
+  original Feuer button in Synchronized, Read-only, Hidden Reports and optional
+  MP-only Feuer. Shared tooltip lifecycle replaces the Hidden-only hint.
+- Append Launch limit: 18 m (50 m for T5) in existing loaded-tube depth/FAT/LUT reports, per weapon
+  rather than overall selection, without replacing native/HTT hover. Applies to
+  dry/unchecked weapons as well. Hidden Reports keeps per-tube information hidden.
+- Update text/visibility while already hovered as depth or selection changes.
+  Preserve Hidden Reports selection/readiness hints when depth is not the gate.
+  Clear on pointer exit, native close, loading, station exit and mod disable.
+- Tooltip graphics do not intercept input or enable firing. No changes to depth
+  rules, selection, native permissions, roles, physical levers or MP transport.
+- Full supplied-reference compilation and 316 targeted offline checks passed,
+  including 32 depth-tooltip cases across report modes. No live .24 test here.
+- Retain Workshop ID 3823181610, TRC9, credits/license and .23 outline/T5 UI fix.
+  Queued ordnance, Leave Station and Back controls are not part of this patch.
+
+0.1.23-beta -- selectable T5 at depth, Prep outline and larger docked Feuer
+- Hide the whole-panel depth overlay while the mod controls viewing UI and apply
+  the depth restriction only to Feuer in all report modes. Uncheck/recheck T5 at
+  45 m without a drain/reflood cycle. No fallback tube selection is introduced.
+- Synchronized/Read-only retain vanilla checkbox selection without moving the
+  physical selector. Hidden/MP Feuer retains native box mapping. Flooded mixed
+  selections and over-50 m remain blocked from firing, not from UI selection.
+- Add brass border around active Prep card, independent of borrowed native art;
+  input-transparent, follows selection and clears on editor close/empty weapon.
+  Multi-tube Prep editing remains future work.
+- Enlarge original Hidden/MP Feuer and click area 1.5 times. Follow the native
+  opener on the right with scaled gap, avoid neighbouring selectable controls,
+  use higher fallback if icon missing, restore authored placement/scale on exit.
+- Full supplied-reference compilation and 269 targeted offline checks pass.
+  No live .23 rendering/firing/network run. Native half-full flood indicator
+  remains under investigation; other prior suites not re-run.
+- Preserve Workshop item 3823181610, TRC9, copyright, license and credits.
+
 0.1.22-beta -- recover deep T5 viewing fire after draining a mixed selection
 - Publishing metadata revision: set steamFileId to existing Workshop item
   3823181610 in Manifest.json and both ZIPs. Gameplay/source unchanged.

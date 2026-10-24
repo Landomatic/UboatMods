@@ -31,12 +31,12 @@ namespace Landomatic.TorpedoRoom
         static GameObject ObjectOf(object value){var go=value as GameObject;if(go!=null)return go;var c=value as Component;return c==null?null:c.gameObject;}
         static void Set(GameObject go,bool hide,bool read=false)
         {if(go==null)return;Mask m;if(!hide&&!read){if(masks.TryGetValue(go,out m)){m.Set(false,false);masks.Remove(go);}return;}if(!masks.TryGetValue(go,out m))masks[go]=m=new Mask(go);m.Set(hide,read);}
-        internal static void Restore(){HiddenLayout.Restore();foreach(var entry in masks)entry.Value.Set(false,false);masks.Clear();}
+        internal static void Restore(){FireHint.Clear();HiddenLayout.Restore();foreach(var entry in masks)entry.Value.Set(false,false);masks.Clear();}
         internal static void Room(bool hide)
         {
             roomTakeover=hide;
             var ui=Runtime.Get<GameUI>();var panel=ui==null?null:ui.CurrentTorpedoLaunchersUI;if(panel!=null)Panel(panel);
-            if(!Runtime.Active||Runtime.Loading||!Runtime.ViewingStation)HiddenLayout.Restore();
+            if(!Runtime.Active||Runtime.Loading||!Runtime.ViewingStation){FireHint.Clear();HiddenLayout.Restore();}
             if(owner!=null)Set(owner.gameObject,hide||HiddenLayout.Active);
             Set(NativeSkin.ManualRoot,hide);
         }

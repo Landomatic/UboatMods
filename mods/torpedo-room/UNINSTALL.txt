@@ -1,0 +1,38 @@
+TORPEDO ROOM — UNINSTALLATION
+Copyright (c) 2026 Landomatic. See LICENSE and NOTICE.txt.
+Source/history: https://github.com/Landomatic/UboatMods
+
+Clean your save BEFORE disabling or removing Torpedo Room.
+Saved torpedo preparation records require the mod to remain installed until
+cleanup has completed and you have saved the cleaned game.
+
+1. Keep Torpedo Room enabled in the launcher. Load your saved game.
+2. Open Dusty's Community Patch settings > Other Mods > Torpedo Room.
+3. Click "Remove preparation records before uninstalling", then confirm
+   "Remove records". Cancel leaves preparation and records unchanged.
+   Confirmation removes preparation records and disables preparation.
+   The checkbox returns to OFF; OFF alone is not proof of completion.
+   Check the on-screen completion/error message. In older versions without
+   that message, output_log.txt records:
+   "Preparation disabled and records removed."
+4. Leave preparation disabled. Save your game normally to a NEW save slot.
+   Keep your original save as a backup. Cleanup does not save the game for you.
+5. Exit the game completely. Disable Torpedo Room in the launcher.
+6. Restart the game and test loading the cleaned save.
+
+MULTIPLAYER
+The host must perform cleanup and save the cleaned game. Shared-boat clients
+cannot remove the host's saved preparation records.
+
+CONFIG FILE
+%USERPROFILE%\AppData\LocalLow\Deep Water Studio\UBOAT\TorpedoRoomConfig.txt
+Setting enabled=False stops preparation but DOES NOT remove saved records.
+Deleting the config file does not clean your save. There is currently no
+config-only cleanup command. Use Dusty's menu; if needed, enable Dusty's
+Community Patch temporarily to perform cleanup.
+
+RECOVERY
+If a save fails to load after disabling Torpedo Room, re-enable the mod in the
+launcher, restart, load the original save and follow the cleanup steps above.
+If cleanup reports an error or the cleaned save will not load, keep the mod
+installed and preserve the original save and output_log.txt for diagnosis.
