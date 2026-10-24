@@ -1,7 +1,7 @@
 {
   "name": "Nimm Bitte Platz: Hydrophone Fix",
-  "version": "1.4.0",
-  "description": "Corrects lingering exterior wash in the submerged hydrophone view. Includes optional Dusty menu controls and configurable diagnostics. By Landomatic.",
+  "version": "1.4.1",
+  "description": "Corrects lingering exterior wash in the submerged hydrophone view. Includes optional Dusty diagnostics controls. By Landomatic.",
   "author": "Landomatic",
   "supportedGameVersions": [
     "2026.1"

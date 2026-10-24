@@ -1,7 +1,7 @@
-# Settings and diagnostics — 1.4.0
+# Settings and diagnostics — 1.4.1
 
 With Dusty's Community Patch, open **Other Mods → Nimm Bitte Platz**. Changes to
-the correction, logging level and Trace interval apply immediately and persist.
+the logging level and Trace interval apply immediately and persist.
 Dusty is optional; no assembly reference to it is required.
 
 The config remains:
@@ -9,14 +9,14 @@ The config remains:
 
 | Setting | Default | Behavior |
 | --- | --- | --- |
-| `Enabled` | `true` | Enable the hydrophone correction; lifecycle logging remains available when off |
 | `LogLevel` | `Info` | Lifecycle, config, station entry/exit, warnings and errors |
 | `LogLevel = Debug` | — | Info plus override acquisition/release decisions |
 | `LogLevel = Trace` | — | Debug plus sampled hydrophone guard, depth and listener state |
 | `TraceIntervalSeconds` | `2` | Real-time sample interval, clamped to 0.25–60 seconds; used only at Trace |
 
 The file is created if missing and read once at startup. Existing DIAG1 files are
-accepted; a missing `Enabled` keeps the correction on. Existing Debug or Trace
+accepted. The old 1.4.0 `Enabled` config and `FixEnabled` menu values are ignored;
+only the launcher controls whether the mod runs. Existing Debug or Trace
 preferences are preserved. Choose **Info** or **Reset to defaults** for normal
 play. Invalid values are reported and retain the default or last valid value.
 
@@ -26,7 +26,7 @@ mod. When using Dusty, change these settings through its menu so both copies sta
 in agreement. Unchanged setters do not rewrite the mod's file.
 
 The output log uses `[HydrophoneSurfaceNoiseFix][TAG]`, a UTC session ID and
-elapsed real seconds. `START` identifies version `1.4.0` and build `20261024.1`.
+elapsed real seconds. `START` identifies version `1.4.1` and build `20261024.2`.
 `CONFIG` reports effective settings. `READY` appears only after patch installation
 succeeds. A failed installation attempts to roll back this mod's Harmony patches
 and reports whether that rollback succeeded; it never prints `READY`.

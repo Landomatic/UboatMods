@@ -1,5 +1,5 @@
-Nimm Bitte Platz: Hydrophone Fix -- 1.4.0
-Author: Landomatic | Build: 20261024.1 | Target: UBOAT 2026.1
+Nimm Bitte Platz: Hydrophone Fix -- 1.4.1
+Author: Landomatic | Build: 20261024.2 | Target: UBOAT 2026.1
 
 Corrects exterior surface wash that can persist in the submerged hydrophone
 view after returning from another camera view. The existing station, audio
@@ -25,14 +25,14 @@ the Workshop copy while testing the local copy. The existing Workshop identity
 Dusty's menu (optional)
 ----------------------
 Open Dusty's settings panel, select Other Mods, then Nimm Bitte Platz.
-  Hydrophone correction: on/off; turning it off releases an owned audio override.
   Logging level: Info (normal), Debug, or Trace.
   Trace interval (seconds): 0.25-60; default 2.
-  Reset to defaults: correction on, Info, 2 seconds.
+  Reset to defaults: Info, 2 seconds.
 
-Changes apply live and save when changed. The correction toggle is the setting
-row; Dusty's provider heading may say "always on" because the settings provider
-itself stays loaded. Dusty is optional: the same settings work through the config.
+Logging changes apply live and save when changed. The correction runs whenever
+the mod is enabled in the launcher, subject to its existing station/audio guards.
+There is no separate correction switch. Old Enabled/FixEnabled values from 1.4.0
+are ignored. Dusty is optional: diagnostics also work through the config.
 
 Existing DIAG settings
 ----------------------
@@ -47,10 +47,10 @@ values; use the menu to change them. See Docs/DIAGNOSTICS.md for full details.
 
 Versioning and verification
 --------------------------
-Versions now use major.minor.patch. 1.4.0 follows the 1.3.2-beta-DIAG1 development
-package and the 1.3.1 Workshop version. Diagnostics are a setting, not a DIAG
+Versions use major.minor.patch. 1.4.1 removes the correction switch from the
+1.4.0 publishing candidate, which followed 1.3.2-beta-DIAG1 and Workshop 1.3.1. Diagnostics are a setting, not a DIAG
 version suffix. The independent build ID identifies the exact source build.
-Look for [HydrophoneSurfaceNoiseFix][START] version=1.4.0 build=20261024.1 and a
+Look for [HydrophoneSurfaceNoiseFix][START] version=1.4.1 build=20261024.2 and a
 subsequent [READY]. START by itself does not prove successful patch installation.
 
 The original repair was reported clean on VIIB with starter GHG. This package
