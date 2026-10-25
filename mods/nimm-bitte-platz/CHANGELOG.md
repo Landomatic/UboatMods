@@ -1,5 +1,16 @@
 # Changes
 
+## 1.4.2 — build 20261024.3
+
+- Restore the Dusty hydrophone correction toggle while keeping launcher activation
+  authoritative. Menu setters cannot load the mod or install its Harmony patches.
+- Default the correction to On and honor saved Enabled/FixEnabled preferences.
+  Turning it off releases an owned override immediately; enabling it resumes
+  correction on the next healthy, guarded station update.
+- Keep logging level, Trace interval and reset; reset restores On/Info/two seconds.
+- Retain existing station/audio guards and update instructions and regression checks.
+
+
 ## 1.4.1 — build 20261024.2
 
 - Remove the hydrophone correction on/off switch and its backing config setting.

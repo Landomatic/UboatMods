@@ -10,13 +10,13 @@ Latest source/package archive: [0.1.22 Beta test player ZIP](packages/torpedo-ro
 
 ## Nimm Bitte Platz: Hydrophone Fix
 
-[1.4.1 source and instructions](mods/nimm-bitte-platz) · [Player ZIP](packages/nimm-bitte-platz/1.4.1/NimmBittePlatz_v1.4.1.zip)
+[1.4.2 source and instructions](mods/nimm-bitte-platz) · [Player ZIP](packages/nimm-bitte-platz/1.4.2/NimmBittePlatz_v1.4.2.zip)
 
-Dusty's Other Mods menu exposes logging level and Trace interval; the launcher
-controls mod activation. Existing hydrophone ownership/surface guards remain.
-Stub-reference C# 5 compilation and 25 offline scenarios (69 assertions) passed.
-UBOAT compilation and in-game menu/audio validation remain pending; see the
-project's validation record.
+The launcher controls whether the mod loads. While loaded, Dusty's Other Mods
+menu controls the hydrophone correction, logging level and Trace interval.
+Existing ownership/surface guards remain. Stub-reference C# 5 compilation and
+27 offline scenarios (75 assertions) passed. UBOAT compilation and in-game
+menu/audio validation remain pending.
 
 ## Repository layout
 
