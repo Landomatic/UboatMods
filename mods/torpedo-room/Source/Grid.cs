@@ -29,9 +29,10 @@ namespace Landomatic.TorpedoRoom
         const string InputOwner="Landomatic.TorpedoRoom.Grid";
         Canvas roomCanvas;CanvasScaler roomScaler;
         GameObject gridRoot,gridPanel,editor,programRow,programFields,tubeViewport,dockBackdrop,clickBlocker;
+        internal static bool RoomOverviewActive {get{return Instance!=null&&Instance.roomTakeover&&Instance.gridRoot!=null&&Instance.gridRoot.activeSelf&&Config.Interface&&Active&&!Loading&&!Instance.OrdnanceOpen&&CurrentGroup!=null;}}
         internal static bool RoomEditorOpen {get{return Instance!=null&&Instance.open&&Config.Interface&&Active&&!Loading&&CurrentGroup!=null;}}
         Text banner,notice,selectionLabel,policyLabel,pistolLabel,programLabel,turnLabel,pinLabel,closeLabel,applyLabel,applyState;
-        Button pistolButton,programButton,turnButton,pinButton,applyButton;
+        Button pistolButton,programButton,turnButton,pinButton,applyButton,ordnanceButton;
         InputField distanceInput,angleInput,depthInput,speedInput;
         Text angleLabel,runLabel;
         PreparationDial depthDial,runDial,headingDial,speedDial;
@@ -45,18 +46,28 @@ namespace Landomatic.TorpedoRoom
         readonly List<Button> cards=new List<Button>(),cardPistols=new List<Button>();
         readonly List<Text> cardPistolLabels=new List<Text>();
         readonly List<Image> cardIcons=new List<Image>();
+        readonly List<PrepSelection.Frame> cardOutlines=new List<PrepSelection.Frame>();
         readonly List<Text> cardLabels=new List<Text>();
         static readonly Color Brass=new Color(.86f,.74f,.46f),Paper=new Color(.91f,.91f,.83f),Dark=new Color(.08f,.13f,.14f,.98f);
         void UpdateGrid()
         {
-            bool takeover=Config.Interface&&Active&&!Loading&&Ship!=null&&CurrentGroup!=null;
-            if(takeover!=roomTakeover||Time.unscaledTime>=nextRoomMask){roomTakeover=takeover;nextRoomMask=Time.unscaledTime+.2f;if(takeover)NativeSkin.Capture();NativePresentation.Room(takeover);}
-            if(!takeover){NativeSkin.RestoreStations();CloseGrid();if(gridRoot!=null)gridRoot.SetActive(false);return;}
+            var group=CurrentGroup;
+            if(OrdnanceOpen){
+                if(roomTakeover||open||group!=null)ObserveOrdnance();
+                if(!roomHandoff.Dismissed&&(roomTakeover||open||group!=null))DismissRoom();
+                roomHandoff.CanShow(group,RoomStationToken,true,false);
+                if(roomHandoff.Dismissed&&Config.Interface&&Active&&Time.unscaledTime>=nextRoomMask){nextRoomMask=Time.unscaledTime+.2f;NativeSkin.Capture();NativePresentation.Room(true);}
+                return;
+            }
             bool pressed=Shortcut.Pressed(true);
+            bool atStation=Config.Interface&&Active&&!Loading&&Ship!=null&&group!=null;
+            bool takeover=roomHandoff.CanShow(atStation?group:null,RoomStationToken,false,atStation&&pressed)&&atStation;
+            if(takeover!=roomTakeover||Time.unscaledTime>=nextRoomMask){roomTakeover=takeover;nextRoomMask=Time.unscaledTime+.2f;if(atStation)NativeSkin.Capture();NativePresentation.Room(atStation);}
+            if(!takeover){NativeSkin.RestoreStations();CloseGrid();if(gridRoot!=null)gridRoot.SetActive(false);return;}
             if(!gridReady&&!TryBuildGrid(pressed))return;
             if(!gridRoot.activeSelf)gridRoot.SetActive(true);
             UiScale.Match(roomCanvas,roomScaler);
-            NativeSkin.RoomStations(gridRoot.transform);
+            NativeSkin.RoomStations(gridRoot.transform);NativeSkin.RoomExit(gridRoot.transform);
             if(open&&gridGroup!=CurrentGroup)CloseGrid();
             if(pressed){if(open)CloseGrid();else TryOpenGrid();}
             if(open&&Input.GetKeyDown(KeyCode.Escape))CloseGrid();
@@ -110,23 +121,29 @@ namespace Landomatic.TorpedoRoom
         void CloseGrid()
         {
             HideTubeHover();
+            foreach(var border in cardOutlines)border.Select(false);
             if(blocked!=null)blocked.RemoveBlockade(InputOwner);
             if(cursor!=null)cursor.RemoveCursorVisibilityFlag(CursorFlag);
             blocked=null;cursor=null;open=false;selected=-1;selectedItem=null;draft=null;awaiting=false;
             if(gridReady)SetGridLayout(false);
             else if(gridRoot!=null)gridRoot.SetActive(false);
         }
+        bool CompactOverview {get{return Ship!=null&&Ship.TorpedoLaunchers!=null&&Ship.TorpedoLaunchers.Length==3;}}
         void SetGridLayout(bool expanded)
         {
             if(gridPanel==null||gridRoot==null||tubeViewport==null)return;
             gridPanel.SetActive(expanded);
             if(clickBlocker!=null)clickBlocker.SetActive(expanded);
             dockBackdrop.SetActive(!expanded);
+            if(ordnanceButton!=null)ordnanceButton.gameObject.SetActive(!expanded);
             var rect=(RectTransform)tubeViewport.transform;
             rect.SetParent(expanded?gridPanel.transform:gridRoot.transform,false);
             rect.localScale=expanded?Vector3.one:new Vector3(1.1f,1.1f,1);
             if(expanded)Place(rect,16,46,918,240);
-            else {rect.anchorMin=rect.anchorMax=rect.pivot=new Vector2(.5f,0);rect.anchoredPosition=new Vector2(0,34);rect.sizeDelta=new Vector2(918,240);}
+            else {rect.anchorMin=rect.anchorMax=rect.pivot=new Vector2(CompactOverview?1:.5f,0);rect.anchoredPosition=new Vector2(CompactOverview?-24:0,84);rect.sizeDelta=new Vector2(CompactOverview?450:918,240);}
+            var backing=(RectTransform)dockBackdrop.transform;backing.anchorMin=backing.anchorMax=backing.pivot=new Vector2(CompactOverview?1:.5f,0);backing.anchoredPosition=new Vector2(CompactOverview?-18:0,28);backing.sizeDelta=new Vector2(CompactOverview?470:930,300);
+            if(ordnanceButton!=null){var o=(RectTransform)ordnanceButton.transform;o.anchorMin=o.anchorMax=o.pivot=new Vector2(CompactOverview?1:0.5f,0);o.anchoredPosition=new Vector2(CompactOverview?-42:-355,38);}
+            cardIndices.Clear();
             tubeViewport.SetActive(true);
         }
         void ChooseTube(int index)
@@ -186,12 +203,12 @@ namespace Landomatic.TorpedoRoom
             if(draft==null||Ship==null||selected<0||selected>=Ship.TorpedoLaunchers.Length)return false;
             var tube=Ship.TorpedoLaunchers[selected];if(tube==null)return false;
             var s=Status(tube.Torpedo,false);
-            return Active&&!awaiting&&s!=null&&s.Value.Id==draft.Id&&RoomEditable(tube.Group)&&Stable(tube)&&(!Bridge.IsRemote||Bridge.Synced);
+            return Active&&!awaiting&&PistolSeconds(selected)<=0&&s!=null&&s.Value.Id==draft.Id&&RoomEditable(tube.Group)&&Stable(tube)&&(!Bridge.IsRemote||Bridge.Synced);
         }
         void RenderGrid()
         {
             RefreshSelectedWeapon();
-            closeLabel.text="Close · "+Shortcut.Display;notice.text=Notice;var speedWarning=TdcSpeed.Warning();if(speedWarning.Length>0)notice.text=speedWarning;
+            closeLabel.text="Back · "+Shortcut.Display;notice.text=Notice;var speedWarning=TdcSpeed.Warning();if(speedWarning.Length>0)notice.text=speedWarning;
             foreach(var dial in dialVisuals)NativeSkin.SizeDial(dial);
             var tubes=Ship.TorpedoLaunchers;
             var visible=new List<int>();for(int i=0;i<tubes.Length;i++)if(tubes[i]!=null&&(Access!=RoomAccess.CurrentCompartment||tubes[i].Group==CurrentGroup))visible.Add(i);
@@ -200,11 +217,12 @@ namespace Landomatic.TorpedoRoom
             if(changed){
                 HideTubeHover();
                 foreach(var b in cards){b.gameObject.SetActive(false);UnityEngine.Object.Destroy(b.gameObject);}
-                cards.Clear();cardPistols.Clear();cardPistolLabels.Clear();cardIcons.Clear();tubeVisuals.Clear();cardLabels.Clear();cardIndices.Clear();cardIndices.AddRange(visible);
-                cardsContent.sizeDelta=new Vector2(Mathf.Max(918,visible.Count*150),236);
+                cards.Clear();cardPistols.Clear();cardPistolLabels.Clear();cardIcons.Clear();cardOutlines.Clear();tubeVisuals.Clear();cardLabels.Clear();cardIndices.Clear();cardIndices.AddRange(visible);
+                float rowWidth=!open&&CompactOverview?450:918;
+                cardsContent.sizeDelta=new Vector2(Mathf.Max(rowWidth,visible.Count*150),236);
                 for(int n=0;n<visible.Count;n++){
                     int index=visible[n];Text label;
-                    var b=GridButton(cardsContent,"Tube "+index,"",Mathf.Max(0,(918-visible.Count*150)/2)+n*150,0,144,236,()=>ChooseTube(index),out label);
+                    var b=GridButton(cardsContent,"Tube "+index,"",Mathf.Max(0,(rowWidth-visible.Count*150)/2)+n*150,0,144,236,()=>ChooseTube(index),out label);
                     label.alignment=TextAnchor.UpperCenter;label.fontSize=12;Place(label.rectTransform,2,156,140,80);
                     GridLabel(b.transform,"Tube number","TUBE "+(index+1),4,0,82,20,12).alignment=TextAnchor.MiddleCenter;
                     Text pistol;var switchPistol=GridButton(b.transform,"Pistol mode","",90,0,50,20,()=>{if(!open||selected!=index)ChooseTube(index);if(Editable()){draft.Pistol=1-draft.Pistol;DraftChanged();}},out pistol);
@@ -214,6 +232,7 @@ namespace Landomatic.TorpedoRoom
                     var visual=NativeSkin.Tube(NativeSkin.TubeView(index),holder.transform,144,126);tubeVisuals.Add(visual);
                     if(visual!=null&&visual.Sources.Count>0){b.GetComponent<Image>().color=Color.clear;icon.gameObject.SetActive(false);}else b.GetComponent<Image>().color=Color.clear;
                     var hover=b.gameObject.AddComponent<TorpedoHover>();hover.Enter=()=>ShowTubeHover(index);hover.Exit=HideTubeHover;
+                    cardOutlines.Add(PrepSelection.Create(b.transform,Brass));
                     cards.Add(b);cardLabels.Add(label);
                 }
             }
@@ -222,8 +241,7 @@ namespace Landomatic.TorpedoRoom
                 TubeUiState observed;if(!tubeUiStates.TryGetValue(i,out observed)){observed=new TubeUiState();tubeUiStates[i]=observed;}
                 bool stateChanged=observed.Observe((int)tube.CurrentState,s==null?null:s.Value.Id,item!=null,Stable(tube));
                 if(stateChanged)NativeSkin.RefreshTubeIcon(i);
-                if(stateChanged&&Config.PerformanceTrace)
-                    Debug.Log("[TorpedoRoom] TUBE STATE tube="+(i+1)+" state="+tube.CurrentState+" loaded="+(item!=null)+" stable="+Stable(tube)+" id="+(s==null?"none":s.Value.Id)+" editor="+(i==selected)+" awaiting="+awaiting);
+                
                 if(tubeVisuals[n]!=null){var v=tubeVisuals[n];v.Sync();bool closed=ProgramValues.DoorClosed(tube.IsFlooded,(int)tube.CurrentState);if(v.OpenCover!=null)v.OpenCover.enabled=!closed;if(v.ClosedCover!=null)v.ClosedCover.enabled=closed;}
                 var sprite=item==null?null:NativePresentation.SpriteFor(i)??NativeSkin.TubeSprite(i);if(tubeVisuals[n]!=null){var v=tubeVisuals[n];if(v.Icon!=null){v.Icon.enabled=item!=null&&sprite!=null;v.Icon.sprite=sprite;}}cardIcons[n].sprite=sprite;cardIcons[n].enabled=item!=null&&sprite!=null;
                 cardPistols[n].interactable=!awaiting&&s!=null&&RoomEditable(tube.Group)&&Stable(tube)&&(!Bridge.IsRemote||Bridge.Synced);
@@ -238,19 +256,21 @@ namespace Landomatic.TorpedoRoom
                     info+=TubeWaterText(tube)+"\n"+(s!=null&&s.Value.DepthOverride?s.Value.Depth:Ship.TorpedoAttackSettings.TorpedoDepth).ToString("0.##")+" m depth\n"+SpeedUnits.Format(SpeedControl.Effective(item,s==null?null:s.Value,Ship.TorpedoAttackSettings.TorpedoSpeed));
                 }
                 cardLabels[n].text=info;cardLabels[n].color=i==selected?Brass:Paper;
+                cardOutlines[n].Select(open&&i==selected&&draft!=null&&selectedItem==item);
             }
             RefreshTubeHover();
             editor.SetActive(draft!=null);
             if(draft==null){selectionLabel.text="Choose a loaded tube above. Empty tubes and mines have no preparation controls.";return;}
             if(selected<0||selected>=tubes.Length||tubes[selected]==null){draft=null;editor.SetActive(false);return;}
             var current=tubes[selected];var status=Status(current.Torpedo,false);var torpedo=Missile(current.Torpedo);
-            bool valid=status!=null&&status.Value.Id==draft.Id,editable=Editable();
+            float preparing=PistolSeconds(selected);
+            bool valid=status!=null&&status.Value.Id==draft.Id,editable=Editable()&&preparing<=0;
             selectionLabel.text="▼ TUBE "+(selected+1)+" · "+(current.Torpedo==null?"EMPTY":current.Torpedo.TypeName)+(!valid?" · Contents changed — select again":status.Value.Revision!=draft.Revision?" · Refresh required":"");
             editorAccess.interactable=editable;
             pistolLabel.text=draft.Pistol==0?"AZ · Contact":"MZ · Magnetic";
             policyLabel.text=TubeUiState.ReadOnlyReason(editable,awaiting,valid,Stable(current),RoomEditable(current.Group),!Bridge.IsRemote||Bridge.Synced,current.CurrentState.ToString());
-            applyLabel.text=awaiting?"WAITING FOR HOST":dirty?"APPLY CHANGES":"APPLY";
-            applyState.text=awaiting?"Awaiting confirmation":dirty?"Unapplied changes":"Settings applied";
+            applyLabel.text=preparing>0?"PREPARING PISTOL":awaiting?"WAITING FOR HOST":dirty?"APPLY CHANGES":"APPLY";
+            applyState.text=preparing>0?"Pistol preparation: "+Mathf.CeilToInt(preparing)+" game seconds remaining":awaiting?"Awaiting confirmation":dirty?"Unapplied changes":"Settings applied";
             applyButton.interactable=editable&&!awaiting;
             var applyImage=applyButton.targetGraphic as Image;
             if(applyImage!=null)applyImage.color=dirty?new Color(.7f,.5f,.16f,1):new Color(.25f,.35f,.32f,1);
@@ -282,14 +302,17 @@ namespace Landomatic.TorpedoRoom
             var shield=GridPanel(gridRoot.transform,"Modal input shield",Color.clear);clickBlocker=shield.gameObject;
             var sr=shield.rectTransform;sr.anchorMin=Vector2.zero;sr.anchorMax=Vector2.one;sr.offsetMin=sr.offsetMax=Vector2.zero;clickBlocker.SetActive(false);
             var dock=GridPanel(gridRoot.transform,"Dock backing",new Color(.035f,.05f,.045f,.88f));dockBackdrop=dock.gameObject;dock.raycastTarget=false;
-            var dr=dock.rectTransform;dr.anchorMin=dr.anchorMax=dr.pivot=new Vector2(.5f,0);dr.anchoredPosition=new Vector2(0,28);dr.sizeDelta=new Vector2(930,252);dr.localScale=new Vector3(1.1f,1.1f,1);
+            var dr=dock.rectTransform;dr.anchorMin=dr.anchorMax=dr.pivot=new Vector2(.5f,0);dr.anchoredPosition=new Vector2(0,28);dr.sizeDelta=new Vector2(930,300);dr.localScale=new Vector3(1.1f,1.1f,1);
             banner=GridLabel(gridRoot.transform,"Hint","",0,0,950,30,13);var br=(RectTransform)banner.transform;br.anchorMin=br.anchorMax=new Vector2(.5f,0);br.pivot=new Vector2(.5f,0);br.anchoredPosition=new Vector2(0,10);
             banner.alignment=TextAnchor.MiddleCenter;
+            Text ordnanceLabel;
+            ordnanceButton=GridButton(gridRoot.transform,"Manage Ordnance","Manage Ordnance",0,0,280,48,OpenOrdnance,out ordnanceLabel);ordnanceLabel.fontSize=20;
+            var ordnanceRect=(RectTransform)ordnanceButton.transform;ordnanceRect.anchorMin=ordnanceRect.anchorMax=new Vector2(.5f,0);ordnanceRect.pivot=Vector2.zero;ordnanceRect.anchoredPosition=new Vector2(-495,38);
             var bg=GridPanel(gridRoot.transform,"Preparation",new Color(.035f,.05f,.045f,.94f));gridPanel=bg.gameObject;
             var rect=bg.rectTransform;rect.anchorMin=rect.anchorMax=new Vector2(.5f,.5f);rect.pivot=new Vector2(.5f,.5f);rect.anchoredPosition=Vector2.zero;rect.sizeDelta=new Vector2(950,604);rect.localScale=new Vector3(1.1f,1.1f,1);
             if(NativeSkin.Board!=null){bg.sprite=NativeSkin.Board;bg.color=new Color(1,1,1,.94f);bg.type=Image.Type.Sliced;}
             GridLabel(rect,"Title","TORPEDO ROOM",16,8,600,28,18).color=Brass;
-            Text unused;GridButton(rect,"Close","",760,8,174,26,CloseGrid,out closeLabel);
+            Text unused;GridButton(rect,"Back","Back",760,8,174,26,CloseGrid,out closeLabel);
             var viewport=GridPanel(rect,"Tube viewport",Color.clear);Place(viewport.rectTransform,16,46,918,240);viewport.gameObject.AddComponent<RectMask2D>();
             tubeViewport=viewport.gameObject;
             cardsContent=(RectTransform)new GameObject("Tube graphics",typeof(RectTransform)).transform;cardsContent.SetParent(viewport.transform,false);Place(cardsContent,0,0,918,236);
@@ -340,7 +363,7 @@ namespace Landomatic.TorpedoRoom
             if(visual!=null&&visual.ValueText!=null){var readout=visual.ValueText;readout.color=Paper;field.onValueChanged.AddListener(v=>readout.text=v+(title.Contains("°")?"°T":" m"));NativeSkin.ClickArea(readout.rectTransform,()=>{if(allowed()){field.Select();field.ActivateInputField();}});}
             input.onValueChanged.AddListener(v=>dial.Refresh());return dial;
         }
-        void ResetGrid(){NativeSkin.RestoreStations();CloseGrid();if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);gridRoot=null;hoverPanel=null;hoverText=null;gridPanel=null;roomCanvas=null;roomScaler=null;gridReady=false;tubeUiStates.Clear();dialVisuals.Clear();cards.Clear();cardPistols.Clear();cardPistolLabels.Clear();cardLabels.Clear();cardIcons.Clear();cardIndices.Clear();tubeVisuals.Clear();nativeDialCount=0;}
+        void ResetGrid(){NativeSkin.RestoreStations();CloseGrid();if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);gridRoot=null;hoverPanel=null;hoverText=null;gridPanel=null;roomCanvas=null;roomScaler=null;gridReady=false;tubeUiStates.Clear();dialVisuals.Clear();cards.Clear();cardPistols.Clear();cardPistolLabels.Clear();cardLabels.Clear();cardIcons.Clear();cardOutlines.Clear();cardIndices.Clear();tubeVisuals.Clear();nativeDialCount=0;}
         void DraftChanged(){if(!settingFields){dirty=true;nextGridRender=0;}}
         static void Place(RectTransform r,float x,float y,float w,float h)
         {r.anchorMin=r.anchorMax=new Vector2(0,1);r.pivot=new Vector2(0,1);r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(w,h);}

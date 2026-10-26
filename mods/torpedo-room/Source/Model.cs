@@ -120,6 +120,7 @@ namespace Landomatic.TorpedoRoom
         public int State;
         public bool Flooded;
         public float Flooding;
+        public float PistolSeconds; // authoritative remaining game seconds; zero when idle
         public Preparation Settings;
     }
     public sealed class Snapshot
@@ -141,7 +142,7 @@ namespace Landomatic.TorpedoRoom
     public static class Wire
     {
         public const byte Hello = 1, State = 2, Edit = 3, Viewport = 4;
-        const int Magic = 0x39435254;
+        const int Magic = 0x41435254; // TRCA: pending pistol progress
         public static byte[] Pack(byte operation, Action<BinaryWriter> body)
         {
             using (var stream = new MemoryStream())
@@ -171,7 +172,7 @@ namespace Landomatic.TorpedoRoom
             return Pack(State, w => {
                 w.Write(s.Epoch); w.Write(s.Enabled); w.Write((byte)s.Policy); w.Write(s.Delay); w.Write(s.AllowLockout);w.Write(s.SpeedSync);w.Write(s.MpScopeFeuer); w.Write((byte)s.Access); w.Write((byte)s.Viewport); w.Write(s.Notice ?? ""); w.Write(s.SolutionSpeed);w.Write(s.SpeedTube);
                 w.Write((byte)s.Tubes.Length);
-                foreach (var t in s.Tubes) { w.Write((byte)t.Index); w.Write(t.Type);w.Write((byte)t.State);w.Write(t.Flooded);w.Write(t.Flooding); Write(w, t.Settings); }
+                foreach (var t in s.Tubes) { w.Write((byte)t.Index); w.Write(t.Type);w.Write((byte)t.State);w.Write(t.Flooded);w.Write(t.Flooding); w.Write(t.PistolSeconds); Write(w, t.Settings); }
             });
         }
         public static Snapshot Decode(BinaryReader r)
@@ -184,11 +185,12 @@ namespace Landomatic.TorpedoRoom
             if (count > 16) throw new FormatException("Too many tubes.");
             s.Tubes = new TubeSnapshot[count]; int seen = 0;
             for (int i=0; i<count; i++) {
-                int index = r.ReadByte(); string type = r.ReadString();int state=r.ReadByte();bool flooded=r.ReadBoolean();float flooding=r.ReadSingle();
+                int index = r.ReadByte(); string type = r.ReadString();int state=r.ReadByte();bool flooded=r.ReadBoolean();float flooding=r.ReadSingle();float pistolSeconds=r.ReadSingle();
+                if(!Preparation.Finite(pistolSeconds)||pistolSeconds<0||pistolSeconds>120)throw new FormatException("Invalid preparation progress.");
                 if(state>8||!Preparation.Finite(flooding)||flooding<0||flooding>1)throw new FormatException("Invalid live tube state.");
                 if (index >= 16 || (seen & (1 << index)) != 0 || type.Length > 256) throw new FormatException("Invalid tube.");
                 seen |= 1 << index;
-                s.Tubes[i] = new TubeSnapshot { Index=index, Type=type,State=state,Flooded=flooded,Flooding=flooding, Settings=Read(r) };
+                s.Tubes[i] = new TubeSnapshot { Index=index, Type=type,State=state,Flooded=flooded,Flooding=flooding,PistolSeconds=pistolSeconds, Settings=Read(r) };
             }
             Finish(r); return s;
         }

@@ -10,7 +10,7 @@ namespace Landomatic.TorpedoRoom
     internal static class Config
     {
         public static bool Enabled = true, Interface = true, Overview;
-        public static bool AllowLockout=true,PerformanceTrace=true,SpeedSync=true;
+        public static bool AllowLockout=true,SpeedSync=true;
         public static bool MpScopeFeuer; // opt-in host rule; independent of viewport reports
         public static int Preset=2;
         public static RoomAccess Access;
@@ -31,7 +31,6 @@ namespace Landomatic.TorpedoRoom
                     if(kv[0]=="speedSync"&&bool.TryParse(kv[1],out b))SpeedSync=b;
                     if(kv[0]=="enabled" && bool.TryParse(kv[1],out b))Enabled=b;
                     if(kv[0]=="interface" && bool.TryParse(kv[1],out b))Interface=b;
-                    if(kv[0]=="performanceTrace"&&bool.TryParse(kv[1],out b))PerformanceTrace=b;
                     if(kv[0]=="overview" && bool.TryParse(kv[1],out b)){Overview=b;Access=b?RoomAccess.OppositeReadOnly:RoomAccess.CurrentCompartment;}
                     if(kv[0]=="interfacePreset"&&int.TryParse(kv[1],out n)&&n>=0&&n<=2)Preset=n;
                     if(kv[0]=="roomAccess"&&int.TryParse(kv[1],out n)&&n>=0&&n<=2)Access=(RoomAccess)n;
@@ -53,7 +52,24 @@ namespace Landomatic.TorpedoRoom
         public static void Save()
         {
             string tmp=PathName+".tmp";
-            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.22-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
+            File.WriteAllText(tmp,"# Torpedo Room Config 0.1.29-beta\n# Policy: 0 free, 3 dry-tube preparation (1/2 retired)\n"
+                +"# UNINSTALL: clean saved preparation records BEFORE disabling the launcher mod.\n"
+                +"# 1. Keep Torpedo Room enabled in the launcher and load your saved game.\n"
+                +"# 2. Dusty's settings > Other Mods > Torpedo Room:\n"
+                +"#    click Remove preparation records before uninstalling, then confirm.\n"
+                +"# 3. Check the completion/error message. The one-shot checkbox returns to OFF.\n"
+                +"#    Older builds confirm completion in output_log.txt:\n"
+                +"#    Preparation disabled and records removed.\n"
+                +"# 4. Leave preparation disabled. Save normally to a NEW slot; keep the original.\n"
+                +"#    Cleanup does not save the game for you.\n"
+                +"# 5. Exit completely, disable Torpedo Room in the launcher, restart and test\n"
+                +"#    the cleaned save. In multiplayer, the host performs cleanup and saving.\n"
+                +"# enabled=False and deleting this file DO NOT remove saved records.\n"
+                +"# No config-only cleanup command exists; Dusty's menu is required for cleanup.\n"
+                +"# If necessary, enable Dusty's Community Patch temporarily for cleanup.\n"
+                +"# If a save fails with the mod disabled, re-enable it, restart and clean first.\n"
+                +"# Full instructions: UNINSTALL.txt in the Torpedo Room mod folder.\n"
+                +"#\n"
                 +"# MP-only Feuer display: host opt-in, OFF by default.\n"
                 +"# Host: set MP's TUBES PANEL AT THE SCOPES to OFF (scope_tubes=false),\n"
                 +"# then enable mpScopeFeuer below. With another synchronized shared-boat\n"
@@ -62,10 +78,10 @@ namespace Landomatic.TorpedoRoom
                 +"# No effect in solo, with no other crew player, or when MP permits its panel.\n"
                 +"# Normal solo Hidden Reports still requires opening the torpedo panel.\n"
                 +"# Native fire-control selection, flooding/readiness and MP station permissions remain.\n"
-                +"# All players need Torpedo Room .22/TRC9; adapter supports supplied MP 1.11.5.\n"
+                +"# All players need Torpedo Room .34/TRCA; adapter supports supplied MP 1.11.5.\n"
                 +"mpScopeFeuer="+MpScopeFeuer+"\n\n"
                 +"speedSync="+SpeedSync+"\nenabled="+Enabled+"\ninterface="+Interface+"\ninterfacePreset="+Preset+"\nroomAccess="+(int)Access+"\nviewportDisplay="+(int)Viewport+"\npistolPolicy="+(int)Policy+"\npreparationSeconds="+Delay.ToString(CultureInfo.InvariantCulture)
-                +"\nperformanceTrace="+PerformanceTrace+"\nshortcutKey="+ShortcutKey+"\nshortcutCtrl="+ShortcutCtrl+"\nshortcutAlt="+ShortcutAlt+"\nshortcutShift="+ShortcutShift+"\nallowStraightRun="+AllowLockout+"\n");
+                +"\nshortcutKey="+ShortcutKey+"\nshortcutCtrl="+ShortcutCtrl+"\nshortcutAlt="+ShortcutAlt+"\nshortcutShift="+ShortcutShift+"\nallowStraightRun="+AllowLockout+"\n");
             if(File.Exists(PathName))File.Replace(tmp,PathName,null);else File.Move(tmp,PathName);
         }
     }
@@ -103,17 +119,16 @@ namespace Landomatic.TorpedoRoom
                 Bool("shortcutCtrl","Shortcut requires Ctrl","Local shortcut modifier. Either left or right Ctrl works.",()=>Config.ShortcutCtrl,v=>Config.ShortcutCtrl=v,false),
                 Bool("shortcutAlt","Shortcut requires Alt","Local shortcut modifier. Either left or right Alt works.",()=>Config.ShortcutAlt,v=>Config.ShortcutAlt=v,false),
                 Bool("shortcutShift","Shortcut requires Shift","Local shortcut modifier. Ctrl/Shift must match; Alt may be held for the game cursor when not required by the shortcut.",()=>Config.ShortcutShift,v=>Config.ShortcutShift=v,false),
-                Bool("performanceTrace","Diagnostic timing log (every 10 seconds)","Local test-build logging: Torpedo Room update time, longest frame and process-wide garbage collections. GC/frame figures include other mods; they do not prove the cause of a stutter.",()=>Config.PerformanceTrace,v=>Config.PerformanceTrace=v,false),
                 Choice("preset","Interface preset","Host rule. Casual: all tubes editable, synchronized viewport, unrestricted AZ/MZ. Hardcore: current compartment only, hidden viewport reports, unrestricted AZ/MZ. Custom preserves individual choices. Speed synchronization and the optional MP-only Feuer toggle are independent and unchanged by presets. No firing or role permissions are changed.",
                     ()=>Bridge.IsRemote?(EffectiveAccess==RoomAccess.AllEditable&&EffectiveViewport==ViewportMode.Synchronized&&EffectivePolicy==PistolPolicy.Free?0:EffectiveAccess==RoomAccess.CurrentCompartment&&EffectiveViewport==ViewportMode.Hidden&&EffectivePolicy==PistolPolicy.Free?1:2):Config.Preset,
                     v=>{Config.Preset=v;if(v<2){Config.Access=v==0?RoomAccess.AllEditable:RoomAccess.CurrentCompartment;Config.Viewport=v==0?ViewportMode.Synchronized:ViewportMode.Hidden;Config.Policy=PistolPolicy.Free;Config.AllowLockout=true;}},new[]{"Casual","Hardcore","Custom"}),
                 Choice("roomAccess","Tube access from torpedo rooms","Host rule. Applies to programming controls; physical flooding and firing remain unchanged.",()=> (int)EffectiveAccess,v=>Config.Access=(RoomAccess)v,new[]{"Current compartment only","Opposite tubes read-only","All tubes editable"}),
                 Choice("viewportDisplay","Scope / UZO / TDC torpedo display","Host rule. Synchronized: edits in either interface update marked tubes. Read-only: show settings/status. Hidden: open the torpedo panel to see Feuer alone. The separate MP-only Feuer option can show Feuer automatically when MP restricts scope tubes, regardless of this choice. MP station permissions still apply.",()=> (int)EffectiveViewport,v=>Config.Viewport=(ViewportMode)v,new[]{"Synchronized controls","Read-only reports","Hidden reports"}),
-                Bool("mpScopeFeuer","MP: Show Feuer when scope tubes are restricted","Host opt-in, OFF by default. Set MP's TUBES PANEL AT THE SCOPES to OFF, then turn this ON. With another synchronized shared-boat player aboard, permitted scopes/UZO automatically show Feuer alone without clicking the disabled torpedo icon. Independent of report visibility, presets and speed sync. No effect in solo or unrestricted MP; solo Hidden Reports still uses the normal panel opener. Native fire-control selection, flooding/readiness and MP station permissions remain. All players need .22/TRC9; supports supplied MP 1.11.5.",()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.MpScopeFeuer:Config.MpScopeFeuer,v=>Config.MpScopeFeuer=v,true),
+                Bool("mpScopeFeuer","MP: Show Feuer when scope tubes are restricted","Host opt-in, OFF by default. Set MP's TUBES PANEL AT THE SCOPES to OFF, then turn this ON. With another synchronized shared-boat player aboard, permitted scopes/UZO automatically show Feuer alone without clicking the disabled torpedo icon. Independent of report visibility, presets and speed sync. No effect in solo or unrestricted MP; solo Hidden Reports still uses the normal panel opener. Native fire-control selection, flooding/readiness and MP station permissions remain. All players need .34/TRCA; supports supplied MP 1.11.5.",()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.MpScopeFeuer:Config.MpScopeFeuer,v=>Config.MpScopeFeuer=v,true),
                 Bool("speedSync","Bidirectional torpedo / TDC speed sync","Host rule, independent of report visibility. ON: applied tube speeds update the computer and TDC speed inputs update tube preparations. OFF: keep independent settings and player mistakes. Never blocks firing.",()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.SpeedSync:Config.SpeedSync,v=>Config.SpeedSync=v,true),
                 Bool("allowStraightRun","Allow straight running for FAT/LUT","Host rule. Allows a per-torpedo Straight / Pattern choice. Stored pattern settings are retained. This is a gameplay bypass, not a simulated historical pin; no failure mechanic is added.",
                     ()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.AllowLockout:Config.AllowLockout,v=>Config.AllowLockout=v,true),
-                Bool("removeRecords","Remove preparation records before uninstalling","One-shot host/single-player cleanup. Disables this mod and removes its records from torpedoes. Then save to a separate slot before uninstalling. Checkbox returns to OFF.",()=>false,v=>{if(v)Runtime.RemoveRecords();},true),
+                new object[]{"bool","removeRecords","Remove preparation records before uninstalling","One-shot host/single-player cleanup. Requires confirmation, then shows completion or error with the number of records removed. Restored checkbox values never perform cleanup. Checkbox always returns to OFF. After successful cleanup, save to a NEW slot before exiting and disabling the mod in the launcher.",new Func<object>(()=>false),new Action<object>(v=>{if(Convert.ToBoolean(v))Runtime.RequestCleanup();})},
                 Bool("dry","Require dry tube for pistol preparation","Host rule. Drain first; flooding, unloading or leaving the station cancels pending work. Does not animate withdrawal. AZ/MZ is otherwise unrestricted.",()=>EffectivePolicy==PistolPolicy.DryTubePreparation,v=>{if(v)Config.Policy=PistolPolicy.DryTubePreparation;else if(Config.Policy==PistolPolicy.DryTubePreparation)Config.Policy=PistolPolicy.Free;},true),
                     new object[]{"float","delay","Pistol preparation time (game seconds)","Default 30 game seconds. Used only with dry-tube preparation; 0 is instant. FAT/LUT has no delay.",
                     new Func<object>(()=>Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.Delay:Config.Delay),new Action<object>(v=>{
@@ -126,7 +141,7 @@ namespace Landomatic.TorpedoRoom
         static PistolPolicy EffectivePolicy { get { return Bridge.IsRemote&&Bridge.Last!=null?Bridge.Last.Policy:Config.Policy; } }
         public static void ResetToDefaults()
         {
-            Config.Interface=true;Config.Overview=false;Config.PerformanceTrace=true;
+            Config.Interface=true;Config.Overview=false;
             Config.ShortcutKey=KeyCode.T;Config.ShortcutCtrl=Config.ShortcutAlt=false;Config.ShortcutShift=false;
             if(!Bridge.IsRemote){Config.Preset=2;Config.Enabled=true;Config.MpScopeFeuer=false;Config.SpeedSync=true;Config.Policy=PistolPolicy.Free;Config.Delay=30;Config.AllowLockout=true;Config.Access=RoomAccess.CurrentCompartment;Config.Viewport=ViewportMode.ReadOnly;}
             Config.Save();

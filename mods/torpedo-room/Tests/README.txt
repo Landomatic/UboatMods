@@ -1,3 +1,2 @@
-0.1.22: re-run StockUiChecks (85), ViewingChecks (82), MpScopeChecks (50).
-Full supplied-game-reference compilation passed. Other prior suites not re-run.
-See VALIDATION.txt and TESTING.txt; no live firing/rendering/network validation.
+0.1.24: 316 targeted offline checks: 85 stock/depth, 99 viewing/layout, 50 MP display, 35 UI affordance, 32 Feuer tooltip, 15 individual tube reports.
+Full supplied-reference compilation passed; other suites not re-run. No live game/network/rendering validation.
