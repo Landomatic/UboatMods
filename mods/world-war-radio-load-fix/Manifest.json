@@ -1,0 +1,13 @@
+{
+  "name": "Landomatic World War Radio Load Fix",
+  "version": "0.1.0",
+  "description": "Companion patch for MaGlas's World War Radio on UBOAT 2026.1.\n\nFixes persistent radio static after loading another save or switching boats. The patch rebinds World War Radio to the current boat and starts new static loops silently. Normal weak-signal static still works.\n\nRequires World War Radio (Workshop ID 3342143865). Enable both mods. Use your existing World War Radio career. Multiplayer compatibility is unverified.\n\nSource and install ZIP: https://github.com/Landomatic/UboatMods",
+  "author": "Landomatic",
+  "supportedGameVersions": [
+    "2026.1"
+  ],
+  "assemblyName": "LandomaticWorldWarRadioLoadFix",
+  "permissions": [
+    "Reflection"
+  ]
+}

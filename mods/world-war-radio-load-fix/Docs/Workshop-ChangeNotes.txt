@@ -1,0 +1,1 @@
+0.1.0: Initial release. Fixes stale World War Radio bindings and static that can persist after save loads. Solo testing covered IXA, IID, VIIB, and a same-save reload. Multiplayer is unverified.
