@@ -1,0 +1,26 @@
+{
+  "version": "0.1.0",
+  "target_game": "UBOAT 2026.1 Patch 21, Steam build 24913406",
+  "upstream": {
+    "name": "World War Radio",
+    "author": "MaGlas",
+    "version": "1.0",
+    "workshop_id": 3342143865
+  },
+  "changes": [
+    "Rebinds World War Radio playback and its range checker to the current boat after a save load.",
+    "Starts recreated static loops at zero volume and waits for a valid station before evaluating signal.",
+    "Uses the original Workshop mod for radio assets and campaign data."
+  ],
+  "validation": {
+    "game_assembly_compile": "Passed with installed references and warnings treated as errors.",
+    "targeted_cache_rules": "Passed using the installed validator with the relevant namespace and type restrictions.",
+    "startup": "Passed in the regular Unity game process. The companion reported READY and World War Radio initialized.",
+    "solo_save_loads": "Five settled loads across IXA, IID and VIIB, including a same-save reload. DIAG3 reported that the mixer radio, speaker system and range checker matched the live boat after each load. Both new static loops reported zero volume on all five settled samples. The tester reported that the fix worked well.",
+    "multiplayer": "Unverified."
+  },
+  "artifacts": {
+    "source_sha256": "d69caf6f6197f1517656313cd68d055bc4c20d9acf4605f1a28e713ea9e6e102",
+    "player_zip_sha256": "99ff7bdd9bc4b2b1ecc98d5ecb11ced52b314623a986aab0a39f71b5986fb27c"
+  }
+}

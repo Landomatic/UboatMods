@@ -18,6 +18,12 @@ Existing ownership/surface guards remain. Stub-reference C# 5 compilation and
 27 offline scenarios (75 assertions) passed. UBOAT compilation and in-game
 menu/audio validation remain pending.
 
+## World War Radio Load Fix
+
+[0.1.0 source and instructions](mods/world-war-radio-load-fix) · [Install ZIP](packages/world-war-radio-load-fix/0.1.0/LandomaticWorldWarRadioLoadFix-0.1.0.zip)
+
+Local companion to MaGlas's [World War Radio](https://steamcommunity.com/sharedfiles/filedetails/?id=3342143865). Fixes persistent radio static after save loads and hull changes. Tested in UBOAT 2026.1 solo across Type IXA, IID and VIIB. Multiplayer remains unverified.
+
 ## Repository layout
 
 - `mods/<mod-slug>/`: reviewed source, manifests, distributable defaults, documentation, and existing notices.
