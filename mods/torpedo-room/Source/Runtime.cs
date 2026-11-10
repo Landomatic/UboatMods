@@ -36,6 +36,7 @@ namespace Landomatic.TorpedoRoom
             try {
                 Config.Load();
                 harmony=new Harmony("com.landomatic.torpedoroom");
+                MenuIntegration.Install(harmony);
                 LaunchAuthority.Install(harmony);
                 harmony.Patch(AccessTools.PropertySetter(typeof(Torpedo),"PistolSetting"),new HarmonyMethod(typeof(Runtime),"BeforePistol"));
                 // Capture identity/baseline on completed loading, without changing loading tasks.
@@ -43,9 +44,9 @@ namespace Landomatic.TorpedoRoom
                 var go=new GameObject("Landomatic.TorpedoRoom.Runtime");
                 UnityEngine.Object.DontDestroyOnLoad(go);go.AddComponent<Runtime>();
                 Bridge.Install(harmony);
-                StockUi.Install(harmony);
-                ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);
-                Debug.Log("[TorpedoRoom] 0.1.22-beta loaded. Feuer-only Hidden Reports; T5 viewing depth exception through 50 m; running depth 1–14 m in quarter metres; TRC9 host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
+                StockUi.Install(harmony);RoomStationGuard.Install(harmony);
+                ViewingFire.Install(harmony);DepthControl.Install(harmony);SpeedControl.Install(harmony);TdcSpeed.Install(harmony);OrdnanceDispatch.Install(harmony);OrdnanceRelease.Install(harmony);TubeOrdnanceBinding.Install(harmony);
+                Debug.Log("[TorpedoRoom] 0.1.34-beta loaded. Prep selection outline; depth blocks Feuer only; T5 viewing exception through 50 m; running depth 1–14 m in quarter metres; TRCA host rules; optional MP restricted-scope Feuer. T opens editor (cursor Alt allowed). No flooding or firing controls added.");
             } catch(Exception e){
                 Config.Enabled=false;
                 if(harmony!=null)harmony.UnpatchAll("com.landomatic.torpedoroom");
@@ -83,6 +84,7 @@ namespace Landomatic.TorpedoRoom
         internal static bool Active { get { return Bridge.IsRemote ? Bridge.Last!=null&&Bridge.Last.Enabled : Config.Enabled; } }
         internal static bool MpScopeFeuer {get{return Bridge.IsRemote?Bridge.Last!=null&&Bridge.Last.MpScopeFeuer:Config.MpScopeFeuer;}}
         internal static object ViewingScope {get{var c=MainCamera.Instance;var scope=c!=null&&c.CurrentMode==CameraMode.Generic&&c.GenericController!=null?c.GenericController.ExternalController as PeriscopeController:null;return scope==null?null:scope.Periscope;}}
+        internal static bool RestrictedFireStation {get{var scope=ViewingScope as UBOAT.Game.Scene.Items.Periscope;return scope!=null&&!scope.IsBinocular;}}
         internal static bool AimContext {get{var s=Ship;return s!=null&&(s.TorpedoesPeriscopeTargetter!=null||s.TorpedoesTarget!=null);}}
         internal static bool LaunchBusy {get{var s=Ship;return s==null||s.IsPreparingToLaunchTorpedoes||s.IsLaunchingTorpedoes;}}
         internal static bool SpeedSync {get{return Bridge.IsRemote?Bridge.Last!=null&&Bridge.Last.SpeedSync:Config.SpeedSync;}}
@@ -124,14 +126,37 @@ namespace Landomatic.TorpedoRoom
             return -1;
         }
         internal static void Say(string text){Notice=text;Debug.Log("[TorpedoRoom] "+text);}
+        internal static void RequestCleanup()
+        {
+            MenuIntegration.ResetCleanupFlag();
+            if(MenuIntegration.RestoringSettings){Debug.Log("[TorpedoRoom] Ignored restored uninstall checkbox; cleanup requires confirmation.");return;}
+            if(!MenuIntegration.CleanupGuardAvailable){CleanupFeedback.Show("Cleanup unavailable","The Community Patch restore safeguard is unavailable. Keep Torpedo Room installed and report this error before removing the mod.");return;}
+            if(Bridge.IsRemote){CleanupFeedback.Show("Cleanup unavailable","Only the host can remove saved preparation records.");return;}
+            if(Loading||Ship==null){CleanupFeedback.Show("Cleanup unavailable","Load your game and wait for saving or loading to finish, then try again.");return;}
+            var boat=Ship;string epoch=Epoch;
+            CleanupFeedback.Confirm("Remove preparation records?","This removes this save's per-torpedo preparation records and disables preparation. It does not uninstall the mod or save the game.\n\nAfter cleanup, save to a NEW slot before exiting and disabling Torpedo Room in the launcher. Keep the original save.",()=>{
+                if(!ReferenceEquals(boat,Ship)||epoch!=Epoch||Loading){CleanupFeedback.Show("Cleanup cancelled","The loaded game changed. Open cleanup again from the game you want to clean.");return;}
+                RemoveRecords();
+            });
+        }
         internal static void RemoveRecords()
         {
-            if(Bridge.IsRemote){Say("Only the host can remove saved preparation records.");return;}
-            Config.Enabled=false;pending.Clear();
-            foreach(var item in Resources.FindObjectsOfTypeAll<StoredTorpedo>()){
-                var status=Status(item,false);if(status!=null)item.RemoveStatus(status);
+            if(Bridge.IsRemote){CleanupFeedback.Show("Cleanup unavailable", "Only the host can remove saved preparation records.");return;}
+            if(Loading || Ship==null){CleanupFeedback.Show("Cleanup unavailable", "Load your game and wait for saving or loading to finish, then try again.");return;}
+            int removed=0;
+            try {
+                Config.Enabled=false;pending.Clear();
+                foreach(var item in Resources.FindObjectsOfTypeAll<StoredTorpedo>()){
+                    PreparationStatus status;
+                    while((status=Status(item,false))!=null){item.RemoveStatus(status);removed++;}
+                }
+                Config.Save();MenuIntegration.Publish();
+                string message="Removed "+removed+" preparation record(s). Preparation is now disabled.\n\nSave your game to a NEW slot before exiting. Then disable Torpedo Room in the launcher and restart. Keep your original save.\n\nThe cleanup checkbox returns to OFF. This action does not save the game for you.";
+                Say(message);CleanupFeedback.Show("Cleanup complete",message);
+            } catch(Exception e){
+                string message="Cleanup could not finish. Removed "+removed+" record(s) before the error. Keep Torpedo Room enabled in the launcher. Do not use this save for uninstalling.\n\n"+e.Message;
+                Say(message);Debug.LogException(e);CleanupFeedback.Show("Cleanup failed",message);
             }
-            Say("Preparation disabled and records removed. Save separately before uninstalling this test mod.");
         }
         internal static bool MarkedHasProgram()
         {var ship=Ship;if(ship==null||ship.TorpedoLaunchers==null)return false;foreach(var tube in ship.TorpedoLaunchers)if(tube!=null&&tube.IsMarkedForLaunch){var missile=Missile(tube.Torpedo);if(missile!=null&&missile.ProgramType!=Torpedo.TorpedoProgramType.None)return true;}return false;}
@@ -144,28 +169,14 @@ namespace Landomatic.TorpedoRoom
             return ProgramValues.WaterLabel((int)tube.CurrentState,tube.IsFlooded,tube.FloodingProgress);
         }
         void Awake(){Instance=this;}
-        double perfTotal,perfMax;
-        int perfSamples,perfGc;
-        float perfNext,perfFrameMax;
-        void RecordTiming(double start)
-        {
-            if(double.IsNaN(start))return;
-            double elapsed=(Time.realtimeSinceStartupAsDouble-start)*1000d;perfTotal+=elapsed;if(elapsed>perfMax)perfMax=elapsed;perfSamples++;
-            perfFrameMax=Mathf.Max(perfFrameMax,Time.unscaledDeltaTime*1000);
-            if(Time.unscaledTime<perfNext)return;
-            if(perfNext>0){
-                Debug.Log("[TorpedoRoom] PERF "+(lastShip==null?"menu/no boat":"in game")+" samples="+perfSamples+" updateAvgMs="+(perfTotal/perfSamples).ToString("0.000")+" updateMaxMs="+perfMax.ToString("0.000")+" frameMaxMs="+perfFrameMax.ToString("0.0")+" processGC0="+(GC.CollectionCount(0)-perfGc));
-            }
-            perfNext=Time.unscaledTime+10;perfTotal=perfMax=0;perfSamples=0;perfFrameMax=0;perfGc=GC.CollectionCount(0);
-        }
         void Update()
         {
-            double tickStart=Config.PerformanceTrace?Time.realtimeSinceStartupAsDouble:double.NaN;
+            if(quitting)return;
             try {
-                Bridge.Tick();MpScopeFire.Tick();MenuIntegration.Tick();DepthControl.RestoreSteps();SpeedControl.RestoreBounds();
+                TickOrdnanceReturn();Bridge.Tick();MpScopeFire.Tick();MenuIntegration.Tick();DepthControl.RestoreSteps();SpeedControl.RestoreBounds();
                 var ship=Ship;
-                if(ship!=lastShip){NativePresentation.Room(false);roomTakeover=false;nextRoomMask=0;lastShip=ship;pending.Clear();Epoch=Guid.NewGuid().ToString("N");ResetGrid();Bridge.ResetWorld();LaunchAuthority.Clear();TdcSpeed.Reset();}
-                if(Loading||ship==null){NativeSkin.RestoreStations();NativePresentation.Room(false);roomTakeover=false;CloseGrid();if(gridRoot!=null)gridRoot.SetActive(false);LaunchAuthority.Clear();if(ship==null)TdcSpeed.Reset();return;}
+                if(ship!=lastShip){CancelOrdnanceHandoff();roomHandoff.Reset();NativePresentation.Room(false);roomTakeover=false;nextRoomMask=0;lastShip=ship;pending.Clear();Epoch=Guid.NewGuid().ToString("N");ResetGrid();Bridge.ResetWorld();LaunchAuthority.Clear();TdcSpeed.Reset();}
+                if(Loading||ship==null){CancelOrdnanceHandoff();NativeSkin.RestoreStations();NativePresentation.Room(false);roomTakeover=false;CloseGrid();if(gridRoot!=null)gridRoot.SetActive(false);LaunchAuthority.Clear();if(ship==null)TdcSpeed.Reset();return;}
                 UpdateGrid();
                 if(Time.unscaledTime<nextScan)return;nextScan=Time.unscaledTime+0.2f;
                 LaunchAuthority.Tick();
@@ -176,7 +187,7 @@ namespace Landomatic.TorpedoRoom
             } catch(Exception e){
                 CloseGrid();
                 if(Time.unscaledTime>=nextError){nextError=Time.unscaledTime+10;Debug.LogError("[TorpedoRoom] Runtime: "+e);}
-            } finally {RecordTiming(tickStart);}
+            }
         }
         internal static bool Request(int index,Preparation edit)
         {
@@ -196,7 +207,7 @@ namespace Landomatic.TorpedoRoom
             string why=Rules.Check(status.Value,edit,Config.Policy,ship.Docked,Dry(tube),missile.ProgramType!=Torpedo.TorpedoProgramType.None,Config.AllowLockout);
             if(why!=null){Reply(peer,why);return false;}
             if(edit.SpeedOverride&&!SpeedValues.Supports(SpeedControl.Options(tube.Torpedo),edit.Speed)){Reply(peer,"Choose a speed supported by this torpedo.");return false;}
-            if(pending.ContainsKey(tube.Torpedo)){Reply(peer,"Pistol preparation is already in progress. Drain/leave station to cancel.");return false;}
+            if(pending.ContainsKey(tube.Torpedo)){Reply(peer,"Pistol preparation is already in progress. Flood/leave station to cancel.");return false;}
             bool pistolChanged=edit.Pistol!=status.Value.Pistol;
             if(pistolChanged && Config.Policy==PistolPolicy.DryTubePreparation && Config.Delay>0){
                 if(peer==null && !RoomEditable(tube.Group)){Reply(peer,"Use this tube compartment's station for pistol preparation.");return false;}
@@ -210,6 +221,8 @@ namespace Landomatic.TorpedoRoom
             }
             Commit(tube,status,edit,true);Reply(peer,"Tube "+Roman(index)+" settings accepted.");return true;
         }
+        internal static bool ProgramEditable(TorpedoLauncher tube)
+        {return tube!=null&&tube.Torpedo!=null&&(Stable(tube)||tube.CurrentState==TorpedoLauncher.State.Flooding||tube.CurrentState==TorpedoLauncher.State.Draining);}
         internal static bool AcceptViewport(TubeSnapshot[] edits,object peer,bool tdc=false)
         {
             var ship=Ship;if(Loading||!Config.Enabled||ship==null||ship.TorpedoLaunchers==null||edits==null||edits.Length==0||edits.Length>16||(Config.Viewport!=ViewportMode.Synchronized&&!tdc))return false;
@@ -217,10 +230,11 @@ namespace Landomatic.TorpedoRoom
             int seen=0;
             foreach(var row in edits){
                 if(row.Index<0||row.Index>=16||row.Index>=ship.TorpedoLaunchers.Length||(seen&(1<<row.Index))!=0)return false;seen|=1<<row.Index;
-                var tube=ship.TorpedoLaunchers[row.Index];if(tube==null||!Stable(tube))return false;
+                var tube=ship.TorpedoLaunchers[row.Index];if(!ProgramEditable(tube))return false;
                 var status=Status(tube.Torpedo,true);var torpedo=Missile(tube.Torpedo);
                 if(status==null||torpedo==null)return false;
                 var edit=row.Settings;var current=status.Value;
+                if(!Stable(tube)&&edit.Pistol!=current.Pistol)return false;
                 if(!tube.IsMarkedForLaunch&&edit.Pistol==current.Pistol&&!(tdc&&peer==null&&TdcSpeed.IsFocus(tube)))return false;
                 if(!Rules.ViewportEdit(current,edit)||(tdc&&!Rules.SpeedOnlyEdit(current,edit)))return false;
                 if(edit.SpeedOverride&&!SpeedValues.Supports(SpeedControl.Options(tube.Torpedo),edit.Speed))return false;
@@ -246,18 +260,18 @@ namespace Landomatic.TorpedoRoom
         {
             if(pending.Count==0)return;
             var time=Get<UBOAT.Game.Core.Time.GameTime>();if(time==null)return;
-            var remove=new List<StoredTorpedo>();
+            var remove=new List<StoredTorpedo>();var completed=new HashSet<StoredTorpedo>();
             foreach(var pair in pending){
                 var p=pair.Value;var tube=p.Index<ship.TorpedoLaunchers.Length?ship.TorpedoLaunchers[p.Index]:null;
                 bool cancel=Config.Policy!=PistolPolicy.DryTubePreparation||tube==null||tube.Torpedo!=pair.Key||!Dry(tube)
                     ||(p.Peer==null?!RoomEditable(p.Group):!Bridge.Allowed(p.Peer,p.Group));
                 var status=Status(pair.Key,false);
                 cancel|=status==null||status.Value.Id!=p.Edit.Id||status.Value.Revision!=p.Edit.Revision;
-                if(cancel){remove.Add(pair.Key);Reply(p.Peer,"Pistol preparation cancelled; existing mode retained.");continue;}
+                if(cancel){remove.Add(pair.Key);continue;}
                 if(time.StoryTicks<p.Due)continue;
-                Commit(tube,status,p.Edit);remove.Add(pair.Key);Reply(p.Peer,"Tube "+Roman(p.Index)+" pistol preparation complete.");
+                Commit(tube,status,p.Edit);remove.Add(pair.Key);completed.Add(pair.Key);
             }
-            foreach(var item in remove)pending.Remove(item);
+            foreach(var item in remove){var operation=pending[item];pending.Remove(item);bool complete=completed.Contains(item);Reply(operation.Peer,complete?"Tube "+Roman(operation.Index)+" pistol preparation complete.":"Pistol preparation cancelled; existing mode retained.");}
         }
         public static bool BeforePistol(Torpedo __instance,Torpedo.TorpedoPistolSetting value)
         {
@@ -273,19 +287,30 @@ namespace Landomatic.TorpedoRoom
                 var rows=new[]{new TubeSnapshot{Index=index,Settings=edit}};if(Bridge.IsRemote)Bridge.RequestViewport(rows);else AcceptViewport(rows,null);
             }else Request(index,edit);return false;
         }
+        internal static float PistolSeconds(int index)
+        {
+            var ship=Ship;if(ship==null||index<0||index>=ship.TorpedoLaunchers.Length)return 0;
+            var tube=ship.TorpedoLaunchers[index];if(tube==null||tube.Torpedo==null)return 0;
+            if(Bridge.IsRemote){if(!Bridge.Synced)return 0;foreach(var row in Bridge.Last.Tubes)if(row.Index==index&&row.Type==tube.Torpedo.TypeName)return row.PistolSeconds;return 0;}
+            Pending operation;var time=Get<UBOAT.Game.Core.Time.GameTime>();
+            return time!=null&&pending.TryGetValue(tube.Torpedo,out operation)?Mathf.Clamp((float)((operation.Due-time.StoryTicks)/(double)TimeSpan.TicksPerSecond),.01f,120):0;
+        }
         internal static Snapshot Snapshot(string message)
         {
             var ship=Ship;var rows=new List<TubeSnapshot>();
             if(Config.Enabled&&ship!=null&&!Loading&&ship.TorpedoLaunchers!=null)for(int i=0;i<Math.Min(16,ship.TorpedoLaunchers.Length);i++){
                 var tube=ship.TorpedoLaunchers[i];if(tube==null||tube.Torpedo==null||!tube.IsLoaded)continue;
                 var status=Status(tube.Torpedo,true);if(status==null)continue;
-                rows.Add(new TubeSnapshot {Index=i,Type=tube.Torpedo.TypeName,State=(int)tube.CurrentState,Flooded=tube.IsFlooded,Flooding=Mathf.Clamp01(tube.FloodingProgress),Settings=status.Value.Copy()});
+                rows.Add(new TubeSnapshot {Index=i,Type=tube.Torpedo.TypeName,State=(int)tube.CurrentState,Flooded=tube.IsFlooded,Flooding=Mathf.Clamp01(tube.FloodingProgress),PistolSeconds=PistolSeconds(i),Settings=status.Value.Copy()});
             }
             return new Snapshot {Epoch=Epoch,Enabled=Config.Enabled,Policy=Config.Policy,Delay=Config.Delay,AllowLockout=Config.AllowLockout,SpeedSync=Config.SpeedSync,MpScopeFeuer=Config.MpScopeFeuer,Access=Config.Access,Viewport=Config.Viewport,Notice=message??"",SolutionSpeed=TdcSpeed.ReportSpeed,SpeedTube=TdcSpeed.FocusIndex,Tubes=rows.ToArray()};
         }
         internal static string Roman(int index)
         { string[] names={"I","II","III","IV","V","VI","VII","VIII"};return index>=0&&index<names.Length?names[index]:(index+1).ToString(); }
-        void OnDestroy(){MpScopeFire.Release();NativeSkin.RestoreStations();CloseGrid();NativePresentation.Room(false);NativePresentation.Restore();DepthControl.RestoreSteps(true);SpeedControl.RestoreBounds(true);if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);if(Instance==this)Instance=null;}
+        void LateUpdate(){if(!quitting){FinishOrdnanceOrderFrame();TickDeferredOrdnance();}}
+        bool quitting;
+        void OnApplicationQuit(){quitting=true;}
+        void OnDestroy(){if(quitting){if(Instance==this)Instance=null;return;}CancelOrdnanceHandoff();MpScopeFire.Release();NativeSkin.RestoreStations();CloseGrid();NativePresentation.Room(false);NativePresentation.Restore();DepthControl.RestoreSteps(true);SpeedControl.RestoreBounds(true);if(gridRoot!=null)UnityEngine.Object.Destroy(gridRoot);if(Instance==this)Instance=null;}
     }
 }
 

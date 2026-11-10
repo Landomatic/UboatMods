@@ -1,11 +1,14 @@
-0.1.22 ready for live testing: T5 drain/reflood selection recovery, retaining .21 MP Feuer and raised position. No live .22 tests here.
+.33 corrects actual by-reference inventory actor delivery and verifies stored actor; .32 did not complete binding in the owner game. Validate both tube/button paths and native leader rejection before further ordnance changes.
 
-0.1.22 ready for testing: host-controlled MP restricted-scope Feuer-only display,
-independent of solo/global report modes; higher Feuer placement. TRC9, all peers
-update. New MP behavior not live-tested. .20 periscope Read-only/Hidden firing
-reported successful; aft and TDC/bridge tests pending. See TESTING.txt.
-No Spoilers 2.0.1 source inspected: hides periscope target info, not a direct
-launcher-opener patch. MP 1.11.5 scope_tubes=false is the confirmed panel gate.
-Future: modifier multi-tube selection and mixed-salvo program retain/straight choice.
-Broader mod-stack loading/crash investigations remain separate.
+.32 test implementation: scoped actor binding for native tube inventory; .31 deferred release retained. Validate leader rejection without crew fallback, engineer requests, both entry points and MP ownership.
 
+0.1.31 test implementation: shared station-release correction added for our bound inventory; requires live tests. Native unbound global-queue path remains unresolved.
+Queued: optional Hidden Reports reference-tube FAT/LUT shared preset with visible inherited values, switching to vanilla shared source in other report modes. No implementation yet.
+
+Torpedo Room -- remaining work after .30 diagnostic preparation
+- Diagnose quick-swap officer/engineer loading camera interruption and unclaimed/empty tasks from native station inventory. .30 only observes, preserving .29 behavior.
+- Verify native right-click inventory transfer behavior.
+- Live-check larger Manage Ordnance and raised Feuer at multiple game UI scales; keep fire tooltip on screen.
+- Later: viewport dials apply to a single/checked subset instead of all tubes; Ctrl/Alt multi-tube Prep selection remains separate and unimplemented.
+- Investigate reported physical aft door/flood mismatch and exit crash with relevant evidence. No confirmed fixes.
+- Quarter-metre running-depth steps remain; no evidence of a half-metre dependency in native dud checks. Revisit reported pre-impact dip if reproduced with diagnostic evidence.

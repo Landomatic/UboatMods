@@ -18,7 +18,7 @@ namespace Landomatic.TorpedoRoom
         static TorpedoLaunchersUI owner;
         static bool autoOpened;
         static float retryAt,errorAt;
-        internal static bool Active {get{return supported&&Runtime.Active&&!Runtime.Loading&&Runtime.MpScopeFeuer&&Bridge.RestrictedScopes&&Runtime.ViewingScope!=null;}}
+        internal static bool Active {get{return supported&&Runtime.Active&&!Runtime.Loading&&Runtime.MpScopeFeuer&&Bridge.RestrictedScopes&&Runtime.RestrictedFireStation;}}
         // Called only after Bridge verifies the supplied MP version (1.11.5).
         internal static void Install(Harmony harmony,Type stations)
         {
@@ -72,7 +72,7 @@ namespace Landomatic.TorpedoRoom
         {
             if(!Active){Release();return;}
             var current=Current();var scope=Runtime.ViewingScope;
-            if(current==null)return;
+            if(current==null){Release();return;}
             if(!ReferenceEquals(station,scope)||owner!=current){Release();station=scope;owner=current;}
             if(suspended)return;
             // Mask before the native Open enables children; there is no frame
@@ -92,11 +92,11 @@ namespace Landomatic.TorpedoRoom
         }
         internal static void Release()
         {
-            var previous=owner;bool close=autoOpened;
+            var previous=owner;bool close=autoOpened||!Runtime.ViewingStation;
             owner=null;station=null;autoOpened=false;suspended=false;retryAt=0;
             if(previous==null)return;
             releasing=true;
-            try{if(close&&previous.IsOpened)previous.Close();NativePresentation.Refresh(previous);}
+            try{HiddenLayout.Closed(previous);if(close&&previous.IsOpened)previous.Close();NativePresentation.Refresh(previous);}
             finally{releasing=false;}
         }
     }

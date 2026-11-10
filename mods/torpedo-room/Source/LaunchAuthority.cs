@@ -90,9 +90,6 @@ namespace Landomatic.TorpedoRoom
             bool right=plan.Value.ProgramOverride?plan.Value.Right:__state.IncomingRight;
             float angle=plan.Value.ProgramOverride?plan.Value.Angle:__state.IncomingAngle;
             bool valid=___programCourseStartDirection==right&&Mathf.Abs(___programCourseStartDistance-expected)<.01f&&Mathf.Abs(___programLUTAbsolutePatternAngle-angle)<.01f&&(!plan.Locked||___programType==Torpedo.TorpedoProgramType.None);
-            Debug.Log("[TorpedoRoom] LAUNCH tube="+Runtime.Roman(plan.Tube)+" id="+plan.Value.Id+" rev="+plan.Value.Revision+" source="+(plan.Locked?"STRAIGHT":plan.Value.ProgramOverride?"ROOM":"STOCK")
-                +" incoming="+__state.IncomingDistance+"m/"+(__state.IncomingRight?"R":"L")+" requested="+(plan.Value.ProgramOverride?plan.Value.Distance:__state.IncomingDistance)+"m/"+(right?"R":"L")+" angle="+angle
-                +" native="+___programCourseStartDistance+"m/"+(___programCourseStartDirection?"R":"L")+" nativeAngle="+___programLUTAbsolutePatternAngle+" type="+___programType+" verified="+valid);
             if(!valid)Debug.LogWarning("[TorpedoRoom] Native torpedo program differs from the captured launch plan. Preserve this log.");
         }
     }

@@ -11,7 +11,34 @@ namespace Landomatic.TorpedoRoom
     {
         static MethodInfo setString,setBool,save,refresh;
         static FieldInfo settingsPane;
-        static bool checkedTypes,pending;
+        static bool checkedTypes,pending,clearCleanup;
+        // Bracket Dusty's synchronous restore instead of inspecting the call stack.
+        // No cleanup request is accepted if the optional adapter cannot be guarded.
+        [ThreadStatic] static int restoreDepth;
+        static bool restoreGuardAvailable;
+        internal static bool RestoringSettings {get{return restoreDepth>0;}}
+        internal static bool CleanupGuardAvailable {get{return restoreGuardAvailable;}}
+        internal static void Install(Harmony harmony)
+        {
+            var type=AccessTools.TypeByName("DustysCommunityPatch.Core.ExternalMods");
+            if(type==null)return;
+            MethodInfo target=null;
+            var before=AccessTools.Method(typeof(MenuIntegration),"BeforeRestore");
+            var after=AccessTools.Method(typeof(MenuIntegration),"RestoreFinally");
+            try{
+                target=AccessTools.Method(type,"ApplyStoredValues");
+                if(target==null)throw new MissingMethodException("ExternalMods.ApplyStoredValues");
+                harmony.Patch(target,prefix:new HarmonyMethod(before){priority=Priority.First},finalizer:new HarmonyMethod(after){priority=Priority.Last});
+                restoreGuardAvailable=true;
+            }catch(Exception e){
+                restoreGuardAvailable=false;
+                if(target!=null){try{harmony.Unpatch(target,before);harmony.Unpatch(target,after);}catch{}}
+                Debug.LogWarning("[TorpedoRoom] Menu cleanup safeguard unavailable; keep the mod installed and report this error. "+e.Message);
+            }
+        }
+        static void BeforeRestore(out int __state){__state=restoreDepth;restoreDepth++;}
+        static Exception RestoreFinally(Exception __exception,int __state){restoreDepth=__state;return __exception;}
+        internal static void ResetCleanupFlag(){clearCleanup=true;}
         static void Find()
         {
             if(checkedTypes)return;checkedTypes=true;
@@ -34,6 +61,11 @@ namespace Landomatic.TorpedoRoom
         }
         internal static void Tick()
         {
+            if(clearCleanup){
+                clearCleanup=false;Find();
+                try{if(setBool!=null){setBool.Invoke(null,new object[]{"Torpedo_Room.removeRecords",false});if(save!=null)save.Invoke(null,null);}}
+                catch(Exception e){Debug.LogWarning("[TorpedoRoom] Cleanup checkbox reset: "+e.Message);}
+            }
             if(!pending)return;pending=false;
             try{
                 if(refresh==null)return;

@@ -1,0 +1,20 @@
+Torpedo Room 0.1.33-beta-test -- ACTUAL INVENTORY ACTOR TEST
+By Landomatic. Copyright (c) 2026 Landomatic. See LICENSE and NOTICE.txt.
+Source/history: https://github.com/Landomatic/UboatMods
+
+Replace the previous Source folder completely and restart. Updating does not require uninstall cleanup. Use a separate save. Keep MP peers on the same test build.
+
+.32 owner log showed edited diagnostic Open arguments but inventoryActor=null. Maintenance therefore still entered a global queue. .33 writes the real IPlayableCharacter argument by reference and checks the actual stored inventory actor before adopting the .31 handoff. A mismatch closes the inventory rather than leave an unassigned request path available. Native roles, warnings and eligibility remain authoritative; no engineer is substituted for a rejected leader.
+
+At 1x:
+1. Quick-swap an engineer from TDC/scope to tubes. Use the individual tube's ordnance entry and request maintenance on an eligible loaded torpedo. Leave controls untouched. It should begin without manually leaving the station, deselecting, or rescuing the task.
+2. Compare our Manage Ordnance button.
+3. Try separate maintenance with an ineligible leader through tube entry. Preserve native rejection/warning with no job delegated to another crew member.
+4. After successful binding, check Load only / Load and maintain and Escape return.
+If any attempt fails, leave it unchanged for 15 seconds and send output_log.txt with the actor and attempt order. If inventory immediately closes, report that too; the BIND FAILED safeguard may have triggered.
+
+Diagnostics remain automatic: [TorpedoRoom][ORD-DIAG], 90 seconds / 300 lines per inventory opening, up to six camera caller stacks. Inspect STATE inventoryActor and BIND confirmation, not the argument snapshot alone: ENTER/RETURN Open arguments may reflect a snapshot used by another Harmony observer. DEFER reports waiting/submission/abort. Async StartAction RETURN is not task completion. No log uploads occur automatically; logs include crew names, positions and potentially stack paths.
+
+Compiled and independently offline-tested, but no live .33 run here. Real game Harmony/Unity/MP behavior, role rejection, native task animation and completion still require validation. A separate real-Harmony probe was attempted in the container's CoreCLR host and the process crashed; it supplies no integration pass. No probe binary or game DLL is included.
+
+No physics, dud logic, depth policy, migration, TRC9 or role-system changes. Optional reference-tube presets and per-tube viewport dials remain queued. Prior exit crash and physical aft door/flood mismatch remain undiagnosed. The supplied session also contained a rendering CullingResults exception; this build does not claim to fix it.

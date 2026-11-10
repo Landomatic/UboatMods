@@ -1,0 +1,369 @@
+{
+  "schema_version": 1,
+  "project": "Torpedo Room",
+  "version": "0.1.30-beta-diag",
+  "prepared_at_utc": "2026-10-22T06:57:33+00:00",
+  "changes": [
+    "Larger Manage Ordnance button, raised icon-linked Hidden Reports Feuer, requested firing hint and bounded observational ordnance actor/camera/task diagnostics. No dispatch or torpedo physics fix claimed."
+  ],
+  "validation": {
+    "compile": "passed",
+    "offline": "passed",
+    "in_game": "not-run",
+    "notes": [
+      "Full supplied-reference compilation passed; 391 existing offline assertions passed (316 UI/depth/viewing/MP and 75 navigation/cleanup/handoff). New observational hooks compile but require actual Unity runtime validation. ZIP CRC and source equality verified."
+    ]
+  },
+  "known_issues": [
+    "Quick-swap animation interruption and native unclaimed/empty tasks remain unresolved. Diagnostic hook installation/event order and visual layout need live testing. Exit crash and physical aft door/flood mismatch undiagnosed. No release/merge/Workshop publication."
+  ],
+  "files": [
+    {
+      "path": "CHANGELOG.txt",
+      "bytes": 32261,
+      "sha256": "9bb2c43627a742ab314d318083024119bb4c1722d3fbb44d6a3ce95da94c2eda"
+    },
+    {
+      "path": "Docs/History/NOTICE-through-0.1.18.txt",
+      "bytes": 4502,
+      "sha256": "dea10cf6dceed56a7f43f650b87fc6492bcd99bf0fa2a22c72eafd93297675a8"
+    },
+    {
+      "path": "Docs/History/README-through-0.1.18.txt",
+      "bytes": 26763,
+      "sha256": "872b20be76ec857b3f7703a0da16972f77fdf3174efa27438bac5df6a2bc79f7"
+    },
+    {
+      "path": "Docs/ORDNANCE-DIAGNOSTICS.txt",
+      "bytes": 2721,
+      "sha256": "2cfb922efb80c7d95774a2888e2a160802a9145112e20d4a1df8f14a46e017a5"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1087,
+      "sha256": "ff2f1f4200ef2a9b75870b4d0ca87b91fad4c1dc1e63dd37046f1e5da251c036"
+    },
+    {
+      "path": "Manifest.json",
+      "bytes": 455,
+      "sha256": "7b68279a8465a8689f912b3ef086840e910095879444510961354ac997fd9c1c"
+    },
+    {
+      "path": "NOTICE.txt",
+      "bytes": 3050,
+      "sha256": "d780ff374d15f16cc2c99becf2485ab27ef6607f53ed872405c46b86c4f4d14f"
+    },
+    {
+      "path": "PUBLISHING.txt",
+      "bytes": 548,
+      "sha256": "a395341207f0a73467852171671ebb3aacd3380a0641d50c5607eb8fe2845e7d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 9619,
+      "sha256": "7f690716409969db19f3cb796ba99a3490410f5d644ad7c498d788eb83419dfc"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 10571,
+      "sha256": "08de132a2acbda6de815dfc55ee42a1216de63aa39a0dd0a80476cb4d189ac5a"
+    },
+    {
+      "path": "ROADMAP.txt",
+      "bytes": 841,
+      "sha256": "e688e18f17741f4660cd591ee8aadfdda61978bd49c9d4de175a57c8b74446f7"
+    },
+    {
+      "path": "Source/Bridge.cs",
+      "bytes": 14246,
+      "sha256": "e5a183c9817edaebe6d0db28e8b2c230757b6d54dd540c440f2638b00be07238"
+    },
+    {
+      "path": "Source/CleanupFeedback.cs",
+      "bytes": 3640,
+      "sha256": "8f94eaa4200598a308d781b9ac5c8213d249f7f56dbf5760f0d88782680b3f72"
+    },
+    {
+      "path": "Source/DepthControl.cs",
+      "bytes": 6312,
+      "sha256": "0fa3108654cdfdc00f341b8221e897a4059fc85abe78acafaeaeb3b9cb27c19d"
+    },
+    {
+      "path": "Source/DialControl.cs",
+      "bytes": 2587,
+      "sha256": "46fee9fe1a3f8e54acfa71c5da003906ecbc564d75242d3d58197d498f9d10ad"
+    },
+    {
+      "path": "Source/FireDock.cs",
+      "bytes": 5017,
+      "sha256": "bbfc0f6eb90d5b656cbd3ea81e15e98946837781b1ed69e66a2d68d705d5280b"
+    },
+    {
+      "path": "Source/FireHint.cs",
+      "bytes": 2815,
+      "sha256": "da4bb3c34806607a7ba241669293c52651fd8622122f903bfa8ddd86be27bb8b"
+    },
+    {
+      "path": "Source/Grid.cs",
+      "bytes": 35714,
+      "sha256": "028a163ac9bc1ee48b883092a3ba728233daba2f261399231c7bc84a5b175f34"
+    },
+    {
+      "path": "Source/HiddenLayout.cs",
+      "bytes": 4235,
+      "sha256": "a22fa37274e77456280dd3ce67644143b9e362e3168d03afea092950af6ed18d"
+    },
+    {
+      "path": "Source/InstrumentFace.cs",
+      "bytes": 1192,
+      "sha256": "67c179ba80cdc2f8252d7741eb834263412cc5184a1d56a406e54a6568933417"
+    },
+    {
+      "path": "Source/LaunchAuthority.cs",
+      "bytes": 7557,
+      "sha256": "5cadaa461603772590e222290bdddc14c4f1c8b71c041093ab1c1aa36c5f5c73"
+    },
+    {
+      "path": "Source/MenuIntegration.cs",
+      "bytes": 3930,
+      "sha256": "1e40dbe51426ffa37890116297965cd53497790fea3e0bf1c3461647a9347895"
+    },
+    {
+      "path": "Source/Model.cs",
+      "bytes": 13276,
+      "sha256": "97b1e471c17f9553bc9e0d24d0b2ad6e4b3421406392ced28e6e5d92d2d55331"
+    },
+    {
+      "path": "Source/MpScopeFire.cs",
+      "bytes": 6205,
+      "sha256": "fdaf62cbc2e62eb50a06f612a6e22dbdc7739c3f1eac408d0c0b9022965f6bfa"
+    },
+    {
+      "path": "Source/NativeClick.cs",
+      "bytes": 1526,
+      "sha256": "33ad8692d50bb09085854cf5dc749dae3dc271873110411be7bbc882e71c08aa"
+    },
+    {
+      "path": "Source/NativePresentation.cs",
+      "bytes": 6523,
+      "sha256": "3578147d28eee75090f3e9cd71ca75fbb0143f5b290cfaca30071f5176280ee2"
+    },
+    {
+      "path": "Source/NativeSkin.cs",
+      "bytes": 16916,
+      "sha256": "bffe409e3904f3131d7a7ac526d62392b8f2b8e8698dac0b38a0264d7ad78718"
+    },
+    {
+      "path": "Source/OrdnanceDiagnostics.cs",
+      "bytes": 7411,
+      "sha256": "58fbdf5284436192a5c587b3b12e035a807b1b1a76080ef7dbda45f572f890a4"
+    },
+    {
+      "path": "Source/OrdnanceDispatch.cs",
+      "bytes": 1506,
+      "sha256": "51eec962240b23513220dc12cadb8beca61e2733ec0bebbae20615fa19c6c514"
+    },
+    {
+      "path": "Source/PrepSelection.cs",
+      "bytes": 1852,
+      "sha256": "65c54a75d97b2fb14506efe5ad2b4c6a1c2cd874ceffde69ddb686b28551a19f"
+    },
+    {
+      "path": "Source/RoomExit.cs",
+      "bytes": 3041,
+      "sha256": "1fcf18ed9f85c401148d784fd467acf85ec80494d18ed80fb1b7cb47ba9451a3"
+    },
+    {
+      "path": "Source/RoomHandoff.cs",
+      "bytes": 1529,
+      "sha256": "dcdbc0c93b54256c1b093877eabc50cb9100c2a966816749c56f92238d83c8f8"
+    },
+    {
+      "path": "Source/RoomOrdnance.cs",
+      "bytes": 6606,
+      "sha256": "17d29e2c61ff58591acdc121f6bcda9000fcfe5e55b7744e5fd35dd24e3cbeba"
+    },
+    {
+      "path": "Source/Runtime.cs",
+      "bytes": 24852,
+      "sha256": "8098ff3fe8ada3add44e96143bd0180d4a70b078688076a6c257426ec385a853"
+    },
+    {
+      "path": "Source/Settings.cs",
+      "bytes": 17188,
+      "sha256": "d7b48449b05c0e42b9eb5b4aac65847ed4c5ad8b05548b035e0331c2dc3c7773"
+    },
+    {
+      "path": "Source/Shortcut.cs",
+      "bytes": 1949,
+      "sha256": "5e0156ba5f519f94455d21585bc68535d508c77ef9ccf607f0a65f735adebf1d"
+    },
+    {
+      "path": "Source/SpeedControl.cs",
+      "bytes": 7558,
+      "sha256": "864815bf502dcb73a072efc8c4c2e31dea85c6ee31167e6247478ceb7536bbdf"
+    },
+    {
+      "path": "Source/SpeedUnits.cs",
+      "bytes": 1042,
+      "sha256": "6440c10ed9f9c88c66f99c3c2e2f1bf7a18f34a0ee03f51e5c2b5201677a3f9a"
+    },
+    {
+      "path": "Source/StockUi.cs",
+      "bytes": 18204,
+      "sha256": "a0d5ff518e84642a7226cc3be039e88d506bbb9a276a046d1d5e50b28586ed99"
+    },
+    {
+      "path": "Source/TdcSpeed.cs",
+      "bytes": 9214,
+      "sha256": "a4a19e61647075c5b219a4c77ca0e9754b7fad1469124e5c1a2ad62ff02c2296"
+    },
+    {
+      "path": "Source/TorpedoHover.cs",
+      "bytes": 2457,
+      "sha256": "30d6e9ff31b5c2e8a00125e43eed67cd7875df40bcc9d1dc72c7ba9e64d71ec2"
+    },
+    {
+      "path": "Source/TorpedoInfo.cs",
+      "bytes": 1352,
+      "sha256": "ea745d76c9e6101d0a3e384d5ed2ed68f12bb22e43d68544fa6466a7277d5f3e"
+    },
+    {
+      "path": "Source/TubeUiState.cs",
+      "bytes": 1425,
+      "sha256": "235160a41707e04ef22bc9c0763da6e2ffe2b0c234a1eca1067f2c5c72497ce9"
+    },
+    {
+      "path": "Source/UiScale.cs",
+      "bytes": 3461,
+      "sha256": "f90257943bb9ed0655f41fdde8fe4d890840d3640b07eb029ea89ce821501ca6"
+    },
+    {
+      "path": "Source/ViewingFire.cs",
+      "bytes": 7458,
+      "sha256": "cf570c29d0159b8d57b82ce3cb9dbe36a5c122f7aff43f210e87d11ea3091836"
+    },
+    {
+      "path": "TESTING.txt",
+      "bytes": 17763,
+      "sha256": "a4412651d325c2ef10848d5d94e309ea22e6d1e5f1d983901f0ea3c4de96766a"
+    },
+    {
+      "path": "Tests/BridgeFixture.cs",
+      "bytes": 14268,
+      "sha256": "97418ba95d6e3f58c2b135fcddb3e007c48433ae16fd2b2349a38e9ccaabcec2"
+    },
+    {
+      "path": "Tests/Checks.cs",
+      "bytes": 20943,
+      "sha256": "8f6a8545242984776e30bfcebe20a7fb688a59533506785e8b3c4ce7840b35c6"
+    },
+    {
+      "path": "Tests/Config/ConfigFixture.cs",
+      "bytes": 12650,
+      "sha256": "01ad8b80569893620d63125be9a566556bbb2ae039f8b854dadec189eca2b58d"
+    },
+    {
+      "path": "Tests/Dial/DialFixture.cs",
+      "bytes": 9799,
+      "sha256": "c1e3172b725667fd7c48a0bfb3148d0a1bd4debfc6a463a79f0f37aa5be11e65"
+    },
+    {
+      "path": "Tests/Launch/LaunchFixture.cs",
+      "bytes": 9110,
+      "sha256": "c1f4e2022f9e536a29ef37145a19bf7e8d4bc5f8d1ff7e130075a6bfbfec7d09"
+    },
+    {
+      "path": "Tests/NativeClick/NativeClickFixture.cs",
+      "bytes": 3962,
+      "sha256": "21cf95080edb4eef7cd5902070b3c97b5d1058e9e94ad08ea520915593327331"
+    },
+    {
+      "path": "Tests/NativeSkin/NativeSkinFixture.cs",
+      "bytes": 21588,
+      "sha256": "b2e21caaafc5d8087967dd0f340a6b8dd48238acee375090b4d1099b81ebcfde"
+    },
+    {
+      "path": "Tests/NavigationCleanup/Fixture.cs",
+      "bytes": 21850,
+      "sha256": "5cae9de8164d7f1ead358528bf4cdbfcc8437a3aa9d37f18cc410fe641553d73"
+    },
+    {
+      "path": "Tests/NavigationCleanup/README.txt",
+      "bytes": 734,
+      "sha256": "67c1123f122ce23689ba487dfc8264019e8707dc6b8f460451907468bf1273fd"
+    },
+    {
+      "path": "Tests/README.txt",
+      "bytes": 263,
+      "sha256": "b37f29139f8926eec55274d516f23481b6a9a13813a22fda824e10fbfc9fe501"
+    },
+    {
+      "path": "Tests/Speed/InfoFixture.cs",
+      "bytes": 1458,
+      "sha256": "5d0b861ee2126a7e0f5fe276f4f7a70c35734e716795526e529aeaa811d48067"
+    },
+    {
+      "path": "Tests/Speed/SpeedFixture.cs",
+      "bytes": 15363,
+      "sha256": "4542cc2035dface91d8a8094b9479a12c72b27bad9c249521ce7d34229fe0f98"
+    },
+    {
+      "path": "Tests/StockUi/BadgeWarningFixture.cs",
+      "bytes": 3376,
+      "sha256": "a35e83519aaec47b1da2b0d55940124c98596253386826a27962e4692c901cdb"
+    },
+    {
+      "path": "Tests/StockUi/StockUiFixture.cs",
+      "bytes": 54485,
+      "sha256": "56d63e6ae5e7d33d4639f27e58ff0d7554754918c31922c3be7762281e232f74"
+    },
+    {
+      "path": "Tests/StockUi/TooltipFixture.cs",
+      "bytes": 3779,
+      "sha256": "b33f90fe023e223abeea269f5d54b9fa0fdc2c49a81d9cf760c0a9a577e43198"
+    },
+    {
+      "path": "Tests/StockUi/UiAffordanceFixture.cs",
+      "bytes": 4516,
+      "sha256": "347305396157e769b39fbd9050cd3f35949083a7f7a479b18e329fb2aa7d2b17"
+    },
+    {
+      "path": "Tests/Tdc/TdcFixture.cs",
+      "bytes": 8103,
+      "sha256": "cc9cbfed8daa66dfd8306ed522179956ae51d1b0a2c0c334d30420f535b13eec"
+    },
+    {
+      "path": "Tests/TubeUiFixture.cs",
+      "bytes": 2408,
+      "sha256": "8a3563a6d2a2b374820b5e54786ef6ebb5af33c2481a65de9ea462a7d5d9874b"
+    },
+    {
+      "path": "UNINSTALL.txt",
+      "bytes": 2022,
+      "sha256": "19fd400a0414444d520d7f60896822dd85aba2e1326070695101598130d898fe"
+    },
+    {
+      "path": "VALIDATION.txt",
+      "bytes": 681,
+      "sha256": "e928ee8274a29942327995ca331e95d5f2efae20122a79edca25ecdc426538e4"
+    },
+    {
+      "path": "WORKSHOP_DESCRIPTION.txt",
+      "bytes": 3602,
+      "sha256": "a8b0ff2188611483a330d6c1d821a546c150e9f8dc273695a478442452fc15b0"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "TorpedoRoom_v0.1.30-beta-diag.zip",
+      "bytes": 95272,
+      "sha256": "a2217a83d4c16c85b1543a659b60a2efa8ef24519c3d9c87cb16410d6c5a5008"
+    },
+    {
+      "name": "TorpedoRoom_v0.1.30-beta-diag_source-archive.zip",
+      "bytes": 201401,
+      "sha256": "71ba7ffb6286bccd42f97db996bc01172b258da811305dfb8e3ed315edb01253"
+    }
+  ]
+}

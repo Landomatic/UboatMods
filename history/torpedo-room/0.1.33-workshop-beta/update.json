@@ -1,0 +1,27 @@
+{
+  "project": "Torpedo Room",
+  "version": "0.1.33",
+  "package_revision": "0.1.33-workshop-beta",
+  "change": "Remove temporary ordnance diagnostic collector and hooks, performance sampler/config option, tube-state trace and verbose successful-launch logging; retain functional patches and warnings. Clean player package.",
+  "compile": "passed supplied game references",
+  "offline": "445 targeted helper assertions passed; original standalone Harmony/CoreCLR probe failure remains historical and is not an integration pass",
+  "game": "Owner reports diagnostic .33 loading/maintenance tests passed. This diagnostics removal requires live regression verification.",
+  "known_issues": [
+    "LUT panel flicker while flooding",
+    "Mixed flooded/dry selected tube synchronization",
+    "Engineer return-path stall near galley"
+  ],
+  "workshop_id": 3823181610,
+  "artifacts": [
+    {
+      "name": "TorpedoRoom_v0.1.33_Workshop_Beta.zip",
+      "sha256": "8b29056b6737e706e2ba843f7633782794148262d130e67e0da2a78ad28a6cb5",
+      "bytes": 106457
+    },
+    {
+      "name": "TorpedoRoom_v0.1.33_Workshop_Beta_source.zip",
+      "sha256": "e04b572f856acb11009be3afa1ec2a79c1ec608f1bb3f668246d9914a8fa64a5",
+      "bytes": 197291
+    }
+  ]
+}
