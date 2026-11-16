@@ -1,0 +1,14 @@
+An independent companion patch by Landomatic for World War Radio by MaGlas on UBOAT 2026.1.
+
+Fixes persistent radio static after loading another save or switching boats. The patch reconnects World War Radio to the current boat and starts new static loops muted. Normal playback volume and weak-signal static remain under World War Radio's control.
+
+Requires World War Radio by MaGlas. Enable both mods and use an existing World War Radio career. Tested in solo play. Multiplayer compatibility is unverified.
+https://steamcommunity.com/sharedfiles/filedetails/?id=3342143865
+
+The preview adapts the original World War Radio Workshop artwork with a mirrored bird, headphones, and revised lettering. Original artwork credit goes to the World War Radio Workshop project by MaGlas.
+
+Landomatic's original patch is licensed under CC BY-NC 4.0.
+https://creativecommons.org/licenses/by-nc/4.0/
+
+Source and install ZIP
+https://github.com/Landomatic/UboatMods

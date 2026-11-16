@@ -1,0 +1,11 @@
+World War Radio - Speaker Fix by Landomatic
+https://github.com/Landomatic/UboatMods
+
+This independent companion requires World War Radio by MaGlas.
+Original mod and required Workshop item
+https://steamcommunity.com/sharedfiles/filedetails/?id=3342143865
+
+Preview.jpg adapts the original World War Radio Workshop artwork. The Speaker
+Fix version mirrors the bird, adds headphones, and changes the title layout.
+Credit for the original artwork goes to the World War Radio Workshop project
+by MaGlas. The companion license covers Landomatic's original patch material.

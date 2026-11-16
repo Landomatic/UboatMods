@@ -24,6 +24,12 @@ menu/audio validation remain pending.
 
 Local companion to MaGlas's [World War Radio](https://steamcommunity.com/sharedfiles/filedetails/?id=3342143865). Fixes persistent radio static after save loads and hull changes. Tested in UBOAT 2026.1 solo across Type IXA, IID and VIIB. Multiplayer remains unverified.
 
+## World War Radio companion updates
+
+- [Speaker Fix 0.1.1](mods/world-war-radio-speaker-fix) updates the Load Fix companion for save-load and hull-change speaker behavior.
+- [First Track Fix 0.1.0](mods/world-war-radio-first-track-fix) synchronizes the opening track position across both speakers after tuning.
+- [Expanded Radio Compatibility 0.1.2](mods/world-war-radio-expanded-radio-compatibility) preserves the playlist schedule and dated broadcast expiry when both upstream mods are enabled.
+
 ## Repository layout
 
 - `mods/<mod-slug>/`: reviewed source, manifests, distributable defaults, documentation, and existing notices.

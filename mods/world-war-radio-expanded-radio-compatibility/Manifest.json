@@ -1,0 +1,13 @@
+{
+  "name": "World War Radio - Expanded Radio Compatibility",
+  "version": "0.1.2",
+  "description": "Compatibility companion by Landomatic for World War Radio by MaGlas and Expanded Radio Messages [Audio] by Link. Keeps WWR playlists on their normal schedule while Link's dated audio broadcasts retain expiry. Enable after both mods.",
+  "author": "Landomatic",
+  "supportedGameVersions": [
+    "2026.1"
+  ],
+  "assemblyName": "WWRERMCompatibility",
+  "permissions": [
+    "Reflection"
+  ]
+}

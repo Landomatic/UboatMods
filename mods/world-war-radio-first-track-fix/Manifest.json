@@ -1,0 +1,9 @@
+{
+  "name": "World War Radio - First Track Fix",
+  "version": "0.1.0",
+  "description": "An independent companion by Landomatic for MaGlas's World War Radio. Applies the random start to the first track when you tune in and lets later tracks start from the beginning. Requires World War Radio (Workshop ID 3342143865). Use your existing WWR career.",
+  "author": "Landomatic",
+  "supportedGameVersions": ["2026.1"],
+  "assemblyName": "WorldWarRadioFirstTrackFix",
+  "permissions": ["Reflection"]
+}
