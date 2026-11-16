@@ -1,0 +1,25 @@
+{
+  "project": "WorldWarRadioFirstTrackFix",
+  "change": "Randomizes only the first track offset after tuning and synchronizes both speakers.",
+  "validation": {
+    "compile": "passed",
+    "offline": "passed",
+    "game": "not_run",
+    "notes": "Standalone package checked offline against installed UBOAT and World War Radio targets. Integrated logic tested live on Warsaw, BBC London and RN Paris. Standalone live and multiplayer tests pending."
+  },
+  "version": "0.1.0",
+  "files": {
+    "Docs/Workshop-Description.txt": "253f4e40e50e4462b65e1c7520665efa86ce660d95ce8a743c4e63209fcc823e",
+    "LICENSE": "8ab42dddbe8a12ed41e014c5317ba138bb1f535cc0cf4ae86a267db3f8ac19cb",
+    "Manifest.json": "a0ab0d488b392ac25c4e62824f865f7f0d44bea2b0d2a5c34e9da0f5a9d1cdba",
+    "README.txt": "543ffa1caff599dbbbcf9f418b242a746c4be1f2e27e3436cb2892bb78108705",
+    "Source/FirstTrackFix.cs": "d4f2a612ab352118ed891f20df13760141c785a89bfec81cd84609949f0b74dc"
+  },
+  "artifacts": [
+    {
+      "filename": "WorldWarRadio-FirstTrackFix-0.1.0.zip",
+      "sha256": "dd6f6fa42997f0381aa545e3cbe9f2d398cf952a579c78b71ef6389b2f3f6b42",
+      "size_bytes": 16286
+    }
+  ]
+}

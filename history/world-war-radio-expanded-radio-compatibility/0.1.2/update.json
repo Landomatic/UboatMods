@@ -1,0 +1,24 @@
+{
+  "project": "WWRERMCompatibility",
+  "change": "Restricts countdowns to dated ERM-A reels, retires stale WWR timers and stops expired reels before queuing.",
+  "validation": {
+    "compile": "passed",
+    "offline": "passed",
+    "game": "not_run",
+    "notes": "Package records compilation against UBOAT 2026.1 and offline checks covering 937 ERM-A and 203 WWR rows, timer eligibility, stale callbacks and duplicate expiry. In-game verification pending."
+  },
+  "version": "0.1.2",
+  "files": {
+    "LICENSE": "f2a1bff875d425c1f405cd312c531cc97c7c09822aa3b8486c4363e7dc69cf8e",
+    "Manifest.json": "e13b5d70998fd51ab73c6bdb900cffa856c37872b9fe488b9fe608602b5d7043",
+    "README.txt": "85d3ab2d29e91dc3bee478aa6979564dc406b206d071c9662ef01d4defff45f8",
+    "Source/Compatibility.cs": "e35d12b30a9a249eff8e9aba8a45dcf82698233a2938fb54653eaabbf4d09cae"
+  },
+  "artifacts": [
+    {
+      "filename": "WWR-Expanded-Radio-Compatibility-0.1.2.zip",
+      "sha256": "f8be54d28624b4910cee94724d187164b025e114cc2871fb9923eb9554acb3dc",
+      "size_bytes": 18011
+    }
+  ]
+}

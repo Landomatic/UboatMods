@@ -1,0 +1,1 @@
+0.1.1 packages the tested fix as WorldWarRadioSpeakerFix. The patch still targets MaGlas's World War Radio 1.0. Multiplayer is unverified.

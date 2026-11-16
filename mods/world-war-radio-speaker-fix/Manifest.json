@@ -1,0 +1,13 @@
+{
+  "name": "World War Radio - Speaker Fix",
+  "version": "0.1.1",
+  "description": "An independent companion patch by Landomatic for World War Radio by MaGlas on UBOAT 2026.1.\n\nFixes persistent radio static after loading another save or switching boats. The patch reconnects World War Radio to the current boat and starts new static loops muted. Normal playback volume and weak-signal static remain under World War Radio's control.\n\nRequires World War Radio by MaGlas. Enable both mods and use an existing World War Radio career. Tested in solo play. Multiplayer compatibility is unverified.\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3342143865\n\nThe preview adapts the original World War Radio Workshop artwork with a mirrored bird, headphones, and revised lettering. Original artwork credit goes to the World War Radio Workshop project by MaGlas.\n\nLandomatic's original patch is licensed under CC BY-NC 4.0.\nhttps://creativecommons.org/licenses/by-nc/4.0/\n\nSource and install ZIP\nhttps://github.com/Landomatic/UboatMods",
+  "author": "Landomatic",
+  "supportedGameVersions": [
+    "2026.1"
+  ],
+  "assemblyName": "WorldWarRadioSpeakerFix",
+  "permissions": [
+    "Reflection"
+  ]
+}

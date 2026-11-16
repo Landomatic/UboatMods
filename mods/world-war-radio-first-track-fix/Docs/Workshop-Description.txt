@@ -1,0 +1,17 @@
+An independent companion by Landomatic for World War Radio by MaGlas.
+
+When you tune into a station, the first track should start partway through,
+like a live broadcast. World War Radio could apply that random start to the
+second track instead. First Track Fix applies the offset to the first track
+and lets later tracks start at the beginning.
+
+Requires World War Radio. Enable First Track Fix after it and use your
+existing World War Radio career.
+https://steamcommunity.com/sharedfiles/filedetails/?id=3342143865
+
+First Track Fix © 2026 Landomatic. The original companion code and
+documentation are licensed under CC BY-NC 4.0.
+https://creativecommons.org/licenses/by-nc/4.0/
+
+Project repository
+https://github.com/Landomatic/UboatMods

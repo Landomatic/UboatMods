@@ -1,0 +1,27 @@
+{
+  "project": "WorldWarRadioSpeakerFix",
+  "change": "Updates the World War Radio Load Fix companion for persistent static after save loads and hull changes.",
+  "validation": {
+    "compile": "passed",
+    "offline": "not_run",
+    "game": "partial",
+    "notes": "Package records compile against UBOAT build 24913406 and solo testing. Multiplayer unverified."
+  },
+  "version": "0.1.1",
+  "files": {
+    "Docs/Workshop-ChangeNotes.txt": "2ab430e1094a27d2ac35ee686fa20b0ec35e430ceef532b19352bfe62b3f6db3",
+    "Docs/Workshop-Description.txt": "d4ebdd72a9687ebe14817d9dcd312145e71be35e722853ffe059ed8b1943eb59",
+    "LICENSE": "cc8a88f0818d54501786dadcaa73766c2ac994d6aa5a8000c1e86a19fb757542",
+    "Manifest.json": "9083822b3566897d75738b79a252d5ddd9fda331a988aeeb09e8419a17126ac9",
+    "NOTICE.txt": "71ba010ec130fabce9785a5916fee361f282768596e1948035ae1533fddb9095",
+    "README.txt": "de1d7f3d85e3f12ef9cc5b15ba2bd90f27e98cbf8dfb16389ad58b94bc9a824a",
+    "Source/SpeakerFix.cs": "b8beff677ac81190867323292f113da1090f13098de1b96d71d1c62b8e944e40"
+  },
+  "artifacts": [
+    {
+      "filename": "WorldWarRadio-SpeakerFix-0.1.1.zip",
+      "sha256": "73a7dabd53fb5aa7b9f3a5214865cd5426131c3883a70936f418a53737171189",
+      "size_bytes": 99852
+    }
+  ]
+}
