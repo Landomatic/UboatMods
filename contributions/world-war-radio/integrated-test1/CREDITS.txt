@@ -1,0 +1,2 @@
+World War Radio by MaGlas. Integrated speaker, first-track and expanded-radio compatibility fixes copyright 2026 Landomatic, CC BY-NC 4.0. https://github.com/Landomatic/UboatMods
+The included license covers the contributed fixes only. Expanded Radio Messages [Audio] by Link is an optional external mod.

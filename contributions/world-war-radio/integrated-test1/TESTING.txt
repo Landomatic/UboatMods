@@ -1,0 +1,13 @@
+World War Radio private integration 1 (UBOAT 2026.1)
+
+This folder is a complete private Workshop staging copy. Its manifest has a distinct assembly name and omits the public item's Steam ID. For a new private Workshop item, copy WorldWarRadioPrivateTest under UBOAT/Mods and select that copy. Set visibility for the intended testers in Steam. Keep the private item's assigned ID for later updates. For merging into the public item, copy Source and the attribution files only and retain MaGlas's public manifest and assets.
+
+Enable the private build in place of public WWR and disable the three standalone fixes for this test. Preserve your normal mod order. ERM-A is optional. The game builds the included source. The small developer ZIP also includes the compiled test assembly under Temp for reference.
+
+1. With an existing WWR career, tune a station and leave the radio on. Load another hull, then turn the radio off. Listen for leftover static. Look for [WWRSpeakerFix] BOUND on the newly loaded boat.
+2. Tune a different station and allow three tracks to play without touching the radio. The first may start in progress. Tracks two and three should start at the beginning. With Radio Schedule Diagnostics enabled, use its playback offset and clip length to verify.
+3. With Expanded Radio Messages [Audio] enabled, load a late-war save within known reception range. Confirm [WWRERMCompat] READY version=0.1.2 and tune a WWR station appropriate for that date. Check an ERM-A dated broadcast still expires normally. Repeat without ERM-A and verify ordinary WWR playback.
+4. MP: use the same private build on host and joining player. Have the host tune and switch stations with radio sync enabled. Verify audible music on both machines, the natural second track, and silence after host switches off. Capture both logs if they diverge.
+5. Queued reconnect baseline: tune while surfaced, press F8 (schedule diagnostics) and F10 (audio collector), dive past 22 m, screen, resurface at the same location, and let the operator reman without selecting a station. Snapshot when the seat is occupied and again when the original station returns to the list. Record whether the radio resumed. Repeat once after manually switching off. A new auto-retune is not part of this build.
+
+Work on a separate save slot for the private item. Existing WWR career data and detection of a different Workshop ID need in-game verification. The fixes change runtime code only.
